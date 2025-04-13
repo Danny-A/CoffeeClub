@@ -1,0 +1,39 @@
+query GetRoaster($id: UUID!) {
+  roastersCollection(filter: { id: { eq: $id } }) {
+    edges {
+      node {
+        id
+        name
+        description
+        profile_image_url
+        location_city
+        location_state
+        location_country
+        url
+        instagram
+        claimed_by
+        beansCollection {
+          edges {
+            node {
+              id
+              name
+              description
+              origin
+              process
+              roast_level
+              bean_reviewsCollection {
+                edges {
+                  node {
+                    id
+                    rating
+                  }
+                }
+              }
+            }
+          }
+        }
+        created_at
+      }
+    }
+  }
+}

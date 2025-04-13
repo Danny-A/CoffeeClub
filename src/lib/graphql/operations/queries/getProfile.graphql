@@ -1,0 +1,16 @@
+query GetProfile($id: UUID!) {
+  profilesCollection(filter: { id: { eq: $id } }) {
+    edges {
+      node {
+        id
+        display_name
+        bio
+        profile_image_url
+        location
+        instagram
+        url
+        created_at
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+query GetBeans($filter: beansFilter) {
+  beansCollection(filter: $filter) {
+    edges {
+      node {
+        id
+        name
+        description
+        image_url
+        roast_type
+        process
+        roast_level
+        bean_type
+        elevation_min
+        elevation_max
+        origin
+        producer
+        notes
+        buy_urls
+        roasters {
+          id
+          name
+        }
+        bean_varietiesCollection {
+          edges {
+            node {
+              varieties {
+                id
+                name
+              }
+            }
+          }
+        }
+        bean_tagsCollection {
+          edges {
+            node {
+              tags {
+                id
+                name
+              }
+            }
+          }
+        }
+        bean_reviewsCollection {
+          edges {
+            node {
+              id
+              rating
+            }
+          }
+        }
+        created_at
+      }
+    }
+  }
+}

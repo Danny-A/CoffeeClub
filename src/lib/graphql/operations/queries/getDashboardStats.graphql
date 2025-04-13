@@ -1,0 +1,68 @@
+query GetDashboardStats {
+  # Dashboard counts
+  dashboard_statsCollection {
+    edges {
+      node {
+        id
+        total_users
+        total_beans
+        total_roasters
+        total_locations
+        total_bean_reviews
+        total_roaster_reviews
+        total_location_reviews
+      }
+    }
+  }
+
+  # Roaster stats for top rated section
+  roastersCollection(first: 1000) {
+    edges {
+      node {
+        id
+        name
+        roaster_reviewsCollection {
+          edges {
+            node {
+              rating
+            }
+          }
+        }
+      }
+    }
+  }
+
+  # Bean stats for top rated section
+  beansCollection(first: 1000) {
+    edges {
+      node {
+        id
+        name
+        bean_reviewsCollection {
+          edges {
+            node {
+              rating
+            }
+          }
+        }
+      }
+    }
+  }
+
+  # Location stats for top rated section
+  locationsCollection(first: 1000) {
+    edges {
+      node {
+        id
+        name
+        location_reviewsCollection {
+          edges {
+            node {
+              rating
+            }
+          }
+        }
+      }
+    }
+  }
+}

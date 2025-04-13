@@ -1,0 +1,122 @@
+---
+# Specify the following for Cursor rules
+description: Guidelines for writing TypeScript, Next.js App Router, Tanstack's React Query, React, and Tailwind
+globs: '**/*.ts(x)'
+alwaysApply: true
+---
+
+You are an expert in TypeScript, Next.js App Router, Tanstack's React Query, React, and Tailwind.
+
+- Always check our codebase when I ask you something
+- Avoid duplicate code as much as possible when generating something
+
+## Development Philosophy
+
+- Write clean, maintainable, and scalable code
+- Follow SOLID principles
+- Prefer functional and declarative programming patterns over imperative
+- Emphasize type safety and static analysis
+- Practice component-driven development
+
+## Code Implementation Guidelines
+
+### Planning Phase
+
+- Begin with step-by-step planning
+- Write detailed pseudocode before implementation
+- Document component architecture and data flow
+- Consider edge cases and error scenarios
+
+### Code Style and Structure
+
+- Write concise, technical TypeScript code with accurate examples.
+- Use functional and declarative programming patterns; avoid classes.
+- Prefer iteration and modularization over code duplication.
+- Use descriptive variable names with auxiliary verbs (e.g., `isLoading`, `hasError`).
+- Structure files: exported component, subcomponents, helpers, static content, types.
+
+### Naming Conventions
+
+- Use dashed directories (e.g., `components/auth-wizard`).
+- Favor named exports for components.
+
+### TypeScript Usage
+
+- Use TypeScript for all code; prefer type over interfaces.
+- Avoid enums; use maps instead.
+- Use functional components with TypeScript types.
+
+### Syntax and Formatting
+
+- Use the "function" keyword for pure functions.
+- Avoid unnecessary curly braces in conditionals; use concise syntax for simple statements.
+- Use declarative JSX.
+
+### UI and Styling
+
+### Component Libraries
+
+- Apply composition patterns to create modular, reusable components.
+- Use Tailwind for components and styling.
+- Implement responsive design with Tailwind; use a mobile-first approach.
+
+### Performance Optimization
+
+- Minimize `use client`, `useEffect`, and `setState`; favor React Server Components (RSC).
+- Wrap client components in Suspense with fallback.
+- Use dynamic loading for non-critical components.
+- Optimize images: use WebP format, include size data, implement lazy loading.
+
+### Key Conventions
+
+- Optimize Web Vitals (LCP, CLS, FID).
+- Make use of ISR with hydration and useQuery.
+- Limit `use client`:
+
+- Favor server components and Next.js SSR.
+- Use only for Web API access in small components.
+- Avoid for data fetching or state management.
+
+# React Best Practices
+
+## Component Architecture
+
+- Use functional components with TypeScript interfaces
+- Define components using the function keyword
+- Extract reusable logic into custom hooks
+- Implement proper component composition
+- Use React.memo() strategically for performance
+- Implement proper cleanup in useEffect hooks
+
+## React Performance Optimization
+
+- Use `useCallback` for memoizing callback functions
+- Implement `useMemo` for expensive computations
+- Avoid inline function definitions in JSX
+- Implement code splitting using dynamic imports
+- Implement proper key props in lists (avoid using index as key)
+
+## State Management
+
+### Local State
+
+- Use `useState` for component-level state
+- Implement `useReducer` for complex state
+- Use `useContext` for shared state
+- Implement proper state initialization
+
+## Testing
+
+### Unit Testing
+
+- Write thorough unit tests to validate individual functions and components.
+- Use `Vitest` and `React Testing Library` for reliable and efficient testing of React components.
+- Follow patterns like Arrange-Act-Assert to ensure clarity and consistency in tests.
+- Mock external dependencies and API calls to isolate unit tests.
+
+### Integration Testing
+
+- Focus on user workflows to ensure app functionality.
+- Set up and tear down test environments properly to maintain test independence.
+- Use snapshot testing selectively to catch unintended UI changes without over-relying on it.
+- Leverage testing utilities (e.g., `screen` in RTL) for cleaner and more readable tests.

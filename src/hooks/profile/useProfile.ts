@@ -1,25 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { useAuth } from "@/hooks/auth/useAuth";
-import { graphqlFetch } from "@/lib/graphql/client";
-import {
-  Exact,
-  ProfilesUpdateInput,
-  UpdateProfileDocument,
-  UpdateProfileMutation,
-} from "@/lib/graphql/generated/graphql";
+import { Profile, updateProfile } from "@/lib/api/updateProfile";
 import { createClient } from "@/lib/supabase/client";
-
-type Profile = {
-  id: string;
-  display_name?: string | null;
-  bio?: string | null;
-  profile_image_url?: string | null;
-  location?: string | null;
-  instagram?: string | null;
-  url?: string | null;
-  created_at?: string | null;
-};
 
 export function useProfile() {
   const supabase = createClient();
@@ -28,35 +11,7 @@ export function useProfile() {
 
   const updateProfileMutation = useMutation({
     mutationFn: async (updates: Partial<Profile>) => {
-      if (!user?.id) throw new Error("No user ID");
-
-      const variables = {
-        id: user.id,
-        updates: {
-          display_name: updates.display_name,
-          bio: updates.bio,
-          location: updates.location,
-          instagram: updates.instagram,
-          url: updates.url,
-          profile_image_url: updates.profile_image_url,
-          updated_at: new Date().toISOString(),
-        },
-      };
-
-      const response = await graphqlFetch<
-        UpdateProfileMutation,
-        Exact<{ id: string; updates: ProfilesUpdateInput }>
-      >(UpdateProfileDocument, {
-        variables,
-      });
-
-      if (!response.data?.updateprofilesCollection?.affectedCount) {
-        throw new Error(
-          "No records were updated. This could mean the profile doesn't exist or the update failed.",
-        );
-      }
-
-      return response.data.updateprofilesCollection.records[0];
+      return updateProfile(updates, user);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile", user?.id] });
@@ -71,6 +26,7 @@ export function useProfile() {
     const fileName = `${Math.random()}.${fileExt}`;
     const filePath = `${fileName}`;
 
+    // Upload new image
     const { error: uploadError } = await supabase.storage
       .from("avatars")
       .upload(filePath, file);
@@ -80,6 +36,24 @@ export function useProfile() {
     const { data } = supabase.storage
       .from("avatars")
       .getPublicUrl(filePath);
+
+    // After successful upload, get the current profile to find the old image URL
+    const { data: profileData } = await supabase
+      .from("profiles")
+      .select("profile_image_url")
+      .eq("id", user?.id)
+      .single();
+
+    if (profileData?.profile_image_url) {
+      // Extract the file path from the old URL
+      const oldFilePath = profileData.profile_image_url.split("/").pop();
+      if (oldFilePath) {
+        // Delete the old image
+        await supabase.storage
+          .from("avatars")
+          .remove([oldFilePath]);
+      }
+    }
 
     return data.publicUrl;
   };

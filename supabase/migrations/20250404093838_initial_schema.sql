@@ -15,6 +15,88 @@ CREATE TYPE brew_method AS ENUM (
 );
 
 -- ==========================
+-- Storage Policies
+-- ==========================
+
+-- Create avatars bucket if it doesn't exist
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('avatars', 'avatars', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- Allow public read access to avatars
+CREATE POLICY "Public read access for avatars" ON storage.objects
+FOR SELECT USING (bucket_id = 'avatars');
+
+-- Allow authenticated users to upload their own avatars
+CREATE POLICY "Authenticated users can upload avatars" ON storage.objects
+FOR INSERT WITH CHECK (
+  bucket_id = 'avatars' AND
+  auth.role() = 'authenticated'
+);
+
+-- Allow users to update their own avatars
+CREATE POLICY "Users can update their own avatars" ON storage.objects
+FOR UPDATE USING (
+  bucket_id = 'avatars' AND
+  auth.role() = 'authenticated'
+);
+
+-- Allow users to delete their own avatars
+CREATE POLICY "Users can delete their own avatars" ON storage.objects
+FOR DELETE USING (
+  bucket_id = 'avatars' AND
+  auth.role() = 'authenticated'
+);
+
+-- Create beans bucket if it doesn't exist
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('beans', 'beans', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- Allow public read access to beans
+CREATE POLICY "Public read access for beans" ON storage.objects
+FOR SELECT USING (bucket_id = 'beans');
+
+-- Allow authenticated users to upload their own beans
+CREATE POLICY "Authenticated users can upload beans" ON storage.objects
+FOR INSERT WITH CHECK (
+  bucket_id = 'beans' AND
+  auth.role() = 'authenticated'
+);
+
+-- Create roasters bucket if it doesn't exist
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('roasters', 'roasters', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- Allow public read access to roasters
+CREATE POLICY "Public read access for roasters" ON storage.objects
+FOR SELECT USING (bucket_id = 'roasters');
+
+-- Allow authenticated users to upload their own roasters
+CREATE POLICY "Authenticated users can upload roasters" ON storage.objects
+FOR INSERT WITH CHECK (
+  bucket_id = 'roasters' AND
+  auth.role() = 'authenticated'
+);
+
+-- Create locations bucket if it doesn't exist
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('locations', 'locations', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- Allow public read access to locations
+CREATE POLICY "Public read access for locations" ON storage.objects
+FOR SELECT USING (bucket_id = 'locations');
+
+-- Allow authenticated users to upload their own locations
+CREATE POLICY "Authenticated users can upload locations" ON storage.objects
+FOR INSERT WITH CHECK (
+  bucket_id = 'locations' AND
+  auth.role() = 'authenticated'
+);
+
+-- ==========================
 -- Profiles Table
 -- ==========================
 

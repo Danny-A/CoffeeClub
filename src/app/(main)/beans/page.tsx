@@ -5,6 +5,7 @@ import { BeanFeed } from '@/components/features/BeanFeed';
 import { Button } from '@/components/ui/Button';
 import { Heading } from '@/components/ui/Heading';
 import { fetchBeans } from '@/lib/api/fetchBeans';
+import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
   title: 'Beans - Coffee Club',
@@ -25,6 +26,10 @@ export async function generateStaticParams() {
 
 export default async function BeansPage() {
   const beans = await fetchBeans();
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   return (
     <div className="space-y-8">
@@ -35,9 +40,11 @@ export default async function BeansPage() {
             Explore our collection of coffee beans
           </Heading>
         </div>
-        <Button asChild>
-          <Link href="/beans/new">Add New Bean</Link>
-        </Button>
+        {user && (
+          <Button asChild>
+            <Link href="/beans/new">Add New Bean</Link>
+          </Button>
+        )}
       </div>
       <BeanFeed beans={beans} />
     </div>

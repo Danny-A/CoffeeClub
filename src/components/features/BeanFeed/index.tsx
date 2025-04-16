@@ -1,27 +1,49 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 import { CardGrid } from '@/components/ui/CardGrid';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { useAuth } from '@/hooks/auth/useAuth';
 import { useBeans } from '@/hooks/beans/useBeans';
+import { useUrlFilters } from '@/hooks/filters/useUrlFilters';
 import { GetBeansQuery } from '@/lib/graphql/generated/graphql';
-import { Bean } from '@/lib/graphql/types';
 
 import { BeanCard } from '../BeanCard';
 import { BeanFilter } from '../BeanFilter';
 
 export const BeanFeed = ({ beans }: { beans: GetBeansQuery }) => {
-  const [filters, setFilters] = useState<{
-    search?: string;
-    origin?: string;
-    process?: string;
-    roastLevel?: string;
-  }>({});
-  const { data, isLoading, error } = useBeans(
+  const { user } = useAuth();
+  const { filters, updateFilters } = useUrlFilters();
+
+  const {
+    data,
+    isLoading,
+    error,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useBeans(
     filters,
-    beans.beansCollection ?? { edges: [] }
+    beans.beansCollection ?? {
+      edges: [],
+      pageInfo: {
+        hasNextPage: false,
+        endCursor: null,
+      },
+    }
   );
+
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   if (error) {
     return (
@@ -33,44 +55,38 @@ export const BeanFeed = ({ beans }: { beans: GetBeansQuery }) => {
     );
   }
 
-  const beanList = data?.edges ?? [];
+  const beanList = data?.pages.flatMap((page) => page.edges) ?? [];
 
-  if (!beanList.length) {
+  if (!isLoading && !beanList.length) {
     return (
-      <EmptyState
-        title="No beans found"
-        description="Be the first to add a coffee bean!"
-      />
+      <div className="space-y-8">
+        <BeanFilter onFilterChange={updateFilters} />
+        <EmptyState
+          title="No beans found"
+          description="Try adjusting your filters or be the first to add a coffee bean!"
+        />
+      </div>
     );
   }
 
-  const transformedBeans: Bean[] = beanList.map((bean) => ({
-    id: bean.node.id,
-    name: bean.node.name,
-    origin: bean.node.origin || '',
-    process: bean.node.process || '',
-    roastLevel: bean.node.roast_level || '',
-    notes: bean.node.notes || '',
-    roaster: {
-      id: bean.node.roasters?.id,
-      name: bean.node.roasters?.name || '',
-    },
-    createdAt: bean.node.created_at,
-    updatedAt: bean.node.created_at,
-    reviews: bean.node.bean_reviewsCollection?.edges.map((edge) => ({
-      id: edge.node.id,
-      rating: edge.node.rating,
-    })),
-  }));
-
   return (
     <div className="space-y-8">
-      <BeanFilter onFilterChange={setFilters} />
+      <BeanFilter onFilterChange={updateFilters} />
       <CardGrid isLoading={isLoading}>
-        {transformedBeans.map((bean) => (
-          <BeanCard key={bean.id} bean={bean} />
+        {beanList.map((bean, index) => (
+          <div
+            key={bean.node.id}
+            ref={index === beanList.length - 1 ? ref : undefined}
+          >
+            <BeanCard bean={bean.node} user={user} />
+          </div>
         ))}
       </CardGrid>
+      {isFetchingNextPage && (
+        <div className="flex justify-center py-4">
+          <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-gray-900" />
+        </div>
+      )}
     </div>
   );
 };

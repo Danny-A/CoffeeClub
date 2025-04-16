@@ -1,12 +1,16 @@
-import { AuthError, Session, User } from "@supabase/supabase-js";
+"use client";
+
+import { AuthError, Session } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 
+import { User as GraphQLUser } from "@/lib/graphql/types";
 import { createClient } from "@/lib/supabase/client";
+import { transformUser } from "@/utils/transformUser";
 
 export function useAuth() {
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [signInError, setSignInError] = useState<AuthError | null>(null);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<GraphQLUser | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const supabase = createClient();
@@ -16,11 +20,11 @@ export function useAuth() {
       (event, session) => {
         if (event === "INITIAL_SESSION") {
           setSession(session);
-          setUser(session?.user ?? null);
+          setUser(transformUser(session?.user ?? null));
           setIsSignedIn(!!session?.user);
         } else if (event === "SIGNED_IN") {
           setSession(session);
-          setUser(session?.user ?? null);
+          setUser(transformUser(session?.user ?? null));
           setIsSignedIn(true);
           // Store any OAuth provider tokens if present
           if (session?.provider_token) {
@@ -45,7 +49,7 @@ export function useAuth() {
         } else if (event === "TOKEN_REFRESHED") {
           setSession(session);
         } else if (event === "USER_UPDATED") {
-          setUser(session?.user ?? null);
+          setUser(transformUser(session?.user ?? null));
         }
       },
     );
@@ -53,7 +57,7 @@ export function useAuth() {
     // Check initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
-      setUser(session?.user ?? null);
+      setUser(transformUser(session?.user ?? null));
       setIsSignedIn(!!session?.user);
     });
 

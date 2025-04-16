@@ -1,20 +1,24 @@
 import Link from 'next/link';
 
 import { Heading } from '@/components/ui/Heading';
+import { LikeButton } from '@/components/ui/LikeButton';
 import { Text } from '@/components/ui/Text';
-import { type Bean } from '@/lib/graphql/types';
+import { type Bean, type User } from '@/lib/graphql/types';
 import { getAverageRating } from '@/utils/getAverageRating';
 
 type BeanCardProps = {
   bean: Bean;
+  user: User | null;
 };
 
-export function BeanCard({ bean }: BeanCardProps) {
+export function BeanCard({ bean, user }: BeanCardProps) {
   return (
     <Link href={`/beans/${bean.id}`}>
       <div className="block bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-md transition-shadow duration-200 h-full">
-        <div className="p-6 space-y-4">
-          <Heading level="h3">{bean.name}</Heading>
+        <div className="p-6 space-y-4 relative">
+          <Heading level="h4" as="h2">
+            {bean.name}
+          </Heading>
           {bean.notes && (
             <Text variant="small" className="line-clamp-2">
               {bean.notes}
@@ -63,6 +67,18 @@ export function BeanCard({ bean }: BeanCardProps) {
               </div>
             )}
           </div>
+
+          {user && (
+            <div className="absolute right-4 top-4">
+              <LikeButton
+                type="bean"
+                id={bean.id}
+                isLiked={
+                  bean.likes?.some((like) => like.user_id === user.id) ?? false
+                }
+              />
+            </div>
+          )}
         </div>
       </div>
     </Link>

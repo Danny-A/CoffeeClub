@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form';
 import { Avatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { FormField } from '@/components/ui/FormField';
-import { Text } from '@/components/ui/Text';
 import { useProfile } from '@/hooks/profile/useProfile';
 import { Profiles } from '@/lib/graphql/generated/graphql';
 
@@ -70,13 +69,12 @@ export function EditProfileInfo({ profile }: { profile: Profiles | null }) {
           alt={profile.display_name || 'Profile'}
           size="lg"
         />
-        <div className="flex flex-col gap-2">
-          <Text variant="label">Profile Image</Text>
-          <input
+        <div className="flex-1">
+          <FormField
             type="file"
+            label="Profile Image"
             accept="image/*"
             onChange={handleImageUpload}
-            className="text-sm"
           />
         </div>
       </div>

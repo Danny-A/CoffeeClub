@@ -131,9 +131,15 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
                     origin: bean.node.origin || '',
                     process: bean.node.process || '',
                     roastLevel: bean.node.roast_level || '',
+                    likes: bean.node.bean_likesCollection?.edges.map(
+                      (edge) => ({
+                        id: edge.node.id,
+                        user_id: edge.node.user_id,
+                      })
+                    ),
                     reviews: bean.node.bean_reviewsCollection?.edges.map(
                       (edge) => ({
-                        id: edge.node,
+                        id: edge.node.id,
                         rating: edge.node.rating,
                       })
                     ),

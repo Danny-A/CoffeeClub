@@ -21,6 +21,10 @@ export interface Bean {
     id: string;
     rating: number;
   }[];
+  likes?: {
+    id: string;
+    user_id: string;
+  }[];
 }
 
 export interface Roaster {
@@ -32,6 +36,11 @@ export interface Roaster {
   url?: string;
   instagram?: string;
   beanCount?: number;
+  created_at?: string;
+  likes?: {
+    id: string;
+    user_id: string;
+  }[];
 }
 
 export interface CoffeeBar {

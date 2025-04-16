@@ -1,26 +1,42 @@
 'use client';
-import { useState } from 'react';
-import { Suspense } from 'react';
+
+import { useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 import { CardGrid } from '@/components/ui/CardGrid';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { useAuth } from '@/hooks/auth/useAuth';
 import { useRoasters } from '@/hooks/roasters/useRoasters';
 import { GetRoastersQuery } from '@/lib/graphql/generated/graphql';
-import { Roaster } from '@/lib/graphql/types';
 
 import { RoasterCard } from '../RoasterCard';
 import { RoasterFilter } from '../RoasterFilter';
 
 export const RoastersList = ({ roasters }: { roasters: GetRoastersQuery }) => {
+  const { user } = useAuth();
   const [filters, setFilters] = useState<{
     search?: string;
     country?: string;
   }>({});
 
-  const { data, isLoading, error } = useRoasters(
-    filters,
-    roasters.roastersCollection!
-  );
+  const {
+    data,
+    isLoading,
+    error,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useRoasters(filters, roasters.roastersCollection ?? undefined);
+
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   if (error) {
     return (
@@ -32,7 +48,9 @@ export const RoastersList = ({ roasters }: { roasters: GetRoastersQuery }) => {
     );
   }
 
-  if (!data?.edges?.length && !isLoading) {
+  const roasterList = data?.pages.flatMap((page) => page.edges) ?? [];
+
+  if (!roasterList.length && !isLoading) {
     return (
       <EmptyState
         title="No roasters found"
@@ -41,30 +59,25 @@ export const RoastersList = ({ roasters }: { roasters: GetRoastersQuery }) => {
     );
   }
 
-  const transformedRoasters: Roaster[] =
-    data?.edges.map((roaster) => ({
-      id: roaster.node.id,
-      name: roaster.node.name,
-      city: roaster.node.location_city || undefined,
-      state: roaster.node.location_state || undefined,
-      country: roaster.node.location_country || undefined,
-      url: roaster.node.url || undefined,
-      instagram: roaster.node.instagram || undefined,
-      beanCount: roaster.node.beansCollection?.edges?.length || 0,
-      created_at: roaster.node.created_at,
-    })) || [];
-
   return (
-    <Suspense fallback={<CardGrid isLoading />}>
-      <div className="space-y-8">
-        <RoasterFilter onFilterChange={setFilters} />
-        <CardGrid isLoading={isLoading}>
-          {transformedRoasters.map((roaster) => (
-            <RoasterCard key={roaster.id} roaster={roaster} />
-          ))}
-        </CardGrid>
-      </div>
-    </Suspense>
+    <div className="space-y-8">
+      <RoasterFilter onFilterChange={setFilters} />
+      <CardGrid isLoading={isLoading}>
+        {roasterList.map((roaster, index) => (
+          <div
+            key={roaster.node.id}
+            ref={index === roasterList.length - 1 ? ref : undefined}
+          >
+            <RoasterCard roaster={roaster.node} user={user} />
+          </div>
+        ))}
+      </CardGrid>
+      {isFetchingNextPage && (
+        <div className="flex justify-center py-4">
+          <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-gray-900" />
+        </div>
+      )}
+    </div>
   );
 };
 

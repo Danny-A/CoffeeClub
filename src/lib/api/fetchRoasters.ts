@@ -1,13 +1,15 @@
 import { graphqlFetch } from "@/lib/graphql/client";
 import {
-  Exact,
   GetRoastersDocument,
   GetRoastersQuery,
+  GetRoastersQueryVariables,
 } from "@/lib/graphql/generated/graphql";
 
 export type RoasterFilters = {
   search?: string;
   country?: string;
+  first?: number;
+  after?: string;
 };
 
 export async function fetchRoasters(
@@ -15,11 +17,27 @@ export async function fetchRoasters(
 ): Promise<GetRoastersQuery> {
   const response = await graphqlFetch<
     GetRoastersQuery,
-    Exact<{ [key: string]: never }>
-  >(GetRoastersDocument);
+    GetRoastersQueryVariables
+  >(
+    GetRoastersDocument,
+    {
+      variables: {
+        first: filters?.first,
+        after: filters?.after,
+      },
+    },
+  );
 
   if (!response.data.roastersCollection) {
-    return { roastersCollection: { edges: [] } };
+    return {
+      roastersCollection: {
+        edges: [],
+        pageInfo: {
+          hasNextPage: false,
+          endCursor: null,
+        },
+      },
+    };
   }
 
   let roasters = response.data.roastersCollection;

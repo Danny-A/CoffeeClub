@@ -1,59 +1,55 @@
 import { graphqlFetch } from "../graphql/client";
-import { GetBeansDocument } from "../graphql/generated/graphql";
-import { Exact } from "../graphql/generated/graphql";
-import { GetBeansQuery } from "../graphql/generated/graphql";
+import {
+  BeansFilter,
+  Exact,
+  GetBeansDocument,
+  GetBeansQuery,
+  Roast_Level,
+  StringFilter,
+} from "../graphql/generated/graphql";
 
 export type BeanFilters = {
   search?: string;
   origin?: string;
   process?: string;
   roastLevel?: string;
+  first?: number;
+  after?: string;
 };
 
 export async function fetchBeans(
   filters?: BeanFilters,
 ): Promise<GetBeansQuery> {
+  const { search, origin, process, roastLevel, first = 30, after } = filters ||
+    {};
+
   const response = await graphqlFetch<
     GetBeansQuery,
-    Exact<{ [key: string]: never }>
+    Exact<{
+      filter?: BeansFilter;
+      first?: number;
+      after?: string;
+    }>
   >(
     GetBeansDocument,
+    {
+      variables: {
+        filter: {
+          ...(search &&
+            { name: { contains: search.toLowerCase() } as StringFilter }),
+          ...(origin && { origin: { eq: origin } as StringFilter }),
+          ...(process && { process: { eq: process } as StringFilter }),
+          ...(roastLevel && { roast_level: { eq: roastLevel as Roast_Level } }),
+        },
+        first,
+        after,
+      },
+    },
   );
 
   if (!response.data.beansCollection) {
-    return { beansCollection: { edges: [] } };
+    return { beansCollection: null };
   }
 
-  let beans = response.data.beansCollection.edges;
-
-  if (filters) {
-    beans = beans.filter((bean) => {
-      const matchesSearch = !filters.search ||
-        bean.node.name.toLowerCase().includes(
-          filters.search.toLowerCase(),
-        ) ||
-        bean.node.origin?.toLowerCase().includes(
-          filters.search.toLowerCase(),
-        ) ||
-        bean.node.roasters?.id[0]?.name
-          .toLowerCase()
-          .includes(filters.search.toLowerCase());
-
-      const matchesOrigin = !filters.origin ||
-        bean.node.origin === filters.origin;
-      const matchesProcess = !filters.process ||
-        bean.node.process === filters.process;
-      const matchesRoastLevel = !filters.roastLevel ||
-        bean.node.roast_level === filters.roastLevel;
-
-      return (
-        matchesSearch &&
-        matchesOrigin &&
-        matchesProcess &&
-        matchesRoastLevel
-      );
-    });
-  }
-
-  return { beansCollection: { edges: beans } };
+  return response.data;
 }

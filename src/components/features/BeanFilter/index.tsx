@@ -1,6 +1,15 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 
+import { FormField } from '@/components/ui/FormField';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/Select';
 import { Text } from '@/components/ui/Text';
+import { useUrlFilters } from '@/hooks/filters/useUrlFilters';
 
 type BeanFilterProps = {
   onFilterChange: (filters: {
@@ -12,50 +21,26 @@ type BeanFilterProps = {
 };
 
 export function BeanFilter({ onFilterChange }: BeanFilterProps) {
-  const [filters, setFilters] = useState<{
-    search?: string;
-    origin?: string;
-    process?: string;
-    roastLevel?: string;
-  }>({});
+  const { filters, updateFilters } = useUrlFilters();
 
-  const handleSearchChange = (value: string) => {
-    const newFilters = { ...filters, search: value };
-    setFilters(newFilters);
-    onFilterChange(newFilters);
-  };
-
-  const handleOriginChange = (value: string) => {
-    const newFilters = { ...filters, origin: value };
-    setFilters(newFilters);
-    onFilterChange(newFilters);
-  };
-
-  const handleProcessChange = (value: string) => {
-    const newFilters = { ...filters, process: value };
-    setFilters(newFilters);
-    onFilterChange(newFilters);
-  };
-
-  const handleRoastLevelChange = (value: string) => {
-    const newFilters = { ...filters, roastLevel: value };
-    setFilters(newFilters);
-    onFilterChange(newFilters);
-  };
+  // Keep parent component in sync with URL filters
+  useEffect(() => {
+    onFilterChange(filters);
+  }, [filters, onFilterChange]);
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 space-y-4">
       <div className="flex flex-col md:flex-row gap-4">
         <div className="flex-1">
-          <Text variant="label" className="block mb-2">
-            Search
-          </Text>
-          <input
+          <FormField
             type="text"
-            value={filters.search || ''}
-            onChange={(e) => handleSearchChange(e.target.value)}
+            label="Search"
+            value={filters.search ?? ''}
+            onChange={(e) => {
+              const value = e.target.value;
+              updateFilters({ search: value || undefined });
+            }}
             placeholder="Search beans..."
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
 
@@ -63,52 +48,72 @@ export function BeanFilter({ onFilterChange }: BeanFilterProps) {
           <Text variant="label" className="block mb-2">
             Origin
           </Text>
-          <select
-            value={filters.origin || ''}
-            onChange={(e) => handleOriginChange(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          <Select
+            value={filters.origin ?? 'all'}
+            onValueChange={(value) => {
+              updateFilters({ origin: value === 'all' ? undefined : value });
+            }}
           >
-            <option value="">All Origins</option>
-            <option value="Ethiopia">Ethiopia</option>
-            <option value="Colombia">Colombia</option>
-            <option value="Kenya">Kenya</option>
-            <option value="Guatemala">Guatemala</option>
-            <option value="Costa Rica">Costa Rica</option>
-            <option value="Brazil">Brazil</option>
-          </select>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="All Origins" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Origins</SelectItem>
+              <SelectItem value="Ethiopia">Ethiopia</SelectItem>
+              <SelectItem value="Colombia">Colombia</SelectItem>
+              <SelectItem value="Kenya">Kenya</SelectItem>
+              <SelectItem value="Guatemala">Guatemala</SelectItem>
+              <SelectItem value="Costa Rica">Costa Rica</SelectItem>
+              <SelectItem value="Brazil">Brazil</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="flex-1">
           <Text variant="label" className="block mb-2">
             Process
           </Text>
-          <select
-            value={filters.process || ''}
-            onChange={(e) => handleProcessChange(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          <Select
+            value={filters.process ?? 'all'}
+            onValueChange={(value) => {
+              updateFilters({ process: value === 'all' ? undefined : value });
+            }}
           >
-            <option value="">All Processes</option>
-            <option value="Washed">Washed</option>
-            <option value="Natural">Natural</option>
-            <option value="Honey">Honey</option>
-            <option value="Anaerobic">Anaerobic</option>
-          </select>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="All Processes" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Processes</SelectItem>
+              <SelectItem value="Washed">Washed</SelectItem>
+              <SelectItem value="Natural">Natural</SelectItem>
+              <SelectItem value="Honey">Honey</SelectItem>
+              <SelectItem value="Anaerobic">Anaerobic</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="flex-1">
           <Text variant="label" className="block mb-2">
             Roast Level
           </Text>
-          <select
-            value={filters.roastLevel || ''}
-            onChange={(e) => handleRoastLevelChange(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          <Select
+            value={filters.roastLevel ?? 'all'}
+            onValueChange={(value) => {
+              updateFilters({
+                roastLevel: value === 'all' ? undefined : value,
+              });
+            }}
           >
-            <option value="">All Roast Levels</option>
-            <option value="Light">Light</option>
-            <option value="Medium">Medium</option>
-            <option value="Dark">Dark</option>
-          </select>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="All Roast Levels" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Roast Levels</SelectItem>
+              <SelectItem value="Light">Light</SelectItem>
+              <SelectItem value="Medium">Medium</SelectItem>
+              <SelectItem value="Dark">Dark</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
     </div>

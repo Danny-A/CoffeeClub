@@ -1,16 +1,13 @@
 import { cn } from '@/utils/cn';
 
-interface SkeletonProps {
-  className?: string;
-}
-
-export function Skeleton({ className }: SkeletonProps) {
+function Skeleton({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
-      className={cn(
-        'animate-pulse rounded-md bg-gray-200 dark:bg-gray-700',
-        className
-      )}
+      data-slot="skeleton"
+      className={cn('bg-accent animate-pulse rounded-md', className)}
+      {...props}
     />
   );
 }
+
+export { Skeleton };

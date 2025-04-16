@@ -1,11 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import { CardGrid } from '@/components/ui/CardGrid';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { FilterLayout } from '@/components/ui/FilterLayout';
 import { useAuth } from '@/hooks/auth/useAuth';
+import { useRoasterUrlFilters } from '@/hooks/filters/useRoasterUrlFilters';
 import { useRoasters } from '@/hooks/roasters/useRoasters';
 import { GetRoastersQuery } from '@/lib/graphql/generated/graphql';
 
@@ -14,10 +16,7 @@ import { RoasterFilter } from '../RoasterFilter';
 
 export const RoastersList = ({ roasters }: { roasters: GetRoastersQuery }) => {
   const { user } = useAuth();
-  const [filters, setFilters] = useState<{
-    search?: string;
-    country?: string;
-  }>({});
+  const { filters } = useRoasterUrlFilters();
 
   const {
     data,
@@ -52,16 +51,17 @@ export const RoastersList = ({ roasters }: { roasters: GetRoastersQuery }) => {
 
   if (!roasterList.length && !isLoading) {
     return (
-      <EmptyState
-        title="No roasters found"
-        description="Be the first to add a coffee roaster!"
-      />
+      <FilterLayout sidebar={<RoasterFilter />}>
+        <EmptyState
+          title="No roasters found"
+          description="Try adjusting your filters or be the first to add a coffee roaster!"
+        />
+      </FilterLayout>
     );
   }
 
   return (
-    <div className="space-y-8">
-      <RoasterFilter onFilterChange={setFilters} />
+    <FilterLayout sidebar={<RoasterFilter />}>
       <CardGrid isLoading={isLoading}>
         {roasterList.map((roaster, index) => (
           <div
@@ -77,7 +77,7 @@ export const RoastersList = ({ roasters }: { roasters: GetRoastersQuery }) => {
           <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-gray-900" />
         </div>
       )}
-    </div>
+    </FilterLayout>
   );
 };
 

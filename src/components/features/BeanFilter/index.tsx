@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { FormField } from '@/components/ui/FormField';
 import {
   Select,
@@ -11,26 +9,12 @@ import {
 import { Text } from '@/components/ui/Text';
 import { useUrlFilters } from '@/hooks/filters/useUrlFilters';
 
-type BeanFilterProps = {
-  onFilterChange: (filters: {
-    search?: string;
-    origin?: string;
-    process?: string;
-    roastLevel?: string;
-  }) => void;
-};
-
-export function BeanFilter({ onFilterChange }: BeanFilterProps) {
+export function BeanFilter() {
   const { filters, updateFilters } = useUrlFilters();
-
-  // Keep parent component in sync with URL filters
-  useEffect(() => {
-    onFilterChange(filters);
-  }, [filters, onFilterChange]);
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 space-y-4">
-      <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-col gap-4">
         <div className="flex-1">
           <FormField
             type="text"

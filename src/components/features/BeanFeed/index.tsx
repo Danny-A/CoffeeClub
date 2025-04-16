@@ -5,6 +5,7 @@ import { useInView } from 'react-intersection-observer';
 
 import { CardGrid } from '@/components/ui/CardGrid';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { FilterLayout } from '@/components/ui/FilterLayout';
 import { useAuth } from '@/hooks/auth/useAuth';
 import { useBeans } from '@/hooks/beans/useBeans';
 import { useUrlFilters } from '@/hooks/filters/useUrlFilters';
@@ -15,7 +16,7 @@ import { BeanFilter } from '../BeanFilter';
 
 export const BeanFeed = ({ beans }: { beans: GetBeansQuery }) => {
   const { user } = useAuth();
-  const { filters, updateFilters } = useUrlFilters();
+  const { filters } = useUrlFilters();
 
   const {
     data,
@@ -59,19 +60,17 @@ export const BeanFeed = ({ beans }: { beans: GetBeansQuery }) => {
 
   if (!isLoading && !beanList.length) {
     return (
-      <div className="space-y-8">
-        <BeanFilter onFilterChange={updateFilters} />
+      <FilterLayout sidebar={<BeanFilter />}>
         <EmptyState
           title="No beans found"
           description="Try adjusting your filters or be the first to add a coffee bean!"
         />
-      </div>
+      </FilterLayout>
     );
   }
 
   return (
-    <div className="space-y-8">
-      <BeanFilter onFilterChange={updateFilters} />
+    <FilterLayout sidebar={<BeanFilter />}>
       <CardGrid isLoading={isLoading}>
         {beanList.map((bean, index) => (
           <div
@@ -87,7 +86,7 @@ export const BeanFeed = ({ beans }: { beans: GetBeansQuery }) => {
           <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-gray-900" />
         </div>
       )}
-    </div>
+    </FilterLayout>
   );
 };
 

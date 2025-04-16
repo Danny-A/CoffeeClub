@@ -10,14 +10,6 @@ mutation CreateRoaster($input: roastersInsertInput!) {
       location_country
       url
       instagram
-      claimed_by
-      beansCollection {
-        edges {
-          node {
-            id
-          }
-        }
-      }
       created_at
     }
   }

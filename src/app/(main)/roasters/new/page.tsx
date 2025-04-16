@@ -1,7 +1,9 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -10,12 +12,16 @@ import { FormField } from '@/components/ui/FormField';
 import { Heading } from '@/components/ui/Heading';
 import { TextArea } from '@/components/ui/TextArea';
 import { useCreateRoaster } from '@/hooks/useCreateRoaster';
+import { useRoasterImage } from '@/hooks/useRoasterImage';
 
 const roasterSchema = z.object({
   name: z.string().min(1, 'Name is required'),
-  description: z.string().min(10, 'Description must be at least 10 characters'),
-  location: z.string().min(1, 'Location is required'),
-  website: z.string().url('Must be a valid URL').optional().or(z.literal('')),
+  description: z.string().optional(),
+  location_country: z.string().min(1, 'Country is required'),
+  location_city: z.string().optional(),
+  location_state: z.string().optional(),
+  url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
+  instagram: z.string().optional(),
 });
 
 type RoasterFormData = z.infer<typeof roasterSchema>;
@@ -23,6 +29,9 @@ type RoasterFormData = z.infer<typeof roasterSchema>;
 export default function NewRoasterPage() {
   const router = useRouter();
   const createRoaster = useCreateRoaster();
+  const { uploadRoasterImage } = useRoasterImage();
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const {
     register,
@@ -32,9 +41,28 @@ export default function NewRoasterPage() {
     resolver: zodResolver(roasterSchema),
   });
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
+    }
+  };
+
   const onSubmit = async (data: RoasterFormData) => {
     try {
-      await createRoaster.mutateAsync(data);
+      let imageUrl: string | undefined;
+
+      if (imageFile) {
+        imageUrl = await uploadRoasterImage(imageFile);
+      }
+
+      await createRoaster.mutateAsync({
+        ...data,
+        profile_image_url: imageUrl,
+      });
+
       router.push('/roasters');
     } catch (error) {
       console.error('Error creating roaster:', error);
@@ -42,58 +70,110 @@ export default function NewRoasterPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto space-y-8">
-      <div>
-        <Heading level="h1">Add New Roaster</Heading>
-        <Heading level="h2" muted className="mt-2">
-          Share your favorite coffee roaster with the community
-        </Heading>
-      </div>
-
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          label="Name"
-          id="name"
-          {...register('name')}
-          error={errors.name?.message}
-        />
-
-        <TextArea
-          label="Description"
-          id="description"
-          {...register('description')}
-          error={errors.description?.message}
-        />
-
-        <FormField
-          label="Location"
-          id="location"
-          {...register('location')}
-          error={errors.location?.message}
-        />
-
-        <FormField
-          label="Website (optional)"
-          id="website"
-          type="url"
-          {...register('website')}
-          error={errors.website?.message}
-        />
-
-        <div className="flex justify-end space-x-4">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => router.back()}
-            disabled={createRoaster.isPending}
-          >
-            Cancel
-          </Button>
-          <Button type="submit" disabled={createRoaster.isPending}>
-            {createRoaster.isPending ? 'Creating...' : 'Create Roaster'}
-          </Button>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
+      <div className="max-w-2xl mx-auto space-y-8 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-sm">
+        <div>
+          <Heading level="h1">Add New Roaster</Heading>
+          <Heading level="h2" muted className="mt-2">
+            Share your favorite coffee roaster with the community
+          </Heading>
         </div>
-      </form>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div className="space-y-4">
+            <div className="flex items-center gap-4">
+              {previewUrl ? (
+                <div className="relative w-24 h-24 rounded-lg overflow-hidden">
+                  <Image
+                    src={previewUrl}
+                    alt="Roaster preview"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="w-24 h-24 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                  <span className="text-gray-400">No image</span>
+                </div>
+              )}
+              <div className="flex-1">
+                <FormField
+                  type="file"
+                  label="Roaster Image"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
+              </div>
+            </div>
+
+            <FormField
+              label="Name"
+              id="name"
+              {...register('name')}
+              error={errors.name?.message}
+            />
+
+            <TextArea
+              label="Description (optional)"
+              id="description"
+              {...register('description')}
+              error={errors.description?.message}
+            />
+
+            <FormField
+              label="Country"
+              id="location_country"
+              {...register('location_country')}
+              error={errors.location_country?.message}
+            />
+
+            <FormField
+              label="City (optional)"
+              id="location_city"
+              {...register('location_city')}
+              error={errors.location_city?.message}
+            />
+
+            <FormField
+              label="State/Region (optional)"
+              id="location_state"
+              {...register('location_state')}
+              error={errors.location_state?.message}
+            />
+
+            <FormField
+              label="Website (optional)"
+              id="url"
+              type="url"
+              {...register('url')}
+              error={errors.url?.message}
+              placeholder="https://"
+            />
+
+            <FormField
+              label="Instagram (optional)"
+              id="instagram"
+              {...register('instagram')}
+              error={errors.instagram?.message}
+              placeholder="@username"
+            />
+          </div>
+
+          <div className="flex justify-end space-x-4">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => router.back()}
+              disabled={createRoaster.isPending}
+            >
+              Cancel
+            </Button>
+            <Button type="submit" disabled={createRoaster.isPending}>
+              {createRoaster.isPending ? 'Creating...' : 'Create Roaster'}
+            </Button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

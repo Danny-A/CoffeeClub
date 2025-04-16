@@ -1,0 +1,10 @@
+query GetAllRoasters {
+  roastersCollection(first: 1000, orderBy: [{ name: AscNullsLast }]) {
+    edges {
+      node {
+        id
+        name
+      }
+    }
+  }
+}

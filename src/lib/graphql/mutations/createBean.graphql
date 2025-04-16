@@ -1,0 +1,23 @@
+mutation CreateBean($input: beansInsertInput!) {
+  insertIntobeansCollection(objects: [$input]) {
+    records {
+      id
+      name
+      description
+      image_url
+      roast_type
+      process
+      roast_level
+      bean_type
+      elevation_min
+      elevation_max
+      origin
+      producer
+      notes
+      buy_urls
+      roasters {
+        id
+      }
+    }
+  }
+}

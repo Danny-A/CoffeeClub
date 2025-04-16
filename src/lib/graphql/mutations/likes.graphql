@@ -1,0 +1,56 @@
+mutation LikeBean($input: bean_likesInsertInput!) {
+  insertIntobean_likesCollection(objects: [$input]) {
+    records {
+      id
+      bean_id
+      user_id
+      created_at
+    }
+  }
+}
+
+mutation UnlikeBean($filter: bean_likesFilter!) {
+  deleteFrombean_likesCollection(filter: $filter) {
+    records {
+      id
+    }
+  }
+}
+
+mutation LikeRoaster($input: roaster_likesInsertInput!) {
+  insertIntoroaster_likesCollection(objects: [$input]) {
+    records {
+      id
+      roaster_id
+      user_id
+      created_at
+    }
+  }
+}
+
+mutation UnlikeRoaster($filter: roaster_likesFilter!) {
+  deleteFromroaster_likesCollection(filter: $filter) {
+    records {
+      id
+    }
+  }
+}
+
+mutation LikeLocation($input: location_likesInsertInput!) {
+  insertIntolocation_likesCollection(objects: [$input]) {
+    records {
+      id
+      location_id
+      user_id
+      created_at
+    }
+  }
+}
+
+mutation UnlikeLocation($filter: location_likesFilter!) {
+  deleteFromlocation_likesCollection(filter: $filter) {
+    records {
+      id
+    }
+  }
+}

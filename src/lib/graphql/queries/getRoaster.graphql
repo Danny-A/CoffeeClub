@@ -21,6 +21,14 @@ query GetRoaster($id: UUID!) {
               origin
               process
               roast_level
+              bean_likesCollection {
+                edges {
+                  node {
+                    id
+                    user_id
+                  }
+                }
+              }
               bean_reviewsCollection {
                 edges {
                   node {

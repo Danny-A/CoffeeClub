@@ -1,6 +1,7 @@
-query GetBeans($filter: beansFilter) {
-  beansCollection(filter: $filter) {
+query GetBeans($filter: beansFilter, $first: Int, $after: Cursor) {
+  beansCollection(first: $first, after: $after, filter: $filter) {
     edges {
+      cursor
       node {
         id
         name
@@ -16,6 +17,7 @@ query GetBeans($filter: beansFilter) {
         producer
         notes
         buy_urls
+        created_at
         roasters {
           id
           name
@@ -40,6 +42,14 @@ query GetBeans($filter: beansFilter) {
             }
           }
         }
+        bean_likesCollection {
+          edges {
+            node {
+              id
+              user_id
+            }
+          }
+        }
         bean_reviewsCollection {
           edges {
             node {
@@ -48,8 +58,11 @@ query GetBeans($filter: beansFilter) {
             }
           }
         }
-        created_at
       }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
     }
   }
 }

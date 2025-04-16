@@ -1,0 +1,24 @@
+mutation CreateRoaster($input: roastersInsertInput!) {
+  insertIntoroastersCollection(objects: [$input]) {
+    records {
+      id
+      name
+      description
+      profile_image_url
+      location_city
+      location_state
+      location_country
+      url
+      instagram
+      claimed_by
+      beansCollection {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+      created_at
+    }
+  }
+}

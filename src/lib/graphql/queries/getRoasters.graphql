@@ -1,5 +1,5 @@
-query GetRoasters {
-  roastersCollection {
+query GetRoasters($first: Int, $after: Cursor) {
+  roastersCollection(first: $first, after: $after) {
     edges {
       node {
         id
@@ -12,6 +12,7 @@ query GetRoasters {
         url
         instagram
         claimed_by
+        created_at
         beansCollection {
           edges {
             node {
@@ -19,8 +20,19 @@ query GetRoasters {
             }
           }
         }
-        created_at
+        roaster_likesCollection {
+          edges {
+            node {
+              id
+              user_id
+            }
+          }
+        }
       }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
     }
   }
 }

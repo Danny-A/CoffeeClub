@@ -17,7 +17,7 @@ import {
   SelectValue,
 } from '@/components/ui/Select';
 import { TextArea } from '@/components/ui/TextArea';
-import { useRoasters } from '@/hooks/roasters/useRoasters';
+import { useAllRoasters } from '@/hooks/roasters/useAllRoasters';
 import { useCreateBean } from '@/hooks/useCreateBean';
 
 const beanSchema = z.object({
@@ -31,10 +31,10 @@ const beanSchema = z.object({
 
 type BeanFormData = z.infer<typeof beanSchema>;
 
-export default function NewBeanPage() {
+export default function Page() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { data: roastersData } = useRoasters();
+  const { data: roasters, isLoading: isLoadingRoasters } = useAllRoasters();
   const createBean = useCreateBean();
   const roasterId = searchParams.get('roasterId');
 
@@ -52,15 +52,15 @@ export default function NewBeanPage() {
   });
 
   useEffect(() => {
-    if (roasterId && roastersData?.edges) {
-      const selectedRoaster = roastersData.edges.find(
-        (roaster) => roaster.node.id === roasterId
+    if (roasterId && roasters) {
+      const selectedRoaster = roasters.find(
+        (roaster) => roaster.id === roasterId
       );
       if (selectedRoaster) {
         setValue('roasterId', roasterId);
       }
     }
-  }, [roasterId, roastersData, setValue]);
+  }, [roasterId, roasters, setValue]);
 
   const onSubmit = async (data: BeanFormData) => {
     try {
@@ -146,18 +146,18 @@ export default function NewBeanPage() {
               <Select
                 value={field.value}
                 onValueChange={field.onChange}
-                disabled={!!roasterId}
+                disabled={!!roasterId || isLoadingRoasters}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select a roaster">
-                    {roastersData?.edges?.find((r) => r.node.id === field.value)
-                      ?.node.name || 'Select a roaster'}
+                    {roasters?.find((r) => r.id === field.value)?.name ||
+                      'Select a roaster'}
                   </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
-                  {roastersData?.edges?.map((roaster) => (
-                    <SelectItem key={roaster.node.id} value={roaster.node.id}>
-                      {roaster.node.name}
+                  {roasters?.map((roaster) => (
+                    <SelectItem key={roaster.id} value={roaster.id}>
+                      {roaster.name}
                     </SelectItem>
                   ))}
                 </SelectContent>

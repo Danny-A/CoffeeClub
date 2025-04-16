@@ -8,6 +8,7 @@ import { Text } from '@/components/ui/Text';
 import { fetchRoaster } from '@/lib/api/fetchRoaster';
 import { createClient } from '@/lib/supabase/server';
 import { formatLocation } from '@/utils/formatLocation';
+import { transformUser } from '@/utils/transformUser';
 
 type RoasterDetailsProps = {
   params: Promise<{ id: string }>;
@@ -123,6 +124,7 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
               {roaster.beansCollection?.edges.map((bean) => (
                 <BeanCard
                   key={bean.node.id}
+                  user={transformUser(user)}
                   bean={{
                     id: bean.node.id,
                     name: bean.node.name,

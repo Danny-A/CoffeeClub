@@ -18,6 +18,7 @@ query GetBeans($filter: beansFilter, $first: Int, $after: Cursor) {
         notes
         buy_urls
         created_at
+        average_rating
         roasters {
           id
           name

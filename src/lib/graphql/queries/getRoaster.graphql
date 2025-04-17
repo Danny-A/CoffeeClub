@@ -21,6 +21,7 @@ query GetRoaster($id: UUID!) {
               origin
               process
               roast_level
+              average_rating
               bean_likesCollection {
                 edges {
                   node {

@@ -13,9 +13,7 @@ type BeansResponse = {
   };
 };
 
-function transformBeansData(
-  data: BeansQuery,
-): BeansResponse {
+function transformBeansData(data: BeansQuery): BeansResponse {
   return {
     edges: data.edges.map((bean) => ({
       ...bean,
@@ -32,9 +30,10 @@ function transformBeansData(
         },
         createdAt: bean.node.created_at,
         updatedAt: bean.node.created_at,
+        averageRating: bean.node.average_rating || 0,
         reviews: bean.node.bean_reviewsCollection?.edges.map((edge) => ({
           id: edge.node.id,
-          rating: edge.node.rating,
+          rating: edge.node.rating || 0,
         })),
         likes: bean.node.bean_likesCollection?.edges.map((edge) => ({
           id: edge.node.id,

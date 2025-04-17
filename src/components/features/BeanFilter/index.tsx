@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import { FormField } from '@/components/ui/FormField';
 import {
   Select,
@@ -6,11 +8,38 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/Select';
+import { Slider } from '@/components/ui/Slider';
 import { Text } from '@/components/ui/Text';
-import { useUrlFilters } from '@/hooks/filters/useUrlFilters';
+import { useBeanUrlFilters } from '@/hooks/filters/useBeanUrlFilters';
+import { useDebounce } from '@/hooks/useDebounce';
 
 export function BeanFilter() {
-  const { filters, updateFilters } = useUrlFilters();
+  const { filters, updateFilters } = useBeanUrlFilters();
+  const [searchInput, setSearchInput] = useState(filters.search ?? '');
+  const [ratingRange, setRatingRange] = useState<[number, number]>([
+    filters.minRating ?? 0,
+    filters.maxRating ?? 5,
+  ]);
+
+  const debouncedRatingRange = useDebounce(ratingRange, 300);
+  const debouncedSearch = useDebounce(searchInput, 300);
+
+  useEffect(() => {
+    updateFilters({
+      minRating:
+        debouncedRatingRange[0] === 0 ? undefined : debouncedRatingRange[0],
+      maxRating:
+        debouncedRatingRange[1] === 5 ? undefined : debouncedRatingRange[1],
+    });
+  }, [debouncedRatingRange, updateFilters]);
+
+  useEffect(() => {
+    updateFilters({ search: debouncedSearch || undefined });
+  }, [debouncedSearch, updateFilters]);
+
+  const handleRatingChange = (value: number[]) => {
+    setRatingRange([value[0], value[1]]);
+  };
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 space-y-4">
@@ -19,11 +48,8 @@ export function BeanFilter() {
           <FormField
             type="text"
             label="Search"
-            value={filters.search ?? ''}
-            onChange={(e) => {
-              const value = e.target.value;
-              updateFilters({ search: value || undefined });
-            }}
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
             placeholder="Search beans..."
           />
         </div>
@@ -98,6 +124,25 @@ export function BeanFilter() {
               <SelectItem value="Dark">Dark</SelectItem>
             </SelectContent>
           </Select>
+        </div>
+
+        <div className="flex-1">
+          <Text variant="label" className="block mb-2">
+            Rating Range
+          </Text>
+          <div className="px-2">
+            <Slider
+              min={0}
+              max={5}
+              step={0.5}
+              value={ratingRange}
+              onValueChange={handleRatingChange}
+            />
+            <div className="flex justify-between mt-2 text-sm text-gray-600">
+              <span>{ratingRange[0].toFixed(1)}</span>
+              <span>{ratingRange[1].toFixed(1)}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

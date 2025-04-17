@@ -143,6 +143,7 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
                         rating: edge.node.rating,
                       })
                     ),
+                    averageRating: bean.node.average_rating,
                   }}
                 />
               ))}

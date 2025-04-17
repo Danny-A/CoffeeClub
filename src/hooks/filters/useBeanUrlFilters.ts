@@ -8,9 +8,11 @@ export type BeanFilters = {
   origin?: string;
   process?: string;
   roastLevel?: string;
+  minRating?: number;
+  maxRating?: number;
 };
 
-export function useUrlFilters() {
+export function useBeanUrlFilters() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -21,6 +23,12 @@ export function useUrlFilters() {
     origin: searchParams.get("origin") || undefined,
     process: searchParams.get("process") || undefined,
     roastLevel: searchParams.get("roastLevel") || undefined,
+    minRating: searchParams.get("minRating")
+      ? Number(searchParams.get("minRating"))
+      : undefined,
+    maxRating: searchParams.get("maxRating")
+      ? Number(searchParams.get("maxRating"))
+      : undefined,
   };
 
   // Update filters by directly updating URL
@@ -32,7 +40,9 @@ export function useUrlFilters() {
     // Update params with new filters
     Object.entries(newFilters).forEach(([key, value]) => {
       const currentValue = params.get(key);
-      const newValue = value && value !== "all" ? value : null;
+      const newValue = value && value !== "all"
+        ? (typeof value === "number" ? value.toString() : value)
+        : null;
 
       if (currentValue !== newValue) {
         hasChanges = true;

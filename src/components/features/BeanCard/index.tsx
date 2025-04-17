@@ -4,7 +4,6 @@ import { Heading } from '@/components/ui/Heading';
 import { LikeButton } from '@/components/ui/LikeButton';
 import { Text } from '@/components/ui/Text';
 import { type Bean, type User } from '@/lib/graphql/types';
-import { getAverageRating } from '@/utils/getAverageRating';
 
 type BeanCardProps = {
   bean: Bean;
@@ -55,10 +54,12 @@ export function BeanCard({ bean, user }: BeanCardProps) {
                   <Text variant="label">Reviews:</Text>
                   <Text variant="small">{bean.reviews.length}</Text>
                 </div>
-                <div className="flex justify-between">
-                  <Text variant="label">Rating:</Text>
-                  <Text variant="small">{getAverageRating(bean)}</Text>
-                </div>
+                {bean.averageRating && (
+                  <div className="flex justify-between">
+                    <Text variant="label">Rating:</Text>
+                    <Text variant="small">{bean.averageRating}</Text>
+                  </div>
+                )}
               </>
             ) : (
               <div className="flex justify-between">

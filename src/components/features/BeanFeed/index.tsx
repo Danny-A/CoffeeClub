@@ -8,7 +8,7 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { FilterLayout } from '@/components/ui/FilterLayout';
 import { useAuth } from '@/hooks/auth/useAuth';
 import { useBeans } from '@/hooks/beans/useBeans';
-import { useUrlFilters } from '@/hooks/filters/useUrlFilters';
+import { useBeanUrlFilters } from '@/hooks/filters/useBeanUrlFilters';
 import { GetBeansQuery } from '@/lib/graphql/generated/graphql';
 
 import { BeanCard } from '../BeanCard';
@@ -16,7 +16,7 @@ import { BeanFilter } from '../BeanFilter';
 
 export const BeanFeed = ({ beans }: { beans: GetBeansQuery }) => {
   const { user } = useAuth();
-  const { filters } = useUrlFilters();
+  const { filters } = useBeanUrlFilters();
 
   const {
     data,

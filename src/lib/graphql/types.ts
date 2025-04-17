@@ -17,6 +17,7 @@ export interface Bean {
   notes?: string;
   createdAt?: string;
   updatedAt?: string;
+  averageRating?: number;
   reviews?: {
     id: string;
     rating: number;

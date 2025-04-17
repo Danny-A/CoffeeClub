@@ -1,5 +1,7 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+
 import { FormField } from '@/components/ui/FormField';
 import {
   Select,
@@ -10,9 +12,16 @@ import {
 } from '@/components/ui/Select';
 import { Text } from '@/components/ui/Text';
 import { useRoasterUrlFilters } from '@/hooks/filters/useRoasterUrlFilters';
+import { useDebounce } from '@/hooks/useDebounce';
 
 export function RoasterFilter() {
   const { filters, updateFilters } = useRoasterUrlFilters();
+  const [searchInput, setSearchInput] = useState(filters.search ?? '');
+  const debouncedSearch = useDebounce(searchInput, 300);
+
+  useEffect(() => {
+    updateFilters({ search: debouncedSearch || undefined });
+  }, [debouncedSearch, updateFilters]);
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 space-y-4">
@@ -21,11 +30,8 @@ export function RoasterFilter() {
           <FormField
             type="text"
             label="Search"
-            value={filters.search ?? ''}
-            onChange={(e) => {
-              const value = e.target.value;
-              updateFilters({ search: value || undefined });
-            }}
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
             placeholder="Search roasters..."
           />
         </div>

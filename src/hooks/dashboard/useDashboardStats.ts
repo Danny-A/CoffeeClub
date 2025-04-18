@@ -38,12 +38,13 @@ export function useDashboardStats(type: ItemType) {
     queryFn: fetchDashboardStats,
   });
 
+
   const getTopItems = (): ItemWithRating[] => {
-    if (!data?.data) return [];
+    if (!data) return [];
 
     switch (type) {
       case "beans":
-        return (data.data.beansCollection?.edges ?? [])
+        return (data.beansCollection?.edges ?? [])
           .map((edge) => ({
             node: {
               id: edge.node.id,
@@ -57,7 +58,7 @@ export function useDashboardStats(type: ItemType) {
           .sort((a, b) => b.averageRating - a.averageRating)
           .slice(0, 5);
       case "roasters":
-        return (data.data.roastersCollection?.edges ?? [])
+        return (data.roastersCollection?.edges ?? [])
           .map((edge) => ({
             node: {
               id: edge.node.id,
@@ -71,7 +72,7 @@ export function useDashboardStats(type: ItemType) {
           .sort((a, b) => b.averageRating - a.averageRating)
           .slice(0, 5);
       case "locations":
-        return (data.data.locationsCollection?.edges ?? [])
+        return (data.locationsCollection?.edges ?? [])
           .map((edge) => ({
             node: {
               id: edge.node.id,
@@ -91,7 +92,7 @@ export function useDashboardStats(type: ItemType) {
 
   return {
     items: getTopItems(),
-    data: data?.data,
+    data: data?.dashboard_statsCollection?.edges[0]?.node,
     isLoading,
   };
 }

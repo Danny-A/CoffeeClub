@@ -1,13 +1,13 @@
 'use client';
 
-import { Card } from '@/components/ui/Card';
+import { Card, CardContent } from '@/components/ui/Card';
 import { Heading } from '@/components/ui/Heading';
 import { Text } from '@/components/ui/Text';
 import { useDashboardStats } from '@/hooks/dashboard/useDashboardStats';
 
-export function DashboardStats({}) {
+export function DashboardStats() {
   const { data, isLoading } = useDashboardStats('beans'); // type doesn't matter for counts
-
+  console.log(data);
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -21,7 +21,7 @@ export function DashboardStats({}) {
     );
   }
 
-  const counts = data?.dashboard_statsCollection?.edges[0]?.node || {
+  const counts = data || {
     total_users: 0,
     total_beans: 0,
     total_roasters: 0,
@@ -65,11 +65,13 @@ export function DashboardStats({}) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
       {stats.map((stat) => (
-        <Card key={stat.title} className="p-6">
-          <Text variant="label">{stat.title}</Text>
-          <Heading as="h3" className="mt-2">
-            {stat.value.toLocaleString()}
-          </Heading>
+        <Card key={stat.title}>
+          <CardContent>
+            <Text variant="label">{stat.title}</Text>
+            <Heading as="h3" className="mt-2">
+              {stat.value.toLocaleString()}
+            </Heading>
+          </CardContent>
         </Card>
       ))}
     </div>

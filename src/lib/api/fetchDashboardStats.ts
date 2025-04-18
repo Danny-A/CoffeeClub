@@ -11,5 +11,5 @@ export async function fetchDashboardStats() {
     Exact<{ [key: string]: never }>
   >(GetDashboardStatsDocument);
 
-  return response.data.dashboard_statsCollection;
+  return response.data;
 }

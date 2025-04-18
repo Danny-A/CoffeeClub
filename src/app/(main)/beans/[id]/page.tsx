@@ -133,17 +133,19 @@ export default async function BeanDetails({ params }: BeanDetailsProps) {
           </CardHeader>
           <CardContent>
             {bean.buy_urls &&
-              bean.buy_urls.map((url) => (
-                <a
-                  key={url}
-                  href={url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2 inline-block underline text-blue-600 hover:text-blue-800 hover:no-underline dark:text-blue-400 dark:hover:text-blue-300"
-                >
-                  Buy this bean →
-                </a>
-              ))}
+              bean.buy_urls
+                .filter((url) => url !== null)
+                .map((url) => (
+                  <a
+                    key={url}
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 inline-block underline text-blue-600 hover:text-blue-800 hover:no-underline dark:text-blue-400 dark:hover:text-blue-300"
+                  >
+                    Buy this bean →
+                  </a>
+                ))}
           </CardContent>
         </Card>
 

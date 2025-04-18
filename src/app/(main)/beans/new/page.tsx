@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -50,7 +50,7 @@ const beanSchema = z.object({
 
 type BeanFormData = z.infer<typeof beanSchema>;
 
-export default function Page() {
+function NewBeanForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: roasters, isLoading: isLoadingRoasters } = useAllRoasters();
@@ -386,5 +386,13 @@ export default function Page() {
         </Card>
       </div>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense>
+      <NewBeanForm />
+    </Suspense>
   );
 }

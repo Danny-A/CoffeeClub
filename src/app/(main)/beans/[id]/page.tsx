@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/Button';
+import { Card, CardContent, CardHeader } from '@/components/ui/Card';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Heading } from '@/components/ui/Heading';
 import { Text } from '@/components/ui/Text';
@@ -49,11 +50,12 @@ export default async function BeanDetails({ params }: BeanDetailsProps) {
             className="mt-2 text-gray-600 dark:text-gray-400"
           >
             Roasted by{' '}
-            <Button asChild>
-              <Link href={`/roasters/${bean.roasters?.id}`}>
-                {bean.roasters?.name}
-              </Link>
-            </Button>
+            <Link
+              href={`/roasters/${bean.roasters?.id}`}
+              className="text-blue-600 hover:text-blue-800 hover:no-underline dark:text-blue-400 dark:hover:text-blue-300"
+            >
+              {bean.roasters?.name}
+            </Link>
           </Text>
         </div>
         {user && (
@@ -64,9 +66,13 @@ export default async function BeanDetails({ params }: BeanDetailsProps) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="space-y-6">
-          <div>
-            <Heading level="h2">Details</Heading>
+        <Card>
+          <CardHeader>
+            <Heading level="h3" as="h2">
+              Details
+            </Heading>
+          </CardHeader>
+          <CardContent>
             <div className="mt-4 space-y-3">
               <div className="flex justify-between">
                 <Text variant="label">Origin:</Text>
@@ -103,87 +109,104 @@ export default async function BeanDetails({ params }: BeanDetailsProps) {
                 </Text>
               </div>
             </div>
-          </div>
+          </CardContent>
+        </Card>
 
-          {bean.notes && (
-            <div>
-              <Heading level="h2">Tasting Notes</Heading>
+        {bean.notes && (
+          <Card>
+            <CardHeader>
+              <Heading level="h3" as="h2">
+                Tasting Notes
+              </Heading>
+            </CardHeader>
+            <CardContent>
               <Text className="mt-2">{bean.notes}</Text>
-            </div>
-          )}
+            </CardContent>
+          </Card>
+        )}
 
-          {bean.buy_urls && (
-            <div>
-              <Heading level="h2">Purchase</Heading>
-              {bean.buy_urls.map((url) => (
+        <Card>
+          <CardHeader>
+            <Heading level="h3" as="h2">
+              Purchase
+            </Heading>
+          </CardHeader>
+          <CardContent>
+            {bean.buy_urls &&
+              bean.buy_urls.map((url) => (
                 <a
                   key={url}
                   href={url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 inline-block text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                  className="mt-2 inline-block underline text-blue-600 hover:text-blue-800 hover:no-underline dark:text-blue-400 dark:hover:text-blue-300"
                 >
                   Buy this bean →
                 </a>
               ))}
-            </div>
-          )}
-        </div>
+          </CardContent>
+        </Card>
 
-        <div>
-          <Heading level="h2">Reviews</Heading>
-          {bean.bean_reviewsCollection?.edges.length === 0 ? (
-            <Text className="mt-2 text-gray-600 dark:text-gray-400">
-              No reviews yet. Be the first to review this bean!
-            </Text>
-          ) : (
-            <div className="mt-4 space-y-6">
-              {bean.bean_reviewsCollection?.edges.map((review) => (
-                <div
-                  key={review.node.id}
-                  className="bg-white dark:bg-gray-800 rounded-lg shadow p-6"
-                >
-                  <div className="flex items-center space-x-4">
-                    <img
-                      src={
-                        review.node.profiles?.profile_image_url ||
-                        '/default-avatar.png'
-                      }
-                      alt={review.node.profiles?.display_name ?? ''}
-                      className="w-10 h-10 rounded-full"
-                    />
-                    <div>
-                      <Text className="font-medium">
-                        {review.node.profiles?.display_name}
-                      </Text>
-                      <Text
-                        variant="small"
-                        className="text-gray-600 dark:text-gray-400"
-                      >
-                        <TimeAgo time={review.node.created_at} />
-                      </Text>
-                    </div>
-                  </div>
-                  <div className="mt-4">
-                    <div className="flex items-center space-x-2">
-                      <Text variant="label">Rating:</Text>
-                      <Text>{review.node.rating}/5</Text>
-                    </div>
-                    {review.node.coffee_type && (
-                      <div className="flex items-center space-x-2 mt-2">
-                        <Text variant="label">Coffee Type:</Text>
-                        <Text>{review.node.coffee_type}</Text>
+        <Card>
+          <CardHeader>
+            <Heading level="h3" as="h2">
+              Reviews
+            </Heading>
+          </CardHeader>
+          <CardContent>
+            {bean.bean_reviewsCollection?.edges.length === 0 ? (
+              <Text className="mt-2 text-gray-600 dark:text-gray-400">
+                No reviews yet. Be the first to review this bean!
+              </Text>
+            ) : (
+              <div className="mt-4 space-y-6">
+                {bean.bean_reviewsCollection?.edges.map((review) => (
+                  <div
+                    key={review.node.id}
+                    className="bg-white dark:bg-gray-800 rounded-lg shadow p-6"
+                  >
+                    <div className="flex items-center space-x-4">
+                      <img
+                        src={
+                          review.node.profiles?.profile_image_url ||
+                          '/default-avatar.png'
+                        }
+                        alt={review.node.profiles?.display_name ?? ''}
+                        className="w-10 h-10 rounded-full"
+                      />
+                      <div>
+                        <Text className="font-medium">
+                          {review.node.profiles?.display_name}
+                        </Text>
+                        <Text
+                          variant="small"
+                          className="text-gray-600 dark:text-gray-400"
+                        >
+                          <TimeAgo time={review.node.created_at} />
+                        </Text>
                       </div>
-                    )}
-                    {review.node.content && (
-                      <Text className="mt-4">{review.node.content}</Text>
-                    )}
+                    </div>
+                    <div className="mt-4">
+                      <div className="flex items-center space-x-2">
+                        <Text variant="label">Rating:</Text>
+                        <Text>{review.node.rating}/5</Text>
+                      </div>
+                      {review.node.coffee_type && (
+                        <div className="flex items-center space-x-2 mt-2">
+                          <Text variant="label">Coffee Type:</Text>
+                          <Text>{review.node.coffee_type}</Text>
+                        </div>
+                      )}
+                      {review.node.content && (
+                        <Text className="mt-4">{review.node.content}</Text>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

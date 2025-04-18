@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/Button';
+import { Card, CardContent, CardFooter } from '@/components/ui/Card';
 import { FormField } from '@/components/ui/FormField';
 import { Heading } from '@/components/ui/Heading';
 import { TextArea } from '@/components/ui/TextArea';
@@ -70,109 +71,111 @@ export default function NewRoasterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
-      <div className="max-w-2xl mx-auto space-y-8 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-sm">
-        <div>
-          <Heading level="h1">Add New Roaster</Heading>
-          <Heading level="h2" muted className="mt-2">
+    <div className="py-12">
+      <div className="max-w-2xl mx-auto">
+        <div className="mb-4">
+          <Heading level="h3">Add new roaster</Heading>
+          <Heading level="h5" as="h2" muted className="mt-2">
             Share your favorite coffee roaster with the community
           </Heading>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-4">
-            <div className="flex items-center gap-4">
-              {previewUrl ? (
-                <div className="relative w-24 h-24 rounded-lg overflow-hidden">
-                  <Image
-                    src={previewUrl}
-                    alt="Roaster preview"
-                    fill
-                    className="object-cover"
+        <Card>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <CardContent className="space-y-4">
+              <FormField
+                label="Name"
+                id="name"
+                {...register('name')}
+                error={errors.name?.message}
+              />
+
+              <TextArea
+                label="Description (optional)"
+                id="description"
+                {...register('description')}
+                error={errors.description?.message}
+              />
+
+              <FormField
+                label="Country"
+                id="location_country"
+                {...register('location_country')}
+                error={errors.location_country?.message}
+              />
+
+              <FormField
+                label="City (optional)"
+                id="location_city"
+                {...register('location_city')}
+                error={errors.location_city?.message}
+              />
+
+              <FormField
+                label="State/Region (optional)"
+                id="location_state"
+                {...register('location_state')}
+                error={errors.location_state?.message}
+              />
+
+              <FormField
+                label="Website (optional)"
+                id="url"
+                type="url"
+                {...register('url')}
+                error={errors.url?.message}
+                placeholder="https://"
+              />
+
+              <FormField
+                label="Instagram (optional)"
+                id="instagram"
+                {...register('instagram')}
+                error={errors.instagram?.message}
+                placeholder="@username"
+              />
+
+              <div className="flex items-center gap-4">
+                {previewUrl ? (
+                  <div className="relative w-24 h-24 rounded-lg overflow-hidden">
+                    <Image
+                      src={previewUrl}
+                      alt="Roaster preview"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-24 h-24 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                    <span className="text-gray-400">No image</span>
+                  </div>
+                )}
+                <div className="flex-1">
+                  <FormField
+                    type="file"
+                    label="Roaster Image"
+                    accept="image/*"
+                    onChange={handleImageChange}
                   />
                 </div>
-              ) : (
-                <div className="w-24 h-24 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
-                  <span className="text-gray-400">No image</span>
-                </div>
-              )}
-              <div className="flex-1">
-                <FormField
-                  type="file"
-                  label="Roaster Image"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                />
               </div>
-            </div>
+            </CardContent>
 
-            <FormField
-              label="Name"
-              id="name"
-              {...register('name')}
-              error={errors.name?.message}
-            />
-
-            <TextArea
-              label="Description (optional)"
-              id="description"
-              {...register('description')}
-              error={errors.description?.message}
-            />
-
-            <FormField
-              label="Country"
-              id="location_country"
-              {...register('location_country')}
-              error={errors.location_country?.message}
-            />
-
-            <FormField
-              label="City (optional)"
-              id="location_city"
-              {...register('location_city')}
-              error={errors.location_city?.message}
-            />
-
-            <FormField
-              label="State/Region (optional)"
-              id="location_state"
-              {...register('location_state')}
-              error={errors.location_state?.message}
-            />
-
-            <FormField
-              label="Website (optional)"
-              id="url"
-              type="url"
-              {...register('url')}
-              error={errors.url?.message}
-              placeholder="https://"
-            />
-
-            <FormField
-              label="Instagram (optional)"
-              id="instagram"
-              {...register('instagram')}
-              error={errors.instagram?.message}
-              placeholder="@username"
-            />
-          </div>
-
-          <div className="flex justify-end space-x-4">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => router.back()}
-              disabled={createRoaster.isPending}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" disabled={createRoaster.isPending}>
-              {createRoaster.isPending ? 'Creating...' : 'Create Roaster'}
-            </Button>
-          </div>
-        </form>
+            <CardFooter className="flex justify-between">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => router.back()}
+                disabled={createRoaster.isPending}
+              >
+                Cancel
+              </Button>
+              <Button type="submit" disabled={createRoaster.isPending}>
+                {createRoaster.isPending ? 'Creating...' : 'Create Roaster'}
+              </Button>
+            </CardFooter>
+          </form>
+        </Card>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
 import { Button } from '@/components/ui/Button';
+import { Card, CardContent } from '@/components/ui/Card';
 import { Heading } from '@/components/ui/Heading';
 import { Text } from '@/components/ui/Text';
 import { fetchProfile } from '@/lib/api/fetchProfile';
@@ -33,18 +34,24 @@ export default async function ProfilePage() {
   const profile = await fetchProfile(user.id);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <div className="flex flex-col gap-4">
-        <div className="flex justify-between items-center">
-          <Heading as="h1">Profile</Heading>
-          <Button asChild>
-            <Link href="/profile/edit">Edit Profile</Link>
-          </Button>
-        </div>
+    <div className="py-12">
+      <div className="max-w-2xl mx-auto">
+        <div className="flex flex-col gap-4">
+          <div className="flex justify-between items-center">
+            <Heading>Profile</Heading>
+            <Button asChild>
+              <Link href="/profile/edit">Edit Profile</Link>
+            </Button>
+          </div>
 
-        <Suspense fallback={<Text>Loading...</Text>}>
-          <ProfileInfo profile={profile} />
-        </Suspense>
+          <Card>
+            <CardContent>
+              <Suspense fallback={<Text>Loading...</Text>}>
+                <ProfileInfo profile={profile} />
+              </Suspense>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );

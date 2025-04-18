@@ -78,30 +78,34 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
               {roaster.url && (
                 <div className="flex justify-between">
                   <Text variant="label">Website:</Text>
-                  <a
-                    href={roaster.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-                  >
-                    <Text>Visit Website</Text>
-                  </a>
+                  <Text>
+                    <a
+                      href={roaster.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 underline hover:text-blue-800 hover:no-underline dark:text-blue-400 dark:hover:text-blue-300"
+                    >
+                      {roaster.url}
+                    </a>
+                  </Text>
                 </div>
               )}
               {roaster.instagram && (
                 <div className="flex justify-between">
                   <Text variant="label">Instagram:</Text>
-                  <a
-                    href={`https://instagram.com/${roaster.instagram.replace(
-                      '@',
-                      ''
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-                  >
-                    <Text>{roaster.instagram}</Text>
-                  </a>
+                  <Text>
+                    <a
+                      href={`https://instagram.com/${roaster.instagram.replace(
+                        '@',
+                        ''
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 underline hover:text-blue-800 hover:no-underline dark:text-blue-400 dark:hover:text-blue-300"
+                    >
+                      {roaster.instagram}
+                    </a>
+                  </Text>
                 </div>
               )}
             </div>

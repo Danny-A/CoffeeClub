@@ -32,37 +32,39 @@ export function ProfileInfo({
         </div>
       )}
 
-      <div className="flex flex-col gap-2">
-        <Text variant="label">Contact</Text>
-        <div className="flex flex-col gap-1">
-          {profile.instagram && (
-            <Text>
-              Instagram:{' '}
-              <a
-                href={`https://instagram.com/${profile.instagram}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline"
-              >
-                @{profile.instagram}
-              </a>
-            </Text>
-          )}
-          {profile.url && (
-            <Text>
-              Website:{' '}
-              <a
-                href={profile.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline"
-              >
-                {profile.url}
-              </a>
-            </Text>
-          )}
+      {(profile.instagram || profile.url) && (
+        <div className="flex flex-col gap-2">
+          <Text variant="label">Contact</Text>
+          <div className="flex flex-col gap-1">
+            {profile.instagram && (
+              <Text>
+                Instagram:{' '}
+                <a
+                  href={`https://instagram.com/${profile.instagram}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 underline hover:text-blue-800 hover:no-underline dark:text-blue-400 dark:hover:text-blue-300"
+                >
+                  @{profile.instagram}
+                </a>
+              </Text>
+            )}
+            {profile.url && (
+              <Text>
+                Website:{' '}
+                <a
+                  href={profile.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 underline hover:text-blue-800 hover:no-underline dark:text-blue-400 dark:hover:text-blue-300"
+                >
+                  {profile.url}
+                </a>
+              </Text>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import { cn } from '@/utils/cn';
 
 import { Heading } from '../Heading';
-
+import { Text } from '../Text';
 interface EmptyStateProps {
   title: string;
   description: string;
@@ -21,7 +21,7 @@ export function EmptyState({
       <Heading level="h3" className="mb-2">
         {title}
       </Heading>
-      <p className="text-gray-600 dark:text-gray-400">{description}</p>
+      <Text>{description}</Text>
     </div>
   );
 }

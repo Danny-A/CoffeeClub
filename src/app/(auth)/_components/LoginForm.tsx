@@ -3,7 +3,9 @@
 import { useState, useActionState } from 'react';
 
 import { SubmitButton } from '@/components/features/SubmitButton';
+import { Card, CardContent, CardFooter } from '@/components/ui/Card';
 import { FormField } from '@/components/ui/FormField';
+import { Text } from '@/components/ui/Text';
 
 import { login } from '../actions';
 import { LoginFormData, loginSchema } from './schema';
@@ -44,37 +46,39 @@ export function LoginForm() {
   };
 
   return (
-    <form
-      action={formAction}
-      onSubmit={(e) => {
-        const data = new FormData(e.currentTarget);
-        if (!validateForm(data)) {
-          e.preventDefault();
-        }
-      }}
-    >
-      <div className="space-y-4">
-        <FormField
-          name="email"
-          type="email"
-          label="Email address"
-          placeholder="Enter your email"
-          error={validationErrors.email}
-        />
-        <FormField
-          name="password"
-          type="password"
-          label="Password"
-          placeholder="Enter your password"
-          error={validationErrors.password}
-        />
+    <Card>
+      <form
+        action={formAction}
+        onSubmit={(e) => {
+          const data = new FormData(e.currentTarget);
+          if (!validateForm(data)) {
+            e.preventDefault();
+          }
+        }}
+        className="space-y-6"
+      >
+        <CardContent className="space-y-4">
+          <FormField
+            name="email"
+            type="email"
+            label="Email address"
+            placeholder="Enter your email"
+            error={validationErrors.email}
+          />
+          <FormField
+            name="password"
+            type="password"
+            label="Password"
+            placeholder="Enter your password"
+            error={validationErrors.password}
+          />
 
-        {state?.error && (
-          <div className="text-red-500 text-sm mt-2">{state.error}</div>
-        )}
-
-        <SubmitButton label="Sign in" pendingLabel="Signing in..." />
-      </div>
-    </form>
+          {state?.error && <Text variant="error">{state.error}</Text>}
+        </CardContent>
+        <CardFooter>
+          <SubmitButton label="Sign in" pendingLabel="Signing in..." />
+        </CardFooter>
+      </form>
+    </Card>
   );
 }

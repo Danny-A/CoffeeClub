@@ -33,18 +33,20 @@ export default async function EditProfilePage() {
   const profile = await fetchProfile(user.id);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <div className="flex flex-col gap-4">
-        <div className="flex justify-between items-center">
-          <Heading as="h1">Edit Profile</Heading>
-          <Button asChild>
-            <Link href="/profile">Cancel</Link>
-          </Button>
-        </div>
+    <div className="py-12">
+      <div className="max-w-2xl mx-auto">
+        <div className="flex flex-col gap-4">
+          <div className="flex justify-between items-center">
+            <Heading>Edit Profile</Heading>
+            <Button asChild>
+              <Link href="/profile">Cancel</Link>
+            </Button>
+          </div>
 
-        <Suspense fallback={<Text>Loading...</Text>}>
-          <EditProfileInfo profile={profile} />
-        </Suspense>
+          <Suspense fallback={<Text>Loading...</Text>}>
+            <EditProfileInfo profile={profile} />
+          </Suspense>
+        </div>
       </div>
     </div>
   );

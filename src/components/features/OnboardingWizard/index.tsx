@@ -75,7 +75,9 @@ export function OnboardingWizard() {
       <div className="max-w-md w-full space-y-8">
         <div>
           <Heading level="h2">Complete your profile</Heading>
-          <Text className="mt-2 text-center">Let's get to know you better</Text>
+          <Text className="mt-2 text-center">
+            Let us get to know you better
+          </Text>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">

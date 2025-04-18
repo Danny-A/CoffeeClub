@@ -1,4 +1,4 @@
-import { User } from "@supabase/supabase-js";
+import { User as GraphQLUser } from "@/lib/graphql/types";
 
 import { graphqlFetch } from "../graphql/client";
 import { UpdateProfileMutation } from "../graphql/generated/graphql";
@@ -19,7 +19,7 @@ export type Profile = {
 
 export const updateProfile = async (
   updates: Partial<Profile>,
-  user: User | null,
+  user: GraphQLUser | null,
 ) => {
   if (!user?.id) throw new Error("No user ID");
 

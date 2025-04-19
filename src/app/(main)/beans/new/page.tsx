@@ -41,7 +41,26 @@ const beanSchema = z.object({
   bean_type: z.nativeEnum(Bean_Type).optional(),
   elevation_min: z.coerce.number().min(0).optional(),
   elevation_max: z.coerce.number().min(0).optional(),
-  origins: z.array(z.object({ value: z.string() })),
+  origins: z
+    .array(z.object({ value: z.string() }))
+    .refine((origins) => origins.some((o) => o.value.trim() !== ''), {
+      message: 'At least one origin is required',
+    })
+    .superRefine((origins, ctx) => {
+      const formData = ctx.path.length > 0 ? ctx.path[0] : {};
+      const beanType = (formData as { bean_type?: Bean_Type })?.bean_type;
+      if (beanType === Bean_Type.SingleOrigin) {
+        const nonEmptyOrigins = origins.filter((o) => o.value.trim() !== '');
+        if (nonEmptyOrigins.length > 1) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Single origin beans can only have one origin',
+          });
+          return false;
+        }
+      }
+      return true;
+    }),
   producer: z.string().optional(),
   notes: z.string().optional(),
   is_published: z.boolean().default(true),
@@ -49,6 +68,11 @@ const beanSchema = z.object({
 });
 
 type BeanFormData = z.infer<typeof beanSchema>;
+
+interface OriginField {
+  id: string;
+  value: string;
+}
 
 function NewBeanForm() {
   const searchParams = useSearchParams();
@@ -66,6 +90,7 @@ function NewBeanForm() {
     control,
     setValue,
     formState: { errors, isSubmitting },
+    watch,
   } = useForm<BeanFormData>({
     resolver: zodResolver(beanSchema),
     defaultValues: {
@@ -283,6 +308,22 @@ function NewBeanForm() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  label="Process"
+                  error={errors.process?.message}
+                  {...register('process')}
+                />
+
+                <FormField
+                  label="Producer"
+                  error={errors.producer?.message}
+                  {...register('producer')}
+                />
+              </div>
+
+              <hr className="my-8" />
+
+              <div className="space-y-4">
                 <div className="space-y-2">
                   <Text variant="label">Bean Type</Text>
                   <Controller
@@ -291,7 +332,23 @@ function NewBeanForm() {
                     render={({ field }) => (
                       <Select
                         value={field.value}
-                        onValueChange={field.onChange}
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                          // If switching to single origin and multiple origins exist,
+                          // keep only the first non-empty origin
+                          if (value === Bean_Type.SingleOrigin) {
+                            const nonEmptyOrigins = originFields
+                              .filter(
+                                (f: OriginField) =>
+                                  f.value && f.value.trim() !== ''
+                              )
+                              .slice(0, 1)
+                              .map((f) => ({ value: f.value }));
+                            if (nonEmptyOrigins.length > 0) {
+                              setValue('origins', nonEmptyOrigins);
+                            }
+                          }
+                        }}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Select bean type" />
@@ -311,32 +368,6 @@ function NewBeanForm() {
                   )}
                 </div>
 
-                <FormField
-                  label="Process"
-                  error={errors.process?.message}
-                  {...register('process')}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FormField
-                  label="Minimum Elevation (m)"
-                  type="number"
-                  min="0"
-                  error={errors.elevation_min?.message}
-                  {...register('elevation_min')}
-                />
-
-                <FormField
-                  label="Maximum Elevation (m)"
-                  type="number"
-                  min="0"
-                  error={errors.elevation_max?.message}
-                  {...register('elevation_max')}
-                />
-              </div>
-
-              <div className="space-y-4">
                 <Text variant="label">Origins</Text>
                 {originFields.map((field, index) => (
                   <div key={field.id} className="flex gap-2">
@@ -380,7 +411,7 @@ function NewBeanForm() {
                       />
                       {errors.origins?.[index]?.value?.message && (
                         <Text variant="error">
-                          {errors.origins[index]?.value?.message}
+                          {String(errors.origins[index]?.value?.message)}
                         </Text>
                       )}
                     </div>
@@ -398,17 +429,39 @@ function NewBeanForm() {
                   type="button"
                   variant="outline"
                   onClick={() => appendOrigin({ value: '' })}
-                  className="w-full"
+                  disabled={
+                    watch('bean_type') === Bean_Type.SingleOrigin &&
+                    originFields.length > 0
+                  }
                 >
                   Add Origin
                 </Button>
+                {errors.origins?.message && (
+                  <Text variant="error" className="mt-2">
+                    {String(errors.origins.message)}
+                  </Text>
+                )}
               </div>
 
-              <FormField
-                label="Producer"
-                error={errors.producer?.message}
-                {...register('producer')}
-              />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  label="Minimum Elevation (m)"
+                  type="number"
+                  min="0"
+                  error={errors.elevation_min?.message}
+                  {...register('elevation_min')}
+                />
+
+                <FormField
+                  label="Maximum Elevation (m)"
+                  type="number"
+                  min="0"
+                  error={errors.elevation_max?.message}
+                  {...register('elevation_max')}
+                />
+              </div>
+
+              <hr className="my-8" />
 
               <TextArea
                 label="Notes"
@@ -419,7 +472,10 @@ function NewBeanForm() {
               <div className="space-y-4">
                 <Text variant="label">Buy URLs</Text>
                 {buyUrlFields.map((field, index) => (
-                  <div key={field.id} className="flex gap-2">
+                  <div
+                    key={field.id}
+                    className="flex gap-2 items-end justify-between"
+                  >
                     <FormField
                       label={`URL ${index + 1}`}
                       type="url"
@@ -441,7 +497,6 @@ function NewBeanForm() {
                   type="button"
                   variant="outline"
                   onClick={() => appendBuyUrl({ value: '' })}
-                  className="w-full"
                 >
                   Add URL
                 </Button>

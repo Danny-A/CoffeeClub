@@ -1,5 +1,9 @@
-query GetAllRoasters {
-  roastersCollection(first: 1000, orderBy: [{ name: AscNullsLast }]) {
+query GetAllRoasters($first: Int) {
+  roastersCollection(
+    first: $first
+    orderBy: [{ name: AscNullsLast }]
+    filter: { is_published: { eq: true } }
+  ) {
     edges {
       node {
         id

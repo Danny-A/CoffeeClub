@@ -3190,13 +3190,16 @@ export type UpdateProfileMutationVariables = Exact<{
 
 export type UpdateProfileMutation = { __typename?: 'Mutation', updateprofilesCollection: { __typename?: 'profilesUpdateResponse', affectedCount: number, records: Array<{ __typename?: 'profiles', id: any, display_name?: string | null, bio?: string | null, profile_image_url?: string | null, location?: string | null, instagram?: string | null, url?: string | null, updated_at?: any | null }> } };
 
-export type GetAllRoastersQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetAllRoastersQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+}>;
 
 
 export type GetAllRoastersQuery = { __typename?: 'Query', roastersCollection?: { __typename?: 'roastersConnection', edges: Array<{ __typename?: 'roastersEdge', node: { __typename?: 'roasters', id: any, name: string } }> } | null };
 
 export type GetBeanQueryVariables = Exact<{
   id: Scalars['UUID']['input'];
+  filter?: InputMaybe<BeansFilter>;
 }>;
 
 
@@ -3234,6 +3237,7 @@ export type GetProfileQuery = { __typename?: 'Query', profilesCollection?: { __t
 
 export type GetRoasterQueryVariables = Exact<{
   id: Scalars['UUID']['input'];
+  filter?: InputMaybe<RoastersFilter>;
 }>;
 
 
@@ -3391,8 +3395,12 @@ export const UpdateProfileDocument = new TypedDocumentString(`
 }
     `) as unknown as TypedDocumentString<UpdateProfileMutation, UpdateProfileMutationVariables>;
 export const GetAllRoastersDocument = new TypedDocumentString(`
-    query GetAllRoasters {
-  roastersCollection(first: 1000, orderBy: [{name: AscNullsLast}]) {
+    query GetAllRoasters($first: Int) {
+  roastersCollection(
+    first: $first
+    orderBy: [{name: AscNullsLast}]
+    filter: {is_published: {eq: true}}
+  ) {
     edges {
       node {
         id
@@ -3403,8 +3411,8 @@ export const GetAllRoastersDocument = new TypedDocumentString(`
 }
     `) as unknown as TypedDocumentString<GetAllRoastersQuery, GetAllRoastersQueryVariables>;
 export const GetBeanDocument = new TypedDocumentString(`
-    query GetBean($id: UUID!) {
-  beansCollection(filter: {id: {eq: $id}}) {
+    query GetBean($id: UUID!, $filter: beansFilter) {
+  beansCollection(filter: $filter) {
     edges {
       node {
         id
@@ -3663,8 +3671,8 @@ export const GetProfileDocument = new TypedDocumentString(`
 }
     `) as unknown as TypedDocumentString<GetProfileQuery, GetProfileQueryVariables>;
 export const GetRoasterDocument = new TypedDocumentString(`
-    query GetRoaster($id: UUID!) {
-  roastersCollection(filter: {id: {eq: $id}}) {
+    query GetRoaster($id: UUID!, $filter: roastersFilter) {
+  roastersCollection(filter: $filter) {
     edges {
       node {
         id

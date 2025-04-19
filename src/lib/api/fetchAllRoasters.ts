@@ -1,18 +1,18 @@
 import { graphqlFetch } from "@/lib/graphql/client";
 import {
-  GetRoastersDocument,
-  GetRoastersQuery,
+  GetAllRoastersDocument,
+  GetAllRoastersQuery,
 } from "@/lib/graphql/generated/graphql";
 
 export async function fetchAllRoasters() {
-  const response = await graphqlFetch<GetRoastersQuery>(GetRoastersDocument, {
-    variables: {
-      filter: {
-        is_published: { eq: true },
+  const response = await graphqlFetch<GetAllRoastersQuery>(
+    GetAllRoastersDocument,
+    {
+      variables: {
+        first: 1000,
       },
-      first: 1000,
     },
-  });
+  );
 
   if (!response.data.roastersCollection) {
     return [];

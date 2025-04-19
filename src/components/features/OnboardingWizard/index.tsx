@@ -19,7 +19,8 @@ const profileSchema = z.object({
   bio: z.string().optional(),
   location: z.string().optional(),
   instagram: z.string().optional(),
-  url: z.string().url('Must be a valid URL').optional(),
+  url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
+  profile_image_url: z.string().optional(),
 });
 
 type ProfileForm = z.infer<typeof profileSchema>;
@@ -36,6 +37,7 @@ export function OnboardingWizard() {
     register,
     handleSubmit,
     formState: { errors },
+    trigger,
   } = useForm<ProfileForm>({
     resolver: zodResolver(profileSchema),
   });
@@ -47,7 +49,30 @@ export function OnboardingWizard() {
     }
   };
 
+  const validateStep = async () => {
+    let fieldsToValidate: (keyof ProfileForm)[] = [];
+
+    if (currentStep === 1) {
+      fieldsToValidate = ['display_name', 'bio', 'location'];
+    } else if (currentStep === 2) {
+      fieldsToValidate = ['instagram', 'url'];
+    }
+
+    const isValid = await trigger(fieldsToValidate);
+    return isValid;
+  };
+
+  const handleNext = async () => {
+    const isValid = await validateStep();
+    if (isValid) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
   const onSubmit = async (data: ProfileForm) => {
+    const isValid = await validateStep();
+    if (!isValid) return;
+
     if (!user) return;
     setIsLoading(true);
 
@@ -58,7 +83,7 @@ export function OnboardingWizard() {
         profileImageUrl = await uploadProfileImage(profileImage);
       }
 
-      await updateProfile({
+      updateProfile({
         ...data,
         profile_image_url: profileImageUrl,
       });
@@ -72,56 +97,73 @@ export function OnboardingWizard() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <Heading level="h2">Complete your profile</Heading>
+          <Heading level="h2" className="text-center">
+            Complete your profile
+          </Heading>
           <Text className="mt-2 text-center">
             Let us get to know you better
+          </Text>
+          <Text variant="small" className="mt-2 text-center text-gray-500">
+            Step {currentStep} of 2
           </Text>
         </div>
 
         <Card>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <CardContent className="space-y-6">
-              {currentStep === 1 && (
-                <div className="space-y-4">
-                  <FormField
-                    label="Display Name"
-                    error={errors.display_name?.message}
-                    {...register('display_name')}
-                  />
+          <div className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <CardContent>
+                {currentStep === 1 && (
+                  <div className="space-y-4">
+                    <FormField
+                      label="Display Name"
+                      error={errors.display_name?.message}
+                      {...register('display_name')}
+                    />
 
-                  <FormField label="Bio" type="textarea" {...register('bio')} />
+                    <FormField
+                      label="Bio"
+                      type="textarea"
+                      {...register('bio')}
+                      error={errors.bio?.message}
+                    />
 
-                  <FormField label="Location" {...register('location')} />
-                </div>
-              )}
+                    <FormField
+                      label="Location"
+                      {...register('location')}
+                      error={errors.location?.message}
+                    />
+                  </div>
+                )}
 
-              {currentStep === 2 && (
-                <div className="space-y-4">
-                  <FormField
-                    label="Instagram"
-                    {...register('instagram')}
-                    placeholder="@username"
-                  />
+                {currentStep === 2 && (
+                  <div className="space-y-4">
+                    <FormField
+                      label="Instagram"
+                      {...register('instagram')}
+                      error={errors.instagram?.message}
+                      placeholder="@username"
+                    />
 
-                  <FormField
-                    label="Website"
-                    error={errors.url?.message}
-                    {...register('url')}
-                    placeholder="https://"
-                  />
+                    <FormField
+                      label="Website"
+                      error={errors.url?.message}
+                      {...register('url')}
+                      placeholder="https://"
+                    />
 
-                  <FormField
-                    type="file"
-                    label="Profile Image"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                  />
-                </div>
-              )}
-            </CardContent>
+                    <FormField
+                      type="file"
+                      label="Profile Image"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                    />
+                  </div>
+                )}
+              </CardContent>
+            </form>
 
             <CardFooter className="flex justify-between">
               {currentStep > 1 && (
@@ -135,20 +177,16 @@ export function OnboardingWizard() {
                 </Button>
               )}
               {currentStep < 2 ? (
-                <Button
-                  type="button"
-                  onClick={() => setCurrentStep(currentStep + 1)}
-                  disabled={isLoading}
-                >
+                <Button type="button" onClick={handleNext} disabled={isLoading}>
                   Next
                 </Button>
               ) : (
-                <Button type="submit" disabled={isLoading}>
+                <Button onClick={handleSubmit(onSubmit)} disabled={isLoading}>
                   {isLoading ? 'Saving...' : 'Complete Profile'}
                 </Button>
               )}
             </CardFooter>
-          </form>
+          </div>
         </Card>
       </div>
     </div>

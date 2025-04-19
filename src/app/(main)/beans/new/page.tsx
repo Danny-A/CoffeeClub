@@ -43,9 +43,7 @@ const beanSchema = z.object({
   origin: z.string().optional(),
   producer: z.string().optional(),
   notes: z.string().optional(),
-  buy_urls: z
-    .array(z.object({ value: z.string().url('Must be a valid URL') }))
-    .default([]),
+  buy_urls: z.array(z.object({ value: z.string().url('Must be a valid URL') })),
 });
 
 type BeanFormData = z.infer<typeof beanSchema>;

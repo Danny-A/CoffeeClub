@@ -12,8 +12,8 @@ import { createClient } from '@/lib/supabase/server';
 import { EditProfileInfo } from '../_components/EditProfileInfo';
 
 export const metadata: Metadata = {
-  title: 'Edit Profile - Coffee Club',
-  description: 'Edit Profile for Coffee Club',
+  title: 'Edit Profile - Daily Bean',
+  description: 'Edit Profile for Daily Bean',
   robots: {
     index: false,
     follow: false,

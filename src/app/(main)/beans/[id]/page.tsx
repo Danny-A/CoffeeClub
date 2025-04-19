@@ -17,8 +17,13 @@ export async function generateMetadata({ params }: BeanDetailsProps) {
   const { id } = await params;
   const bean = await fetchBean(id);
   return {
-    title: `${bean?.name} - Coffee Club`,
+    title: `${bean?.name} by ${bean?.roasters?.name} - Daily Bean`,
     description: `View details about ${bean?.name}`,
+    openGraph: {
+      title: `${bean?.name} by ${bean?.roasters?.name} - Daily Bean`,
+      description: `View details about ${bean?.name}`,
+      images: [{ url: bean?.image_url || '' }],
+    },
   };
 }
 

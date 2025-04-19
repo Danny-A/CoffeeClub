@@ -8,8 +8,8 @@ import { DashboardStats } from '../_components/DashboardStats';
 import { TopRatedSection } from '../_components/TopRatedSection';
 
 export const metadata: Metadata = {
-  title: 'Admin - Coffee Club',
-  description: 'Admin for Coffee Club',
+  title: 'Admin - Daily Bean',
+  description: 'Admin for Daily Bean',
   robots: {
     index: false,
     follow: false,

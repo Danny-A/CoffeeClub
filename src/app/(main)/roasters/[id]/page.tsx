@@ -18,8 +18,13 @@ export async function generateMetadata({ params }: RoasterDetailsProps) {
   const { id } = await params;
   const roaster = await fetchRoaster(id);
   return {
-    title: `${roaster?.name} - Coffee Club`,
+    title: `${roaster?.name} - Daily Bean`,
     description: `View details about ${roaster?.name}`,
+    openGraph: {
+      title: `${roaster?.name} - Daily Bean`,
+      description: `View details about ${roaster?.name}`,
+      images: [{ url: roaster?.profile_image_url || '' }],
+    },
   };
 }
 

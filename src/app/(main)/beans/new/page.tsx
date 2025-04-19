@@ -28,6 +28,7 @@ import {
   Roast_Level,
   Roast_Type,
 } from '@/lib/graphql/generated/graphql';
+import { COFFEE_REGIONS } from '@/utils/coffeeOrigins';
 
 const beanSchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -40,7 +41,7 @@ const beanSchema = z.object({
   bean_type: z.nativeEnum(Bean_Type).optional(),
   elevation_min: z.coerce.number().min(0).optional(),
   elevation_max: z.coerce.number().min(0).optional(),
-  origin: z.string().optional(),
+  origins: z.array(z.object({ value: z.string() })),
   producer: z.string().optional(),
   notes: z.string().optional(),
   is_published: z.boolean().default(true),
@@ -70,20 +71,37 @@ function NewBeanForm() {
     defaultValues: {
       roaster_id: roasterId || undefined,
       buy_urls: [],
+      origins: [{ value: '' }],
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
+  const {
+    fields: buyUrlFields,
+    append: appendBuyUrl,
+    remove: removeBuyUrl,
+  } = useFieldArray({
     control,
     name: 'buy_urls',
   });
 
+  const {
+    fields: originFields,
+    append: appendOrigin,
+    remove: removeOrigin,
+  } = useFieldArray({
+    control,
+    name: 'origins',
+  });
+
   // Initialize with one empty URL field if there are no fields
   useEffect(() => {
-    if (fields.length === 0) {
-      append({ value: '' });
+    if (buyUrlFields.length === 0) {
+      appendBuyUrl({ value: '' });
     }
-  }, [append, fields.length]);
+    if (originFields.length === 0) {
+      appendOrigin({ value: '' });
+    }
+  }, [appendBuyUrl, appendOrigin, buyUrlFields.length, originFields.length]);
 
   useEffect(() => {
     if (roasterId && roasters) {
@@ -118,6 +136,7 @@ function NewBeanForm() {
         ...data,
         image_url: imageUrl,
         buy_urls: data.buy_urls.map((url) => url.value).filter(Boolean),
+        origins: data.origins.filter((origin) => origin.value.trim() !== ''),
       };
 
       await createBean.mutateAsync(filteredData);
@@ -301,20 +320,6 @@ function NewBeanForm() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
-                  label="Origin"
-                  error={errors.origin?.message}
-                  {...register('origin')}
-                />
-
-                <FormField
-                  label="Producer"
-                  error={errors.producer?.message}
-                  {...register('producer')}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FormField
                   label="Minimum Elevation (m)"
                   type="number"
                   min="0"
@@ -331,6 +336,80 @@ function NewBeanForm() {
                 />
               </div>
 
+              <div className="space-y-4">
+                <Text variant="label">Origins</Text>
+                {originFields.map((field, index) => (
+                  <div key={field.id} className="flex gap-2">
+                    <div className="flex-1">
+                      <Controller
+                        name={`origins.${index}.value`}
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            value={field.value}
+                            onValueChange={field.onChange}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select an origin" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {COFFEE_REGIONS.map((region) => (
+                                <>
+                                  <SelectItem
+                                    key={`region-${region.name}`}
+                                    value={`region-${region.name}`}
+                                    disabled
+                                    className="font-semibold"
+                                  >
+                                    {region.name}
+                                  </SelectItem>
+                                  {region.origins.map((origin) => (
+                                    <SelectItem
+                                      key={origin.value}
+                                      value={origin.value}
+                                      title={origin.description}
+                                    >
+                                      {origin.label}
+                                    </SelectItem>
+                                  ))}
+                                </>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      />
+                      {errors.origins?.[index]?.value?.message && (
+                        <Text variant="error">
+                          {errors.origins[index]?.value?.message}
+                        </Text>
+                      )}
+                    </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => removeOrigin(index)}
+                      disabled={index === 0 && originFields.length === 1}
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => appendOrigin({ value: '' })}
+                  className="w-full"
+                >
+                  Add Origin
+                </Button>
+              </div>
+
+              <FormField
+                label="Producer"
+                error={errors.producer?.message}
+                {...register('producer')}
+              />
+
               <TextArea
                 label="Notes"
                 error={errors.notes?.message}
@@ -339,7 +418,7 @@ function NewBeanForm() {
 
               <div className="space-y-4">
                 <Text variant="label">Buy URLs</Text>
-                {fields.map((field, index) => (
+                {buyUrlFields.map((field, index) => (
                   <div key={field.id} className="flex gap-2">
                     <FormField
                       label={`URL ${index + 1}`}
@@ -351,8 +430,8 @@ function NewBeanForm() {
                     <Button
                       type="button"
                       variant="outline"
-                      onClick={() => remove(index)}
-                      disabled={index === 0 && fields.length === 1}
+                      onClick={() => removeBuyUrl(index)}
+                      disabled={index === 0 && buyUrlFields.length === 1}
                     >
                       Remove
                     </Button>
@@ -361,7 +440,7 @@ function NewBeanForm() {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => append({ value: '' })}
+                  onClick={() => appendBuyUrl({ value: '' })}
                   className="w-full"
                 >
                   Add URL

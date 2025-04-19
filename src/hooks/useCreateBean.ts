@@ -22,7 +22,7 @@ export type CreateBeanInput = {
   bean_type?: Bean_Type;
   elevation_min?: number;
   elevation_max?: number;
-  origin?: string;
+  origins?: { value: string }[];
   producer?: string;
   notes?: string;
   buy_urls?: string[];
@@ -49,7 +49,7 @@ export function useCreateBean() {
             bean_type: input.bean_type,
             elevation_min: input.elevation_min,
             elevation_max: input.elevation_max,
-            origin: input.origin,
+            origin: input.origins?.map((o) => o.value).join(", "),
             producer: input.producer,
             notes: input.notes,
             buy_urls: input.buy_urls,

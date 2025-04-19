@@ -1,11 +1,11 @@
 import { graphqlFetch } from "../graphql/client";
 import {
-  BeansFilter,
   BigFloatFilter,
-  Exact,
+  BooleanFilter,
   FilterIs,
   GetBeansDocument,
   GetBeansQuery,
+  GetBeansQueryVariables,
   Roast_Level,
   StringFilter,
 } from "../graphql/generated/graphql";
@@ -37,11 +37,7 @@ export async function fetchBeans(
 
   const response = await graphqlFetch<
     GetBeansQuery,
-    Exact<{
-      filter?: BeansFilter;
-      first?: number;
-      after?: string;
-    }>
+    GetBeansQueryVariables
   >(
     GetBeansDocument,
     {
@@ -52,7 +48,7 @@ export async function fetchBeans(
           ...(origin && { origin: { eq: origin } as StringFilter }),
           ...(process && { process: { eq: process } as StringFilter }),
           ...(roastLevel && { roast_level: { eq: roastLevel as Roast_Level } }),
-          is_published: { eq: true },
+          is_published: { eq: true } as BooleanFilter,
           ...(minRating !== undefined || maxRating !== undefined) && {
             and: [
               { average_rating: { is: FilterIs.NotNull } },

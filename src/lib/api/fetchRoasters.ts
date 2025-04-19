@@ -1,7 +1,9 @@
 import { graphqlFetch } from "@/lib/graphql/client";
 import {
+  BooleanFilter,
   GetRoastersDocument,
   GetRoastersQuery,
+  GetRoastersQueryVariables,
   RoastersFilter,
   StringFilter,
 } from "@/lib/graphql/generated/graphql";
@@ -16,12 +18,15 @@ export type RoasterFilters = {
 export async function fetchRoasters(
   filters?: RoasterFilters,
 ): Promise<GetRoastersQuery> {
-  const response = await graphqlFetch<GetRoastersQuery>(
+  const response = await graphqlFetch<
+    GetRoastersQuery,
+    GetRoastersQueryVariables
+  >(
     GetRoastersDocument,
     {
       variables: {
         filter: {
-          is_published: { eq: true },
+          is_published: { eq: true } as BooleanFilter,
           ...(filters?.search && {
             or: [
               {

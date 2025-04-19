@@ -3203,7 +3203,7 @@ export type GetBeanQueryVariables = Exact<{
 }>;
 
 
-export type GetBeanQuery = { __typename?: 'Query', beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, created_at?: any | null, roasters?: { __typename?: 'roasters', id: any, name: string } | null, bean_varietiesCollection?: { __typename?: 'bean_varietiesConnection', edges: Array<{ __typename?: 'bean_varietiesEdge', node: { __typename?: 'bean_varieties', varieties: { __typename?: 'varieties', id: any, name: string } } }> } | null, bean_tagsCollection?: { __typename?: 'bean_tagsConnection', edges: Array<{ __typename?: 'bean_tagsEdge', node: { __typename?: 'bean_tags', tags?: { __typename?: 'tags', id: any, name: string } | null } }> } | null, bean_reviewsCollection?: { __typename?: 'bean_reviewsConnection', edges: Array<{ __typename?: 'bean_reviewsEdge', node: { __typename?: 'bean_reviews', id: any, rating?: any | null, content?: string | null, coffee_type?: Coffee_Type | null, created_at?: any | null, profiles?: { __typename?: 'profiles', id: any, display_name?: string | null, profile_image_url?: string | null } | null } }> } | null } }> } | null };
+export type GetBeanQuery = { __typename?: 'Query', beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, is_published: boolean, created_at?: any | null, roasters?: { __typename?: 'roasters', id: any, name: string } | null, bean_varietiesCollection?: { __typename?: 'bean_varietiesConnection', edges: Array<{ __typename?: 'bean_varietiesEdge', node: { __typename?: 'bean_varieties', varieties: { __typename?: 'varieties', id: any, name: string } } }> } | null, bean_tagsCollection?: { __typename?: 'bean_tagsConnection', edges: Array<{ __typename?: 'bean_tagsEdge', node: { __typename?: 'bean_tags', tags?: { __typename?: 'tags', id: any, name: string } | null } }> } | null, bean_reviewsCollection?: { __typename?: 'bean_reviewsConnection', edges: Array<{ __typename?: 'bean_reviewsEdge', node: { __typename?: 'bean_reviews', id: any, rating?: any | null, content?: string | null, coffee_type?: Coffee_Type | null, created_at?: any | null, profiles?: { __typename?: 'profiles', id: any, display_name?: string | null, profile_image_url?: string | null } | null } }> } | null } }> } | null };
 
 export type GetBeansQueryVariables = Exact<{
   filter?: InputMaybe<BeansFilter>;
@@ -3241,7 +3241,7 @@ export type GetRoasterQueryVariables = Exact<{
 }>;
 
 
-export type GetRoasterQuery = { __typename?: 'Query', roastersCollection?: { __typename?: 'roastersConnection', edges: Array<{ __typename?: 'roastersEdge', node: { __typename?: 'roasters', id: any, name: string, description?: string | null, profile_image_url?: string | null, location_city?: string | null, location_state?: string | null, location_country?: string | null, url?: string | null, instagram?: string | null, claimed_by?: any | null, created_at?: any | null, beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any, name: string, description?: string | null, origin?: string | null, process?: string | null, roast_level?: Roast_Level | null, average_rating?: any | null, bean_likesCollection?: { __typename?: 'bean_likesConnection', edges: Array<{ __typename?: 'bean_likesEdge', node: { __typename?: 'bean_likes', id: any, user_id?: any | null } }> } | null, bean_reviewsCollection?: { __typename?: 'bean_reviewsConnection', edges: Array<{ __typename?: 'bean_reviewsEdge', node: { __typename?: 'bean_reviews', id: any, rating?: any | null } }> } | null } }> } | null } }> } | null };
+export type GetRoasterQuery = { __typename?: 'Query', roastersCollection?: { __typename?: 'roastersConnection', edges: Array<{ __typename?: 'roastersEdge', node: { __typename?: 'roasters', id: any, name: string, description?: string | null, profile_image_url?: string | null, location_city?: string | null, location_state?: string | null, location_country?: string | null, url?: string | null, instagram?: string | null, claimed_by?: any | null, is_published: boolean, created_at?: any | null, beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any, name: string, description?: string | null, origin?: string | null, process?: string | null, roast_level?: Roast_Level | null, average_rating?: any | null, bean_likesCollection?: { __typename?: 'bean_likesConnection', edges: Array<{ __typename?: 'bean_likesEdge', node: { __typename?: 'bean_likes', id: any, user_id?: any | null } }> } | null, bean_reviewsCollection?: { __typename?: 'bean_reviewsConnection', edges: Array<{ __typename?: 'bean_reviewsEdge', node: { __typename?: 'bean_reviews', id: any, rating?: any | null } }> } | null } }> } | null } }> } | null };
 
 export type GetRoastersQueryVariables = Exact<{
   filter?: InputMaybe<RoastersFilter>;
@@ -3429,6 +3429,7 @@ export const GetBeanDocument = new TypedDocumentString(`
         producer
         notes
         buy_urls
+        is_published
         roasters {
           id
           name
@@ -3685,6 +3686,7 @@ export const GetRoasterDocument = new TypedDocumentString(`
         url
         instagram
         claimed_by
+        is_published
         beansCollection {
           edges {
             node {

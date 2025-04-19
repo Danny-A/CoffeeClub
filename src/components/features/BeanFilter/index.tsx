@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import { FormField } from '@/components/ui/FormField';
 import {
@@ -72,7 +72,7 @@ export function BeanFilter() {
               <SelectItem value="all">All Origins</SelectItem>
 
               {COFFEE_REGIONS.map((region) => (
-                <>
+                <Fragment key={`region-${region.name}`}>
                   <SelectItem
                     key={`region-${region.name}`}
                     value={`region-${region.name}`}
@@ -90,7 +90,7 @@ export function BeanFilter() {
                       {origin.label}
                     </SelectItem>
                   ))}
-                </>
+                </Fragment>
               ))}
             </SelectContent>
           </Select>

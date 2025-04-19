@@ -1,11 +1,14 @@
 import { graphqlFetch } from "../graphql/client";
-import { GetRoasterQuery, RoastersFilter } from "../graphql/generated/graphql";
+import {
+  GetRoasterQuery,
+  GetRoasterQueryVariables,
+} from "../graphql/generated/graphql";
 import { GetRoasterDocument } from "../graphql/generated/graphql";
 
 export async function fetchRoaster(id: string) {
   const response = await graphqlFetch<
     GetRoasterQuery,
-    { id: string; filter: RoastersFilter }
+    GetRoasterQueryVariables
   >(GetRoasterDocument, {
     variables: {
       id,

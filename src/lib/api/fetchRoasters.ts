@@ -1,5 +1,6 @@
 import { graphqlFetch } from "@/lib/graphql/client";
 import {
+  BooleanFilter,
   GetRoastersDocument,
   GetRoastersQuery,
   RoastersFilter,
@@ -21,7 +22,7 @@ export async function fetchRoasters(
     {
       variables: {
         filter: {
-          is_published: { eq: true },
+          is_published: { eq: true } as BooleanFilter,
           ...(filters?.search && {
             or: [
               {

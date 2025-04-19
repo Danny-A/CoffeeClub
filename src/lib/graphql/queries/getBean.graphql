@@ -16,6 +16,7 @@ query GetBean($id: UUID!, $filter: beansFilter) {
         producer
         notes
         buy_urls
+        is_published
         roasters {
           id
           name

@@ -12,6 +12,7 @@ query GetRoaster($id: UUID!, $filter: roastersFilter) {
         url
         instagram
         claimed_by
+        is_published
         beansCollection {
           edges {
             node {

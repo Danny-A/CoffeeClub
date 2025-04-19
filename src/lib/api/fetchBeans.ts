@@ -2,6 +2,7 @@ import { graphqlFetch } from "../graphql/client";
 import {
   BeansFilter,
   BigFloatFilter,
+  BooleanFilter,
   Exact,
   FilterIs,
   GetBeansDocument,
@@ -52,7 +53,7 @@ export async function fetchBeans(
           ...(origin && { origin: { eq: origin } as StringFilter }),
           ...(process && { process: { eq: process } as StringFilter }),
           ...(roastLevel && { roast_level: { eq: roastLevel as Roast_Level } }),
-          is_published: { eq: true },
+          is_published: { eq: true } as BooleanFilter,
           ...(minRating !== undefined || maxRating !== undefined) && {
             and: [
               { average_rating: { is: FilterIs.NotNull } },

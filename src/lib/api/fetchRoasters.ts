@@ -21,6 +21,7 @@ export async function fetchRoasters(
     {
       variables: {
         filter: {
+          is_published: { eq: true },
           ...(filters?.search && {
             or: [
               {

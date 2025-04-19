@@ -43,6 +43,7 @@ const beanSchema = z.object({
   origin: z.string().optional(),
   producer: z.string().optional(),
   notes: z.string().optional(),
+  is_published: z.boolean().default(true),
   buy_urls: z.array(z.object({ value: z.string().url('Must be a valid URL') })),
 });
 

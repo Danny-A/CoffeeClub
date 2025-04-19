@@ -6,7 +6,13 @@ export async function fetchBean(id: string) {
   const response = await graphqlFetch<GetBeanQuery, { id: string }>(
     GetBeanDocument,
     {
-      variables: { id },
+      variables: {
+        id,
+        filter: {
+          id: { eq: id },
+          is_published: { eq: true },
+        },
+      },
     },
   );
 

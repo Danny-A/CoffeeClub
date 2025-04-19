@@ -7,6 +7,9 @@ import {
 export async function fetchAllRoasters() {
   const response = await graphqlFetch<GetRoastersQuery>(GetRoastersDocument, {
     variables: {
+      filter: {
+        is_published: { eq: true },
+      },
       first: 1000,
     },
   });

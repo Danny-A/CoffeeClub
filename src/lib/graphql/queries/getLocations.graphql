@@ -1,31 +1,32 @@
-query GetRoasters($filter: roastersFilter, $first: Int, $after: Cursor) {
-  roastersCollection(filter: $filter, first: $first, after: $after) {
+query GetLocations($filter: locationsFilter, $first: Int, $after: Cursor) {
+  locationsCollection(filter: $filter, first: $first, after: $after) {
     edges {
       node {
         id
         name
         description
-        profile_image_url
-        location_city
-        location_state
-        location_country
+        image_url
+        address
+        latitude
+        longitude
         url
         instagram
         claimed_by
         created_at
         is_published
-        beansCollection {
-          edges {
-            node {
-              id
-            }
-          }
-        }
-        roaster_likesCollection {
+        location_likesCollection {
           edges {
             node {
               id
               user_id
+            }
+          }
+        }
+        location_reviewsCollection {
+          edges {
+            node {
+              id
+              rating
             }
           }
         }

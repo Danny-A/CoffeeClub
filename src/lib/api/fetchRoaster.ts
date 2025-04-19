@@ -6,7 +6,13 @@ export async function fetchRoaster(id: string) {
   const response = await graphqlFetch<GetRoasterQuery, { id: string }>(
     GetRoasterDocument,
     {
-      variables: { id },
+      variables: {
+        id,
+        filter: {
+          id: { eq: id },
+          is_published: { eq: true },
+        },
+      },
     },
   );
 

@@ -1,9 +1,12 @@
 import { graphqlFetch } from "../graphql/client";
-import { GetBeanQuery } from "../graphql/generated/graphql";
+import { BeansFilter, GetBeanQuery } from "../graphql/generated/graphql";
 import { GetBeanDocument } from "../graphql/generated/graphql";
 
 export async function fetchBean(id: string) {
-  const response = await graphqlFetch<GetBeanQuery, { id: string }>(
+  const response = await graphqlFetch<
+    GetBeanQuery,
+    { id: string; filter: BeansFilter }
+  >(
     GetBeanDocument,
     {
       variables: {

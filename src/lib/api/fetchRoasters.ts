@@ -12,6 +12,7 @@ export type RoasterFilters = {
   country?: string;
   first?: number;
   after?: string;
+  isPublished?: boolean;
 };
 
 export async function fetchRoasters(

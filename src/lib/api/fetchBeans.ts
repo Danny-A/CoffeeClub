@@ -20,6 +20,7 @@ export type BeanFilters = {
   maxRating?: number;
   first?: number;
   after?: string;
+  isPublished?: boolean;
 };
 
 export async function fetchBeans(

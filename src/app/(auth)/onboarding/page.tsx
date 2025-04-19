@@ -1,6 +1,5 @@
-// import { OnboardingWizard } from '@/components/features/OnboardingWizard';
+import { OnboardingWizard } from '@/components/features/OnboardingWizard';
 
-export default function OnboardingPage() {
-  // return <OnboardingWizard />;
-  return null;
+export default function Page() {
+  return <OnboardingWizard />;
 }

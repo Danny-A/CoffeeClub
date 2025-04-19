@@ -7,8 +7,8 @@ import '../globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Profile - Coffee Club',
-  description: 'Profile for Coffee Club',
+  title: 'Profile - Daily Bean',
+  description: 'Profile for Daily Bean',
 };
 
 export default function AuthLayout({

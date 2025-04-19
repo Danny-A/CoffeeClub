@@ -7,7 +7,7 @@ import { useDashboardStats } from '@/hooks/dashboard/useDashboardStats';
 
 export function DashboardStats() {
   const { data, isLoading } = useDashboardStats('beans'); // type doesn't matter for counts
-  console.log(data);
+
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">

@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -28,6 +28,7 @@ import {
   Roast_Level,
   Roast_Type,
 } from '@/lib/graphql/generated/graphql';
+import { COFFEE_REGIONS } from '@/utils/coffeeOrigins';
 
 const beanSchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -40,17 +41,40 @@ const beanSchema = z.object({
   bean_type: z.nativeEnum(Bean_Type).optional(),
   elevation_min: z.coerce.number().min(0).optional(),
   elevation_max: z.coerce.number().min(0).optional(),
-  origin: z.string().optional(),
+  origins: z
+    .array(z.object({ value: z.string() }))
+    .refine((origins) => origins.some((o) => o.value.trim() !== ''), {
+      message: 'At least one origin is required',
+    })
+    .superRefine((origins, ctx) => {
+      const formData = ctx.path.length > 0 ? ctx.path[0] : {};
+      const beanType = (formData as { bean_type?: Bean_Type })?.bean_type;
+      if (beanType === Bean_Type.SingleOrigin) {
+        const nonEmptyOrigins = origins.filter((o) => o.value.trim() !== '');
+        if (nonEmptyOrigins.length > 1) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Single origin beans can only have one origin',
+          });
+          return false;
+        }
+      }
+      return true;
+    }),
   producer: z.string().optional(),
   notes: z.string().optional(),
-  buy_urls: z
-    .array(z.object({ value: z.string().url('Must be a valid URL') }))
-    .default([]),
+  is_published: z.boolean().default(true),
+  buy_urls: z.array(z.object({ value: z.string().url('Must be a valid URL') })),
 });
 
 type BeanFormData = z.infer<typeof beanSchema>;
 
-export default function Page() {
+interface OriginField {
+  id: string;
+  value: string;
+}
+
+function NewBeanForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: roasters, isLoading: isLoadingRoasters } = useAllRoasters();
@@ -66,25 +90,43 @@ export default function Page() {
     control,
     setValue,
     formState: { errors, isSubmitting },
+    watch,
   } = useForm<BeanFormData>({
     resolver: zodResolver(beanSchema),
     defaultValues: {
       roaster_id: roasterId || undefined,
       buy_urls: [],
+      origins: [{ value: '' }],
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
+  const {
+    fields: buyUrlFields,
+    append: appendBuyUrl,
+    remove: removeBuyUrl,
+  } = useFieldArray({
     control,
     name: 'buy_urls',
   });
 
+  const {
+    fields: originFields,
+    append: appendOrigin,
+    remove: removeOrigin,
+  } = useFieldArray({
+    control,
+    name: 'origins',
+  });
+
   // Initialize with one empty URL field if there are no fields
   useEffect(() => {
-    if (fields.length === 0) {
-      append({ value: '' });
+    if (buyUrlFields.length === 0) {
+      appendBuyUrl({ value: '' });
     }
-  }, [append, fields.length]);
+    if (originFields.length === 0) {
+      appendOrigin({ value: '' });
+    }
+  }, [appendBuyUrl, appendOrigin, buyUrlFields.length, originFields.length]);
 
   useEffect(() => {
     if (roasterId && roasters) {
@@ -119,6 +161,7 @@ export default function Page() {
         ...data,
         image_url: imageUrl,
         buy_urls: data.buy_urls.map((url) => url.value).filter(Boolean),
+        origins: data.origins.filter((origin) => origin.value.trim() !== ''),
       };
 
       await createBean.mutateAsync(filteredData);
@@ -265,6 +308,22 @@ export default function Page() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  label="Process"
+                  error={errors.process?.message}
+                  {...register('process')}
+                />
+
+                <FormField
+                  label="Producer"
+                  error={errors.producer?.message}
+                  {...register('producer')}
+                />
+              </div>
+
+              <hr className="my-8" />
+
+              <div className="space-y-4">
                 <div className="space-y-2">
                   <Text variant="label">Bean Type</Text>
                   <Controller
@@ -273,7 +332,23 @@ export default function Page() {
                     render={({ field }) => (
                       <Select
                         value={field.value}
-                        onValueChange={field.onChange}
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                          // If switching to single origin and multiple origins exist,
+                          // keep only the first non-empty origin
+                          if (value === Bean_Type.SingleOrigin) {
+                            const nonEmptyOrigins = originFields
+                              .filter(
+                                (f: OriginField) =>
+                                  f.value && f.value.trim() !== ''
+                              )
+                              .slice(0, 1)
+                              .map((f) => ({ value: f.value }));
+                            if (nonEmptyOrigins.length > 0) {
+                              setValue('origins', nonEmptyOrigins);
+                            }
+                          }
+                        }}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Select bean type" />
@@ -293,25 +368,79 @@ export default function Page() {
                   )}
                 </div>
 
-                <FormField
-                  label="Process"
-                  error={errors.process?.message}
-                  {...register('process')}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FormField
-                  label="Origin"
-                  error={errors.origin?.message}
-                  {...register('origin')}
-                />
-
-                <FormField
-                  label="Producer"
-                  error={errors.producer?.message}
-                  {...register('producer')}
-                />
+                <Text variant="label">Origins</Text>
+                {originFields.map((field, index) => (
+                  <div key={field.id} className="flex gap-2">
+                    <div className="flex-1">
+                      <Controller
+                        name={`origins.${index}.value`}
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            value={field.value}
+                            onValueChange={field.onChange}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select an origin" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {COFFEE_REGIONS.map((region) => (
+                                <>
+                                  <SelectItem
+                                    key={`region-${region.name}`}
+                                    value={`region-${region.name}`}
+                                    disabled
+                                    className="font-semibold"
+                                  >
+                                    {region.name}
+                                  </SelectItem>
+                                  {region.origins.map((origin) => (
+                                    <SelectItem
+                                      key={origin.value}
+                                      value={origin.value}
+                                      title={origin.description}
+                                    >
+                                      {origin.label}
+                                    </SelectItem>
+                                  ))}
+                                </>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      />
+                      {errors.origins?.[index]?.value?.message && (
+                        <Text variant="error">
+                          {String(errors.origins[index]?.value?.message)}
+                        </Text>
+                      )}
+                    </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => removeOrigin(index)}
+                      disabled={index === 0 && originFields.length === 1}
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => appendOrigin({ value: '' })}
+                  disabled={
+                    watch('bean_type') === Bean_Type.SingleOrigin &&
+                    originFields.length > 0
+                  }
+                >
+                  Add Origin
+                </Button>
+                {errors.origins?.message && (
+                  <Text variant="error" className="mt-2">
+                    {String(errors.origins.message)}
+                  </Text>
+                )}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -332,6 +461,8 @@ export default function Page() {
                 />
               </div>
 
+              <hr className="my-8" />
+
               <TextArea
                 label="Notes"
                 error={errors.notes?.message}
@@ -340,8 +471,11 @@ export default function Page() {
 
               <div className="space-y-4">
                 <Text variant="label">Buy URLs</Text>
-                {fields.map((field, index) => (
-                  <div key={field.id} className="flex gap-2">
+                {buyUrlFields.map((field, index) => (
+                  <div
+                    key={field.id}
+                    className="flex gap-2 items-end justify-between"
+                  >
                     <FormField
                       label={`URL ${index + 1}`}
                       type="url"
@@ -352,8 +486,8 @@ export default function Page() {
                     <Button
                       type="button"
                       variant="outline"
-                      onClick={() => remove(index)}
-                      disabled={index === 0 && fields.length === 1}
+                      onClick={() => removeBuyUrl(index)}
+                      disabled={index === 0 && buyUrlFields.length === 1}
                     >
                       Remove
                     </Button>
@@ -362,8 +496,7 @@ export default function Page() {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => append({ value: '' })}
-                  className="w-full"
+                  onClick={() => appendBuyUrl({ value: '' })}
                 >
                   Add URL
                 </Button>
@@ -386,5 +519,13 @@ export default function Page() {
         </Card>
       </div>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense>
+      <NewBeanForm />
+    </Suspense>
   );
 }

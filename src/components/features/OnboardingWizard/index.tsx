@@ -7,6 +7,8 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/Button';
+import { Card, CardContent, CardFooter } from '@/components/ui/Card';
+import { FormField } from '@/components/ui/FormField';
 import { Heading } from '@/components/ui/Heading';
 import { Text } from '@/components/ui/Text';
 import { useAuth } from '@/hooks/auth/useAuth';
@@ -17,7 +19,8 @@ const profileSchema = z.object({
   bio: z.string().optional(),
   location: z.string().optional(),
   instagram: z.string().optional(),
-  url: z.string().url('Must be a valid URL').optional(),
+  url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
+  profile_image_url: z.string().optional(),
 });
 
 type ProfileForm = z.infer<typeof profileSchema>;
@@ -28,11 +31,13 @@ export function OnboardingWizard() {
   const { updateProfile, uploadProfileImage } = useProfile();
   const [currentStep, setCurrentStep] = useState(1);
   const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    trigger,
   } = useForm<ProfileForm>({
     resolver: zodResolver(profileSchema),
   });
@@ -44,181 +49,145 @@ export function OnboardingWizard() {
     }
   };
 
+  const validateStep = async () => {
+    let fieldsToValidate: (keyof ProfileForm)[] = [];
+
+    if (currentStep === 1) {
+      fieldsToValidate = ['display_name', 'bio', 'location'];
+    } else if (currentStep === 2) {
+      fieldsToValidate = ['instagram', 'url'];
+    }
+
+    const isValid = await trigger(fieldsToValidate);
+    return isValid;
+  };
+
+  const handleNext = async () => {
+    const isValid = await validateStep();
+    if (isValid) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
   const onSubmit = async (data: ProfileForm) => {
+    const isValid = await validateStep();
+    if (!isValid) return;
+
     if (!user) return;
+    setIsLoading(true);
 
     try {
       let profileImageUrl: string | undefined;
 
       if (profileImage) {
-        const { data: imageData, error: uploadError } =
-          await uploadProfileImage(profileImage);
-        if (uploadError) throw uploadError;
-        profileImageUrl = imageData;
+        profileImageUrl = await uploadProfileImage(profileImage);
       }
 
-      const { error: updateError } = await updateProfile(user.id, {
+      updateProfile({
         ...data,
         profile_image_url: profileImageUrl,
       });
 
-      if (updateError) throw updateError;
-
       router.push('/');
     } catch (error) {
       console.error('Error updating profile:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <Heading level="h2">Complete your profile</Heading>
-          <Text className="mt-2 text-center">Let's get to know you better</Text>
+          <Heading level="h2" className="text-center">
+            Complete your profile
+          </Heading>
+          <Text className="mt-2 text-center">
+            Let us get to know you better
+          </Text>
+          <Text variant="small" className="mt-2 text-center text-gray-500">
+            Step {currentStep} of 2
+          </Text>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
-          {currentStep === 1 && (
-            <div className="space-y-4">
-              <div>
-                <label
-                  htmlFor="display_name"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                >
-                  Display Name
-                </label>
-                <input
-                  {...register('display_name')}
-                  type="text"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                />
-                {errors.display_name && (
-                  <Text variant="small" className="text-red-500 mt-1">
-                    {errors.display_name.message}
-                  </Text>
+        <Card>
+          <div className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <CardContent>
+                {currentStep === 1 && (
+                  <div className="space-y-4">
+                    <FormField
+                      label="Display Name"
+                      error={errors.display_name?.message}
+                      {...register('display_name')}
+                    />
+
+                    <FormField
+                      label="Bio"
+                      type="textarea"
+                      {...register('bio')}
+                      error={errors.bio?.message}
+                    />
+
+                    <FormField
+                      label="Location"
+                      {...register('location')}
+                      error={errors.location?.message}
+                    />
+                  </div>
                 )}
-              </div>
 
-              <div>
-                <label
-                  htmlFor="bio"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                >
-                  Bio
-                </label>
-                <textarea
-                  {...register('bio')}
-                  rows={3}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                />
-              </div>
+                {currentStep === 2 && (
+                  <div className="space-y-4">
+                    <FormField
+                      label="Instagram"
+                      {...register('instagram')}
+                      error={errors.instagram?.message}
+                      placeholder="@username"
+                    />
 
-              <div>
-                <label
-                  htmlFor="location"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                >
-                  Location
-                </label>
-                <input
-                  {...register('location')}
-                  type="text"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                />
-              </div>
-            </div>
-          )}
+                    <FormField
+                      label="Website"
+                      error={errors.url?.message}
+                      {...register('url')}
+                      placeholder="https://"
+                    />
 
-          {currentStep === 2 && (
-            <div className="space-y-4">
-              <div>
-                <label
-                  htmlFor="instagram"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                >
-                  Instagram
-                </label>
-                <input
-                  {...register('instagram')}
-                  type="text"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="url"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                >
-                  Website
-                </label>
-                <input
-                  {...register('url')}
-                  type="url"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                />
-                {errors.url && (
-                  <Text variant="small" className="text-red-500 mt-1">
-                    {errors.url.message}
-                  </Text>
+                    <FormField
+                      type="file"
+                      label="Profile Image"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                    />
+                  </div>
                 )}
-              </div>
+              </CardContent>
+            </form>
 
-              <div>
-                <label
-                  htmlFor="profile_image"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            <CardFooter className="flex justify-between">
+              {currentStep > 1 && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setCurrentStep(currentStep - 1)}
+                  disabled={isLoading}
                 >
-                  Profile Image
-                </label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="mt-1 block w-full text-sm text-gray-500
-                    file:mr-4 file:py-2 file:px-4
-                    file:rounded-md file:border-0
-                    file:text-sm file:font-semibold
-                    file:bg-indigo-50 file:text-indigo-700
-                    hover:file:bg-indigo-100"
-                />
-              </div>
-            </div>
-          )}
-
-          {error && (
-            <Text variant="small" className="text-red-500">
-              {error.message}
-            </Text>
-          )}
-
-          <div className="flex justify-between">
-            {currentStep > 1 && (
-              <Button
-                type="button"
-                variant="secondary"
-                onClick={() => setCurrentStep(currentStep - 1)}
-                disabled={isLoading}
-              >
-                Previous
-              </Button>
-            )}
-            {currentStep < 2 ? (
-              <Button
-                type="button"
-                onClick={() => setCurrentStep(currentStep + 1)}
-                disabled={isLoading}
-              >
-                Next
-              </Button>
-            ) : (
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? 'Saving...' : 'Complete Profile'}
-              </Button>
-            )}
+                  Previous
+                </Button>
+              )}
+              {currentStep < 2 ? (
+                <Button type="button" onClick={handleNext} disabled={isLoading}>
+                  Next
+                </Button>
+              ) : (
+                <Button onClick={handleSubmit(onSubmit)} disabled={isLoading}>
+                  {isLoading ? 'Saving...' : 'Complete Profile'}
+                </Button>
+              )}
+            </CardFooter>
           </div>
-        </form>
+        </Card>
       </div>
     </div>
   );

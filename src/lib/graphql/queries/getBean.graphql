@@ -1,5 +1,5 @@
-query GetBean($id: UUID!) {
-  beansCollection(filter: { id: { eq: $id } }) {
+query GetBean($id: UUID!, $filter: beansFilter) {
+  beansCollection(filter: $filter) {
     edges {
       node {
         id

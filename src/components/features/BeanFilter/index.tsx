@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import { FormField } from '@/components/ui/FormField';
 import {
@@ -12,6 +12,7 @@ import { Slider } from '@/components/ui/Slider';
 import { Text } from '@/components/ui/Text';
 import { useBeanUrlFilters } from '@/hooks/filters/useBeanUrlFilters';
 import { useDebounce } from '@/hooks/useDebounce';
+import { COFFEE_REGIONS } from '@/utils/coffeeOrigins';
 
 export function BeanFilter() {
   const { filters, updateFilters } = useBeanUrlFilters();
@@ -69,12 +70,28 @@ export function BeanFilter() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Origins</SelectItem>
-              <SelectItem value="Ethiopia">Ethiopia</SelectItem>
-              <SelectItem value="Colombia">Colombia</SelectItem>
-              <SelectItem value="Kenya">Kenya</SelectItem>
-              <SelectItem value="Guatemala">Guatemala</SelectItem>
-              <SelectItem value="Costa Rica">Costa Rica</SelectItem>
-              <SelectItem value="Brazil">Brazil</SelectItem>
+
+              {COFFEE_REGIONS.map((region) => (
+                <Fragment key={`region-${region.name}`}>
+                  <SelectItem
+                    key={`region-${region.name}`}
+                    value={`region-${region.name}`}
+                    disabled
+                    className="font-semibold"
+                  >
+                    {region.name}
+                  </SelectItem>
+                  {region.origins.map((origin) => (
+                    <SelectItem
+                      key={origin.value}
+                      value={origin.value}
+                      title={origin.description}
+                    >
+                      {origin.label}
+                    </SelectItem>
+                  ))}
+                </Fragment>
+              ))}
             </SelectContent>
           </Select>
         </div>

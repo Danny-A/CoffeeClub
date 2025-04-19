@@ -8,8 +8,12 @@ import { fetchBeans } from '@/lib/api/fetchBeans';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
-  title: 'Beans - Coffee Club',
-  description: 'Explore our collection of coffee beans',
+  title: 'Beans - Daily Bean',
+  description: 'Explore a collection of coffee beans',
+  openGraph: {
+    title: 'Beans - Daily Bean',
+    description: 'Explore a collection of coffee beans',
+  },
 };
 
 export async function generateStaticParams() {

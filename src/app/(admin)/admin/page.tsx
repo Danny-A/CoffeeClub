@@ -3,13 +3,15 @@ import { redirect } from 'next/navigation';
 
 import { Heading } from '@/components/ui/Heading';
 import { createClient } from '@/lib/supabase/server';
+import { isAdmin } from '@/utils/getUserRole';
+import { isModerator } from '@/utils/getUserRole';
 
 import { DashboardStats } from '../_components/DashboardStats';
 import { TopRatedSection } from '../_components/TopRatedSection';
 
 export const metadata: Metadata = {
-  title: 'Admin - Coffee Club',
-  description: 'Admin for Coffee Club',
+  title: 'Admin - Daily Bean',
+  description: 'Admin for Daily Bean',
   robots: {
     index: false,
     follow: false,
@@ -21,8 +23,18 @@ export default async function AdminDashboard() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
   if (!user) {
     redirect('/login');
+  }
+
+  const [isUserAdmin, isUserModerator] = await Promise.all([
+    isAdmin(user),
+    isModerator(user),
+  ]);
+
+  if (!isUserAdmin && !isUserModerator) {
+    redirect('/');
   }
 
   return (

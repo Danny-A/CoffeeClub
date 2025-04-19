@@ -220,6 +220,8 @@ export type Mutation = {
   deleteFromroastersCollection: RoastersDeleteResponse;
   /** Deletes zero or more records from the `tags` collection */
   deleteFromtagsCollection: TagsDeleteResponse;
+  /** Deletes zero or more records from the `user_roles` collection */
+  deleteFromuser_rolesCollection: User_RolesDeleteResponse;
   /** Deletes zero or more records from the `varieties` collection */
   deleteFromvarietiesCollection: VarietiesDeleteResponse;
   /** Adds one or more `bean_likes` records to the collection */
@@ -254,6 +256,8 @@ export type Mutation = {
   insertIntoroastersCollection?: Maybe<RoastersInsertResponse>;
   /** Adds one or more `tags` records to the collection */
   insertIntotagsCollection?: Maybe<TagsInsertResponse>;
+  /** Adds one or more `user_roles` records to the collection */
+  insertIntouser_rolesCollection?: Maybe<User_RolesInsertResponse>;
   /** Adds one or more `varieties` records to the collection */
   insertIntovarietiesCollection?: Maybe<VarietiesInsertResponse>;
   /** Updates zero or more records in the `bean_likes` collection */
@@ -288,6 +292,8 @@ export type Mutation = {
   updateroastersCollection: RoastersUpdateResponse;
   /** Updates zero or more records in the `tags` collection */
   updatetagsCollection: TagsUpdateResponse;
+  /** Updates zero or more records in the `user_roles` collection */
+  updateuser_rolesCollection: User_RolesUpdateResponse;
   /** Updates zero or more records in the `varieties` collection */
   updatevarietiesCollection: VarietiesUpdateResponse;
 };
@@ -406,6 +412,13 @@ export type MutationDeleteFromtagsCollectionArgs = {
 
 
 /** The root type for creating and mutating data */
+export type MutationDeleteFromuser_RolesCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<User_RolesFilter>;
+};
+
+
+/** The root type for creating and mutating data */
 export type MutationDeleteFromvarietiesCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<VarietiesFilter>;
@@ -505,6 +518,12 @@ export type MutationInsertIntoroastersCollectionArgs = {
 /** The root type for creating and mutating data */
 export type MutationInsertIntotagsCollectionArgs = {
   objects: Array<TagsInsertInput>;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationInsertIntouser_RolesCollectionArgs = {
+  objects: Array<User_RolesInsertInput>;
 };
 
 
@@ -643,6 +662,14 @@ export type MutationUpdatetagsCollectionArgs = {
 
 
 /** The root type for creating and mutating data */
+export type MutationUpdateuser_RolesCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<User_RolesFilter>;
+  set: User_RolesUpdateInput;
+};
+
+
+/** The root type for creating and mutating data */
 export type MutationUpdatevarietiesCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<VarietiesFilter>;
@@ -717,6 +744,8 @@ export type Query = {
   roastersCollection?: Maybe<RoastersConnection>;
   /** A pagable collection of type `tags` */
   tagsCollection?: Maybe<TagsConnection>;
+  /** A pagable collection of type `user_roles` */
+  user_rolesCollection?: Maybe<User_RolesConnection>;
   /** A pagable collection of type `varieties` */
   varietiesCollection?: Maybe<VarietiesConnection>;
 };
@@ -917,6 +946,18 @@ export type QueryTagsCollectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<TagsOrderBy>>;
+};
+
+
+/** The root type for querying data */
+export type QueryUser_RolesCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<User_RolesFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<User_RolesOrderBy>>;
 };
 
 
@@ -1370,6 +1411,7 @@ export type Beans = Node & {
   elevation_min?: Maybe<Scalars['Int']['output']>;
   id: Scalars['UUID']['output'];
   image_url?: Maybe<Scalars['String']['output']>;
+  is_published: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
@@ -1473,6 +1515,7 @@ export type BeansFilter = {
   elevation_min?: InputMaybe<IntFilter>;
   id?: InputMaybe<UuidFilter>;
   image_url?: InputMaybe<StringFilter>;
+  is_published?: InputMaybe<BooleanFilter>;
   name?: InputMaybe<StringFilter>;
   nodeId?: InputMaybe<IdFilter>;
   /** Negates a filter */
@@ -1500,6 +1543,7 @@ export type BeansInsertInput = {
   elevation_min?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['UUID']['input']>;
   image_url?: InputMaybe<Scalars['String']['input']>;
+  is_published?: InputMaybe<Scalars['Boolean']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
   origin?: InputMaybe<Scalars['String']['input']>;
@@ -1529,6 +1573,7 @@ export type BeansOrderBy = {
   elevation_min?: InputMaybe<OrderByDirection>;
   id?: InputMaybe<OrderByDirection>;
   image_url?: InputMaybe<OrderByDirection>;
+  is_published?: InputMaybe<OrderByDirection>;
   name?: InputMaybe<OrderByDirection>;
   notes?: InputMaybe<OrderByDirection>;
   origin?: InputMaybe<OrderByDirection>;
@@ -1551,6 +1596,7 @@ export type BeansUpdateInput = {
   elevation_min?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['UUID']['input']>;
   image_url?: InputMaybe<Scalars['String']['input']>;
+  is_published?: InputMaybe<Scalars['Boolean']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
   origin?: InputMaybe<Scalars['String']['input']>;
@@ -1993,6 +2039,7 @@ export type Locations = Node & {
   id: Scalars['UUID']['output'];
   image_url?: Maybe<Scalars['String']['output']>;
   instagram?: Maybe<Scalars['String']['output']>;
+  is_published: Scalars['Boolean']['output'];
   latitude?: Maybe<Scalars['BigFloat']['output']>;
   location_likesCollection?: Maybe<Location_LikesConnection>;
   location_reviewsCollection?: Maybe<Location_ReviewsConnection>;
@@ -2056,6 +2103,7 @@ export type LocationsFilter = {
   id?: InputMaybe<UuidFilter>;
   image_url?: InputMaybe<StringFilter>;
   instagram?: InputMaybe<StringFilter>;
+  is_published?: InputMaybe<BooleanFilter>;
   latitude?: InputMaybe<BigFloatFilter>;
   longitude?: InputMaybe<BigFloatFilter>;
   name?: InputMaybe<StringFilter>;
@@ -2076,6 +2124,7 @@ export type LocationsInsertInput = {
   id?: InputMaybe<Scalars['UUID']['input']>;
   image_url?: InputMaybe<Scalars['String']['input']>;
   instagram?: InputMaybe<Scalars['String']['input']>;
+  is_published?: InputMaybe<Scalars['Boolean']['input']>;
   latitude?: InputMaybe<Scalars['BigFloat']['input']>;
   longitude?: InputMaybe<Scalars['BigFloat']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -2099,6 +2148,7 @@ export type LocationsOrderBy = {
   id?: InputMaybe<OrderByDirection>;
   image_url?: InputMaybe<OrderByDirection>;
   instagram?: InputMaybe<OrderByDirection>;
+  is_published?: InputMaybe<OrderByDirection>;
   latitude?: InputMaybe<OrderByDirection>;
   longitude?: InputMaybe<OrderByDirection>;
   name?: InputMaybe<OrderByDirection>;
@@ -2114,6 +2164,7 @@ export type LocationsUpdateInput = {
   id?: InputMaybe<Scalars['UUID']['input']>;
   image_url?: InputMaybe<Scalars['String']['input']>;
   instagram?: InputMaybe<Scalars['String']['input']>;
+  is_published?: InputMaybe<Scalars['Boolean']['input']>;
   latitude?: InputMaybe<Scalars['BigFloat']['input']>;
   longitude?: InputMaybe<Scalars['BigFloat']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -2644,6 +2695,7 @@ export type Roasters = Node & {
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['UUID']['output'];
   instagram?: Maybe<Scalars['String']['output']>;
+  is_published: Scalars['Boolean']['output'];
   location_city?: Maybe<Scalars['String']['output']>;
   location_country?: Maybe<Scalars['String']['output']>;
   location_state?: Maybe<Scalars['String']['output']>;
@@ -2718,6 +2770,7 @@ export type RoastersFilter = {
   description?: InputMaybe<StringFilter>;
   id?: InputMaybe<UuidFilter>;
   instagram?: InputMaybe<StringFilter>;
+  is_published?: InputMaybe<BooleanFilter>;
   location_city?: InputMaybe<StringFilter>;
   location_country?: InputMaybe<StringFilter>;
   location_state?: InputMaybe<StringFilter>;
@@ -2738,6 +2791,7 @@ export type RoastersInsertInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['UUID']['input']>;
   instagram?: InputMaybe<Scalars['String']['input']>;
+  is_published?: InputMaybe<Scalars['Boolean']['input']>;
   location_city?: InputMaybe<Scalars['String']['input']>;
   location_country?: InputMaybe<Scalars['String']['input']>;
   location_state?: InputMaybe<Scalars['String']['input']>;
@@ -2761,6 +2815,7 @@ export type RoastersOrderBy = {
   description?: InputMaybe<OrderByDirection>;
   id?: InputMaybe<OrderByDirection>;
   instagram?: InputMaybe<OrderByDirection>;
+  is_published?: InputMaybe<OrderByDirection>;
   location_city?: InputMaybe<OrderByDirection>;
   location_country?: InputMaybe<OrderByDirection>;
   location_state?: InputMaybe<OrderByDirection>;
@@ -2776,6 +2831,7 @@ export type RoastersUpdateInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['UUID']['input']>;
   instagram?: InputMaybe<Scalars['String']['input']>;
+  is_published?: InputMaybe<Scalars['Boolean']['input']>;
   location_city?: InputMaybe<Scalars['String']['input']>;
   location_country?: InputMaybe<Scalars['String']['input']>;
   location_state?: InputMaybe<Scalars['String']['input']>;
@@ -2884,6 +2940,107 @@ export type TagsUpdateResponse = {
   affectedCount: Scalars['Int']['output'];
   /** Array of records impacted by the mutation */
   records: Array<Tags>;
+};
+
+export enum User_Role {
+  Admin = 'admin',
+  LocationOwner = 'location_owner',
+  Moderator = 'moderator',
+  RoasterOwner = 'roaster_owner'
+}
+
+/** Boolean expression comparing fields on type "user_role" */
+export type User_RoleFilter = {
+  eq?: InputMaybe<User_Role>;
+  in?: InputMaybe<Array<User_Role>>;
+  is?: InputMaybe<FilterIs>;
+  neq?: InputMaybe<User_Role>;
+};
+
+export type User_Roles = Node & {
+  __typename?: 'user_roles';
+  created_at?: Maybe<Scalars['Datetime']['output']>;
+  id: Scalars['UUID']['output'];
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  role: User_Role;
+  updated_at?: Maybe<Scalars['Datetime']['output']>;
+  user_id: Scalars['UUID']['output'];
+};
+
+export type User_RolesConnection = {
+  __typename?: 'user_rolesConnection';
+  edges: Array<User_RolesEdge>;
+  pageInfo: PageInfo;
+};
+
+export type User_RolesDeleteResponse = {
+  __typename?: 'user_rolesDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<User_Roles>;
+};
+
+export type User_RolesEdge = {
+  __typename?: 'user_rolesEdge';
+  cursor: Scalars['String']['output'];
+  node: User_Roles;
+};
+
+export type User_RolesFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<User_RolesFilter>>;
+  created_at?: InputMaybe<DatetimeFilter>;
+  id?: InputMaybe<UuidFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<User_RolesFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<User_RolesFilter>>;
+  role?: InputMaybe<User_RoleFilter>;
+  updated_at?: InputMaybe<DatetimeFilter>;
+  user_id?: InputMaybe<UuidFilter>;
+};
+
+export type User_RolesInsertInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  role?: InputMaybe<User_Role>;
+  updated_at?: InputMaybe<Scalars['Datetime']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type User_RolesInsertResponse = {
+  __typename?: 'user_rolesInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<User_Roles>;
+};
+
+export type User_RolesOrderBy = {
+  created_at?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  role?: InputMaybe<OrderByDirection>;
+  updated_at?: InputMaybe<OrderByDirection>;
+  user_id?: InputMaybe<OrderByDirection>;
+};
+
+export type User_RolesUpdateInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  role?: InputMaybe<User_Role>;
+  updated_at?: InputMaybe<Scalars['Datetime']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type User_RolesUpdateResponse = {
+  __typename?: 'user_rolesUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<User_Roles>;
 };
 
 export type Varieties = Node & {
@@ -3033,13 +3190,16 @@ export type UpdateProfileMutationVariables = Exact<{
 
 export type UpdateProfileMutation = { __typename?: 'Mutation', updateprofilesCollection: { __typename?: 'profilesUpdateResponse', affectedCount: number, records: Array<{ __typename?: 'profiles', id: any, display_name?: string | null, bio?: string | null, profile_image_url?: string | null, location?: string | null, instagram?: string | null, url?: string | null, updated_at?: any | null }> } };
 
-export type GetAllRoastersQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetAllRoastersQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+}>;
 
 
 export type GetAllRoastersQuery = { __typename?: 'Query', roastersCollection?: { __typename?: 'roastersConnection', edges: Array<{ __typename?: 'roastersEdge', node: { __typename?: 'roasters', id: any, name: string } }> } | null };
 
 export type GetBeanQueryVariables = Exact<{
   id: Scalars['UUID']['input'];
+  filter?: InputMaybe<BeansFilter>;
 }>;
 
 
@@ -3052,12 +3212,21 @@ export type GetBeansQueryVariables = Exact<{
 }>;
 
 
-export type GetBeansQuery = { __typename?: 'Query', beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', cursor: string, node: { __typename?: 'beans', id: any, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, created_at?: any | null, average_rating?: any | null, roasters?: { __typename?: 'roasters', id: any, name: string } | null, bean_varietiesCollection?: { __typename?: 'bean_varietiesConnection', edges: Array<{ __typename?: 'bean_varietiesEdge', node: { __typename?: 'bean_varieties', varieties: { __typename?: 'varieties', id: any, name: string } } }> } | null, bean_tagsCollection?: { __typename?: 'bean_tagsConnection', edges: Array<{ __typename?: 'bean_tagsEdge', node: { __typename?: 'bean_tags', tags?: { __typename?: 'tags', id: any, name: string } | null } }> } | null, bean_likesCollection?: { __typename?: 'bean_likesConnection', edges: Array<{ __typename?: 'bean_likesEdge', node: { __typename?: 'bean_likes', id: any, user_id?: any | null } }> } | null, bean_reviewsCollection?: { __typename?: 'bean_reviewsConnection', edges: Array<{ __typename?: 'bean_reviewsEdge', node: { __typename?: 'bean_reviews', id: any, rating?: any | null } }> } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
+export type GetBeansQuery = { __typename?: 'Query', beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', cursor: string, node: { __typename?: 'beans', id: any, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, created_at?: any | null, average_rating?: any | null, is_published: boolean, roasters?: { __typename?: 'roasters', id: any, name: string } | null, bean_varietiesCollection?: { __typename?: 'bean_varietiesConnection', edges: Array<{ __typename?: 'bean_varietiesEdge', node: { __typename?: 'bean_varieties', varieties: { __typename?: 'varieties', id: any, name: string } } }> } | null, bean_tagsCollection?: { __typename?: 'bean_tagsConnection', edges: Array<{ __typename?: 'bean_tagsEdge', node: { __typename?: 'bean_tags', tags?: { __typename?: 'tags', id: any, name: string } | null } }> } | null, bean_likesCollection?: { __typename?: 'bean_likesConnection', edges: Array<{ __typename?: 'bean_likesEdge', node: { __typename?: 'bean_likes', id: any, user_id?: any | null } }> } | null, bean_reviewsCollection?: { __typename?: 'bean_reviewsConnection', edges: Array<{ __typename?: 'bean_reviewsEdge', node: { __typename?: 'bean_reviews', id: any, rating?: any | null } }> } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
 
 export type GetDashboardStatsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetDashboardStatsQuery = { __typename?: 'Query', dashboard_statsCollection?: { __typename?: 'dashboard_statsConnection', edges: Array<{ __typename?: 'dashboard_statsEdge', node: { __typename?: 'dashboard_stats', id?: any | null, total_users?: any | null, total_beans?: any | null, total_roasters?: any | null, total_locations?: any | null, total_bean_reviews?: any | null, total_roaster_reviews?: any | null, total_location_reviews?: any | null } }> } | null, roastersCollection?: { __typename?: 'roastersConnection', edges: Array<{ __typename?: 'roastersEdge', node: { __typename?: 'roasters', id: any, name: string, roaster_reviewsCollection?: { __typename?: 'roaster_reviewsConnection', edges: Array<{ __typename?: 'roaster_reviewsEdge', node: { __typename?: 'roaster_reviews', rating?: any | null } }> } | null } }> } | null, beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any, name: string, bean_reviewsCollection?: { __typename?: 'bean_reviewsConnection', edges: Array<{ __typename?: 'bean_reviewsEdge', node: { __typename?: 'bean_reviews', rating?: any | null } }> } | null } }> } | null, locationsCollection?: { __typename?: 'locationsConnection', edges: Array<{ __typename?: 'locationsEdge', node: { __typename?: 'locations', id: any, name: string, location_reviewsCollection?: { __typename?: 'location_reviewsConnection', edges: Array<{ __typename?: 'location_reviewsEdge', node: { __typename?: 'location_reviews', rating?: any | null } }> } | null } }> } | null };
+
+export type GetLocationsQueryVariables = Exact<{
+  filter?: InputMaybe<LocationsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+}>;
+
+
+export type GetLocationsQuery = { __typename?: 'Query', locationsCollection?: { __typename?: 'locationsConnection', edges: Array<{ __typename?: 'locationsEdge', node: { __typename?: 'locations', id: any, name: string, description?: string | null, image_url?: string | null, address?: string | null, latitude?: any | null, longitude?: any | null, url?: string | null, instagram?: string | null, claimed_by?: any | null, created_at?: any | null, is_published: boolean, location_likesCollection?: { __typename?: 'location_likesConnection', edges: Array<{ __typename?: 'location_likesEdge', node: { __typename?: 'location_likes', id: any, user_id?: any | null } }> } | null, location_reviewsCollection?: { __typename?: 'location_reviewsConnection', edges: Array<{ __typename?: 'location_reviewsEdge', node: { __typename?: 'location_reviews', id: any, rating?: any | null } }> } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
 
 export type GetProfileQueryVariables = Exact<{
   id: Scalars['UUID']['input'];
@@ -3068,6 +3237,7 @@ export type GetProfileQuery = { __typename?: 'Query', profilesCollection?: { __t
 
 export type GetRoasterQueryVariables = Exact<{
   id: Scalars['UUID']['input'];
+  filter?: InputMaybe<RoastersFilter>;
 }>;
 
 
@@ -3080,7 +3250,7 @@ export type GetRoastersQueryVariables = Exact<{
 }>;
 
 
-export type GetRoastersQuery = { __typename?: 'Query', roastersCollection?: { __typename?: 'roastersConnection', edges: Array<{ __typename?: 'roastersEdge', node: { __typename?: 'roasters', id: any, name: string, description?: string | null, profile_image_url?: string | null, location_city?: string | null, location_state?: string | null, location_country?: string | null, url?: string | null, instagram?: string | null, claimed_by?: any | null, created_at?: any | null, beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any } }> } | null, roaster_likesCollection?: { __typename?: 'roaster_likesConnection', edges: Array<{ __typename?: 'roaster_likesEdge', node: { __typename?: 'roaster_likes', id: any, user_id?: any | null } }> } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
+export type GetRoastersQuery = { __typename?: 'Query', roastersCollection?: { __typename?: 'roastersConnection', edges: Array<{ __typename?: 'roastersEdge', node: { __typename?: 'roasters', id: any, name: string, description?: string | null, profile_image_url?: string | null, location_city?: string | null, location_state?: string | null, location_country?: string | null, url?: string | null, instagram?: string | null, claimed_by?: any | null, created_at?: any | null, is_published: boolean, beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any } }> } | null, roaster_likesCollection?: { __typename?: 'roaster_likesConnection', edges: Array<{ __typename?: 'roaster_likesEdge', node: { __typename?: 'roaster_likes', id: any, user_id?: any | null } }> } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -3225,8 +3395,12 @@ export const UpdateProfileDocument = new TypedDocumentString(`
 }
     `) as unknown as TypedDocumentString<UpdateProfileMutation, UpdateProfileMutationVariables>;
 export const GetAllRoastersDocument = new TypedDocumentString(`
-    query GetAllRoasters {
-  roastersCollection(first: 1000, orderBy: [{name: AscNullsLast}]) {
+    query GetAllRoasters($first: Int) {
+  roastersCollection(
+    first: $first
+    orderBy: [{name: AscNullsLast}]
+    filter: {is_published: {eq: true}}
+  ) {
     edges {
       node {
         id
@@ -3237,8 +3411,8 @@ export const GetAllRoastersDocument = new TypedDocumentString(`
 }
     `) as unknown as TypedDocumentString<GetAllRoastersQuery, GetAllRoastersQueryVariables>;
 export const GetBeanDocument = new TypedDocumentString(`
-    query GetBean($id: UUID!) {
-  beansCollection(filter: {id: {eq: $id}}) {
+    query GetBean($id: UUID!, $filter: beansFilter) {
+  beansCollection(filter: $filter) {
     edges {
       node {
         id
@@ -3323,6 +3497,7 @@ export const GetBeansDocument = new TypedDocumentString(`
         buy_urls
         created_at
         average_rating
+        is_published
         roasters {
           id
           name
@@ -3435,6 +3610,48 @@ export const GetDashboardStatsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<GetDashboardStatsQuery, GetDashboardStatsQueryVariables>;
+export const GetLocationsDocument = new TypedDocumentString(`
+    query GetLocations($filter: locationsFilter, $first: Int, $after: Cursor) {
+  locationsCollection(filter: $filter, first: $first, after: $after) {
+    edges {
+      node {
+        id
+        name
+        description
+        image_url
+        address
+        latitude
+        longitude
+        url
+        instagram
+        claimed_by
+        created_at
+        is_published
+        location_likesCollection {
+          edges {
+            node {
+              id
+              user_id
+            }
+          }
+        }
+        location_reviewsCollection {
+          edges {
+            node {
+              id
+              rating
+            }
+          }
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetLocationsQuery, GetLocationsQueryVariables>;
 export const GetProfileDocument = new TypedDocumentString(`
     query GetProfile($id: UUID!) {
   profilesCollection(filter: {id: {eq: $id}}) {
@@ -3454,8 +3671,8 @@ export const GetProfileDocument = new TypedDocumentString(`
 }
     `) as unknown as TypedDocumentString<GetProfileQuery, GetProfileQueryVariables>;
 export const GetRoasterDocument = new TypedDocumentString(`
-    query GetRoaster($id: UUID!) {
-  roastersCollection(filter: {id: {eq: $id}}) {
+    query GetRoaster($id: UUID!, $filter: roastersFilter) {
+  roastersCollection(filter: $filter) {
     edges {
       node {
         id
@@ -3519,6 +3736,7 @@ export const GetRoastersDocument = new TypedDocumentString(`
         instagram
         claimed_by
         created_at
+        is_published
         beansCollection {
           edges {
             node {

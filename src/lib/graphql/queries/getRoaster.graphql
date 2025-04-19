@@ -1,5 +1,5 @@
-query GetRoaster($id: UUID!) {
-  roastersCollection(filter: { id: { eq: $id } }) {
+query GetRoaster($id: UUID!, $filter: roastersFilter) {
+  roastersCollection(filter: $filter) {
     edges {
       node {
         id

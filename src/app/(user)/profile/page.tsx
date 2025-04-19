@@ -13,8 +13,8 @@ import { createClient } from '@/lib/supabase/server';
 import { ProfileInfo } from './_components/ProfileInfo';
 
 export const metadata: Metadata = {
-  title: 'Profile - Coffee Club',
-  description: 'Profile for Coffee Club',
+  title: 'Profile - Daily Bean',
+  description: 'Profile for Daily Bean',
   robots: {
     index: false,
     follow: false,

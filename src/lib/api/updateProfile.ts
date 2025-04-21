@@ -8,6 +8,7 @@ import { Exact } from "../graphql/generated/graphql";
 
 export type Profile = {
   id: string;
+  username?: string | null;
   display_name?: string | null;
   bio?: string | null;
   profile_image_url?: string | null;
@@ -26,6 +27,7 @@ export const updateProfile = async (
   const variables = {
     id: user.id,
     updates: {
+      username: updates.username,
       display_name: updates.display_name,
       bio: updates.bio,
       location: updates.location,

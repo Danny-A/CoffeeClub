@@ -3,6 +3,7 @@ query GetProfile($id: UUID!) {
     edges {
       node {
         id
+        username
         display_name
         bio
         profile_image_url

@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { usernameSchema } from "@/lib/validations/username";
+
 export const loginSchema = z.object({
   email: z.string()
     .min(1, "Email is required")
@@ -16,9 +18,7 @@ export const registerSchema = z
     email: z.string().email("Invalid email address"),
     password: z.string().min(8, "Password must be at least 8 characters"),
     confirmPassword: z.string(),
-    displayName: z
-      .string()
-      .min(2, "Display name must be at least 2 characters"),
+    userName: usernameSchema,
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",

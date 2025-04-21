@@ -1,5 +1,6 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -10,14 +11,10 @@ import { Card, CardContent, CardFooter } from '@/components/ui/Card';
 import { FormField } from '@/components/ui/FormField';
 import { useProfile } from '@/hooks/profile/useProfile';
 import { Profiles } from '@/lib/graphql/generated/graphql';
-
-type FormData = {
-  display_name: string;
-  bio: string;
-  location: string;
-  instagram: string;
-  url: string;
-};
+import {
+  editProfileSchema,
+  EditProfileFormData,
+} from '@/lib/validations/profile';
 
 export function EditProfileInfo({ profile }: { profile: Profiles | null }) {
   const router = useRouter();
@@ -26,17 +23,19 @@ export function EditProfileInfo({ profile }: { profile: Profiles | null }) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<EditProfileFormData>({
+    resolver: zodResolver(editProfileSchema),
     values: {
       display_name: profile?.display_name || '',
       bio: profile?.bio || '',
       location: profile?.location || '',
       instagram: profile?.instagram || '',
       url: profile?.url || '',
+      profile_image_url: profile?.profile_image_url || '',
     },
   });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: EditProfileFormData) => {
     try {
       updateProfile(data);
 

@@ -724,6 +724,7 @@ export type Query = {
   dashboard_statsCollection?: Maybe<Dashboard_StatsConnection>;
   /** A pagable collection of type `followers` */
   followersCollection?: Maybe<FollowersConnection>;
+  is_username_available?: Maybe<Scalars['Boolean']['output']>;
   /** A pagable collection of type `location_likes` */
   location_likesCollection?: Maybe<Location_LikesConnection>;
   /** A pagable collection of type `location_reviews` */
@@ -832,6 +833,12 @@ export type QueryFollowersCollectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<FollowersOrderBy>>;
+};
+
+
+/** The root type for querying data */
+export type QueryIs_Username_AvailableArgs = {
+  desired_username: Scalars['String']['input'];
 };
 
 
@@ -2198,6 +2205,7 @@ export type Profiles = Node & {
   roaster_reviewsCollection?: Maybe<Roaster_ReviewsConnection>;
   updated_at?: Maybe<Scalars['Datetime']['output']>;
   url?: Maybe<Scalars['String']['output']>;
+  username: Scalars['String']['output'];
 };
 
 
@@ -2292,6 +2300,7 @@ export type ProfilesFilter = {
   profile_image_url?: InputMaybe<StringFilter>;
   updated_at?: InputMaybe<DatetimeFilter>;
   url?: InputMaybe<StringFilter>;
+  username?: InputMaybe<StringFilter>;
 };
 
 export type ProfilesInsertInput = {
@@ -2304,6 +2313,7 @@ export type ProfilesInsertInput = {
   profile_image_url?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['Datetime']['input']>;
   url?: InputMaybe<Scalars['String']['input']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ProfilesInsertResponse = {
@@ -2324,6 +2334,7 @@ export type ProfilesOrderBy = {
   profile_image_url?: InputMaybe<OrderByDirection>;
   updated_at?: InputMaybe<OrderByDirection>;
   url?: InputMaybe<OrderByDirection>;
+  username?: InputMaybe<OrderByDirection>;
 };
 
 export type ProfilesUpdateInput = {
@@ -2336,6 +2347,7 @@ export type ProfilesUpdateInput = {
   profile_image_url?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['Datetime']['input']>;
   url?: InputMaybe<Scalars['String']['input']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ProfilesUpdateResponse = {
@@ -3188,7 +3200,7 @@ export type UpdateProfileMutationVariables = Exact<{
 }>;
 
 
-export type UpdateProfileMutation = { __typename?: 'Mutation', updateprofilesCollection: { __typename?: 'profilesUpdateResponse', affectedCount: number, records: Array<{ __typename?: 'profiles', id: any, display_name?: string | null, bio?: string | null, profile_image_url?: string | null, location?: string | null, instagram?: string | null, url?: string | null, updated_at?: any | null }> } };
+export type UpdateProfileMutation = { __typename?: 'Mutation', updateprofilesCollection: { __typename?: 'profilesUpdateResponse', affectedCount: number, records: Array<{ __typename?: 'profiles', id: any, username: string, display_name?: string | null, bio?: string | null, profile_image_url?: string | null, location?: string | null, instagram?: string | null, url?: string | null, updated_at?: any | null }> } };
 
 export type GetAllRoastersQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -3233,7 +3245,7 @@ export type GetProfileQueryVariables = Exact<{
 }>;
 
 
-export type GetProfileQuery = { __typename?: 'Query', profilesCollection?: { __typename?: 'profilesConnection', edges: Array<{ __typename?: 'profilesEdge', node: { __typename?: 'profiles', id: any, display_name?: string | null, bio?: string | null, profile_image_url?: string | null, location?: string | null, instagram?: string | null, url?: string | null, created_at?: any | null } }> } | null };
+export type GetProfileQuery = { __typename?: 'Query', profilesCollection?: { __typename?: 'profilesConnection', edges: Array<{ __typename?: 'profilesEdge', node: { __typename?: 'profiles', id: any, username: string, display_name?: string | null, bio?: string | null, profile_image_url?: string | null, location?: string | null, instagram?: string | null, url?: string | null, created_at?: any | null } }> } | null };
 
 export type GetRoasterQueryVariables = Exact<{
   id: Scalars['UUID']['input'];
@@ -3383,6 +3395,7 @@ export const UpdateProfileDocument = new TypedDocumentString(`
     affectedCount
     records {
       id
+      username
       display_name
       bio
       profile_image_url
@@ -3659,6 +3672,7 @@ export const GetProfileDocument = new TypedDocumentString(`
     edges {
       node {
         id
+        username
         display_name
         bio
         profile_image_url

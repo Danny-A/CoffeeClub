@@ -25,7 +25,7 @@ export const RegisterForm = () => {
   });
 
   const onSubmit = async (data: RegisterFormType) => {
-    const { error } = await signUp(data.email, data.password, data.displayName);
+    const { error } = await signUp(data.email, data.password, data.userName);
 
     if (!error) {
       router.push('/');
@@ -38,11 +38,11 @@ export const RegisterForm = () => {
         <CardContent className="space-y-4">
           <div className="space-y-4">
             <FormField
-              {...register('displayName')}
+              {...register('userName')}
               type="text"
-              label="Display Name"
-              placeholder="Enter your display name"
-              error={errors.displayName?.message}
+              label="Username"
+              placeholder="Enter your username"
+              error={errors.userName?.message}
             />
             <FormField
               {...register('email')}

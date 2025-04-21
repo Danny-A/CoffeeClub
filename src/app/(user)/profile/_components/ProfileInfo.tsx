@@ -18,7 +18,7 @@ export function ProfileInfo({
           size="lg"
         />
         <div className="flex flex-col gap-1">
-          <Text variant="default">{profile.display_name}</Text>
+          <Text variant="description">@{profile.username}</Text>
           {profile.location && (
             <Text variant="description">{profile.location}</Text>
           )}

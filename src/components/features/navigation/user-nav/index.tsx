@@ -30,11 +30,11 @@ export async function UserNav() {
       <Link href="/profile" className="flex items-center space-x-2">
         <Avatar
           src={profile?.profile_image_url || '/default-avatar.png'}
-          alt={profile?.display_name || 'User'}
+          alt={profile?.display_name || profile?.username || 'User'}
           size="sm"
         />
         <Text className="hidden md:block">
-          {profile?.display_name || 'User'}
+          {profile?.display_name || profile?.username || 'User'}
         </Text>
       </Link>
       <SignOutButton>Sign Out</SignOutButton>

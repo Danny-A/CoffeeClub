@@ -91,18 +91,28 @@ export function useAuth() {
   const signUp = async (
     email: string,
     password: string,
-    displayName: string,
+    userName: string,
   ) => {
     setIsSigningIn(true);
     setSignInError(null);
 
     try {
+      // First check if username is available
+      const { data: usernameCheck, error: checkError } = await supabase
+        .rpc("is_username_available", { desired_username: userName });
+
+      if (checkError) throw checkError;
+      if (!usernameCheck) {
+        throw new Error("Username is already taken");
+      }
+
+      // If username is available, proceed with signup
       const { error: signUpError } = await supabase.auth.signUp({
         email,
         password,
         options: {
           data: {
-            display_name: displayName,
+            username: userName.toLowerCase(), // Store username in lowercase
           },
         },
       });

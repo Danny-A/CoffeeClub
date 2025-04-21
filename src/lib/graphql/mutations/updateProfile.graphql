@@ -3,6 +3,7 @@ mutation UpdateProfile($id: UUID!, $updates: profilesUpdateInput!) {
     affectedCount
     records {
       id
+      username
       display_name
       bio
       profile_image_url

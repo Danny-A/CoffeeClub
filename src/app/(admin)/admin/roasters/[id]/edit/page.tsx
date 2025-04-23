@@ -14,8 +14,8 @@ import { FormField } from '@/components/ui/FormField';
 import { Heading } from '@/components/ui/Heading';
 import { TextArea } from '@/components/ui/TextArea';
 import { useRoaster } from '@/hooks/roasters/useRoaster';
-import { useRoasterImage } from '@/hooks/useRoasterImage';
-import { useUpdateRoaster } from '@/hooks/useUpdateRoaster';
+import { useRoasterImage } from '@/hooks/roasters/useRoasterImage';
+import { useUpdateRoaster } from '@/hooks/roasters/useUpdateRoaster';
 
 const roasterSchema = z.object({
   name: z.string().min(1, 'Name is required'),

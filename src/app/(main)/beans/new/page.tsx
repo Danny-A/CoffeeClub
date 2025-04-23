@@ -20,9 +20,9 @@ import {
 } from '@/components/ui/Select';
 import { Text } from '@/components/ui/Text';
 import { TextArea } from '@/components/ui/TextArea';
+import { useBeanImage } from '@/hooks/beans/useBeanImage';
+import { useCreateBean } from '@/hooks/beans/useCreateBean';
 import { useAllRoasters } from '@/hooks/roasters/useAllRoasters';
-import { useBeanImage } from '@/hooks/useBeanImage';
-import { useCreateBean } from '@/hooks/useCreateBean';
 import {
   Bean_Type,
   Roast_Level,

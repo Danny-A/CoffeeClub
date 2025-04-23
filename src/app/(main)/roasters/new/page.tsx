@@ -12,8 +12,8 @@ import { Card, CardContent, CardFooter } from '@/components/ui/Card';
 import { FormField } from '@/components/ui/FormField';
 import { Heading } from '@/components/ui/Heading';
 import { TextArea } from '@/components/ui/TextArea';
-import { useCreateRoaster } from '@/hooks/useCreateRoaster';
-import { useRoasterImage } from '@/hooks/useRoasterImage';
+import { useCreateRoaster } from '@/hooks/roasters/useCreateRoaster';
+import { useRoasterImage } from '@/hooks/roasters/useRoasterImage';
 
 const roasterSchema = z.object({
   name: z.string().min(1, 'Name is required'),

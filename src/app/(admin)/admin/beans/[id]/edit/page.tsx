@@ -22,9 +22,9 @@ import {
 import { Text } from '@/components/ui/Text';
 import { TextArea } from '@/components/ui/TextArea';
 import { useBean } from '@/hooks/beans/useBean';
+import { useBeanImage } from '@/hooks/beans/useBeanImage';
+import { useUpdateBean } from '@/hooks/beans/useUpdateBean';
 import { useAllRoasters } from '@/hooks/roasters/useAllRoasters';
-import { useBeanImage } from '@/hooks/useBeanImage';
-import { useUpdateBean } from '@/hooks/useUpdateBean';
 import {
   Bean_Type,
   Roast_Level,

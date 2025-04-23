@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
-import { Navigation } from '@/components/layout/Navigation';
+import { AdminNavigation } from '@/components/layout/AdminNavigation';
 import { Providers } from '@/lib/providers';
 
 import '../globals.css';
@@ -27,7 +27,7 @@ export default function AuthLayout({
       <body className={inter.className}>
         <Providers>
           <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-            <Navigation />
+            <AdminNavigation />
             <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
               {children}
             </main>

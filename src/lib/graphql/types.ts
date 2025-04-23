@@ -23,7 +23,7 @@ export interface Bean {
   createdAt?: string;
   updatedAt?: string;
   averageRating?: number;
-  is_published: boolean;
+  is_published?: boolean;
   reviews?: {
     id: string;
     rating: number;
@@ -44,7 +44,7 @@ export type Roaster = {
   instagram?: string;
   beanCount: number;
   created_at: string;
-  is_published: boolean;
+  is_published?: boolean;
   likes: Array<{
     id: string;
     user_id: string;

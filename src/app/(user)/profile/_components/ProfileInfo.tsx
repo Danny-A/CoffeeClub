@@ -4,8 +4,10 @@ import { ProfilesEdge } from '@/lib/graphql/generated/graphql';
 
 export function ProfileInfo({
   profile,
+  email,
 }: {
   profile: ProfilesEdge['node'] | null;
+  email: string | null;
 }) {
   if (!profile) return <div>No profile found</div>;
 
@@ -18,6 +20,7 @@ export function ProfileInfo({
           size="lg"
         />
         <div className="flex flex-col gap-1">
+          {email && <Text variant="description">{email}</Text>}
           <Text variant="description">@{profile.username}</Text>
           {profile.location && (
             <Text variant="description">{profile.location}</Text>

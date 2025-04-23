@@ -47,7 +47,7 @@ export default async function ProfilePage() {
           <Card>
             <CardContent>
               <Suspense fallback={<Text>Loading...</Text>}>
-                <ProfileInfo profile={profile} />
+                <ProfileInfo profile={profile} email={user.email ?? null} />
               </Suspense>
             </CardContent>
           </Card>

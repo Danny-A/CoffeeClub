@@ -3194,13 +3194,29 @@ export type UnlikeLocationMutationVariables = Exact<{
 
 export type UnlikeLocationMutation = { __typename?: 'Mutation', deleteFromlocation_likesCollection: { __typename?: 'location_likesDeleteResponse', records: Array<{ __typename?: 'location_likes', id: any }> } };
 
+export type UpdateBeanMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  set: BeansUpdateInput;
+}>;
+
+
+export type UpdateBeanMutation = { __typename?: 'Mutation', updatebeansCollection: { __typename?: 'beansUpdateResponse', affectedCount: number, records: Array<{ __typename?: 'beans', id: any, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, is_published: boolean, created_at?: any | null, updated_at?: any | null, roasters?: { __typename?: 'roasters', id: any, name: string } | null }> } };
+
 export type UpdateProfileMutationVariables = Exact<{
   id: Scalars['UUID']['input'];
-  updates: ProfilesUpdateInput;
+  set: ProfilesUpdateInput;
 }>;
 
 
 export type UpdateProfileMutation = { __typename?: 'Mutation', updateprofilesCollection: { __typename?: 'profilesUpdateResponse', affectedCount: number, records: Array<{ __typename?: 'profiles', id: any, username: string, display_name?: string | null, bio?: string | null, profile_image_url?: string | null, location?: string | null, instagram?: string | null, url?: string | null, updated_at?: any | null }> } };
+
+export type UpdateRoasterMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  set: RoastersUpdateInput;
+}>;
+
+
+export type UpdateRoasterMutation = { __typename?: 'Mutation', updateroastersCollection: { __typename?: 'roastersUpdateResponse', affectedCount: number, records: Array<{ __typename?: 'roasters', id: any, name: string, description?: string | null, profile_image_url?: string | null, location_city?: string | null, location_state?: string | null, location_country?: string | null, url?: string | null, instagram?: string | null, is_published: boolean, created_at?: any | null, updated_at?: any | null }> } };
 
 export type GetAllRoastersQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -3215,7 +3231,7 @@ export type GetBeanQueryVariables = Exact<{
 }>;
 
 
-export type GetBeanQuery = { __typename?: 'Query', beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, is_published: boolean, created_at?: any | null, roasters?: { __typename?: 'roasters', id: any, name: string } | null, bean_varietiesCollection?: { __typename?: 'bean_varietiesConnection', edges: Array<{ __typename?: 'bean_varietiesEdge', node: { __typename?: 'bean_varieties', varieties: { __typename?: 'varieties', id: any, name: string } } }> } | null, bean_tagsCollection?: { __typename?: 'bean_tagsConnection', edges: Array<{ __typename?: 'bean_tagsEdge', node: { __typename?: 'bean_tags', tags?: { __typename?: 'tags', id: any, name: string } | null } }> } | null, bean_reviewsCollection?: { __typename?: 'bean_reviewsConnection', edges: Array<{ __typename?: 'bean_reviewsEdge', node: { __typename?: 'bean_reviews', id: any, rating?: any | null, content?: string | null, coffee_type?: Coffee_Type | null, created_at?: any | null, profiles?: { __typename?: 'profiles', id: any, display_name?: string | null, profile_image_url?: string | null } | null } }> } | null } }> } | null };
+export type GetBeanQuery = { __typename?: 'Query', beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, is_published: boolean, created_at?: any | null, roasters?: { __typename?: 'roasters', id: any, name: string } | null, bean_varietiesCollection?: { __typename?: 'bean_varietiesConnection', edges: Array<{ __typename?: 'bean_varietiesEdge', node: { __typename?: 'bean_varieties', varieties: { __typename?: 'varieties', id: any, name: string } } }> } | null, bean_tagsCollection?: { __typename?: 'bean_tagsConnection', edges: Array<{ __typename?: 'bean_tagsEdge', node: { __typename?: 'bean_tags', tags?: { __typename?: 'tags', id: any, name: string } | null } }> } | null, bean_reviewsCollection?: { __typename?: 'bean_reviewsConnection', edges: Array<{ __typename?: 'bean_reviewsEdge', node: { __typename?: 'bean_reviews', id: any, rating?: any | null, content?: string | null, coffee_type?: Coffee_Type | null, created_at?: any | null, profiles?: { __typename?: 'profiles', id: any, username: string, display_name?: string | null, profile_image_url?: string | null } | null } }> } | null } }> } | null };
 
 export type GetBeansQueryVariables = Exact<{
   filter?: InputMaybe<BeansFilter>;
@@ -3389,9 +3405,39 @@ export const UnlikeLocationDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UnlikeLocationMutation, UnlikeLocationMutationVariables>;
+export const UpdateBeanDocument = new TypedDocumentString(`
+    mutation UpdateBean($id: UUID!, $set: beansUpdateInput!) {
+  updatebeansCollection(filter: {id: {eq: $id}}, set: $set) {
+    affectedCount
+    records {
+      id
+      name
+      description
+      image_url
+      roast_type
+      process
+      roast_level
+      bean_type
+      elevation_min
+      elevation_max
+      origin
+      producer
+      notes
+      buy_urls
+      is_published
+      created_at
+      updated_at
+      roasters {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBeanMutation, UpdateBeanMutationVariables>;
 export const UpdateProfileDocument = new TypedDocumentString(`
-    mutation UpdateProfile($id: UUID!, $updates: profilesUpdateInput!) {
-  updateprofilesCollection(filter: {id: {eq: $id}}, set: $updates) {
+    mutation UpdateProfile($id: UUID!, $set: profilesUpdateInput!) {
+  updateprofilesCollection(filter: {id: {eq: $id}}, set: $set) {
     affectedCount
     records {
       id
@@ -3407,6 +3453,27 @@ export const UpdateProfileDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UpdateProfileMutation, UpdateProfileMutationVariables>;
+export const UpdateRoasterDocument = new TypedDocumentString(`
+    mutation UpdateRoaster($id: UUID!, $set: roastersUpdateInput!) {
+  updateroastersCollection(filter: {id: {eq: $id}}, set: $set) {
+    affectedCount
+    records {
+      id
+      name
+      description
+      profile_image_url
+      location_city
+      location_state
+      location_country
+      url
+      instagram
+      is_published
+      created_at
+      updated_at
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRoasterMutation, UpdateRoasterMutationVariables>;
 export const GetAllRoastersDocument = new TypedDocumentString(`
     query GetAllRoasters($first: Int) {
   roastersCollection(
@@ -3476,6 +3543,7 @@ export const GetBeanDocument = new TypedDocumentString(`
               coffee_type
               profiles {
                 id
+                username
                 display_name
                 profile_image_url
               }

@@ -8,6 +8,7 @@ export function transformUser(user: SupabaseUser | null): User | null {
   return {
     id: user.id,
     email: user.email || "",
+    username: user.user_metadata?.username || "",
     displayName: user.user_metadata?.name || user.email || "",
     avatarUrl: user.user_metadata?.avatar_url,
     createdAt: user.created_at,

@@ -19,6 +19,7 @@ export type BeanFilters = {
   maxRating?: number;
   first?: number;
   after?: string;
+  includeUnpublished?: boolean;
 };
 
 export async function fetchBeans(
@@ -33,6 +34,7 @@ export async function fetchBeans(
     maxRating,
     first = 30,
     after,
+    includeUnpublished = false,
   } = filters || {};
 
   const response = await graphqlFetch<
@@ -48,7 +50,8 @@ export async function fetchBeans(
           ...(origin && { origin: { eq: origin } as StringFilter }),
           ...(process && { process: { eq: process } as StringFilter }),
           ...(roastLevel && { roast_level: { eq: roastLevel as Roast_Level } }),
-          is_published: { eq: true } as BooleanFilter,
+          ...(!includeUnpublished &&
+            { is_published: { eq: true } as BooleanFilter }),
           ...(minRating !== undefined || maxRating !== undefined) && {
             and: [
               { average_rating: { is: FilterIs.NotNull } },

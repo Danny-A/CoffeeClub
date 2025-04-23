@@ -102,6 +102,7 @@ export function useAuth() {
         .rpc("is_username_available", { desired_username: userName });
 
       if (checkError) throw checkError;
+
       if (!usernameCheck) {
         throw new Error("Username is already taken");
       }

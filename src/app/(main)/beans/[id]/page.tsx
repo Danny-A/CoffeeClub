@@ -183,7 +183,8 @@ export default async function BeanDetails({ params }: BeanDetailsProps) {
                       />
                       <div>
                         <Text className="font-medium">
-                          {review.node.profiles?.display_name}
+                          {review.node.profiles?.display_name ??
+                            review.node.profiles?.username}
                         </Text>
                         <Text
                           variant="small"

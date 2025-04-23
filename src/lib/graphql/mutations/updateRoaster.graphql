@@ -1,0 +1,19 @@
+mutation UpdateRoaster($id: UUID!, $set: roastersUpdateInput!) {
+  updateroastersCollection(filter: { id: { eq: $id } }, set: $set) {
+    affectedCount
+    records {
+      id
+      name
+      description
+      profile_image_url
+      location_city
+      location_state
+      location_country
+      url
+      instagram
+      is_published
+      created_at
+      updated_at
+    }
+  }
+}

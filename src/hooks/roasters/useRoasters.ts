@@ -4,19 +4,16 @@ import { fetchRoasters, type RoasterFilters } from "@/lib/api/fetchRoasters";
 import { GetRoastersQuery } from "@/lib/graphql/generated/graphql";
 import { Roaster } from "@/lib/graphql/types";
 
+type RoastersQuery = NonNullable<GetRoastersQuery["roastersCollection"]>;
 type RoastersResponse = {
-  edges: {
-    node: Roaster;
-  }[];
+  edges: Array<{ node: Roaster }>;
   pageInfo: {
     hasNextPage: boolean;
     endCursor: string | null;
   };
 };
 
-function transformRoastersData(
-  data: NonNullable<GetRoastersQuery["roastersCollection"]>,
-): RoastersResponse {
+function transformRoastersData(data: RoastersQuery): RoastersResponse {
   return {
     edges: data.edges.map((roaster) => ({
       node: {
@@ -29,6 +26,7 @@ function transformRoastersData(
         instagram: roaster.node.instagram || undefined,
         beanCount: roaster.node.beansCollection?.edges.length || 0,
         created_at: roaster.node.created_at,
+        is_published: roaster.node.is_published,
         likes: roaster.node.roaster_likesCollection?.edges.map((edge) => ({
           id: edge.node.id,
           user_id: edge.node.user_id || "",
@@ -44,7 +42,7 @@ function transformRoastersData(
 
 export function useRoasters(
   filters?: Omit<RoasterFilters, "first" | "after">,
-  initialData?: NonNullable<GetRoastersQuery["roastersCollection"]>,
+  initialData?: RoastersQuery,
 ) {
   return useInfiniteQuery<RoastersResponse>({
     queryKey: ["roasters", filters],

@@ -1,16 +1,22 @@
 export interface User {
   id: string;
+  username: string;
   email: string;
-  displayName: string;
+  displayName?: string;
   avatarUrl?: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
+
+export type RoasterOnBean = {
+  id: string;
+  name: string;
+};
 
 export interface Bean {
   id: string;
   name: string;
-  roaster?: Roaster;
+  roaster?: RoasterOnBean;
   origin: string;
   process?: string;
   roastLevel?: string;
@@ -29,7 +35,7 @@ export interface Bean {
   }[];
 }
 
-export interface Roaster {
+export type Roaster = {
   id: string;
   name: string;
   city?: string;
@@ -37,14 +43,14 @@ export interface Roaster {
   country?: string;
   url?: string;
   instagram?: string;
-  beanCount?: number;
-  created_at?: string;
+  beanCount: number;
+  created_at: string;
   is_published?: boolean;
-  likes?: {
+  likes: Array<{
     id: string;
     user_id: string;
-  }[];
-}
+  }>;
+};
 
 export interface CoffeeBar {
   id: string;

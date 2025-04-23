@@ -10,8 +10,8 @@ export function useProfile() {
   const { user } = useAuth();
 
   const updateProfileMutation = useMutation({
-    mutationFn: async (updates: Partial<Profile>) => {
-      return updateProfile(updates, user);
+    mutationFn: async (input: Partial<Profile>) => {
+      return updateProfile(input, user);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile", user?.id] });

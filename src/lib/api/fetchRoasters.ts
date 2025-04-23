@@ -1,4 +1,4 @@
-import { graphqlFetch } from "@/lib/graphql/client";
+import { graphqlFetch } from "../graphql/client";
 import {
   BooleanFilter,
   GetRoastersDocument,
@@ -6,18 +6,31 @@ import {
   GetRoastersQueryVariables,
   RoastersFilter,
   StringFilter,
-} from "@/lib/graphql/generated/graphql";
+} from "../graphql/generated/graphql";
 
 export type RoasterFilters = {
   search?: string;
+  city?: string;
+  state?: string;
   country?: string;
   first?: number;
   after?: string;
+  includeUnpublished?: boolean;
 };
 
 export async function fetchRoasters(
   filters?: RoasterFilters,
 ): Promise<GetRoastersQuery> {
+  const {
+    search,
+    city,
+    state,
+    country,
+    first = 30,
+    after,
+    includeUnpublished = false,
+  } = filters || {};
+
   const response = await graphqlFetch<
     GetRoastersQuery,
     GetRoastersQueryVariables
@@ -26,51 +39,22 @@ export async function fetchRoasters(
     {
       variables: {
         filter: {
-          is_published: { eq: true } as BooleanFilter,
-          ...(filters?.search && {
-            or: [
-              {
-                name: {
-                  ilike: `%${filters.search.toLowerCase()}%`,
-                } as StringFilter,
-              },
-              {
-                location_city: {
-                  ilike: `%${filters.search.toLowerCase()}%`,
-                } as StringFilter,
-              },
-              {
-                location_state: {
-                  ilike: `%${filters.search.toLowerCase()}%`,
-                } as StringFilter,
-              },
-              {
-                location_country: {
-                  ilike: `%${filters.search.toLowerCase()}%`,
-                } as StringFilter,
-              },
-            ],
-          }),
-          ...(filters?.country && {
-            location_country: { eq: filters.country } as StringFilter,
-          }),
+          ...(search &&
+            { name: { ilike: `%${search.toLowerCase()}%` } as StringFilter }),
+          ...(city && { location_city: { eq: city } as StringFilter }),
+          ...(state && { location_state: { eq: state } as StringFilter }),
+          ...(country && { location_country: { eq: country } as StringFilter }),
+          ...(!includeUnpublished &&
+            { is_published: { eq: true } as BooleanFilter }),
         } as RoastersFilter,
-        first: filters?.first ?? 30,
-        after: filters?.after,
+        first,
+        after,
       },
     },
   );
 
   if (!response.data.roastersCollection) {
-    return {
-      roastersCollection: {
-        edges: [],
-        pageInfo: {
-          hasNextPage: false,
-          endCursor: null,
-        },
-      },
-    };
+    return { roastersCollection: null };
   }
 
   return response.data;

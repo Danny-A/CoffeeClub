@@ -1,16 +1,21 @@
 export interface User {
   id: string;
-  email: string;
-  displayName: string;
-  avatarUrl?: string;
-  createdAt: string;
-  updatedAt: string;
+  username: string;
+  display_name?: string;
+  profile_image_url?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
+
+export type RoasterOnBean = {
+  id: string;
+  name: string;
+};
 
 export interface Bean {
   id: string;
   name: string;
-  roaster?: Roaster;
+  roaster?: RoasterOnBean;
   origin: string;
   process?: string;
   roastLevel?: string;
@@ -18,7 +23,7 @@ export interface Bean {
   createdAt?: string;
   updatedAt?: string;
   averageRating?: number;
-  is_published?: boolean;
+  is_published: boolean;
   reviews?: {
     id: string;
     rating: number;
@@ -29,7 +34,7 @@ export interface Bean {
   }[];
 }
 
-export interface Roaster {
+export type Roaster = {
   id: string;
   name: string;
   city?: string;
@@ -37,14 +42,14 @@ export interface Roaster {
   country?: string;
   url?: string;
   instagram?: string;
-  beanCount?: number;
-  created_at?: string;
-  is_published?: boolean;
-  likes?: {
+  beanCount: number;
+  created_at: string;
+  is_published: boolean;
+  likes: Array<{
     id: string;
     user_id: string;
-  }[];
-}
+  }>;
+};
 
 export interface CoffeeBar {
   id: string;

@@ -1,0 +1,28 @@
+mutation UpdateBean($id: UUID!, $set: beansUpdateInput!) {
+  updatebeansCollection(filter: { id: { eq: $id } }, set: $set) {
+    affectedCount
+    records {
+      id
+      name
+      description
+      image_url
+      roast_type
+      process
+      roast_level
+      bean_type
+      elevation_min
+      elevation_max
+      origin
+      producer
+      notes
+      buy_urls
+      is_published
+      created_at
+      updated_at
+      roasters {
+        id
+        name
+      }
+    }
+  }
+}

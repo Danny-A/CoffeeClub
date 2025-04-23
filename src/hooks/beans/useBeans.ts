@@ -31,6 +31,7 @@ function transformBeansData(data: BeansQuery): BeansResponse {
         createdAt: bean.node.created_at,
         updatedAt: bean.node.created_at,
         averageRating: bean.node.average_rating || 0,
+        is_published: bean.node.is_published,
         reviews: bean.node.bean_reviewsCollection?.edges.map((edge) => ({
           id: edge.node.id,
           rating: edge.node.rating || 0,

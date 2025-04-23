@@ -50,6 +50,7 @@ query GetBean($id: UUID!, $filter: beansFilter) {
               coffee_type
               profiles {
                 id
+                username
                 display_name
                 profile_image_url
               }

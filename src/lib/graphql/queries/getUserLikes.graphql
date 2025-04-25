@@ -1,0 +1,75 @@
+query GetUserLikes($userId: UUID!, $first: Int, $after: Cursor) {
+  bean_likesCollection(
+    filter: { user_id: { eq: $userId } }
+    first: $first
+    after: $after
+  ) {
+    edges {
+      node {
+        id
+        created_at
+        beans {
+          id
+          name
+          roaster_id
+          process
+          image_url
+          roasters {
+            name
+          }
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+  roaster_likesCollection(
+    filter: { user_id: { eq: $userId } }
+    first: $first
+    after: $after
+  ) {
+    edges {
+      node {
+        id
+        created_at
+        roasters {
+          id
+          name
+          profile_image_url
+          location_city
+          location_state
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+  location_likesCollection(
+    filter: { user_id: { eq: $userId } }
+    first: $first
+    after: $after
+  ) {
+    edges {
+      node {
+        id
+        created_at
+        locations {
+          id
+          name
+          image_url
+          address
+          latitude
+          longitude
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

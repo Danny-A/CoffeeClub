@@ -8,9 +8,9 @@ type TextElement = 'p' | 'span' | 'div' | 'label';
 const textVariants = cva('leading-relaxed', {
   variants: {
     variant: {
-      default: 'text-base text-gray-700 dark:text-gray-300',
-      small: 'text-sm text-gray-600 dark:text-gray-400',
-      large: 'text-lg text-gray-700 dark:text-gray-300',
+      default: 'text-sm md:text-base text-gray-700 dark:text-gray-300',
+      small: 'text-xs md:text-sm text-gray-600 dark:text-gray-400',
+      large: 'text-md md:text-lg text-gray-700 dark:text-gray-300',
       label: 'text-sm font-medium text-gray-700 dark:text-gray-300',
       error: 'text-sm text-red-600 dark:text-red-400',
       description: 'text-sm text-gray-500 dark:text-gray-400',

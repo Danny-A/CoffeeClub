@@ -10,8 +10,8 @@ export function DashboardStats() {
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        {[...Array(4)].map((_, i) => (
+      <div className="grid grid-cols-3 md:grid-cols-4 gap-6">
+        {[...Array(7)].map((_, i) => (
           <Card
             key={i}
             className="h-32 animate-pulse bg-gray-100 dark:bg-gray-800"
@@ -63,7 +63,7 @@ export function DashboardStats() {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+    <div className="grid grid-cols-3 md:grid-cols-4 gap-6">
       {stats.map((stat) => (
         <Card key={stat.title}>
           <CardContent>

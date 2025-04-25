@@ -40,12 +40,12 @@ export function AdminNavigation() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild>
-                  <Link href="/admin/beans/new" className="w-full">
+                  <Link href="/beans/new" className="w-full">
                     Add Bean
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href="/admin/roasters/new" className="w-full">
+                  <Link href="/roasters/new" className="w-full">
                     Add Roaster
                   </Link>
                 </DropdownMenuItem>

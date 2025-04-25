@@ -3280,6 +3280,15 @@ export type GetRoastersQueryVariables = Exact<{
 
 export type GetRoastersQuery = { __typename?: 'Query', roastersCollection?: { __typename?: 'roastersConnection', edges: Array<{ __typename?: 'roastersEdge', node: { __typename?: 'roasters', id: any, name: string, description?: string | null, profile_image_url?: string | null, location_city?: string | null, location_state?: string | null, location_country?: string | null, url?: string | null, instagram?: string | null, claimed_by?: any | null, created_at?: any | null, is_published: boolean, beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any } }> } | null, roaster_likesCollection?: { __typename?: 'roaster_likesConnection', edges: Array<{ __typename?: 'roaster_likesEdge', node: { __typename?: 'roaster_likes', id: any, user_id?: any | null } }> } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
 
+export type GetUserLikesQueryVariables = Exact<{
+  userId: Scalars['UUID']['input'];
+  first?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+}>;
+
+
+export type GetUserLikesQuery = { __typename?: 'Query', bean_likesCollection?: { __typename?: 'bean_likesConnection', edges: Array<{ __typename?: 'bean_likesEdge', node: { __typename?: 'bean_likes', id: any, created_at?: any | null, beans?: { __typename?: 'beans', id: any, name: string, roaster_id?: any | null, process?: string | null, image_url?: string | null, roasters?: { __typename?: 'roasters', name: string } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null, roaster_likesCollection?: { __typename?: 'roaster_likesConnection', edges: Array<{ __typename?: 'roaster_likesEdge', node: { __typename?: 'roaster_likes', id: any, created_at?: any | null, roasters?: { __typename?: 'roasters', id: any, name: string, profile_image_url?: string | null, location_city?: string | null, location_state?: string | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null, location_likesCollection?: { __typename?: 'location_likesConnection', edges: Array<{ __typename?: 'location_likesEdge', node: { __typename?: 'location_likes', id: any, created_at?: any | null, locations?: { __typename?: 'locations', id: any, name: string, image_url?: string | null, address?: string | null, latitude?: any | null, longitude?: any | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -3845,3 +3854,80 @@ export const GetRoastersDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<GetRoastersQuery, GetRoastersQueryVariables>;
+export const GetUserLikesDocument = new TypedDocumentString(`
+    query GetUserLikes($userId: UUID!, $first: Int, $after: Cursor) {
+  bean_likesCollection(
+    filter: {user_id: {eq: $userId}}
+    first: $first
+    after: $after
+  ) {
+    edges {
+      node {
+        id
+        created_at
+        beans {
+          id
+          name
+          roaster_id
+          process
+          image_url
+          roasters {
+            name
+          }
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+  roaster_likesCollection(
+    filter: {user_id: {eq: $userId}}
+    first: $first
+    after: $after
+  ) {
+    edges {
+      node {
+        id
+        created_at
+        roasters {
+          id
+          name
+          profile_image_url
+          location_city
+          location_state
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+  location_likesCollection(
+    filter: {user_id: {eq: $userId}}
+    first: $first
+    after: $after
+  ) {
+    edges {
+      node {
+        id
+        created_at
+        locations {
+          id
+          name
+          image_url
+          address
+          latitude
+          longitude
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetUserLikesQuery, GetUserLikesQueryVariables>;

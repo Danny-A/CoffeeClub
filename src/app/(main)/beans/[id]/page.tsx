@@ -45,6 +45,9 @@ export default async function BeanDetails({ params }: BeanDetailsProps) {
     );
   }
 
+  const reviews = bean.bean_reviewsCollection?.edges;
+  const noReviews = reviews?.length === 0;
+
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-start">
@@ -154,24 +157,19 @@ export default async function BeanDetails({ params }: BeanDetailsProps) {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <Heading level="h3" as="h2">
-              Reviews
-            </Heading>
-          </CardHeader>
-          <CardContent>
-            {bean.bean_reviewsCollection?.edges.length === 0 ? (
-              <Text className="mt-2 text-gray-600 dark:text-gray-400">
-                No reviews yet. Be the first to review this bean!
-              </Text>
-            ) : (
-              <div className="mt-4 space-y-6">
-                {bean.bean_reviewsCollection?.edges.map((review) => (
-                  <div
-                    key={review.node.id}
-                    className="bg-white dark:bg-gray-800 rounded-lg shadow p-6"
-                  >
+        <div>
+          <Heading level="h3" as="h2">
+            Reviews
+          </Heading>
+          {noReviews ? (
+            <Text className="mt-2 text-gray-600 dark:text-gray-400">
+              No reviews yet. Be the first to review this bean!
+            </Text>
+          ) : (
+            <div className="mt-4 space-y-6">
+              {reviews?.map((review) => (
+                <Card key={review.node.id}>
+                  <CardHeader>
                     <div className="flex items-center space-x-4">
                       <img
                         src={
@@ -194,27 +192,27 @@ export default async function BeanDetails({ params }: BeanDetailsProps) {
                         </Text>
                       </div>
                     </div>
-                    <div className="mt-4">
-                      <div className="flex items-center space-x-2">
-                        <Text variant="label">Rating:</Text>
-                        <Text>{review.node.rating}/5</Text>
-                      </div>
-                      {review.node.coffee_type && (
-                        <div className="flex items-center space-x-2 mt-2">
-                          <Text variant="label">Coffee Type:</Text>
-                          <Text>{review.node.coffee_type}</Text>
-                        </div>
-                      )}
-                      {review.node.content && (
-                        <Text className="mt-4">{review.node.content}</Text>
-                      )}
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center space-x-2">
+                      <Text variant="label">Rating:</Text>
+                      <Text>{review.node.rating}/5</Text>
                     </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+                    {review.node.coffee_type && (
+                      <div className="flex items-center space-x-2 mt-2">
+                        <Text variant="label">Coffee Type:</Text>
+                        <Text>{review.node.coffee_type}</Text>
+                      </div>
+                    )}
+                    {review.node.content && (
+                      <Text className="mt-4">{review.node.content}</Text>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

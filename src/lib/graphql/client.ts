@@ -53,7 +53,7 @@ export const graphqlFetch = async <TData, TVariables = Record<string, unknown>>(
   }
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_SUPABASE_GRAPHQL_URL}`,
+    `${process.env.NEXT_PUBLIC_SUPABASE_URL}/graphql/v1`,
     {
       method: "POST",
       headers,

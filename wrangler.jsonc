@@ -1,8 +1,16 @@
 {
+  "main": ".open-next/worker.js",
   "name": "dailybean",
   "compatibility_date": "2025-04-25",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
-    "directory": "./dist",
+    "directory": ".open-next/assets",
+    "binding": "ASSETS",
   },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "dailybean",
+    },
+  ],
 }

@@ -1,50 +1,53 @@
-import Image from 'next/image';
+'use client';
+
+import * as AvatarPrimitive from '@radix-ui/react-avatar';
+import * as React from 'react';
 
 import { cn } from '@/utils/cn';
 
-interface AvatarProps {
-  src: string;
-  alt: string;
-  size?: 'sm' | 'md' | 'lg';
-  className?: string;
-}
-
-export function Avatar({ src, alt, size = 'md', className }: AvatarProps) {
-  const sizeClasses = {
-    sm: 'w-8 h-8',
-    md: 'w-10 h-10',
-    lg: 'w-12 h-12',
-  };
-
-  if (!src) {
-    return (
-      <div
-        className={cn(
-          'relative rounded-full overflow-hidden',
-          sizeClasses[size],
-          className
-        )}
-      >
-        <div className="w-full h-full bg-gray-200" />
-      </div>
-    );
-  }
-
+function Avatar({
+  className,
+  ...props
+}: React.ComponentProps<typeof AvatarPrimitive.Root>) {
   return (
-    <div
+    <AvatarPrimitive.Root
+      data-slot="avatar"
       className={cn(
-        'relative rounded-full overflow-hidden',
-        sizeClasses[size],
+        'relative flex size-8 shrink-0 overflow-hidden rounded-full',
         className
       )}
-    >
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        className="object-cover"
-        sizes="(max-width: 768px) 32px, (max-width: 1200px) 40px, 48px"
-      />
-    </div>
+      {...props}
+    />
   );
 }
+
+function AvatarImage({
+  className,
+  ...props
+}: React.ComponentProps<typeof AvatarPrimitive.Image>) {
+  return (
+    <AvatarPrimitive.Image
+      data-slot="avatar-image"
+      className={cn('aspect-square size-full', className)}
+      {...props}
+    />
+  );
+}
+
+function AvatarFallback({
+  className,
+  ...props
+}: React.ComponentProps<typeof AvatarPrimitive.Fallback>) {
+  return (
+    <AvatarPrimitive.Fallback
+      data-slot="avatar-fallback"
+      className={cn(
+        'bg-muted flex size-full items-center justify-center rounded-full',
+        className
+      )}
+      {...props}
+    />
+  );
+}
+
+export { Avatar, AvatarImage, AvatarFallback };

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { SignOutButton } from '@/components/features/SignOutButton';
-import { Avatar } from '@/components/ui/Avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/ui/Text';
 import { fetchProfile } from '@/lib/api/fetchProfile';
@@ -28,11 +28,13 @@ export async function UserNav() {
   return (
     <div className="flex items-center space-x-4">
       <Link href="/profile" className="flex items-center space-x-2">
-        <Avatar
-          src={profile?.profile_image_url || '/default-avatar.png'}
-          alt={profile?.display_name || profile?.username || 'User'}
-          size="sm"
-        />
+        <Avatar>
+          <AvatarImage
+            src={profile?.profile_image_url ?? ''}
+            alt={profile?.display_name ?? profile?.username ?? 'User'}
+          />
+          <AvatarFallback>{profile?.username?.[0] ?? 'U'}</AvatarFallback>
+        </Avatar>
         <Text className="hidden md:block">
           {profile?.display_name || profile?.username || 'User'}
         </Text>

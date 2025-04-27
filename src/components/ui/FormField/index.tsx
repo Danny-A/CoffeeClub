@@ -6,7 +6,7 @@ import { cn } from '@/utils/cn';
 import { formFieldVariants } from './variants';
 
 type FormFieldProps = React.ComponentProps<'input'> & {
-  label: string;
+  label?: string;
   error?: string;
   description?: string;
 };

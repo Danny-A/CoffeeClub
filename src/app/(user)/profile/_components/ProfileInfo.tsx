@@ -1,4 +1,4 @@
-import { Avatar } from '@/components/ui/Avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
 import { Text } from '@/components/ui/Text';
 import { ProfilesEdge } from '@/lib/graphql/generated/graphql';
 
@@ -14,11 +14,12 @@ export function ProfileInfo({
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center gap-4">
-        <Avatar
-          src={profile.profile_image_url || ''}
-          alt={profile.display_name || 'Profile'}
-          size="lg"
-        />
+        <Avatar>
+          <AvatarImage src={profile.profile_image_url || ''} />
+          <AvatarFallback>
+            {profile.display_name?.charAt(0) || ''}
+          </AvatarFallback>
+        </Avatar>
         <div className="flex flex-col gap-1">
           {email && <Text variant="description">{email}</Text>}
           <Text variant="description">@{profile.username}</Text>

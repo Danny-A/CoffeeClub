@@ -1,6 +1,7 @@
 "use client";
 
 import { AuthError, Session } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { User as GraphQLUser } from "@/lib/graphql/types";
@@ -14,6 +15,7 @@ export function useAuth() {
   const [session, setSession] = useState<Session | null>(null);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const supabase = createClient();
+  const router = useRouter();
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -134,6 +136,7 @@ export function useAuth() {
     try {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
+      router.push("/login");
     } catch (error) {
       console.error("Error signing out:", error);
     }

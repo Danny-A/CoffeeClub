@@ -1,9 +1,11 @@
-import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
+import withBundleAnalyzer from "@next/bundle-analyzer";
 import type { NextConfig } from "next";
 
-initOpenNextCloudflareForDev();
+const bundleAnalyzer = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
 
-const nextConfig: NextConfig = {
+const nextConfig: NextConfig = bundleAnalyzer({
   images: {
     remotePatterns: [
       {
@@ -20,6 +22,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-};
+});
 
 export default nextConfig;

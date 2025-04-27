@@ -1,8 +1,7 @@
 import Link from 'next/link';
 
-import { UserNav } from '@/components/features/navigation/user-nav';
-
-import { NavigationLinks } from '../features/navigation/navigation-links';
+import { NavigationLinks } from '@/components/features/Navigation/NavigationLinks';
+import { UserNav } from '@/components/features/Navigation/UserNav';
 
 export function Navigation() {
   return (

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
-import { Avatar } from '@/components/ui/Avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardFooter } from '@/components/ui/Card';
 import { FormField } from '@/components/ui/FormField';
@@ -66,11 +66,12 @@ export function EditProfileInfo({ profile }: { profile: Profiles | null }) {
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
         <CardContent className="flex flex-col gap-6">
           <div className="flex items-center gap-4">
-            <Avatar
-              src={profile.profile_image_url || ''}
-              alt={profile.display_name || 'Profile'}
-              size="lg"
-            />
+            <Avatar>
+              <AvatarImage src={profile.profile_image_url || ''} />
+              <AvatarFallback>
+                {profile.display_name?.charAt(0) || ''}
+              </AvatarFallback>
+            </Avatar>
             <div className="flex-1">
               <FormField
                 type="file"

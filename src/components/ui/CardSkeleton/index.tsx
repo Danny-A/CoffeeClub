@@ -1,4 +1,4 @@
-import { Skeleton } from '../Skeleton/skeleton';
+import { Skeleton } from '../Skeleton';
 
 interface CardSkeletonProps {
   className?: string;

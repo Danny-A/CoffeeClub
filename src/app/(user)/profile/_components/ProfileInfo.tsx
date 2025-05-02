@@ -1,14 +1,12 @@
+'use client';
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
 import { Text } from '@/components/ui/Text';
-import { ProfilesEdge } from '@/lib/graphql/generated/graphql';
+import { useProfile } from '@/hooks/profile/useProfile';
 
-export function ProfileInfo({
-  profile,
-  email,
-}: {
-  profile: ProfilesEdge['node'] | null;
-  email: string | null;
-}) {
+export function ProfileInfo({ email }: { email: string | null }) {
+  const { profile } = useProfile();
+
   if (!profile) return <div>No profile found</div>;
 
   return (

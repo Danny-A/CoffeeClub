@@ -10,15 +10,15 @@ import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardFooter } from '@/components/ui/Card';
 import { FormField } from '@/components/ui/FormField';
 import { useProfile } from '@/hooks/profile/useProfile';
-import { Profiles } from '@/lib/graphql/generated/graphql';
 import {
   editProfileSchema,
   EditProfileFormData,
 } from '@/lib/validations/profile';
 
-export function EditProfileInfo({ profile }: { profile: Profiles | null }) {
+export function EditProfileInfo() {
   const router = useRouter();
-  const { updateProfile, uploadProfileImage } = useProfile();
+  const { profile, updateProfile, uploadProfileImage } = useProfile();
+
   const {
     register,
     handleSubmit,

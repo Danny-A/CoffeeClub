@@ -1,6 +1,7 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { useAuth } from "@/hooks/auth/useAuth";
+import { fetchProfile } from "@/lib/api/fetchProfile";
 import { Profile, updateProfile } from "@/lib/api/updateProfile";
 import { createClient } from "@/lib/supabase/client";
 
@@ -8,6 +9,14 @@ export function useProfile() {
   const supabase = createClient();
   const queryClient = useQueryClient();
   const { user } = useAuth();
+
+  const profileResult = useQuery<Profile | null>({
+    queryKey: ["profile", user?.id],
+    queryFn: async () => await fetchProfile(user?.id || ""),
+    enabled: !!user?.id,
+  });
+
+  const profile = profileResult.data;
 
   const updateProfileMutation = useMutation({
     mutationFn: async (input: Partial<Profile>) => {
@@ -59,6 +68,7 @@ export function useProfile() {
   };
 
   return {
+    profile,
     updateProfile: updateProfileMutation.mutate,
     uploadProfileImage,
   };

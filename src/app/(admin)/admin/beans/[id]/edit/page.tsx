@@ -45,7 +45,7 @@ const beanSchema = z.object({
   producer: z.string().optional(),
   notes: z.string().optional(),
   buy_urls: z.array(z.object({ value: z.string().url('Must be a valid URL') })),
-  is_published: z.boolean().default(false),
+  is_published: z.boolean().default(true),
 });
 
 type BeanFormData = z.infer<typeof beanSchema>;
@@ -112,6 +112,7 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
           .map((url) => ({ value: url })),
         is_published: bean.is_published,
       });
+
       if (bean.image_url) {
         setPreviewUrl(bean.image_url);
       }
@@ -154,7 +155,7 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
     }
   };
 
-  if (isLoading) {
+  if (isLoading || isLoadingRoasters) {
     return <div>Loading...</div>;
   }
 
@@ -167,7 +168,7 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
       <div className="max-w-2xl mx-auto">
         <div className="mb-4">
           <Heading level="h3">Edit bean</Heading>
-          <Heading level="h5" as="h2" muted className="mt-2">
+          <Heading level="h6" as="h2" muted>
             Update bean information
           </Heading>
         </div>

@@ -1,14 +1,8 @@
-import { ChevronDownIcon, PlusCircleIcon } from 'lucide-react';
+import { ArrowUpCircleIcon } from 'lucide-react';
 import Link from 'next/link';
 
-import { AdminUserNav } from '@/components/features/Navigation/AdminUserNav';
+import { AdminUserNav } from '@/components/features/Navigation/Admin/AdminNavUser';
 import { Button } from '@/components/ui/Button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/DropdownMenu';
 import {
   Sidebar,
   SidebarContent,
@@ -18,11 +12,15 @@ import {
   SidebarGroupLabel,
   SidebarGroupContent,
   SidebarSeparator,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
 } from '@/components/ui/Sidebar';
 import { fetchProfile } from '@/lib/api/fetchProfile';
 import { createClient } from '@/lib/supabase/server';
 
-import { AppSidebarMenu } from './AppSidebarMenu';
+import { AdminNavAdd } from '../features/Navigation/Admin/AdminNavAdd';
+import { AdminNavMain } from '../features/Navigation/Admin/AdminNavMain';
 
 export async function AppSidebar({
   ...props
@@ -45,60 +43,39 @@ export async function AppSidebar({
   const profile = await fetchProfile(user.id);
 
   return (
-    <Sidebar
-      collapsible="offcanvas"
-      className="min-h-screen border-r bg-white dark:bg-gray-900"
-      {...props}
-    >
+    <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
-        <Link
-          href="/admin"
-          className="text-xl font-bold text-gray-900 dark:text-white"
-        >
-          Daily Bean Admin
-        </Link>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              asChild
+              className="data-[slot=sidebar-menu-button]:!p-1.5"
+            >
+              <Link href="/admin">
+                <ArrowUpCircleIcon className="h-5 w-5" />
+                <span className="text-base font-semibold">Daily Bean.</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
-            <AppSidebarMenu />
+            <AdminNavMain />
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarSeparator />
         <SidebarGroup>
           <SidebarGroupLabel>Add New</SidebarGroupLabel>
           <SidebarGroupContent>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="w-full flex justify-start gap-2"
-                >
-                  <PlusCircleIcon className="h-4 w-4" />
-                  Add New
-                  <ChevronDownIcon className="h-4 w-4 ml-auto" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start">
-                <DropdownMenuItem asChild>
-                  <Link href="/beans/new" className="w-full">
-                    Add Bean
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/roasters/new" className="w-full">
-                    Add Roaster
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <AdminNavAdd />
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <AdminUserNav user={profile} />
+        {profile && <AdminUserNav user={profile} />}
       </SidebarFooter>
     </Sidebar>
   );

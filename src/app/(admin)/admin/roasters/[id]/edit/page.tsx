@@ -119,7 +119,7 @@ export default function EditRoasterPage({ params }: EditRoasterPageProps) {
       <div className="max-w-2xl mx-auto">
         <div className="mb-4">
           <Heading level="h3">Edit roaster</Heading>
-          <Heading level="h5" as="h2" muted className="mt-2">
+          <Heading level="h6" as="h2" muted>
             Update roaster information
           </Heading>
         </div>

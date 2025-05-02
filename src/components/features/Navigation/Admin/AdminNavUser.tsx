@@ -1,12 +1,7 @@
 'use client';
 
-import {
-  BellIcon,
-  CreditCardIcon,
-  LogOutIcon,
-  MoreVerticalIcon,
-  UserCircleIcon,
-} from 'lucide-react';
+import { LogOutIcon, MoreVerticalIcon, UserCircleIcon } from 'lucide-react';
+import Link from 'next/link';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
 import {
@@ -27,7 +22,7 @@ import {
 import { useAuth } from '@/hooks/auth/useAuth';
 import { Profiles } from '@/lib/graphql/generated/graphql';
 
-export type NavUserProps = { user: Profiles | null };
+export type NavUserProps = { user: Profiles };
 
 export const AdminUserNav = ({ user }: NavUserProps) => {
   const { isMobile } = useSidebar();
@@ -45,14 +40,16 @@ export const AdminUserNav = ({ user }: NavUserProps) => {
               <Avatar className="h-8 w-8 rounded-lg grayscale">
                 <AvatarImage
                   src={user?.profile_image_url ?? ''}
-                  alt={user?.username ?? ''}
+                  alt={user?.display_name ?? ''}
                 />
                 <AvatarFallback className="rounded-lg">
-                  {user?.username?.[0] ?? 'U'}
+                  {user?.display_name?.[0] ?? 'U'}
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user?.username}</span>
+                <span className="truncate font-medium">
+                  {user?.display_name}
+                </span>
                 <span className="truncate text-xs text-muted-foreground">
                   {user?.username}
                 </span>
@@ -71,14 +68,16 @@ export const AdminUserNav = ({ user }: NavUserProps) => {
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage
                     src={user?.profile_image_url ?? ''}
-                    alt={user?.username ?? ''}
+                    alt={user?.display_name ?? ''}
                   />
                   <AvatarFallback className="rounded-lg">
-                    {user?.username?.[0] ?? 'U'}
+                    {user?.display_name?.[0] ?? 'U'}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user?.username}</span>
+                  <span className="truncate font-medium">
+                    {user?.display_name}
+                  </span>
                   <span className="truncate text-xs text-muted-foreground">
                     {user?.username}
                   </span>
@@ -87,22 +86,24 @@ export const AdminUserNav = ({ user }: NavUserProps) => {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <UserCircleIcon />
-                Account
+              <DropdownMenuItem asChild>
+                <Link href="/profile">
+                  <UserCircleIcon />
+                  Account
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              {/* <DropdownMenuItem>
                 <CreditCardIcon />
                 Billing
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <BellIcon />
                 Notifications
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <button onClick={signOut}>
+              <button onClick={signOut} className="w-full">
                 <LogOutIcon />
                 Log out
               </button>

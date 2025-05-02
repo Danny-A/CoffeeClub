@@ -8,9 +8,8 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Text } from '@/components/ui/Text';
 import { useRoasters } from '@/hooks/roasters/useRoasters';
-import { GetRoastersQuery } from '@/lib/graphql/generated/graphql';
 
-export function RoastersList({ roasters }: { roasters: GetRoastersQuery }) {
+export function RoastersList() {
   const {
     data,
     isLoading,
@@ -18,16 +17,7 @@ export function RoastersList({ roasters }: { roasters: GetRoastersQuery }) {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
-  } = useRoasters(
-    { includeUnpublished: true },
-    roasters.roastersCollection ?? {
-      edges: [],
-      pageInfo: {
-        hasNextPage: false,
-        endCursor: null,
-      },
-    }
-  );
+  } = useRoasters({ includeUnpublished: true });
 
   const { ref, inView } = useInView({
     threshold: 0,

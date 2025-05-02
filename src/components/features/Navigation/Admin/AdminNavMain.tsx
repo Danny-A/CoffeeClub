@@ -16,7 +16,7 @@ const navItems = [
   { name: 'Roasters', href: '/admin/roasters', icon: StoreIcon },
 ];
 
-export function AppSidebarMenu() {
+export function AdminNavMain() {
   const pathname = usePathname();
 
   return (

@@ -51,7 +51,6 @@ function transformBeansData(data: BeansQuery): BeansResponse {
 
 export function useBeans(
   filters?: Omit<BeanFilters, "first" | "after">,
-  initialData?: BeansQuery,
 ) {
   return useInfiniteQuery<BeansResponse>({
     queryKey: ["beans", filters],
@@ -68,11 +67,5 @@ export function useBeans(
       if (!lastPage.pageInfo.hasNextPage) return null;
       return lastPage.pageInfo.endCursor;
     },
-    initialData: !filters && initialData
-      ? {
-        pages: [transformBeansData(initialData)],
-        pageParams: [null],
-      }
-      : undefined,
   });
 }

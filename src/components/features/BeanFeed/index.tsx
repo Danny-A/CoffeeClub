@@ -9,12 +9,11 @@ import { FilterLayout } from '@/components/ui/FilterLayout';
 import { useAuth } from '@/hooks/auth/useAuth';
 import { useBeans } from '@/hooks/beans/useBeans';
 import { useBeanUrlFilters } from '@/hooks/filters/useBeanUrlFilters';
-import { GetBeansQuery } from '@/lib/graphql/generated/graphql';
 
 import { BeanCard } from '../BeanCard';
 import { BeanFilter } from '../BeanFilter';
 
-export const BeanFeed = ({ beans }: { beans: GetBeansQuery }) => {
+export const BeanFeed = () => {
   const { user } = useAuth();
   const { filters } = useBeanUrlFilters();
 
@@ -25,16 +24,7 @@ export const BeanFeed = ({ beans }: { beans: GetBeansQuery }) => {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
-  } = useBeans(
-    filters,
-    beans.beansCollection ?? {
-      edges: [],
-      pageInfo: {
-        hasNextPage: false,
-        endCursor: null,
-      },
-    }
-  );
+  } = useBeans(filters);
 
   const { ref, inView } = useInView({
     threshold: 0,

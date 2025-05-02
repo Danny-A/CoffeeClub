@@ -1,3 +1,6 @@
+import { HydrationBoundary } from '@tanstack/react-query';
+import { dehydrate } from '@tanstack/react-query';
+import { QueryClient } from '@tanstack/react-query';
 import { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -29,28 +32,35 @@ export async function generateStaticParams() {
 }
 
 export default async function BeansPage() {
-  const beans = await fetchBeans();
+  const queryClient = new QueryClient();
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
+  await queryClient.prefetchQuery({
+    queryKey: ['beans'],
+    queryFn: async () => await fetchBeans(),
+  });
+
   return (
-    <div className="space-y-8">
-      <div className="flex justify-between items-center">
-        <div>
-          <Heading level="h1">Coffee Beans</Heading>
-          <Heading level="h2" muted className="mt-2">
-            Explore our collection of coffee beans
-          </Heading>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <div className="space-y-8">
+        <div className="flex justify-between items-center">
+          <div>
+            <Heading level="h1">Coffee Beans</Heading>
+            <Heading level="h2" muted className="mt-2">
+              Explore our collection of coffee beans
+            </Heading>
+          </div>
+          {user && (
+            <Button asChild>
+              <Link href="/beans/new">Add New Bean</Link>
+            </Button>
+          )}
         </div>
-        {user && (
-          <Button asChild>
-            <Link href="/beans/new">Add New Bean</Link>
-          </Button>
-        )}
+        <BeanFeed />
       </div>
-      <BeanFeed beans={beans} />
-    </div>
+    </HydrationBoundary>
   );
 }

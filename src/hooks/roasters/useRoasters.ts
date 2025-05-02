@@ -42,7 +42,6 @@ function transformRoastersData(data: RoastersQuery): RoastersResponse {
 
 export function useRoasters(
   filters?: Omit<RoasterFilters, "first" | "after">,
-  initialData?: RoastersQuery,
 ) {
   return useInfiniteQuery<RoastersResponse>({
     queryKey: ["roasters", filters],
@@ -59,11 +58,5 @@ export function useRoasters(
       if (!lastPage.pageInfo.hasNextPage) return null;
       return lastPage.pageInfo.endCursor;
     },
-    initialData: !filters && initialData
-      ? {
-        pages: [transformRoastersData(initialData)],
-        pageParams: [null],
-      }
-      : undefined,
   });
 }

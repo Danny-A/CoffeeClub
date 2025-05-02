@@ -1,3 +1,4 @@
+import { QueryClient } from '@tanstack/react-query';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -20,7 +21,9 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminRoastersPage() {
+  const queryClient = new QueryClient();
   const supabase = await createClient();
+
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -38,14 +41,17 @@ export default async function AdminRoastersPage() {
     redirect('/');
   }
 
-  const roasters = await fetchRoasters({ includeUnpublished: true });
+  await queryClient.prefetchQuery({
+    queryKey: ['roasters'],
+    queryFn: async () => await fetchRoasters({ includeUnpublished: true }),
+  });
 
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
         <div>
-          <Heading>Coffee Roasters</Heading>
-          <Heading level="h2" muted className="mt-2">
+          <Heading level="h3">Coffee Roasters</Heading>
+          <Heading level="h6" muted>
             Manage all coffee roasters
           </Heading>
         </div>
@@ -53,7 +59,7 @@ export default async function AdminRoastersPage() {
           <Link href="/roasters/new">Add New Roaster</Link>
         </Button>
       </div>
-      <RoastersList roasters={roasters} />
+      <RoastersList />
     </div>
   );
 }

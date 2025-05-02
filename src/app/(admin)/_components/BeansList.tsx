@@ -8,9 +8,8 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Text } from '@/components/ui/Text';
 import { useBeans } from '@/hooks/beans/useBeans';
-import { GetBeansQuery } from '@/lib/graphql/generated/graphql';
 
-export function BeansList({ beans }: { beans: GetBeansQuery }) {
+export function BeansList() {
   const {
     data,
     isLoading,
@@ -18,16 +17,7 @@ export function BeansList({ beans }: { beans: GetBeansQuery }) {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
-  } = useBeans(
-    { includeUnpublished: true },
-    beans.beansCollection ?? {
-      edges: [],
-      pageInfo: {
-        hasNextPage: false,
-        endCursor: null,
-      },
-    }
-  );
+  } = useBeans({ includeUnpublished: true });
 
   const { ref, inView } = useInView({
     threshold: 0,

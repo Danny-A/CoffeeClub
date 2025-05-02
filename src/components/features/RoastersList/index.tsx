@@ -9,12 +9,11 @@ import { FilterLayout } from '@/components/ui/FilterLayout';
 import { useAuth } from '@/hooks/auth/useAuth';
 import { useRoasterUrlFilters } from '@/hooks/filters/useRoasterUrlFilters';
 import { useRoasters } from '@/hooks/roasters/useRoasters';
-import { GetRoastersQuery } from '@/lib/graphql/generated/graphql';
 
 import { RoasterCard } from '../RoasterCard';
 import { RoasterFilter } from '../RoasterFilter';
 
-export const RoastersList = ({ roasters }: { roasters: GetRoastersQuery }) => {
+export const RoastersList = () => {
   const { user } = useAuth();
   const { filters } = useRoasterUrlFilters();
 
@@ -25,7 +24,7 @@ export const RoastersList = ({ roasters }: { roasters: GetRoastersQuery }) => {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
-  } = useRoasters(filters, roasters.roastersCollection ?? undefined);
+  } = useRoasters(filters);
 
   const { ref, inView } = useInView({
     threshold: 0,

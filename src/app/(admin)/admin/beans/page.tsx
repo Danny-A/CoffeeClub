@@ -1,3 +1,8 @@
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -20,6 +25,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminBeansPage() {
+  const queryClient = new QueryClient();
   const supabase = await createClient();
   const {
     data: { user },
@@ -38,22 +44,27 @@ export default async function AdminBeansPage() {
     redirect('/');
   }
 
-  const beans = await fetchBeans({ includeUnpublished: true });
+  await queryClient.prefetchQuery({
+    queryKey: ['beans'],
+    queryFn: async () => await fetchBeans({ includeUnpublished: true }),
+  });
 
   return (
-    <div className="space-y-8">
-      <div className="flex justify-between items-center">
-        <div>
-          <Heading>Coffee Beans</Heading>
-          <Heading level="h2" muted className="mt-2">
-            Manage all coffee beans
-          </Heading>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <div className="space-y-8">
+        <div className="flex justify-between items-center">
+          <div>
+            <Heading level="h3">Coffee Beans</Heading>
+            <Heading level="h6" muted>
+              Manage all coffee beans
+            </Heading>
+          </div>
+          <Button asChild>
+            <Link href="/beans/new">Add New Bean</Link>
+          </Button>
         </div>
-        <Button asChild>
-          <Link href="/beans/new">Add New Bean</Link>
-        </Button>
+        <BeansList />
       </div>
-      <BeansList beans={beans} />
-    </div>
+    </HydrationBoundary>
   );
 }

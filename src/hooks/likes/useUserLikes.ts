@@ -1,35 +1,27 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { graphqlFetch } from "@/lib/graphql/client";
-import type {
-  GetUserLikesQuery,
-  GetUserLikesQueryVariables,
-} from "@/lib/graphql/generated/graphql";
-import { GetUserLikesDocument } from "@/lib/graphql/generated/graphql";
+import { fetchLikes } from "@/lib/api/fetchLikes";
 
 export type LikeType = "bean" | "roaster" | "location";
 
 export function useUserLikes(userId: string, type?: LikeType) {
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, isFetching } = useQuery({
     queryKey: ["user-likes", userId, type],
     queryFn: async () => {
-      const response = await graphqlFetch<
-        GetUserLikesQuery,
-        GetUserLikesQueryVariables
-      >(
-        GetUserLikesDocument,
-        {
-          variables: {
-            userId,
-            first: 100, // We can adjust this based on pagination needs
-          },
-        },
-      );
-
-      return response.data;
+      const response = await fetchLikes(userId);
+      return response;
     },
     enabled: !!userId,
   });
+
+  if (!data) {
+    return {
+      likes: undefined,
+      isLoading,
+      error,
+      isFetching,
+    };
+  }
 
   const beanLikes = data?.bean_likesCollection?.edges.map((edge) => ({
     id: edge.node.id,
@@ -68,5 +60,7 @@ export function useUserLikes(userId: string, type?: LikeType) {
     likes: filteredLikes,
     isLoading,
     error,
+    isFetching,
+    data,
   };
 }

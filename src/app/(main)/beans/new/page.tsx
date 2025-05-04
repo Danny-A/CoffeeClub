@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState, Suspense, Fragment } from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import React from 'react';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';

@@ -23,6 +23,7 @@ const roasterSchema = z.object({
   location_state: z.string().optional(),
   url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
   instagram: z.string().optional(),
+  is_published: z.boolean().default(true),
 });
 
 type RoasterFormData = z.infer<typeof roasterSchema>;

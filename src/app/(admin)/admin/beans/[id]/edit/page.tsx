@@ -208,7 +208,7 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
           .filter((o) => o.value.trim() !== '')
           .map((o) => o.value.trim())
           .join(', '),
-        buy_urls: data.buy_urls.map((url) => url.value).filter(Boolean),
+        buy_urls: data.buy_urls?.map((url) => url.value).filter(Boolean),
       });
 
       router.push('/admin/beans');

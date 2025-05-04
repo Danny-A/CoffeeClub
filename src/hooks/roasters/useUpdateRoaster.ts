@@ -10,9 +10,9 @@ export function useUpdateRoaster() {
     mutationFn: async (input: RoastersUpdateInput) => {
       return updateRoaster(input);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["roasters"] });
-      queryClient.invalidateQueries({ queryKey: ["roaster"] });
+      queryClient.invalidateQueries({ queryKey: ["roaster", data.id] });
     },
     onError: (error) => {
       console.error("Error updating roaster:", error);

@@ -1,6 +1,5 @@
-import { PlusCircleIcon } from 'lucide-react';
-import { ChevronDownIcon } from 'lucide-react';
-import { Link } from 'lucide-react';
+import { ChevronDownIcon, PlusCircleIcon } from 'lucide-react';
+import Link from 'next/link';
 
 import { Button } from '@/components/ui/Button';
 import {
@@ -26,12 +25,12 @@ export const AdminNavAdd = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">
         <DropdownMenuItem asChild>
-          <Link href="/beans/new" className="w-full">
+          <Link href="/beans/new" className="w-full cursor-pointer">
             Add Bean
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/roasters/new" className="w-full">
+          <Link href="/roasters/new" className="w-full cursor-pointer">
             Add Roaster
           </Link>
         </DropdownMenuItem>

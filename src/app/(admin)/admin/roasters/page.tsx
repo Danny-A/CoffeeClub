@@ -1,4 +1,8 @@
-import { QueryClient } from '@tanstack/react-query';
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -47,19 +51,21 @@ export default async function AdminRoastersPage() {
   });
 
   return (
-    <div className="space-y-8">
-      <div className="flex justify-between items-center">
-        <div>
-          <Heading level="h3">Coffee Roasters</Heading>
-          <Heading level="h6" muted>
-            Manage all coffee roasters
-          </Heading>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <div className="space-y-8">
+        <div className="flex justify-between items-center">
+          <div>
+            <Heading level="h3">Coffee Roasters</Heading>
+            <Heading level="h6" muted>
+              Manage all coffee roasters
+            </Heading>
+          </div>
+          <Button asChild>
+            <Link href="/roasters/new">Add New Roaster</Link>
+          </Button>
         </div>
-        <Button asChild>
-          <Link href="/roasters/new">Add New Roaster</Link>
-        </Button>
+        <RoastersList />
       </div>
-      <RoastersList />
-    </div>
+    </HydrationBoundary>
   );
 }

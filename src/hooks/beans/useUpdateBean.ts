@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateBean } from "@/lib/api/updateBean";
 import {
   Bean_Type,
-  BeansUpdateInput,
   Roast_Level,
   Roast_Type,
 } from "@/lib/graphql/generated/graphql";
@@ -32,27 +31,10 @@ export function useUpdateBean() {
 
   return useMutation({
     mutationFn: async (input: UpdateBeanInput) => {
-      return updateBean(
-        {
-          id: input.id,
-          name: input.name,
-          description: input.description,
-          image_url: input.image_url,
-          roast_type: input.roast_type,
-          process: input.process,
-          roast_level: input.roast_level,
-          bean_type: input.bean_type,
-          elevation_min: input.elevation_min,
-          elevation_max: input.elevation_max,
-          origin: input.origin,
-          producer: input.producer,
-          notes: input.notes,
-          buy_urls: input.buy_urls,
-          is_published: input.is_published,
-        } satisfies BeansUpdateInput,
-      );
+      return updateBean(input);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["bean", data.id] });
       queryClient.invalidateQueries({ queryKey: ["beans"] });
     },
   });

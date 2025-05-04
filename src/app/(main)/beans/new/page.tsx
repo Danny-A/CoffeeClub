@@ -30,50 +30,8 @@ import {
   Roast_Level,
   Roast_Type,
 } from '@/lib/graphql/generated/graphql';
+import { beanSchema } from '@/lib/validations/bean';
 import { COFFEE_REGIONS } from '@/utils/coffeeOrigins';
-
-const beanSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  roaster_id: z.string().min(1, 'Roaster is required'),
-  description: z.string().optional(),
-  image_url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
-  roast_type: z.nativeEnum(Roast_Type).optional(),
-  process: z.string().optional(),
-  roast_level: z.nativeEnum(Roast_Level).optional(),
-  bean_type: z.nativeEnum(Bean_Type).optional(),
-  elevation_min: z.coerce.number().min(0).optional(),
-  elevation_max: z.coerce.number().min(0).optional(),
-  origin: z
-    .array(z.object({ value: z.string() }))
-    .refine((origins) => origins.some((o) => o.value.trim() !== ''), {
-      message: 'At least one origin is required',
-    })
-    .superRefine((origins, ctx) => {
-      const formData = ctx.path.length > 0 ? ctx.path[0] : {};
-      const beanType = (formData as { bean_type?: Bean_Type })?.bean_type;
-      if (beanType === Bean_Type.SingleOrigin) {
-        const nonEmptyOrigins = origins.filter((o) => o.value.trim() !== '');
-        if (nonEmptyOrigins.length > 1) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: 'Single origin beans can only have one origin',
-          });
-          return false;
-        }
-      }
-      return true;
-    }),
-  producer: z.string().optional(),
-  notes: z.string().optional(),
-  is_published: z.boolean().default(true),
-  buy_urls: z
-    .array(
-      z.object({
-        value: z.string().url('Must be a valid URL').or(z.literal('')),
-      })
-    )
-    .optional(),
-});
 
 type BeanFormData = z.infer<typeof beanSchema>;
 
@@ -82,7 +40,7 @@ interface OriginField {
   value: string;
 }
 
-function NewBeanForm() {
+export default function Page() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const createBean = useCreateBean();
@@ -529,13 +487,5 @@ function NewBeanForm() {
         </Card>
       </div>
     </div>
-  );
-}
-
-export default function Page() {
-  return (
-    <Suspense>
-      <NewBeanForm />
-    </Suspense>
   );
 }

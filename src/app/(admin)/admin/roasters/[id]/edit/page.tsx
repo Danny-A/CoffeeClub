@@ -16,17 +16,7 @@ import { TextArea } from '@/components/ui/TextArea';
 import { useRoaster } from '@/hooks/roasters/useRoaster';
 import { useRoasterImage } from '@/hooks/roasters/useRoasterImage';
 import { useUpdateRoaster } from '@/hooks/roasters/useUpdateRoaster';
-
-const roasterSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  description: z.string().optional(),
-  location_country: z.string().min(1, 'Country is required'),
-  location_city: z.string().optional(),
-  location_state: z.string().optional(),
-  url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
-  instagram: z.string().optional(),
-  is_published: z.boolean().default(true),
-});
+import { roasterSchema } from '@/lib/validations/roaster';
 
 type RoasterFormData = z.infer<typeof roasterSchema>;
 

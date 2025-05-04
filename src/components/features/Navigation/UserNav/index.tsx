@@ -15,6 +15,7 @@ import {
 import { Text } from '@/components/ui/Text';
 import { fetchProfile } from '@/lib/api/fetchProfile';
 import { createClient } from '@/lib/supabase/server';
+import { isAdmin, isModerator } from '@/utils/getUserRole';
 
 export async function UserNav() {
   const supabase = await createClient();
@@ -31,6 +32,11 @@ export async function UserNav() {
       </div>
     );
   }
+
+  const [isUserAdmin, isUserModerator] = await Promise.all([
+    isAdmin(user),
+    isModerator(user),
+  ]);
 
   const profile = await fetchProfile(user.id);
 
@@ -72,6 +78,16 @@ export async function UserNav() {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
+        {(isUserAdmin || isUserModerator) && (
+          <>
+            <DropdownMenuItem asChild>
+              <Link href="/admin" className="w-full cursor-pointer">
+                Admin
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+          </>
+        )}
         <DropdownMenuItem>
           <SignOutButton>Sign Out</SignOutButton>
         </DropdownMenuItem>

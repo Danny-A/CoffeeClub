@@ -14,21 +14,11 @@ import { Heading } from '@/components/ui/Heading';
 import { TextArea } from '@/components/ui/TextArea';
 import { useCreateRoaster } from '@/hooks/roasters/useCreateRoaster';
 import { useRoasterImage } from '@/hooks/roasters/useRoasterImage';
-
-const roasterSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  description: z.string().optional(),
-  location_country: z.string().min(1, 'Country is required'),
-  location_city: z.string().optional(),
-  location_state: z.string().optional(),
-  url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
-  instagram: z.string().optional(),
-  is_published: z.boolean().default(true),
-});
+import { roasterSchema } from '@/lib/validations/roaster';
 
 type RoasterFormData = z.infer<typeof roasterSchema>;
 
-export default function NewRoasterPage() {
+export default function Page() {
   const router = useRouter();
   const createRoaster = useCreateRoaster();
   const { uploadRoasterImage } = useRoasterImage();

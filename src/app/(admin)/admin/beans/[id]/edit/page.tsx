@@ -3,13 +3,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { use } from 'react';
+import { Fragment, use, useEffect, useMemo, useState } from 'react';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardFooter } from '@/components/ui/Card';
+import { ComboBox } from '@/components/ui/ComboBox';
 import { FormField } from '@/components/ui/FormField';
 import { Heading } from '@/components/ui/Heading';
 import {
@@ -24,27 +24,54 @@ import { TextArea } from '@/components/ui/TextArea';
 import { useBean } from '@/hooks/beans/useBean';
 import { useBeanImage } from '@/hooks/beans/useBeanImage';
 import { useUpdateBean } from '@/hooks/beans/useUpdateBean';
-import { useAllRoasters } from '@/hooks/roasters/useAllRoasters';
+import { useInfiniteRoasterOptions } from '@/hooks/roasters/useInfiniteRoasterOptions';
 import {
   Bean_Type,
   Roast_Level,
   Roast_Type,
 } from '@/lib/graphql/generated/graphql';
+import { COFFEE_REGIONS } from '@/utils/coffeeOrigins';
 
 const beanSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   roaster_id: z.string().min(1, 'Roaster is required'),
+  image_url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
   description: z.string().optional(),
   roast_type: z.nativeEnum(Roast_Type).optional(),
   roast_level: z.nativeEnum(Roast_Level).optional(),
   bean_type: z.nativeEnum(Bean_Type).optional(),
   process: z.string().optional(),
-  elevation_min: z.number().optional(),
-  elevation_max: z.number().optional(),
-  origin: z.string().optional(),
+  elevation_min: z.coerce.number().min(0).optional(),
+  elevation_max: z.coerce.number().min(0).optional(),
+  origin: z
+    .array(z.object({ value: z.string() }))
+    .refine((origins) => origins.some((o) => o.value.trim() !== ''), {
+      message: 'At least one origin is required',
+    })
+    .superRefine((origins, ctx) => {
+      const formData = ctx.path.length > 0 ? ctx.path[0] : {};
+      const beanType = (formData as { bean_type?: Bean_Type })?.bean_type;
+      if (beanType === Bean_Type.SingleOrigin) {
+        const nonEmptyOrigins = origins.filter((o) => o.value.trim() !== '');
+        if (nonEmptyOrigins.length > 1) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Single origin beans can only have one origin',
+          });
+          return false;
+        }
+      }
+      return true;
+    }),
   producer: z.string().optional(),
   notes: z.string().optional(),
-  buy_urls: z.array(z.object({ value: z.string().url('Must be a valid URL') })),
+  buy_urls: z
+    .array(
+      z.object({
+        value: z.string().url('Must be a valid URL').or(z.literal('')),
+      })
+    )
+    .optional(),
   is_published: z.boolean().default(true),
 });
 
@@ -60,7 +87,14 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
   const { id } = use(params);
   const router = useRouter();
   const { data: bean, isLoading } = useBean(id);
-  const { data: roasters, isLoading: isLoadingRoasters } = useAllRoasters();
+  const [search, setSearch] = useState('');
+  const {
+    options: roasters,
+    isLoading: isLoadingRoasters,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteRoasterOptions(search);
   const updateBean = useUpdateBean();
   const { uploadBeanImage } = useBeanImage();
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -72,6 +106,7 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
     formState: { errors },
     reset,
     control,
+    watch,
   } = useForm<BeanFormData>({
     resolver: zodResolver(beanSchema),
   });
@@ -85,6 +120,15 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
     name: 'buy_urls',
   });
 
+  const {
+    fields: originFields,
+    append: appendOrigin,
+    remove: removeOrigin,
+  } = useFieldArray({
+    control,
+    name: 'origin',
+  });
+
   // Initialize with one empty URL field if there are no fields
   useEffect(() => {
     if (buyUrlFields.length === 0) {
@@ -96,7 +140,7 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
     if (bean) {
       reset({
         name: bean.name,
-        roaster_id: bean.roasters?.id,
+        roaster_id: bean.roasters?.id || '',
         description: bean.description || undefined,
         roast_type: bean.roast_type || undefined,
         roast_level: bean.roast_level || undefined,
@@ -104,7 +148,9 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
         process: bean.process || undefined,
         elevation_min: bean.elevation_min || undefined,
         elevation_max: bean.elevation_max || undefined,
-        origin: bean.origin || undefined,
+        origin: bean.origin
+          ? bean.origin.split(',').map((o) => ({ value: o.trim() }))
+          : undefined,
         producer: bean.producer || undefined,
         notes: bean.notes || undefined,
         buy_urls: (bean.buy_urls || [])
@@ -128,6 +174,18 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
     }
   };
 
+  // Ensure the current bean's roaster is in the options for prefill
+  const roasterOptions = useMemo(() => {
+    if (
+      bean &&
+      bean.roasters &&
+      !roasters.some((r) => r.id === bean.roasters?.id)
+    ) {
+      return [{ id: bean.roasters.id, name: bean.roasters.name }, ...roasters];
+    }
+    return roasters;
+  }, [bean, roasters]);
+
   const onSubmit = async (data: BeanFormData) => {
     try {
       let imageUrl: string | undefined = undefined;
@@ -146,6 +204,10 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
         ...data,
         image_url: imageUrl,
         roaster_id: data.roaster_id,
+        origin: data.origin
+          .filter((o) => o.value.trim() !== '')
+          .map((o) => o.value.trim())
+          .join(', '),
         buy_urls: data.buy_urls.map((url) => url.value).filter(Boolean),
       });
 
@@ -189,22 +251,19 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
                   name="roaster_id"
                   control={control}
                   render={({ field }) => (
-                    <Select
+                    <ComboBox
+                      options={roasterOptions}
                       value={field.value}
-                      onValueChange={field.onChange}
-                      disabled={isLoadingRoasters}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a roaster" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {roasters?.map((roaster) => (
-                          <SelectItem key={roaster.id} value={roaster.id}>
-                            {roaster.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                      onChange={field.onChange}
+                      onSearch={setSearch}
+                      onScrollEnd={() => {
+                        if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+                      }}
+                      isLoading={isLoadingRoasters || isFetchingNextPage}
+                      getOptionLabel={(opt) => opt.name}
+                      getOptionValue={(opt) => opt.id}
+                      placeholder="Select a roaster"
+                    />
                   )}
                 />
                 {errors.roaster_id?.message && (
@@ -227,8 +286,10 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
                     control={control}
                     render={({ field }) => (
                       <Select
-                        value={field.value}
-                        onValueChange={field.onChange}
+                        value={field.value ?? undefined}
+                        onValueChange={(val) =>
+                          field.onChange(val === '' ? undefined : val)
+                        }
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Select roast type" />
@@ -255,8 +316,10 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
                     control={control}
                     render={({ field }) => (
                       <Select
-                        value={field.value}
-                        onValueChange={field.onChange}
+                        value={field.value ?? undefined}
+                        onValueChange={(val) =>
+                          field.onChange(val === '' ? undefined : val)
+                        }
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Select roast level" />
@@ -283,7 +346,12 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
                   name="bean_type"
                   control={control}
                   render={({ field }) => (
-                    <Select value={field.value} onValueChange={field.onChange}>
+                    <Select
+                      value={field.value ?? undefined}
+                      onValueChange={(val) =>
+                        field.onChange(val === '' ? undefined : val)
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select bean type" />
                       </SelectTrigger>
@@ -323,7 +391,7 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
                   label="Minimum Elevation (m)"
                   id="elevation_min"
                   type="number"
-                  {...register('elevation_min', { valueAsNumber: true })}
+                  {...register('elevation_min')}
                   error={errors.elevation_min?.message}
                 />
 
@@ -331,17 +399,84 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
                   label="Maximum Elevation (m)"
                   id="elevation_max"
                   type="number"
-                  {...register('elevation_max', { valueAsNumber: true })}
+                  {...register('elevation_max')}
                   error={errors.elevation_max?.message}
                 />
               </div>
 
-              <FormField
-                label="Origin"
-                id="origin"
-                {...register('origin')}
-                error={errors.origin?.message}
-              />
+              <Text variant="label">Origin</Text>
+              {originFields.map((field, index) => (
+                <div key={field.id} className="flex gap-2">
+                  <div className="flex-1">
+                    <Controller
+                      name={`origin.${index}.value`}
+                      control={control}
+                      render={({ field }) => (
+                        <Select
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select an origin" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {COFFEE_REGIONS.map((region) => (
+                              <Fragment key={`region-${region.name}`}>
+                                <SelectItem
+                                  key={`region-${region.name}`}
+                                  value={`region-${region.name}`}
+                                  disabled
+                                  className="font-semibold"
+                                >
+                                  {region.name}
+                                </SelectItem>
+                                {region.origins.map((origin) => (
+                                  <SelectItem
+                                    key={origin.value}
+                                    value={origin.value}
+                                    title={origin.description}
+                                  >
+                                    {origin.label}
+                                  </SelectItem>
+                                ))}
+                              </Fragment>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
+                    {errors.origin?.[index]?.value?.message && (
+                      <Text variant="error">
+                        {String(errors.origin[index]?.value?.message)}
+                      </Text>
+                    )}
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => removeOrigin(index)}
+                    disabled={index === 0 && originFields.length === 1}
+                  >
+                    Remove
+                  </Button>
+                </div>
+              ))}
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => appendOrigin({ value: '' })}
+                disabled={
+                  watch('bean_type') === Bean_Type.SingleOrigin &&
+                  originFields.length > 0
+                }
+              >
+                Add Origin
+              </Button>
+              {errors.origin?.message && (
+                <Text variant="error" className="mt-2">
+                  {String(errors.origin.message)}
+                </Text>
+              )}
 
               <TextArea
                 label="Tasting Notes (optional)"

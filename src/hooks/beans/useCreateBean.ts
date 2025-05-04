@@ -22,10 +22,11 @@ export type CreateBeanInput = {
   bean_type?: Bean_Type;
   elevation_min?: number;
   elevation_max?: number;
-  origins?: { value: string }[];
+  origin?: string;
   producer?: string;
   notes?: string;
   buy_urls?: string[];
+  is_published?: boolean;
 };
 
 export function useCreateBean() {
@@ -49,10 +50,11 @@ export function useCreateBean() {
             bean_type: input.bean_type,
             elevation_min: input.elevation_min,
             elevation_max: input.elevation_max,
-            origin: input.origins?.map((o) => o.value).join(", "),
+            origin: input.origin,
             producer: input.producer,
             notes: input.notes,
             buy_urls: input.buy_urls,
+            is_published: input.is_published,
           } satisfies BeansInsertInput,
         },
       });
@@ -63,7 +65,8 @@ export function useCreateBean() {
 
       return response.data.insertIntobeansCollection.records[0];
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["bean", data.id] });
       queryClient.invalidateQueries({ queryKey: ["beans"] });
     },
   });

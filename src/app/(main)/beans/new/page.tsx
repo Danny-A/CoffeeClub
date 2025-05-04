@@ -3,12 +3,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, Suspense, Fragment } from 'react';
+import React from 'react';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardFooter } from '@/components/ui/Card';
+import { ComboBox } from '@/components/ui/ComboBox';
 import { FormField } from '@/components/ui/FormField';
 import { Heading } from '@/components/ui/Heading';
 import {
@@ -22,7 +24,7 @@ import { Text } from '@/components/ui/Text';
 import { TextArea } from '@/components/ui/TextArea';
 import { useBeanImage } from '@/hooks/beans/useBeanImage';
 import { useCreateBean } from '@/hooks/beans/useCreateBean';
-import { useAllRoasters } from '@/hooks/roasters/useAllRoasters';
+import { useInfiniteRoasterOptions } from '@/hooks/roasters/useInfiniteRoasterOptions';
 import {
   Bean_Type,
   Roast_Level,
@@ -41,7 +43,7 @@ const beanSchema = z.object({
   bean_type: z.nativeEnum(Bean_Type).optional(),
   elevation_min: z.coerce.number().min(0).optional(),
   elevation_max: z.coerce.number().min(0).optional(),
-  origins: z
+  origin: z
     .array(z.object({ value: z.string() }))
     .refine((origins) => origins.some((o) => o.value.trim() !== ''), {
       message: 'At least one origin is required',
@@ -64,7 +66,13 @@ const beanSchema = z.object({
   producer: z.string().optional(),
   notes: z.string().optional(),
   is_published: z.boolean().default(true),
-  buy_urls: z.array(z.object({ value: z.string().url('Must be a valid URL') })),
+  buy_urls: z
+    .array(
+      z.object({
+        value: z.string().url('Must be a valid URL').or(z.literal('')),
+      })
+    )
+    .optional(),
 });
 
 type BeanFormData = z.infer<typeof beanSchema>;
@@ -77,13 +85,11 @@ interface OriginField {
 function NewBeanForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { data: roasters, isLoading: isLoadingRoasters } = useAllRoasters();
   const createBean = useCreateBean();
   const { uploadBeanImage } = useBeanImage();
   const roasterId = searchParams.get('roasterId');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-
   const {
     register,
     handleSubmit,
@@ -94,9 +100,9 @@ function NewBeanForm() {
   } = useForm<BeanFormData>({
     resolver: zodResolver(beanSchema),
     defaultValues: {
-      roaster_id: roasterId || undefined,
+      roaster_id: roasterId || '',
       buy_urls: [],
-      origins: [{ value: '' }],
+      origin: [{ value: '' }],
     },
   });
 
@@ -115,8 +121,17 @@ function NewBeanForm() {
     remove: removeOrigin,
   } = useFieldArray({
     control,
-    name: 'origins',
+    name: 'origin',
   });
+
+  const [search, setSearch] = React.useState('');
+  const {
+    options: roasters,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteRoasterOptions(search);
 
   // Initialize with one empty URL field if there are no fields
   useEffect(() => {
@@ -129,15 +144,10 @@ function NewBeanForm() {
   }, [appendBuyUrl, appendOrigin, buyUrlFields.length, originFields.length]);
 
   useEffect(() => {
-    if (roasterId && roasters) {
-      const selectedRoaster = roasters.find(
-        (roaster) => roaster.id === roasterId
-      );
-      if (selectedRoaster) {
-        setValue('roaster_id', roasterId);
-      }
+    if (roasterId && roasterId) {
+      setValue('roaster_id', roasterId);
     }
-  }, [roasterId, roasters, setValue]);
+  }, [roasterId, setValue]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -160,8 +170,11 @@ function NewBeanForm() {
       const filteredData = {
         ...data,
         image_url: imageUrl,
-        buy_urls: data.buy_urls.map((url) => url.value).filter(Boolean),
-        origins: data.origins.filter((origin) => origin.value.trim() !== ''),
+        buy_urls: data.buy_urls?.map((url) => url.value).filter(Boolean),
+        origin: data.origin
+          .filter((o) => o.value.trim() !== '')
+          .map((o) => o.value.trim())
+          .join(', '),
       };
 
       await createBean.mutateAsync(filteredData);
@@ -196,22 +209,19 @@ function NewBeanForm() {
                   name="roaster_id"
                   control={control}
                   render={({ field }) => (
-                    <Select
+                    <ComboBox
+                      options={roasters}
                       value={field.value}
-                      onValueChange={field.onChange}
-                      disabled={isLoadingRoasters}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a roaster" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {roasters?.map((roaster) => (
-                          <SelectItem key={roaster.id} value={roaster.id}>
-                            {roaster.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                      onChange={(value) => field.onChange(value || '')}
+                      onSearch={setSearch}
+                      onScrollEnd={() => {
+                        if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+                      }}
+                      isLoading={isLoading || isFetchingNextPage}
+                      getOptionLabel={(opt) => opt.name}
+                      getOptionValue={(opt) => opt.id}
+                      placeholder="Select a roaster"
+                    />
                   )}
                 />
                 {errors.roaster_id?.message && (
@@ -345,7 +355,7 @@ function NewBeanForm() {
                               .slice(0, 1)
                               .map((f) => ({ value: f.value }));
                             if (nonEmptyOrigins.length > 0) {
-                              setValue('origins', nonEmptyOrigins);
+                              setValue('origin', nonEmptyOrigins);
                             }
                           }
                         }}
@@ -368,12 +378,12 @@ function NewBeanForm() {
                   )}
                 </div>
 
-                <Text variant="label">Origins</Text>
+                <Text variant="label">Origin</Text>
                 {originFields.map((field, index) => (
                   <div key={field.id} className="flex gap-2">
                     <div className="flex-1">
                       <Controller
-                        name={`origins.${index}.value`}
+                        name={`origin.${index}.value`}
                         control={control}
                         render={({ field }) => (
                           <Select
@@ -385,7 +395,7 @@ function NewBeanForm() {
                             </SelectTrigger>
                             <SelectContent>
                               {COFFEE_REGIONS.map((region) => (
-                                <>
+                                <Fragment key={`region-${region.name}`}>
                                   <SelectItem
                                     key={`region-${region.name}`}
                                     value={`region-${region.name}`}
@@ -403,15 +413,15 @@ function NewBeanForm() {
                                       {origin.label}
                                     </SelectItem>
                                   ))}
-                                </>
+                                </Fragment>
                               ))}
                             </SelectContent>
                           </Select>
                         )}
                       />
-                      {errors.origins?.[index]?.value?.message && (
+                      {errors.origin?.[index]?.value?.message && (
                         <Text variant="error">
-                          {String(errors.origins[index]?.value?.message)}
+                          {String(errors.origin[index]?.value?.message)}
                         </Text>
                       )}
                     </div>
@@ -436,9 +446,9 @@ function NewBeanForm() {
                 >
                   Add Origin
                 </Button>
-                {errors.origins?.message && (
+                {errors.origin?.message && (
                   <Text variant="error" className="mt-2">
-                    {String(errors.origins.message)}
+                    {String(errors.origin.message)}
                   </Text>
                 )}
               </div>

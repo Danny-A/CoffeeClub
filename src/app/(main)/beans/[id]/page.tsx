@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/Button';
@@ -140,20 +141,32 @@ export default async function BeanDetails({ params }: BeanDetailsProps) {
             </Heading>
           </CardHeader>
           <CardContent>
-            {bean.buy_urls &&
-              bean.buy_urls
-                .filter((url) => url !== null)
-                .map((url) => (
-                  <a
-                    key={url}
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-2 inline-block underline text-blue-600 hover:text-blue-800 hover:no-underline dark:text-blue-400 dark:hover:text-blue-300"
-                  >
-                    Buy this bean →
-                  </a>
-                ))}
+            <div className="flex flex-col space-y-2">
+              {bean.buy_urls &&
+                bean.buy_urls
+                  .filter((url) => url !== null)
+                  .map((url) => {
+                    let domain = '';
+                    try {
+                      domain = new URL(url).hostname;
+                    } catch {
+                      domain = '';
+                    }
+                    return (
+                      <div key={url} className="mt-2">
+                        <a
+                          href={url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block underline text-blue-600 hover:text-blue-800 hover:no-underline dark:text-blue-400 dark:hover:text-blue-300"
+                        >
+                          Buy this bean →
+                        </a>
+                        {domain && <Text variant="small">({domain})</Text>}
+                      </div>
+                    );
+                  })}
+            </div>
           </CardContent>
         </Card>
 
@@ -171,12 +184,14 @@ export default async function BeanDetails({ params }: BeanDetailsProps) {
                 <Card key={review.node.id}>
                   <CardHeader>
                     <div className="flex items-center space-x-4">
-                      <img
+                      <Image
                         src={
                           review.node.profiles?.profile_image_url ||
                           '/default-avatar.png'
                         }
                         alt={review.node.profiles?.display_name ?? ''}
+                        width={40}
+                        height={40}
                         className="w-10 h-10 rounded-full"
                       />
                       <div>

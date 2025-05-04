@@ -17,6 +17,7 @@ export type CreateRoasterInput = {
   url?: string;
   instagram?: string;
   profile_image_url?: string;
+  is_published?: boolean;
 };
 
 export function useCreateRoaster() {
@@ -38,6 +39,7 @@ export function useCreateRoaster() {
             url: input.url,
             instagram: input.instagram,
             profile_image_url: input.profile_image_url,
+            is_published: input.is_published,
           } satisfies RoastersInsertInput,
         },
       });

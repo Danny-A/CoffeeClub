@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState, Fragment } from 'react';
+import { useEffect, useState, Fragment, Suspense } from 'react';
 import React from 'react';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
@@ -41,6 +41,14 @@ interface OriginField {
 }
 
 export default function Page() {
+  return (
+    <Suspense>
+      <NewBeanPage />
+    </Suspense>
+  );
+}
+
+function NewBeanPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const createBean = useCreateBean();

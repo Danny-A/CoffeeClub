@@ -3,12 +3,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardFooter } from '@/components/ui/Card';
 import { FormField } from '@/components/ui/FormField';
+import { ImageUpload } from '@/components/ui/ImageUpload';
 import { useProfile } from '@/hooks/profile/useProfile';
 import {
   editProfileSchema,
@@ -35,27 +36,36 @@ export function EditProfileInfo() {
     },
   });
 
-  const onSubmit = async (data: EditProfileFormData) => {
-    try {
-      updateProfile(data);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(
+    profile?.profile_image_url || null
+  );
 
-      router.push('/profile');
-    } catch (error) {
-      console.error('Error updating profile:', error);
+  const handleImageChange = async (file: File | null) => {
+    if (file) {
+      setPreviewUrl(URL.createObjectURL(file));
+      try {
+        const imageUrl = await uploadProfileImage(file);
+        if (imageUrl) {
+          updateProfile({ profile_image_url: imageUrl });
+        }
+      } catch (error) {
+        console.error('Error uploading image:', error);
+      }
+    } else {
+      setPreviewUrl(null);
     }
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const handleRemoveImage = () => {
+    updateProfile({ profile_image_url: '' });
+  };
 
+  const onSubmit = async (data: EditProfileFormData) => {
     try {
-      const imageUrl = await uploadProfileImage(file);
-      if (imageUrl) {
-        updateProfile({ profile_image_url: imageUrl });
-      }
+      updateProfile(data);
+      router.push('/profile');
     } catch (error) {
-      console.error('Error uploading image:', error);
+      console.error('Error updating profile:', error);
     }
   };
 
@@ -65,22 +75,14 @@ export function EditProfileInfo() {
     <Card>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
         <CardContent className="flex flex-col gap-6">
-          <div className="flex items-center gap-4">
-            <Avatar>
-              <AvatarImage src={profile.profile_image_url || ''} />
-              <AvatarFallback>
-                {profile.display_name?.charAt(0) || ''}
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex-1">
-              <FormField
-                type="file"
-                label="Profile Image"
-                accept="image/*"
-                onChange={handleImageUpload}
-              />
-            </div>
-          </div>
+          <ImageUpload
+            onChange={handleImageChange}
+            previewUrl={previewUrl}
+            onRemove={handleRemoveImage}
+            accept="image/*"
+            label="Upload profile image"
+            disabled={false}
+          />
 
           <FormField
             label="Display Name"

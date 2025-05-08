@@ -1,43 +1,37 @@
 import {
-  dehydrate,
   HydrationBoundary,
+  dehydrate,
   QueryClient,
 } from '@tanstack/react-query';
 import { Metadata } from 'next';
 import Link from 'next/link';
 
-import { RoastersList } from '@/components/features/RoastersList';
+import { RecipeFeed } from '@/components/features/RecipeFeed';
 import { Button } from '@/components/ui/Button';
 import { Heading } from '@/components/ui/Heading';
-import { fetchRoasters } from '@/lib/api/fetchRoasters';
+import { fetchRecipes } from '@/lib/api/fetchRecipes';
 import { createClient } from '@/lib/supabase/server';
+
 export const metadata: Metadata = {
-  title: 'Roasters - Daily Bean',
-  description: 'Explore a collection of coffee roasters',
+  title: 'Recipes - Coffee Club',
+  description: 'Explore a collection of public coffee recipes',
+  openGraph: {
+    title: 'Recipes - Coffee Club',
+    description: 'Explore a collection of public coffee recipes',
+  },
 };
 
-export async function generateStaticParams() {
-  const { roastersCollection } = await fetchRoasters();
-
-  if (!roastersCollection?.edges?.length) {
-    return [];
-  }
-
-  return roastersCollection.edges.map((edge) => ({
-    id: edge.node.id,
-  }));
-}
-
-export default async function RoastersPage() {
+export default async function RecipesPage() {
   const queryClient = new QueryClient();
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  await queryClient.prefetchQuery({
-    queryKey: ['roasters'],
-    queryFn: async () => await fetchRoasters(),
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: ['recipes'],
+    queryFn: async () => fetchRecipes(),
+    initialPageParam: 0,
   });
 
   return (
@@ -45,18 +39,18 @@ export default async function RoastersPage() {
       <div className="space-y-8">
         <div className="flex justify-between items-center">
           <div>
-            <Heading level="h2">Coffee Roasters</Heading>
+            <Heading level="h2">Coffee Recipes</Heading>
             <Heading level="h4" as="h2" muted className="mt-2">
-              Discover coffee roasters from around the world
+              Explore the collection of coffee recipes
             </Heading>
           </div>
           {user && (
             <Button asChild>
-              <Link href="/roasters/new">Add New Roaster</Link>
+              <Link href="/recipes/new">Add New Recipe</Link>
             </Button>
           )}
         </div>
-        <RoastersList />
+        <RecipeFeed />
       </div>
     </HydrationBoundary>
   );

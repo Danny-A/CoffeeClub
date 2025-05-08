@@ -210,6 +210,8 @@ export type Mutation = {
   deleteFromlocationsCollection: LocationsDeleteResponse;
   /** Deletes zero or more records from the `profiles` collection */
   deleteFromprofilesCollection: ProfilesDeleteResponse;
+  /** Deletes zero or more records from the `recipe_likes` collection */
+  deleteFromrecipe_likesCollection: Recipe_LikesDeleteResponse;
   /** Deletes zero or more records from the `recipes` collection */
   deleteFromrecipesCollection: RecipesDeleteResponse;
   /** Deletes zero or more records from the `roaster_likes` collection */
@@ -246,6 +248,8 @@ export type Mutation = {
   insertIntolocationsCollection?: Maybe<LocationsInsertResponse>;
   /** Adds one or more `profiles` records to the collection */
   insertIntoprofilesCollection?: Maybe<ProfilesInsertResponse>;
+  /** Adds one or more `recipe_likes` records to the collection */
+  insertIntorecipe_likesCollection?: Maybe<Recipe_LikesInsertResponse>;
   /** Adds one or more `recipes` records to the collection */
   insertIntorecipesCollection?: Maybe<RecipesInsertResponse>;
   /** Adds one or more `roaster_likes` records to the collection */
@@ -282,6 +286,8 @@ export type Mutation = {
   updatelocationsCollection: LocationsUpdateResponse;
   /** Updates zero or more records in the `profiles` collection */
   updateprofilesCollection: ProfilesUpdateResponse;
+  /** Updates zero or more records in the `recipe_likes` collection */
+  updaterecipe_likesCollection: Recipe_LikesUpdateResponse;
   /** Updates zero or more records in the `recipes` collection */
   updaterecipesCollection: RecipesUpdateResponse;
   /** Updates zero or more records in the `roaster_likes` collection */
@@ -373,6 +379,13 @@ export type MutationDeleteFromlocationsCollectionArgs = {
 export type MutationDeleteFromprofilesCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<ProfilesFilter>;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationDeleteFromrecipe_LikesCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<Recipe_LikesFilter>;
 };
 
 
@@ -488,6 +501,12 @@ export type MutationInsertIntolocationsCollectionArgs = {
 /** The root type for creating and mutating data */
 export type MutationInsertIntoprofilesCollectionArgs = {
   objects: Array<ProfilesInsertInput>;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationInsertIntorecipe_LikesCollectionArgs = {
+  objects: Array<Recipe_LikesInsertInput>;
 };
 
 
@@ -622,6 +641,14 @@ export type MutationUpdateprofilesCollectionArgs = {
 
 
 /** The root type for creating and mutating data */
+export type MutationUpdaterecipe_LikesCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<Recipe_LikesFilter>;
+  set: Recipe_LikesUpdateInput;
+};
+
+
+/** The root type for creating and mutating data */
 export type MutationUpdaterecipesCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<RecipesFilter>;
@@ -735,6 +762,8 @@ export type Query = {
   node?: Maybe<Node>;
   /** A pagable collection of type `profiles` */
   profilesCollection?: Maybe<ProfilesConnection>;
+  /** A pagable collection of type `recipe_likes` */
+  recipe_likesCollection?: Maybe<Recipe_LikesConnection>;
   /** A pagable collection of type `recipes` */
   recipesCollection?: Maybe<RecipesConnection>;
   /** A pagable collection of type `roaster_likes` */
@@ -893,6 +922,18 @@ export type QueryProfilesCollectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<ProfilesOrderBy>>;
+};
+
+
+/** The root type for querying data */
+export type QueryRecipe_LikesCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<Recipe_LikesFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<Recipe_LikesOrderBy>>;
 };
 
 
@@ -2201,6 +2242,7 @@ export type Profiles = Node & {
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
   profile_image_url?: Maybe<Scalars['String']['output']>;
+  recipe_likesCollection?: Maybe<Recipe_LikesConnection>;
   recipesCollection?: Maybe<RecipesConnection>;
   roaster_reviewsCollection?: Maybe<Roaster_ReviewsConnection>;
   updated_at?: Maybe<Scalars['Datetime']['output']>;
@@ -2239,6 +2281,17 @@ export type ProfilesLocation_ReviewsCollectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<Location_ReviewsOrderBy>>;
+};
+
+
+export type ProfilesRecipe_LikesCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<Recipe_LikesFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<Recipe_LikesOrderBy>>;
 };
 
 
@@ -2358,6 +2411,89 @@ export type ProfilesUpdateResponse = {
   records: Array<Profiles>;
 };
 
+export type Recipe_Likes = Node & {
+  __typename?: 'recipe_likes';
+  created_at?: Maybe<Scalars['Datetime']['output']>;
+  id: Scalars['UUID']['output'];
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  profiles?: Maybe<Profiles>;
+  recipe_id: Scalars['UUID']['output'];
+  recipes?: Maybe<Recipes>;
+  user_id: Scalars['UUID']['output'];
+};
+
+export type Recipe_LikesConnection = {
+  __typename?: 'recipe_likesConnection';
+  edges: Array<Recipe_LikesEdge>;
+  pageInfo: PageInfo;
+};
+
+export type Recipe_LikesDeleteResponse = {
+  __typename?: 'recipe_likesDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Recipe_Likes>;
+};
+
+export type Recipe_LikesEdge = {
+  __typename?: 'recipe_likesEdge';
+  cursor: Scalars['String']['output'];
+  node: Recipe_Likes;
+};
+
+export type Recipe_LikesFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<Recipe_LikesFilter>>;
+  created_at?: InputMaybe<DatetimeFilter>;
+  id?: InputMaybe<UuidFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<Recipe_LikesFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<Recipe_LikesFilter>>;
+  recipe_id?: InputMaybe<UuidFilter>;
+  user_id?: InputMaybe<UuidFilter>;
+};
+
+export type Recipe_LikesInsertInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  recipe_id?: InputMaybe<Scalars['UUID']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type Recipe_LikesInsertResponse = {
+  __typename?: 'recipe_likesInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Recipe_Likes>;
+};
+
+export type Recipe_LikesOrderBy = {
+  created_at?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  recipe_id?: InputMaybe<OrderByDirection>;
+  user_id?: InputMaybe<OrderByDirection>;
+};
+
+export type Recipe_LikesUpdateInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  recipe_id?: InputMaybe<Scalars['UUID']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type Recipe_LikesUpdateResponse = {
+  __typename?: 'recipe_likesUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Recipe_Likes>;
+};
+
 export type Recipes = Node & {
   __typename?: 'recipes';
   bean_id?: Maybe<Scalars['UUID']['output']>;
@@ -2375,8 +2511,20 @@ export type Recipes = Node & {
   nodeId: Scalars['ID']['output'];
   profiles?: Maybe<Profiles>;
   ratio?: Maybe<Scalars['String']['output']>;
+  recipe_likesCollection?: Maybe<Recipe_LikesConnection>;
   title?: Maybe<Scalars['String']['output']>;
   user_id?: Maybe<Scalars['UUID']['output']>;
+};
+
+
+export type RecipesRecipe_LikesCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<Recipe_LikesFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<Recipe_LikesOrderBy>>;
 };
 
 export type RecipesConnection = {
@@ -3145,6 +3293,13 @@ export type CreateBeanMutationVariables = Exact<{
 
 export type CreateBeanMutation = { __typename?: 'Mutation', insertIntobeansCollection?: { __typename?: 'beansInsertResponse', records: Array<{ __typename?: 'beans', id: any, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, roasters?: { __typename?: 'roasters', id: any } | null }> } | null };
 
+export type CreateRecipeMutationVariables = Exact<{
+  input: RecipesInsertInput;
+}>;
+
+
+export type CreateRecipeMutation = { __typename?: 'Mutation', insertIntorecipesCollection?: { __typename?: 'recipesInsertResponse', records: Array<{ __typename?: 'recipes', id: any, user_id?: any | null, bean_id?: any | null, title?: string | null, description?: string | null, image_url?: string | null, grind_size?: string | null, grind_weight?: any | null, ratio?: string | null, brew_method?: Brew_Method | null, is_public?: boolean | null, likes_count?: number | null, created_at?: any | null }> } | null };
+
 export type CreateRoasterMutationVariables = Exact<{
   input: RoastersInsertInput;
 }>;
@@ -3194,6 +3349,20 @@ export type UnlikeLocationMutationVariables = Exact<{
 
 export type UnlikeLocationMutation = { __typename?: 'Mutation', deleteFromlocation_likesCollection: { __typename?: 'location_likesDeleteResponse', records: Array<{ __typename?: 'location_likes', id: any }> } };
 
+export type LikeRecipeMutationVariables = Exact<{
+  input: Recipe_LikesInsertInput;
+}>;
+
+
+export type LikeRecipeMutation = { __typename?: 'Mutation', insertIntorecipe_likesCollection?: { __typename?: 'recipe_likesInsertResponse', records: Array<{ __typename?: 'recipe_likes', id: any, recipe_id: any, user_id: any, created_at?: any | null }> } | null };
+
+export type UnlikeRecipeMutationVariables = Exact<{
+  filter: Recipe_LikesFilter;
+}>;
+
+
+export type UnlikeRecipeMutation = { __typename?: 'Mutation', deleteFromrecipe_likesCollection: { __typename?: 'recipe_likesDeleteResponse', records: Array<{ __typename?: 'recipe_likes', id: any }> } };
+
 export type UpdateBeanMutationVariables = Exact<{
   id: Scalars['UUID']['input'];
   set: BeansUpdateInput;
@@ -3210,6 +3379,14 @@ export type UpdateProfileMutationVariables = Exact<{
 
 export type UpdateProfileMutation = { __typename?: 'Mutation', updateprofilesCollection: { __typename?: 'profilesUpdateResponse', affectedCount: number, records: Array<{ __typename?: 'profiles', id: any, username: string, display_name?: string | null, bio?: string | null, profile_image_url?: string | null, location?: string | null, instagram?: string | null, url?: string | null, updated_at?: any | null }> } };
 
+export type UpdateRecipeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  set: RecipesUpdateInput;
+}>;
+
+
+export type UpdateRecipeMutation = { __typename?: 'Mutation', updaterecipesCollection: { __typename?: 'recipesUpdateResponse', records: Array<{ __typename?: 'recipes', id: any, user_id?: any | null, bean_id?: any | null, title?: string | null, description?: string | null, image_url?: string | null, grind_size?: string | null, grind_weight?: any | null, ratio?: string | null, brew_method?: Brew_Method | null, is_public?: boolean | null, likes_count?: number | null, created_at?: any | null }> } };
+
 export type UpdateRoasterMutationVariables = Exact<{
   id: Scalars['UUID']['input'];
   set: RoastersUpdateInput;
@@ -3217,6 +3394,21 @@ export type UpdateRoasterMutationVariables = Exact<{
 
 
 export type UpdateRoasterMutation = { __typename?: 'Mutation', updateroastersCollection: { __typename?: 'roastersUpdateResponse', affectedCount: number, records: Array<{ __typename?: 'roasters', id: any, name: string, description?: string | null, profile_image_url?: string | null, location_city?: string | null, location_state?: string | null, location_country?: string | null, url?: string | null, instagram?: string | null, is_published: boolean, created_at?: any | null, updated_at?: any | null }> } };
+
+export type GetRecipeByIdQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetRecipeByIdQuery = { __typename?: 'Query', recipesCollection?: { __typename?: 'recipesConnection', edges: Array<{ __typename?: 'recipesEdge', node: { __typename?: 'recipes', id: any, user_id?: any | null, bean_id?: any | null, title?: string | null, description?: string | null, image_url?: string | null, grind_size?: string | null, grind_weight?: any | null, ratio?: string | null, brew_method?: Brew_Method | null, is_public?: boolean | null, likes_count?: number | null, created_at?: any | null, profiles?: { __typename?: 'profiles', id: any, username: string, display_name?: string | null } | null, bean?: { __typename?: 'beans', id: any, name: string, roasters?: { __typename?: 'roasters', id: any, name: string } | null } | null, likes?: { __typename?: 'recipe_likesConnection', edges: Array<{ __typename?: 'recipe_likesEdge', node: { __typename?: 'recipe_likes', id: any, user_id: any } }> } | null } }> } | null };
+
+export type GetRecipesQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+}>;
+
+
+export type GetRecipesQuery = { __typename?: 'Query', recipesCollection?: { __typename?: 'recipesConnection', edges: Array<{ __typename?: 'recipesEdge', node: { __typename?: 'recipes', id: any, user_id?: any | null, bean_id?: any | null, title?: string | null, description?: string | null, image_url?: string | null, grind_size?: string | null, grind_weight?: any | null, ratio?: string | null, brew_method?: Brew_Method | null, is_public?: boolean | null, likes_count?: number | null, created_at?: any | null, profiles?: { __typename?: 'profiles', id: any, username: string, display_name?: string | null } | null, likes?: { __typename?: 'recipe_likesConnection', edges: Array<{ __typename?: 'recipe_likesEdge', node: { __typename?: 'recipe_likes', id: any, user_id: any } }> } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
 
 export type GetAllRoastersQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -3232,6 +3424,15 @@ export type GetBeanQueryVariables = Exact<{
 
 
 export type GetBeanQuery = { __typename?: 'Query', beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, is_published: boolean, created_at?: any | null, roasters?: { __typename?: 'roasters', id: any, name: string } | null, bean_varietiesCollection?: { __typename?: 'bean_varietiesConnection', edges: Array<{ __typename?: 'bean_varietiesEdge', node: { __typename?: 'bean_varieties', varieties: { __typename?: 'varieties', id: any, name: string } } }> } | null, bean_tagsCollection?: { __typename?: 'bean_tagsConnection', edges: Array<{ __typename?: 'bean_tagsEdge', node: { __typename?: 'bean_tags', tags?: { __typename?: 'tags', id: any, name: string } | null } }> } | null, bean_reviewsCollection?: { __typename?: 'bean_reviewsConnection', edges: Array<{ __typename?: 'bean_reviewsEdge', node: { __typename?: 'bean_reviews', id: any, rating?: any | null, content?: string | null, coffee_type?: Coffee_Type | null, created_at?: any | null, profiles?: { __typename?: 'profiles', id: any, username: string, display_name?: string | null, profile_image_url?: string | null } | null } }> } | null } }> } | null };
+
+export type GetBeanOptionsQueryVariables = Exact<{
+  search?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+}>;
+
+
+export type GetBeanOptionsQuery = { __typename?: 'Query', beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any, name: string, roasters?: { __typename?: 'roasters', id: any, name: string } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
 
 export type GetBeansQueryVariables = Exact<{
   filter?: InputMaybe<BeansFilter>;
@@ -3287,7 +3488,7 @@ export type GetUserLikesQueryVariables = Exact<{
 }>;
 
 
-export type GetUserLikesQuery = { __typename?: 'Query', bean_likesCollection?: { __typename?: 'bean_likesConnection', edges: Array<{ __typename?: 'bean_likesEdge', node: { __typename?: 'bean_likes', id: any, created_at?: any | null, beans?: { __typename?: 'beans', id: any, name: string, roaster_id?: any | null, process?: string | null, image_url?: string | null, roasters?: { __typename?: 'roasters', name: string } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null, roaster_likesCollection?: { __typename?: 'roaster_likesConnection', edges: Array<{ __typename?: 'roaster_likesEdge', node: { __typename?: 'roaster_likes', id: any, created_at?: any | null, roasters?: { __typename?: 'roasters', id: any, name: string, profile_image_url?: string | null, location_city?: string | null, location_state?: string | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null, location_likesCollection?: { __typename?: 'location_likesConnection', edges: Array<{ __typename?: 'location_likesEdge', node: { __typename?: 'location_likes', id: any, created_at?: any | null, locations?: { __typename?: 'locations', id: any, name: string, image_url?: string | null, address?: string | null, latitude?: any | null, longitude?: any | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
+export type GetUserLikesQuery = { __typename?: 'Query', bean_likesCollection?: { __typename?: 'bean_likesConnection', edges: Array<{ __typename?: 'bean_likesEdge', node: { __typename?: 'bean_likes', id: any, created_at?: any | null, beans?: { __typename?: 'beans', id: any, name: string, roaster_id?: any | null, process?: string | null, image_url?: string | null, roasters?: { __typename?: 'roasters', name: string } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null, roaster_likesCollection?: { __typename?: 'roaster_likesConnection', edges: Array<{ __typename?: 'roaster_likesEdge', node: { __typename?: 'roaster_likes', id: any, created_at?: any | null, roasters?: { __typename?: 'roasters', id: any, name: string, profile_image_url?: string | null, location_city?: string | null, location_state?: string | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null, location_likesCollection?: { __typename?: 'location_likesConnection', edges: Array<{ __typename?: 'location_likesEdge', node: { __typename?: 'location_likes', id: any, created_at?: any | null, locations?: { __typename?: 'locations', id: any, name: string, image_url?: string | null, address?: string | null, latitude?: any | null, longitude?: any | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null, recipe_likesCollection?: { __typename?: 'recipe_likesConnection', edges: Array<{ __typename?: 'recipe_likesEdge', node: { __typename?: 'recipe_likes', id: any, created_at?: any | null, recipes?: { __typename?: 'recipes', id: any, title?: string | null, image_url?: string | null, created_at?: any | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -3333,6 +3534,27 @@ export const CreateBeanDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CreateBeanMutation, CreateBeanMutationVariables>;
+export const CreateRecipeDocument = new TypedDocumentString(`
+    mutation CreateRecipe($input: recipesInsertInput!) {
+  insertIntorecipesCollection(objects: [$input]) {
+    records {
+      id
+      user_id
+      bean_id
+      title
+      description
+      image_url
+      grind_size
+      grind_weight
+      ratio
+      brew_method
+      is_public
+      likes_count
+      created_at
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateRecipeMutation, CreateRecipeMutationVariables>;
 export const CreateRoasterDocument = new TypedDocumentString(`
     mutation CreateRoaster($input: roastersInsertInput!) {
   insertIntoroastersCollection(objects: [$input]) {
@@ -3414,6 +3636,27 @@ export const UnlikeLocationDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UnlikeLocationMutation, UnlikeLocationMutationVariables>;
+export const LikeRecipeDocument = new TypedDocumentString(`
+    mutation LikeRecipe($input: recipe_likesInsertInput!) {
+  insertIntorecipe_likesCollection(objects: [$input]) {
+    records {
+      id
+      recipe_id
+      user_id
+      created_at
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<LikeRecipeMutation, LikeRecipeMutationVariables>;
+export const UnlikeRecipeDocument = new TypedDocumentString(`
+    mutation UnlikeRecipe($filter: recipe_likesFilter!) {
+  deleteFromrecipe_likesCollection(filter: $filter) {
+    records {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UnlikeRecipeMutation, UnlikeRecipeMutationVariables>;
 export const UpdateBeanDocument = new TypedDocumentString(`
     mutation UpdateBean($id: UUID!, $set: beansUpdateInput!) {
   updatebeansCollection(filter: {id: {eq: $id}}, set: $set) {
@@ -3462,6 +3705,27 @@ export const UpdateProfileDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UpdateProfileMutation, UpdateProfileMutationVariables>;
+export const UpdateRecipeDocument = new TypedDocumentString(`
+    mutation UpdateRecipe($id: UUID!, $set: recipesUpdateInput!) {
+  updaterecipesCollection(filter: {id: {eq: $id}}, set: $set) {
+    records {
+      id
+      user_id
+      bean_id
+      title
+      description
+      image_url
+      grind_size
+      grind_weight
+      ratio
+      brew_method
+      is_public
+      likes_count
+      created_at
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRecipeMutation, UpdateRecipeMutationVariables>;
 export const UpdateRoasterDocument = new TypedDocumentString(`
     mutation UpdateRoaster($id: UUID!, $set: roastersUpdateInput!) {
   updateroastersCollection(filter: {id: {eq: $id}}, set: $set) {
@@ -3483,6 +3747,90 @@ export const UpdateRoasterDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UpdateRoasterMutation, UpdateRoasterMutationVariables>;
+export const GetRecipeByIdDocument = new TypedDocumentString(`
+    query GetRecipeById($id: UUID!) {
+  recipesCollection(filter: {id: {eq: $id}}) {
+    edges {
+      node {
+        id
+        user_id
+        profiles {
+          id
+          username
+          display_name
+        }
+        bean_id
+        title
+        description
+        image_url
+        grind_size
+        grind_weight
+        ratio
+        brew_method
+        is_public
+        likes_count
+        created_at
+        bean: beans {
+          id
+          name
+          roasters {
+            id
+            name
+          }
+        }
+        likes: recipe_likesCollection {
+          edges {
+            node {
+              id
+              user_id
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetRecipeByIdQuery, GetRecipeByIdQueryVariables>;
+export const GetRecipesDocument = new TypedDocumentString(`
+    query GetRecipes($first: Int, $after: Cursor) {
+  recipesCollection(first: $first, after: $after, filter: {is_public: {eq: true}}) {
+    edges {
+      node {
+        id
+        user_id
+        profiles {
+          id
+          username
+          display_name
+        }
+        bean_id
+        title
+        description
+        image_url
+        grind_size
+        grind_weight
+        ratio
+        brew_method
+        is_public
+        likes_count
+        created_at
+        likes: recipe_likesCollection {
+          edges {
+            node {
+              id
+              user_id
+            }
+          }
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetRecipesQuery, GetRecipesQueryVariables>;
 export const GetAllRoastersDocument = new TypedDocumentString(`
     query GetAllRoasters($first: Int) {
   roastersCollection(
@@ -3566,6 +3914,31 @@ export const GetBeanDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<GetBeanQuery, GetBeanQueryVariables>;
+export const GetBeanOptionsDocument = new TypedDocumentString(`
+    query GetBeanOptions($search: String, $first: Int, $after: Cursor) {
+  beansCollection(
+    first: $first
+    after: $after
+    filter: {name: {ilike: $search}}
+    orderBy: [{roaster_id: AscNullsLast}, {name: AscNullsLast}]
+  ) {
+    edges {
+      node {
+        id
+        name
+        roasters {
+          id
+          name
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetBeanOptionsQuery, GetBeanOptionsQueryVariables>;
 export const GetBeansDocument = new TypedDocumentString(`
     query GetBeans($filter: beansFilter, $first: Int, $after: Cursor) {
   beansCollection(first: $first, after: $after, filter: $filter) {
@@ -3921,6 +4294,28 @@ export const GetUserLikesDocument = new TypedDocumentString(`
           address
           latitude
           longitude
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+  recipe_likesCollection(
+    filter: {user_id: {eq: $userId}}
+    first: $first
+    after: $after
+  ) {
+    edges {
+      node {
+        id
+        created_at
+        recipes {
+          id
+          title
+          image_url
+          created_at
         }
       }
     }

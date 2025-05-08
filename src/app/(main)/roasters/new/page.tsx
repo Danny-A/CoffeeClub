@@ -1,7 +1,6 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -11,6 +10,7 @@ import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardFooter } from '@/components/ui/Card';
 import { FormField } from '@/components/ui/FormField';
 import { Heading } from '@/components/ui/Heading';
+import { ImageUpload } from '@/components/ui/ImageUpload';
 import { TextArea } from '@/components/ui/TextArea';
 import { useCreateRoaster } from '@/hooks/roasters/useCreateRoaster';
 import { useRoasterImage } from '@/hooks/roasters/useRoasterImage';
@@ -33,13 +33,18 @@ export default function Page() {
     resolver: zodResolver(roasterSchema),
   });
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleImageChange = (file: File | null) => {
+    setImageFile(file);
     if (file) {
-      setImageFile(file);
-      const url = URL.createObjectURL(file);
-      setPreviewUrl(url);
+      setPreviewUrl(URL.createObjectURL(file));
+    } else {
+      setPreviewUrl(null);
     }
+  };
+
+  const handleRemoveImage = () => {
+    setImageFile(null);
+    setPreviewUrl(null);
   };
 
   const onSubmit = async (data: RoasterFormData) => {
@@ -126,30 +131,14 @@ export default function Page() {
                 placeholder="@username"
               />
 
-              <div className="flex items-center gap-4">
-                {previewUrl ? (
-                  <div className="relative w-24 h-24 rounded-lg overflow-hidden">
-                    <Image
-                      src={previewUrl}
-                      alt="Roaster preview"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                ) : (
-                  <div className="w-24 h-24 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
-                    <span className="text-gray-400">No image</span>
-                  </div>
-                )}
-                <div className="flex-1">
-                  <FormField
-                    type="file"
-                    label="Roaster Image"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                  />
-                </div>
-              </div>
+              <ImageUpload
+                onChange={handleImageChange}
+                previewUrl={previewUrl}
+                onRemove={handleRemoveImage}
+                accept="image/*"
+                label="Upload roaster image"
+                disabled={createRoaster.isPending}
+              />
             </CardContent>
 
             <CardFooter className="flex justify-between">

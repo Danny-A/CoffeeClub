@@ -1,0 +1,42 @@
+query GetRecipeById($id: UUID!) {
+  recipesCollection(filter: { id: { eq: $id } }) {
+    edges {
+      node {
+        id
+        user_id
+        profiles {
+          id
+          username
+          display_name
+        }
+        bean_id
+        title
+        description
+        image_url
+        grind_size
+        grind_weight
+        ratio
+        brew_method
+        is_public
+        likes_count
+        created_at
+        bean: beans {
+          id
+          name
+          roasters {
+            id
+            name
+          }
+        }
+        likes: recipe_likesCollection {
+          edges {
+            node {
+              id
+              user_id
+            }
+          }
+        }
+      }
+    }
+  }
+}

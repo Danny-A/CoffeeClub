@@ -7,10 +7,11 @@ import {
   useBeanLikes,
   useLocationLikes,
   useRoasterLikes,
+  useRecipeLikes,
 } from '@/hooks/likes/useLikes';
 
 type LikeButtonProps = {
-  type: 'bean' | 'roaster' | 'location';
+  type: 'bean' | 'roaster' | 'location' | 'recipe';
   id: string;
   isLiked: boolean;
   className?: string;
@@ -20,6 +21,7 @@ export function LikeButton({ type, id, isLiked, className }: LikeButtonProps) {
   const { likeBean, unlikeBean, isLiking, isUnliking } = useBeanLikes();
   const { likeRoaster, unlikeRoaster } = useRoasterLikes();
   const { likeLocation, unlikeLocation } = useLocationLikes();
+  const { likeRecipe, unlikeRecipe } = useRecipeLikes();
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -44,6 +46,13 @@ export function LikeButton({ type, id, isLiked, className }: LikeButtonProps) {
           unlikeLocation(id);
         } else {
           likeLocation(id);
+        }
+        break;
+      case 'recipe':
+        if (isLiked) {
+          unlikeRecipe(id);
+        } else {
+          likeRecipe(id);
         }
         break;
     }

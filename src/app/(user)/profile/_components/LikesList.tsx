@@ -30,6 +30,7 @@ export function LikesList() {
         <TabsTrigger value="bean">Beans</TabsTrigger>
         <TabsTrigger value="roaster">Roasters</TabsTrigger>
         <TabsTrigger value="location">Locations</TabsTrigger>
+        <TabsTrigger value="recipe">Recipes</TabsTrigger>
       </TabsList>
 
       <TabsContent value={activeTab} className="space-y-4">
@@ -47,23 +48,36 @@ export function LikesList() {
               <Card key={like.id}>
                 <CardContent>
                   <Link
-                    href={`/${like.type}s/${like.item.id}`}
+                    href={
+                      like.type === 'recipe'
+                        ? `/recipes/${like.item.id}`
+                        : `/${like.type}s/${like.item.id}`
+                    }
                     className="block hover:opacity-80 transition-opacity"
                   >
                     <div className="relative h-32 mb-4">
                       <Image
                         src={
-                          (like.type === 'roaster'
-                            ? like.item.profile_image_url
-                            : like.item.image_url) || '/images/placeholder.jpg'
+                          like.type === 'roaster'
+                            ? like.item.profile_image_url ||
+                              '/images/placeholder.jpg'
+                            : like.type === 'recipe'
+                              ? like.item.image_url || '/images/placeholder.jpg'
+                              : like.item.image_url || '/images/placeholder.jpg'
                         }
-                        alt={like.item.name}
+                        alt={
+                          like.type === 'recipe'
+                            ? like.item.title || ''
+                            : like.item.name || ''
+                        }
                         fill
                         className="object-cover rounded-md"
                       />
                     </div>
                     <Heading as="h3" level="h4" className="mb-2">
-                      {like.item.name}
+                      {like.type === 'recipe'
+                        ? like.item.title
+                        : like.item.name}
                     </Heading>
                     {like.type === 'bean' && (
                       <Text variant="description">
@@ -77,6 +91,13 @@ export function LikesList() {
                     )}
                     {like.type === 'location' && (
                       <Text variant="description">{like.item.address}</Text>
+                    )}
+                    {like.type === 'recipe' && (
+                      <Text variant="description">
+                        {like.item.created_at
+                          ? new Date(like.item.created_at).toLocaleDateString()
+                          : ''}
+                      </Text>
                     )}
                   </Link>
                 </CardContent>

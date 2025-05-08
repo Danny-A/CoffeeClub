@@ -48,8 +48,8 @@ export default async function BeansPage() {
       <div className="space-y-8">
         <div className="flex justify-between items-center">
           <div>
-            <Heading level="h1">Coffee Beans</Heading>
-            <Heading level="h2" muted className="mt-2">
+            <Heading level="h2">Coffee Beans</Heading>
+            <Heading level="h4" as="h2" muted className="mt-2">
               Explore our collection of coffee beans
             </Heading>
           </div>

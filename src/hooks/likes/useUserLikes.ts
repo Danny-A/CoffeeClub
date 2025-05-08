@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { fetchLikes } from "@/lib/api/fetchLikes";
 
-export type LikeType = "bean" | "roaster" | "location";
+export type LikeType = "bean" | "roaster" | "location" | "recipe";
 
 export function useUserLikes(userId: string, type?: LikeType) {
   const { data, isLoading, error, isFetching } = useQuery({
@@ -44,10 +44,18 @@ export function useUserLikes(userId: string, type?: LikeType) {
     item: edge.node.locations!,
   }));
 
+  const recipeLikes = data?.recipe_likesCollection?.edges.map((edge) => ({
+    id: edge.node.id,
+    createdAt: edge.node.created_at,
+    type: "recipe" as const,
+    item: edge.node.recipes!,
+  }));
+
   const allLikes = [
     ...(beanLikes || []),
     ...(roasterLikes || []),
     ...(locationLikes || []),
+    ...(recipeLikes || []),
   ].sort((a, b) => {
     return new Date(b.createdAt!) > new Date(a.createdAt!) ? 1 : -1;
   });

@@ -1,0 +1,23 @@
+query GetBeanOptions($search: String, $first: Int, $after: Cursor) {
+  beansCollection(
+    first: $first
+    after: $after
+    filter: { name: { ilike: $search } }
+    orderBy: [{ roaster_id: AscNullsLast }, { name: AscNullsLast }]
+  ) {
+    edges {
+      node {
+        id
+        name
+        roasters {
+          id
+          name
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

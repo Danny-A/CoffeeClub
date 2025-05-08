@@ -5,7 +5,7 @@ export function useBeanImage() {
 
   const uploadBeanImage = async (file: File) => {
     const fileExt = file.name.split(".").pop();
-    const fileName = `${Math.random()}.${fileExt}`;
+    const fileName = `${Date.now()}.${fileExt}`;
     const filePath = `${fileName}`;
 
     // Upload new image

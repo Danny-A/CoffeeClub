@@ -72,4 +72,26 @@ query GetUserLikes($userId: UUID!, $first: Int, $after: Cursor) {
       endCursor
     }
   }
+  recipe_likesCollection(
+    filter: { user_id: { eq: $userId } }
+    first: $first
+    after: $after
+  ) {
+    edges {
+      node {
+        id
+        created_at
+        recipes {
+          id
+          title
+          image_url
+          created_at
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
 }

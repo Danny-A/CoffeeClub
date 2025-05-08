@@ -1,0 +1,19 @@
+mutation UpdateRecipe($id: UUID!, $set: recipesUpdateInput!) {
+  updaterecipesCollection(filter: { id: { eq: $id } }, set: $set) {
+    records {
+      id
+      user_id
+      bean_id
+      title
+      description
+      image_url
+      grind_size
+      grind_weight
+      ratio
+      brew_method
+      is_public
+      likes_count
+      created_at
+    }
+  }
+}

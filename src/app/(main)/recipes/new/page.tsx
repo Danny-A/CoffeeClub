@@ -1,7 +1,6 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { MDXEditor } from '@mdxeditor/editor';
 import { useRouter } from 'next/navigation';
 import { useState, Suspense } from 'react';
 import { useForm, Controller } from 'react-hook-form';
@@ -20,7 +19,6 @@ import {
   SelectItem,
 } from '@/components/ui/Select';
 import { Text } from '@/components/ui/Text';
-import { TextArea } from '@/components/ui/TextArea';
 import { useAuth } from '@/hooks/auth/useAuth';
 import { useInfiniteBeanOptions } from '@/hooks/beans/useInfiniteBeanOptions';
 import { useCreateRecipe } from '@/hooks/recipes/useCreateRecipe';

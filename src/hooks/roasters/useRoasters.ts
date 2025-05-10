@@ -13,7 +13,7 @@ type RoastersResponse = {
   };
 };
 
-function transformRoastersData(data: RoastersQuery): RoastersResponse {
+export function transformRoastersData(data: RoastersQuery): RoastersResponse {
   return {
     edges: data.edges.map((roaster) => ({
       node: {

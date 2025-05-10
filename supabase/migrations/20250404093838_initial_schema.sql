@@ -96,6 +96,22 @@ FOR INSERT WITH CHECK (
   auth.role() = 'authenticated'
 );
 
+-- Create recipes bucket if it doesn't exist
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('recipes', 'recipes', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- Allow public read access to recipes
+CREATE POLICY "Public read access for recipes" ON storage.objects
+FOR SELECT USING (bucket_id = 'recipes');
+
+-- Allow authenticated users to upload their own recipes
+CREATE POLICY "Authenticated users can upload recipes" ON storage.objects
+FOR INSERT WITH CHECK (
+  bucket_id = 'recipes' AND
+  auth.role() = 'authenticated'
+);
+
 -- ==========================
 -- Profiles Table
 -- ==========================
@@ -337,6 +353,8 @@ ALTER TABLE recipes ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public read access to public recipes" ON recipes FOR SELECT USING (is_public = true);
 CREATE POLICY "Authenticated users can create recipes" ON recipes FOR INSERT WITH CHECK (auth.role() = 'authenticated');
 CREATE POLICY "Users can modify their own recipes" ON recipes FOR UPDATE USING (user_id = auth.uid());
+CREATE POLICY "Users can view their own recipes" ON recipes FOR SELECT USING (user_id = auth.uid());
+CREATE POLICY "Users can delete their own recipes" ON recipes FOR DELETE USING (user_id = auth.uid());
 
 -- ==========================
 -- Indexing for Optimization

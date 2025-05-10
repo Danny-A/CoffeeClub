@@ -1,7 +1,6 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, Fragment, Suspense } from 'react';
 import React from 'react';
@@ -13,6 +12,7 @@ import { Card, CardContent, CardFooter } from '@/components/ui/Card';
 import { ComboBox } from '@/components/ui/ComboBox';
 import { FormField } from '@/components/ui/FormField';
 import { Heading } from '@/components/ui/Heading';
+import { ImageUpload } from '@/components/ui/ImageUpload';
 import {
   Select,
   SelectContent,
@@ -99,15 +99,11 @@ function NewBeanPage() {
     isFetchingNextPage,
   } = useInfiniteRoasterOptions(search);
 
-  // Initialize with one empty URL field if there are no fields
   useEffect(() => {
-    if (buyUrlFields.length === 0) {
-      appendBuyUrl({ value: '' });
-    }
     if (originFields.length === 0) {
       appendOrigin({ value: '' });
     }
-  }, [appendBuyUrl, appendOrigin, buyUrlFields.length, originFields.length]);
+  }, [appendOrigin, originFields.length]);
 
   useEffect(() => {
     if (roasterId && roasterId) {
@@ -115,13 +111,18 @@ function NewBeanPage() {
     }
   }, [roasterId, setValue]);
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleImageChange = (file: File | null) => {
+    setImageFile(file);
     if (file) {
-      setImageFile(file);
-      const url = URL.createObjectURL(file);
-      setPreviewUrl(url);
+      setPreviewUrl(URL.createObjectURL(file));
+    } else {
+      setPreviewUrl(null);
     }
+  };
+
+  const handleRemoveImage = () => {
+    setImageFile(null);
+    setPreviewUrl(null);
   };
 
   const onSubmit = async (data: BeanFormData) => {
@@ -194,30 +195,14 @@ function NewBeanPage() {
                   <Text variant="error">{errors.roaster_id.message}</Text>
                 )}
               </div>
-              <div className="flex items-center gap-4">
-                {previewUrl ? (
-                  <div className="relative w-24 h-24 rounded-lg overflow-hidden">
-                    <Image
-                      src={previewUrl}
-                      alt="Bean preview"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                ) : (
-                  <div className="w-24 h-24 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
-                    <span className="text-gray-400">No image</span>
-                  </div>
-                )}
-                <div className="flex-1">
-                  <FormField
-                    type="file"
-                    label="Bean Image"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                  />
-                </div>
-              </div>
+              <ImageUpload
+                onChange={handleImageChange}
+                previewUrl={previewUrl}
+                onRemove={handleRemoveImage}
+                accept="image/*"
+                label="Upload bean image"
+                disabled={isSubmitting}
+              />
 
               <TextArea
                 label="Description"

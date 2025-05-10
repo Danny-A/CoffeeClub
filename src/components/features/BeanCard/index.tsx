@@ -24,10 +24,12 @@ export function BeanCard({ bean, user }: BeanCardProps) {
             </Text>
           )}
           <div className="space-y-2">
-            <div className="flex justify-between">
-              <Text variant="label">Origin:</Text>
-              <Text variant="small">{bean.origin}</Text>
-            </div>
+            {bean.origin && (
+              <div className="flex justify-between">
+                <Text variant="label">Origin:</Text>
+                <Text variant="small">{bean.origin}</Text>
+              </div>
+            )}
             {bean.process && (
               <div className="flex justify-between">
                 <Text variant="label">Process:</Text>
@@ -48,25 +50,22 @@ export function BeanCard({ bean, user }: BeanCardProps) {
                 <Text variant="small">{bean.roaster.name}</Text>
               </div>
             )}
-            {bean.reviews?.length && bean.reviews.length >= 1 ? (
-              <>
-                <div className="flex justify-between">
-                  <Text variant="label">Reviews:</Text>
-                  <Text variant="small">{bean.reviews.length}</Text>
-                </div>
-                {bean.averageRating && (
-                  <div className="flex justify-between">
-                    <Text variant="label">Rating:</Text>
-                    <Text variant="small">{bean.averageRating}</Text>
-                  </div>
-                )}
-              </>
-            ) : (
-              <div className="flex justify-between">
-                <Text variant="label">Reviews:</Text>
-                <Text variant="small">No reviews yet</Text>
-              </div>
-            )}
+            <div className="flex justify-between">
+              <Text variant="label">Reviews:</Text>
+              <Text variant="small">
+                {bean.reviewCount && bean.reviewCount > 0
+                  ? bean.reviewCount
+                  : 'No reviews yet'}
+              </Text>
+            </div>
+            <div className="flex justify-between">
+              <Text variant="label">Rating:</Text>
+              <Text variant="small">
+                {bean.averageRating !== undefined && bean.averageRating !== null
+                  ? bean.averageRating.toFixed(2)
+                  : '-'}
+              </Text>
+            </div>
           </div>
 
           {user && (

@@ -29,6 +29,7 @@ export function DashboardStats() {
     total_bean_reviews: 0,
     total_roaster_reviews: 0,
     total_location_reviews: 0,
+    total_recipes: 0,
   };
 
   const stats = [
@@ -49,12 +50,12 @@ export function DashboardStats() {
       value: counts.total_locations,
     },
     {
-      title: 'Bean Reviews',
-      value: counts.total_bean_reviews,
+      title: 'Total Recipes',
+      value: counts.total_recipes,
     },
     {
-      title: 'Roaster Reviews',
-      value: counts.total_roaster_reviews,
+      title: 'Bean Reviews',
+      value: counts.total_bean_reviews,
     },
     {
       title: 'Location Reviews',

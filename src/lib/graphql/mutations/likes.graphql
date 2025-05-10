@@ -54,3 +54,22 @@ mutation UnlikeLocation($filter: location_likesFilter!) {
     }
   }
 }
+
+mutation LikeRecipe($input: recipe_likesInsertInput!) {
+  insertIntorecipe_likesCollection(objects: [$input]) {
+    records {
+      id
+      recipe_id
+      user_id
+      created_at
+    }
+  }
+}
+
+mutation UnlikeRecipe($filter: recipe_likesFilter!) {
+  deleteFromrecipe_likesCollection(filter: $filter) {
+    records {
+      id
+    }
+  }
+}

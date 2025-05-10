@@ -1,0 +1,19 @@
+mutation CreateCuratedHomepageItem(
+  $input: [homepage_curated_itemsInsertInput!]!
+) {
+  insertIntohomepage_curated_itemsCollection(objects: $input) {
+    records {
+      id
+      section
+      bean_id
+      recipe_id
+      roaster_id
+      location_id
+      display_order
+      custom_title
+      published
+      created_at
+      updated_at
+    }
+  }
+}

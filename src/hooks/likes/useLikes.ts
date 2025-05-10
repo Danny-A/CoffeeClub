@@ -4,9 +4,11 @@ import { useAuth } from "@/hooks/auth/useAuth";
 import {
   likeBean,
   likeLocation,
+  likeRecipe,
   likeRoaster,
   unlikeBean,
   unlikeLocation,
+  unlikeRecipe,
   unlikeRoaster,
 } from "@/lib/api/likes";
 
@@ -19,8 +21,11 @@ export function useBeanLikes() {
       if (!user?.id) throw new Error("User not authenticated");
       return likeBean(beanId, user.id);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["beans"] });
+      if (data?.id) {
+        queryClient.invalidateQueries({ queryKey: ["bean", data.id] });
+      }
     },
   });
 
@@ -29,8 +34,9 @@ export function useBeanLikes() {
       if (!user?.id) throw new Error("User not authenticated");
       return unlikeBean(beanId, user.id);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["beans"] });
+      queryClient.invalidateQueries({ queryKey: ["bean", data.id] });
     },
   });
 
@@ -51,8 +57,11 @@ export function useRoasterLikes() {
       if (!user?.id) throw new Error("User not authenticated");
       return likeRoaster(roasterId, user.id);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["roasters"] });
+      if (data?.id) {
+        queryClient.invalidateQueries({ queryKey: ["roaster", data.id] });
+      }
     },
   });
 
@@ -61,8 +70,11 @@ export function useRoasterLikes() {
       if (!user?.id) throw new Error("User not authenticated");
       return unlikeRoaster(roasterId, user.id);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["roasters"] });
+      if (data?.id) {
+        queryClient.invalidateQueries({ queryKey: ["roaster", data.id] });
+      }
     },
   });
 
@@ -83,8 +95,11 @@ export function useLocationLikes() {
       if (!user?.id) throw new Error("User not authenticated");
       return likeLocation(locationId, user.id);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["locations"] });
+      if (data?.id) {
+        queryClient.invalidateQueries({ queryKey: ["location", data.id] });
+      }
     },
   });
 
@@ -93,8 +108,9 @@ export function useLocationLikes() {
       if (!user?.id) throw new Error("User not authenticated");
       return unlikeLocation(locationId, user.id);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["locations"] });
+      queryClient.invalidateQueries({ queryKey: ["location", data.id] });
     },
   });
 
@@ -103,5 +119,41 @@ export function useLocationLikes() {
     unlikeLocation: unlikeLocationMutation.mutate,
     isLiking: likeLocationMutation.isPending,
     isUnliking: unlikeLocationMutation.isPending,
+  };
+}
+
+export function useRecipeLikes() {
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+
+  const likeRecipeMutation = useMutation({
+    mutationFn: async (recipeId: string) => {
+      if (!user?.id) throw new Error("User not authenticated");
+      return likeRecipe(recipeId, user.id);
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["recipes"] });
+      if (data?.id) {
+        queryClient.invalidateQueries({ queryKey: ["recipe", data.id] });
+      }
+    },
+  });
+
+  const unlikeRecipeMutation = useMutation({
+    mutationFn: async (recipeId: string) => {
+      if (!user?.id) throw new Error("User not authenticated");
+      return unlikeRecipe(recipeId, user.id);
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["recipes"] });
+      queryClient.invalidateQueries({ queryKey: ["recipe", data.id] });
+    },
+  });
+
+  return {
+    likeRecipe: likeRecipeMutation.mutate,
+    unlikeRecipe: unlikeRecipeMutation.mutate,
+    isLiking: likeRecipeMutation.isPending,
+    isUnliking: unlikeRecipeMutation.isPending,
   };
 }

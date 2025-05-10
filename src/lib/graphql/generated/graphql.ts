@@ -202,6 +202,8 @@ export type Mutation = {
   deleteFromdashboard_statsCollection: Dashboard_StatsDeleteResponse;
   /** Deletes zero or more records from the `followers` collection */
   deleteFromfollowersCollection: FollowersDeleteResponse;
+  /** Deletes zero or more records from the `homepage_curated_items` collection */
+  deleteFromhomepage_curated_itemsCollection: Homepage_Curated_ItemsDeleteResponse;
   /** Deletes zero or more records from the `location_likes` collection */
   deleteFromlocation_likesCollection: Location_LikesDeleteResponse;
   /** Deletes zero or more records from the `location_reviews` collection */
@@ -210,12 +212,12 @@ export type Mutation = {
   deleteFromlocationsCollection: LocationsDeleteResponse;
   /** Deletes zero or more records from the `profiles` collection */
   deleteFromprofilesCollection: ProfilesDeleteResponse;
+  /** Deletes zero or more records from the `recipe_likes` collection */
+  deleteFromrecipe_likesCollection: Recipe_LikesDeleteResponse;
   /** Deletes zero or more records from the `recipes` collection */
   deleteFromrecipesCollection: RecipesDeleteResponse;
   /** Deletes zero or more records from the `roaster_likes` collection */
   deleteFromroaster_likesCollection: Roaster_LikesDeleteResponse;
-  /** Deletes zero or more records from the `roaster_reviews` collection */
-  deleteFromroaster_reviewsCollection: Roaster_ReviewsDeleteResponse;
   /** Deletes zero or more records from the `roasters` collection */
   deleteFromroastersCollection: RoastersDeleteResponse;
   /** Deletes zero or more records from the `tags` collection */
@@ -238,6 +240,8 @@ export type Mutation = {
   insertIntodashboard_statsCollection?: Maybe<Dashboard_StatsInsertResponse>;
   /** Adds one or more `followers` records to the collection */
   insertIntofollowersCollection?: Maybe<FollowersInsertResponse>;
+  /** Adds one or more `homepage_curated_items` records to the collection */
+  insertIntohomepage_curated_itemsCollection?: Maybe<Homepage_Curated_ItemsInsertResponse>;
   /** Adds one or more `location_likes` records to the collection */
   insertIntolocation_likesCollection?: Maybe<Location_LikesInsertResponse>;
   /** Adds one or more `location_reviews` records to the collection */
@@ -246,12 +250,12 @@ export type Mutation = {
   insertIntolocationsCollection?: Maybe<LocationsInsertResponse>;
   /** Adds one or more `profiles` records to the collection */
   insertIntoprofilesCollection?: Maybe<ProfilesInsertResponse>;
+  /** Adds one or more `recipe_likes` records to the collection */
+  insertIntorecipe_likesCollection?: Maybe<Recipe_LikesInsertResponse>;
   /** Adds one or more `recipes` records to the collection */
   insertIntorecipesCollection?: Maybe<RecipesInsertResponse>;
   /** Adds one or more `roaster_likes` records to the collection */
   insertIntoroaster_likesCollection?: Maybe<Roaster_LikesInsertResponse>;
-  /** Adds one or more `roaster_reviews` records to the collection */
-  insertIntoroaster_reviewsCollection?: Maybe<Roaster_ReviewsInsertResponse>;
   /** Adds one or more `roasters` records to the collection */
   insertIntoroastersCollection?: Maybe<RoastersInsertResponse>;
   /** Adds one or more `tags` records to the collection */
@@ -260,6 +264,7 @@ export type Mutation = {
   insertIntouser_rolesCollection?: Maybe<User_RolesInsertResponse>;
   /** Adds one or more `varieties` records to the collection */
   insertIntovarietiesCollection?: Maybe<VarietiesInsertResponse>;
+  update_roaster_bean_count?: Maybe<Scalars['Opaque']['output']>;
   /** Updates zero or more records in the `bean_likes` collection */
   updatebean_likesCollection: Bean_LikesUpdateResponse;
   /** Updates zero or more records in the `bean_reviews` collection */
@@ -274,6 +279,8 @@ export type Mutation = {
   updatedashboard_statsCollection: Dashboard_StatsUpdateResponse;
   /** Updates zero or more records in the `followers` collection */
   updatefollowersCollection: FollowersUpdateResponse;
+  /** Updates zero or more records in the `homepage_curated_items` collection */
+  updatehomepage_curated_itemsCollection: Homepage_Curated_ItemsUpdateResponse;
   /** Updates zero or more records in the `location_likes` collection */
   updatelocation_likesCollection: Location_LikesUpdateResponse;
   /** Updates zero or more records in the `location_reviews` collection */
@@ -282,12 +289,12 @@ export type Mutation = {
   updatelocationsCollection: LocationsUpdateResponse;
   /** Updates zero or more records in the `profiles` collection */
   updateprofilesCollection: ProfilesUpdateResponse;
+  /** Updates zero or more records in the `recipe_likes` collection */
+  updaterecipe_likesCollection: Recipe_LikesUpdateResponse;
   /** Updates zero or more records in the `recipes` collection */
   updaterecipesCollection: RecipesUpdateResponse;
   /** Updates zero or more records in the `roaster_likes` collection */
   updateroaster_likesCollection: Roaster_LikesUpdateResponse;
-  /** Updates zero or more records in the `roaster_reviews` collection */
-  updateroaster_reviewsCollection: Roaster_ReviewsUpdateResponse;
   /** Updates zero or more records in the `roasters` collection */
   updateroastersCollection: RoastersUpdateResponse;
   /** Updates zero or more records in the `tags` collection */
@@ -349,6 +356,13 @@ export type MutationDeleteFromfollowersCollectionArgs = {
 
 
 /** The root type for creating and mutating data */
+export type MutationDeleteFromhomepage_Curated_ItemsCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<Homepage_Curated_ItemsFilter>;
+};
+
+
+/** The root type for creating and mutating data */
 export type MutationDeleteFromlocation_LikesCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<Location_LikesFilter>;
@@ -377,6 +391,13 @@ export type MutationDeleteFromprofilesCollectionArgs = {
 
 
 /** The root type for creating and mutating data */
+export type MutationDeleteFromrecipe_LikesCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<Recipe_LikesFilter>;
+};
+
+
+/** The root type for creating and mutating data */
 export type MutationDeleteFromrecipesCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<RecipesFilter>;
@@ -387,13 +408,6 @@ export type MutationDeleteFromrecipesCollectionArgs = {
 export type MutationDeleteFromroaster_LikesCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<Roaster_LikesFilter>;
-};
-
-
-/** The root type for creating and mutating data */
-export type MutationDeleteFromroaster_ReviewsCollectionArgs = {
-  atMost?: Scalars['Int']['input'];
-  filter?: InputMaybe<Roaster_ReviewsFilter>;
 };
 
 
@@ -468,6 +482,12 @@ export type MutationInsertIntofollowersCollectionArgs = {
 
 
 /** The root type for creating and mutating data */
+export type MutationInsertIntohomepage_Curated_ItemsCollectionArgs = {
+  objects: Array<Homepage_Curated_ItemsInsertInput>;
+};
+
+
+/** The root type for creating and mutating data */
 export type MutationInsertIntolocation_LikesCollectionArgs = {
   objects: Array<Location_LikesInsertInput>;
 };
@@ -492,6 +512,12 @@ export type MutationInsertIntoprofilesCollectionArgs = {
 
 
 /** The root type for creating and mutating data */
+export type MutationInsertIntorecipe_LikesCollectionArgs = {
+  objects: Array<Recipe_LikesInsertInput>;
+};
+
+
+/** The root type for creating and mutating data */
 export type MutationInsertIntorecipesCollectionArgs = {
   objects: Array<RecipesInsertInput>;
 };
@@ -500,12 +526,6 @@ export type MutationInsertIntorecipesCollectionArgs = {
 /** The root type for creating and mutating data */
 export type MutationInsertIntoroaster_LikesCollectionArgs = {
   objects: Array<Roaster_LikesInsertInput>;
-};
-
-
-/** The root type for creating and mutating data */
-export type MutationInsertIntoroaster_ReviewsCollectionArgs = {
-  objects: Array<Roaster_ReviewsInsertInput>;
 };
 
 
@@ -530,6 +550,12 @@ export type MutationInsertIntouser_RolesCollectionArgs = {
 /** The root type for creating and mutating data */
 export type MutationInsertIntovarietiesCollectionArgs = {
   objects: Array<VarietiesInsertInput>;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationUpdate_Roaster_Bean_CountArgs = {
+  roaster_id: Scalars['UUID']['input'];
 };
 
 
@@ -590,6 +616,14 @@ export type MutationUpdatefollowersCollectionArgs = {
 
 
 /** The root type for creating and mutating data */
+export type MutationUpdatehomepage_Curated_ItemsCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<Homepage_Curated_ItemsFilter>;
+  set: Homepage_Curated_ItemsUpdateInput;
+};
+
+
+/** The root type for creating and mutating data */
 export type MutationUpdatelocation_LikesCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<Location_LikesFilter>;
@@ -622,6 +656,14 @@ export type MutationUpdateprofilesCollectionArgs = {
 
 
 /** The root type for creating and mutating data */
+export type MutationUpdaterecipe_LikesCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<Recipe_LikesFilter>;
+  set: Recipe_LikesUpdateInput;
+};
+
+
+/** The root type for creating and mutating data */
 export type MutationUpdaterecipesCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<RecipesFilter>;
@@ -634,14 +676,6 @@ export type MutationUpdateroaster_LikesCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<Roaster_LikesFilter>;
   set: Roaster_LikesUpdateInput;
-};
-
-
-/** The root type for creating and mutating data */
-export type MutationUpdateroaster_ReviewsCollectionArgs = {
-  atMost?: Scalars['Int']['input'];
-  filter?: InputMaybe<Roaster_ReviewsFilter>;
-  set: Roaster_ReviewsUpdateInput;
 };
 
 
@@ -724,6 +758,8 @@ export type Query = {
   dashboard_statsCollection?: Maybe<Dashboard_StatsConnection>;
   /** A pagable collection of type `followers` */
   followersCollection?: Maybe<FollowersConnection>;
+  /** A pagable collection of type `homepage_curated_items` */
+  homepage_curated_itemsCollection?: Maybe<Homepage_Curated_ItemsConnection>;
   is_username_available?: Maybe<Scalars['Boolean']['output']>;
   /** A pagable collection of type `location_likes` */
   location_likesCollection?: Maybe<Location_LikesConnection>;
@@ -735,12 +771,12 @@ export type Query = {
   node?: Maybe<Node>;
   /** A pagable collection of type `profiles` */
   profilesCollection?: Maybe<ProfilesConnection>;
+  /** A pagable collection of type `recipe_likes` */
+  recipe_likesCollection?: Maybe<Recipe_LikesConnection>;
   /** A pagable collection of type `recipes` */
   recipesCollection?: Maybe<RecipesConnection>;
   /** A pagable collection of type `roaster_likes` */
   roaster_likesCollection?: Maybe<Roaster_LikesConnection>;
-  /** A pagable collection of type `roaster_reviews` */
-  roaster_reviewsCollection?: Maybe<Roaster_ReviewsConnection>;
   /** A pagable collection of type `roasters` */
   roastersCollection?: Maybe<RoastersConnection>;
   /** A pagable collection of type `tags` */
@@ -837,6 +873,18 @@ export type QueryFollowersCollectionArgs = {
 
 
 /** The root type for querying data */
+export type QueryHomepage_Curated_ItemsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<Homepage_Curated_ItemsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<Homepage_Curated_ItemsOrderBy>>;
+};
+
+
+/** The root type for querying data */
 export type QueryIs_Username_AvailableArgs = {
   desired_username: Scalars['String']['input'];
 };
@@ -897,6 +945,18 @@ export type QueryProfilesCollectionArgs = {
 
 
 /** The root type for querying data */
+export type QueryRecipe_LikesCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<Recipe_LikesFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<Recipe_LikesOrderBy>>;
+};
+
+
+/** The root type for querying data */
 export type QueryRecipesCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -917,18 +977,6 @@ export type QueryRoaster_LikesCollectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<Roaster_LikesOrderBy>>;
-};
-
-
-/** The root type for querying data */
-export type QueryRoaster_ReviewsCollectionArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  filter?: InputMaybe<Roaster_ReviewsFilter>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<Roaster_ReviewsOrderBy>>;
 };
 
 
@@ -1405,7 +1453,7 @@ export type Bean_VarietiesUpdateResponse = {
 export type Beans = Node & {
   __typename?: 'beans';
   added_by?: Maybe<Scalars['UUID']['output']>;
-  average_rating?: Maybe<Scalars['BigFloat']['output']>;
+  average_rating?: Maybe<Scalars['Float']['output']>;
   bean_likesCollection?: Maybe<Bean_LikesConnection>;
   bean_reviewsCollection?: Maybe<Bean_ReviewsConnection>;
   bean_tagsCollection?: Maybe<Bean_TagsConnection>;
@@ -1416,6 +1464,7 @@ export type Beans = Node & {
   description?: Maybe<Scalars['String']['output']>;
   elevation_max?: Maybe<Scalars['Int']['output']>;
   elevation_min?: Maybe<Scalars['Int']['output']>;
+  homepage_curated_itemsCollection?: Maybe<Homepage_Curated_ItemsConnection>;
   id: Scalars['UUID']['output'];
   image_url?: Maybe<Scalars['String']['output']>;
   is_published: Scalars['Boolean']['output'];
@@ -1427,6 +1476,7 @@ export type Beans = Node & {
   process?: Maybe<Scalars['String']['output']>;
   producer?: Maybe<Scalars['String']['output']>;
   recipesCollection?: Maybe<RecipesConnection>;
+  review_count?: Maybe<Scalars['Int']['output']>;
   roast_level?: Maybe<Roast_Level>;
   roast_type?: Maybe<Roast_Type>;
   roaster_id?: Maybe<Scalars['UUID']['output']>;
@@ -1479,6 +1529,17 @@ export type BeansBean_VarietiesCollectionArgs = {
 };
 
 
+export type BeansHomepage_Curated_ItemsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<Homepage_Curated_ItemsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<Homepage_Curated_ItemsOrderBy>>;
+};
+
+
 export type BeansRecipesCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -1513,7 +1574,7 @@ export type BeansFilter = {
   added_by?: InputMaybe<UuidFilter>;
   /** Returns true only if all its inner filters are true, otherwise returns false */
   and?: InputMaybe<Array<BeansFilter>>;
-  average_rating?: InputMaybe<BigFloatFilter>;
+  average_rating?: InputMaybe<FloatFilter>;
   bean_type?: InputMaybe<Bean_TypeFilter>;
   buy_urls?: InputMaybe<StringListFilter>;
   created_at?: InputMaybe<DatetimeFilter>;
@@ -1533,6 +1594,7 @@ export type BeansFilter = {
   origin?: InputMaybe<StringFilter>;
   process?: InputMaybe<StringFilter>;
   producer?: InputMaybe<StringFilter>;
+  review_count?: InputMaybe<IntFilter>;
   roast_level?: InputMaybe<Roast_LevelFilter>;
   roast_type?: InputMaybe<Roast_TypeFilter>;
   roaster_id?: InputMaybe<UuidFilter>;
@@ -1541,7 +1603,7 @@ export type BeansFilter = {
 
 export type BeansInsertInput = {
   added_by?: InputMaybe<Scalars['UUID']['input']>;
-  average_rating?: InputMaybe<Scalars['BigFloat']['input']>;
+  average_rating?: InputMaybe<Scalars['Float']['input']>;
   bean_type?: InputMaybe<Bean_Type>;
   buy_urls?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   created_at?: InputMaybe<Scalars['Datetime']['input']>;
@@ -1556,6 +1618,7 @@ export type BeansInsertInput = {
   origin?: InputMaybe<Scalars['String']['input']>;
   process?: InputMaybe<Scalars['String']['input']>;
   producer?: InputMaybe<Scalars['String']['input']>;
+  review_count?: InputMaybe<Scalars['Int']['input']>;
   roast_level?: InputMaybe<Roast_Level>;
   roast_type?: InputMaybe<Roast_Type>;
   roaster_id?: InputMaybe<Scalars['UUID']['input']>;
@@ -1586,6 +1649,7 @@ export type BeansOrderBy = {
   origin?: InputMaybe<OrderByDirection>;
   process?: InputMaybe<OrderByDirection>;
   producer?: InputMaybe<OrderByDirection>;
+  review_count?: InputMaybe<OrderByDirection>;
   roast_level?: InputMaybe<OrderByDirection>;
   roast_type?: InputMaybe<OrderByDirection>;
   roaster_id?: InputMaybe<OrderByDirection>;
@@ -1594,7 +1658,7 @@ export type BeansOrderBy = {
 
 export type BeansUpdateInput = {
   added_by?: InputMaybe<Scalars['UUID']['input']>;
-  average_rating?: InputMaybe<Scalars['BigFloat']['input']>;
+  average_rating?: InputMaybe<Scalars['Float']['input']>;
   bean_type?: InputMaybe<Bean_Type>;
   buy_urls?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   created_at?: InputMaybe<Scalars['Datetime']['input']>;
@@ -1609,6 +1673,7 @@ export type BeansUpdateInput = {
   origin?: InputMaybe<Scalars['String']['input']>;
   process?: InputMaybe<Scalars['String']['input']>;
   producer?: InputMaybe<Scalars['String']['input']>;
+  review_count?: InputMaybe<Scalars['Int']['input']>;
   roast_level?: InputMaybe<Roast_Level>;
   roast_type?: InputMaybe<Roast_Type>;
   roaster_id?: InputMaybe<Scalars['UUID']['input']>;
@@ -1683,7 +1748,7 @@ export type Dashboard_Stats = Node & {
   total_beans?: Maybe<Scalars['BigInt']['output']>;
   total_location_reviews?: Maybe<Scalars['BigInt']['output']>;
   total_locations?: Maybe<Scalars['BigInt']['output']>;
-  total_roaster_reviews?: Maybe<Scalars['BigInt']['output']>;
+  total_recipes?: Maybe<Scalars['BigInt']['output']>;
   total_roasters?: Maybe<Scalars['BigInt']['output']>;
   total_users?: Maybe<Scalars['BigInt']['output']>;
 };
@@ -1721,7 +1786,7 @@ export type Dashboard_StatsFilter = {
   total_beans?: InputMaybe<BigIntFilter>;
   total_location_reviews?: InputMaybe<BigIntFilter>;
   total_locations?: InputMaybe<BigIntFilter>;
-  total_roaster_reviews?: InputMaybe<BigIntFilter>;
+  total_recipes?: InputMaybe<BigIntFilter>;
   total_roasters?: InputMaybe<BigIntFilter>;
   total_users?: InputMaybe<BigIntFilter>;
 };
@@ -1732,7 +1797,7 @@ export type Dashboard_StatsInsertInput = {
   total_beans?: InputMaybe<Scalars['BigInt']['input']>;
   total_location_reviews?: InputMaybe<Scalars['BigInt']['input']>;
   total_locations?: InputMaybe<Scalars['BigInt']['input']>;
-  total_roaster_reviews?: InputMaybe<Scalars['BigInt']['input']>;
+  total_recipes?: InputMaybe<Scalars['BigInt']['input']>;
   total_roasters?: InputMaybe<Scalars['BigInt']['input']>;
   total_users?: InputMaybe<Scalars['BigInt']['input']>;
 };
@@ -1751,7 +1816,7 @@ export type Dashboard_StatsOrderBy = {
   total_beans?: InputMaybe<OrderByDirection>;
   total_location_reviews?: InputMaybe<OrderByDirection>;
   total_locations?: InputMaybe<OrderByDirection>;
-  total_roaster_reviews?: InputMaybe<OrderByDirection>;
+  total_recipes?: InputMaybe<OrderByDirection>;
   total_roasters?: InputMaybe<OrderByDirection>;
   total_users?: InputMaybe<OrderByDirection>;
 };
@@ -1762,7 +1827,7 @@ export type Dashboard_StatsUpdateInput = {
   total_beans?: InputMaybe<Scalars['BigInt']['input']>;
   total_location_reviews?: InputMaybe<Scalars['BigInt']['input']>;
   total_locations?: InputMaybe<Scalars['BigInt']['input']>;
-  total_roaster_reviews?: InputMaybe<Scalars['BigInt']['input']>;
+  total_recipes?: InputMaybe<Scalars['BigInt']['input']>;
   total_roasters?: InputMaybe<Scalars['BigInt']['input']>;
   total_users?: InputMaybe<Scalars['BigInt']['input']>;
 };
@@ -1855,6 +1920,131 @@ export type FollowersUpdateResponse = {
   affectedCount: Scalars['Int']['output'];
   /** Array of records impacted by the mutation */
   records: Array<Followers>;
+};
+
+export type Homepage_Curated_Items = Node & {
+  __typename?: 'homepage_curated_items';
+  bean_id?: Maybe<Scalars['UUID']['output']>;
+  beans?: Maybe<Beans>;
+  created_at: Scalars['Datetime']['output'];
+  curated_by?: Maybe<Scalars['UUID']['output']>;
+  custom_title?: Maybe<Scalars['String']['output']>;
+  display_order: Scalars['Int']['output'];
+  id: Scalars['UUID']['output'];
+  location_id?: Maybe<Scalars['UUID']['output']>;
+  locations?: Maybe<Locations>;
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  published: Scalars['Boolean']['output'];
+  recipe_id?: Maybe<Scalars['UUID']['output']>;
+  recipes?: Maybe<Recipes>;
+  roaster_id?: Maybe<Scalars['UUID']['output']>;
+  roasters?: Maybe<Roasters>;
+  section: Scalars['String']['output'];
+  updated_at: Scalars['Datetime']['output'];
+};
+
+export type Homepage_Curated_ItemsConnection = {
+  __typename?: 'homepage_curated_itemsConnection';
+  edges: Array<Homepage_Curated_ItemsEdge>;
+  pageInfo: PageInfo;
+};
+
+export type Homepage_Curated_ItemsDeleteResponse = {
+  __typename?: 'homepage_curated_itemsDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Homepage_Curated_Items>;
+};
+
+export type Homepage_Curated_ItemsEdge = {
+  __typename?: 'homepage_curated_itemsEdge';
+  cursor: Scalars['String']['output'];
+  node: Homepage_Curated_Items;
+};
+
+export type Homepage_Curated_ItemsFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<Homepage_Curated_ItemsFilter>>;
+  bean_id?: InputMaybe<UuidFilter>;
+  created_at?: InputMaybe<DatetimeFilter>;
+  curated_by?: InputMaybe<UuidFilter>;
+  custom_title?: InputMaybe<StringFilter>;
+  display_order?: InputMaybe<IntFilter>;
+  id?: InputMaybe<UuidFilter>;
+  location_id?: InputMaybe<UuidFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<Homepage_Curated_ItemsFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<Homepage_Curated_ItemsFilter>>;
+  published?: InputMaybe<BooleanFilter>;
+  recipe_id?: InputMaybe<UuidFilter>;
+  roaster_id?: InputMaybe<UuidFilter>;
+  section?: InputMaybe<StringFilter>;
+  updated_at?: InputMaybe<DatetimeFilter>;
+};
+
+export type Homepage_Curated_ItemsInsertInput = {
+  bean_id?: InputMaybe<Scalars['UUID']['input']>;
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  curated_by?: InputMaybe<Scalars['UUID']['input']>;
+  custom_title?: InputMaybe<Scalars['String']['input']>;
+  display_order?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  location_id?: InputMaybe<Scalars['UUID']['input']>;
+  published?: InputMaybe<Scalars['Boolean']['input']>;
+  recipe_id?: InputMaybe<Scalars['UUID']['input']>;
+  roaster_id?: InputMaybe<Scalars['UUID']['input']>;
+  section?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['Datetime']['input']>;
+};
+
+export type Homepage_Curated_ItemsInsertResponse = {
+  __typename?: 'homepage_curated_itemsInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Homepage_Curated_Items>;
+};
+
+export type Homepage_Curated_ItemsOrderBy = {
+  bean_id?: InputMaybe<OrderByDirection>;
+  created_at?: InputMaybe<OrderByDirection>;
+  curated_by?: InputMaybe<OrderByDirection>;
+  custom_title?: InputMaybe<OrderByDirection>;
+  display_order?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  location_id?: InputMaybe<OrderByDirection>;
+  published?: InputMaybe<OrderByDirection>;
+  recipe_id?: InputMaybe<OrderByDirection>;
+  roaster_id?: InputMaybe<OrderByDirection>;
+  section?: InputMaybe<OrderByDirection>;
+  updated_at?: InputMaybe<OrderByDirection>;
+};
+
+export type Homepage_Curated_ItemsUpdateInput = {
+  bean_id?: InputMaybe<Scalars['UUID']['input']>;
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  curated_by?: InputMaybe<Scalars['UUID']['input']>;
+  custom_title?: InputMaybe<Scalars['String']['input']>;
+  display_order?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  location_id?: InputMaybe<Scalars['UUID']['input']>;
+  published?: InputMaybe<Scalars['Boolean']['input']>;
+  recipe_id?: InputMaybe<Scalars['UUID']['input']>;
+  roaster_id?: InputMaybe<Scalars['UUID']['input']>;
+  section?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['Datetime']['input']>;
+};
+
+export type Homepage_Curated_ItemsUpdateResponse = {
+  __typename?: 'homepage_curated_itemsUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Homepage_Curated_Items>;
 };
 
 export type Location_Likes = Node & {
@@ -2040,9 +2230,11 @@ export type Location_ReviewsUpdateResponse = {
 export type Locations = Node & {
   __typename?: 'locations';
   address?: Maybe<Scalars['String']['output']>;
+  average_rating?: Maybe<Scalars['Float']['output']>;
   claimed_by?: Maybe<Scalars['UUID']['output']>;
   created_at?: Maybe<Scalars['Datetime']['output']>;
   description?: Maybe<Scalars['String']['output']>;
+  homepage_curated_itemsCollection?: Maybe<Homepage_Curated_ItemsConnection>;
   id: Scalars['UUID']['output'];
   image_url?: Maybe<Scalars['String']['output']>;
   instagram?: Maybe<Scalars['String']['output']>;
@@ -2054,8 +2246,20 @@ export type Locations = Node & {
   name: Scalars['String']['output'];
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
+  review_count?: Maybe<Scalars['Int']['output']>;
   updated_at?: Maybe<Scalars['Datetime']['output']>;
   url?: Maybe<Scalars['String']['output']>;
+};
+
+
+export type LocationsHomepage_Curated_ItemsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<Homepage_Curated_ItemsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<Homepage_Curated_ItemsOrderBy>>;
 };
 
 
@@ -2104,6 +2308,7 @@ export type LocationsFilter = {
   address?: InputMaybe<StringFilter>;
   /** Returns true only if all its inner filters are true, otherwise returns false */
   and?: InputMaybe<Array<LocationsFilter>>;
+  average_rating?: InputMaybe<FloatFilter>;
   claimed_by?: InputMaybe<UuidFilter>;
   created_at?: InputMaybe<DatetimeFilter>;
   description?: InputMaybe<StringFilter>;
@@ -2119,12 +2324,14 @@ export type LocationsFilter = {
   not?: InputMaybe<LocationsFilter>;
   /** Returns true if at least one of its inner filters is true, otherwise returns false */
   or?: InputMaybe<Array<LocationsFilter>>;
+  review_count?: InputMaybe<IntFilter>;
   updated_at?: InputMaybe<DatetimeFilter>;
   url?: InputMaybe<StringFilter>;
 };
 
 export type LocationsInsertInput = {
   address?: InputMaybe<Scalars['String']['input']>;
+  average_rating?: InputMaybe<Scalars['Float']['input']>;
   claimed_by?: InputMaybe<Scalars['UUID']['input']>;
   created_at?: InputMaybe<Scalars['Datetime']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
@@ -2135,6 +2342,7 @@ export type LocationsInsertInput = {
   latitude?: InputMaybe<Scalars['BigFloat']['input']>;
   longitude?: InputMaybe<Scalars['BigFloat']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  review_count?: InputMaybe<Scalars['Int']['input']>;
   updated_at?: InputMaybe<Scalars['Datetime']['input']>;
   url?: InputMaybe<Scalars['String']['input']>;
 };
@@ -2149,6 +2357,7 @@ export type LocationsInsertResponse = {
 
 export type LocationsOrderBy = {
   address?: InputMaybe<OrderByDirection>;
+  average_rating?: InputMaybe<OrderByDirection>;
   claimed_by?: InputMaybe<OrderByDirection>;
   created_at?: InputMaybe<OrderByDirection>;
   description?: InputMaybe<OrderByDirection>;
@@ -2159,12 +2368,14 @@ export type LocationsOrderBy = {
   latitude?: InputMaybe<OrderByDirection>;
   longitude?: InputMaybe<OrderByDirection>;
   name?: InputMaybe<OrderByDirection>;
+  review_count?: InputMaybe<OrderByDirection>;
   updated_at?: InputMaybe<OrderByDirection>;
   url?: InputMaybe<OrderByDirection>;
 };
 
 export type LocationsUpdateInput = {
   address?: InputMaybe<Scalars['String']['input']>;
+  average_rating?: InputMaybe<Scalars['Float']['input']>;
   claimed_by?: InputMaybe<Scalars['UUID']['input']>;
   created_at?: InputMaybe<Scalars['Datetime']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
@@ -2175,6 +2386,7 @@ export type LocationsUpdateInput = {
   latitude?: InputMaybe<Scalars['BigFloat']['input']>;
   longitude?: InputMaybe<Scalars['BigFloat']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  review_count?: InputMaybe<Scalars['Int']['input']>;
   updated_at?: InputMaybe<Scalars['Datetime']['input']>;
   url?: InputMaybe<Scalars['String']['input']>;
 };
@@ -2201,8 +2413,8 @@ export type Profiles = Node & {
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
   profile_image_url?: Maybe<Scalars['String']['output']>;
+  recipe_likesCollection?: Maybe<Recipe_LikesConnection>;
   recipesCollection?: Maybe<RecipesConnection>;
-  roaster_reviewsCollection?: Maybe<Roaster_ReviewsConnection>;
   updated_at?: Maybe<Scalars['Datetime']['output']>;
   url?: Maybe<Scalars['String']['output']>;
   username: Scalars['String']['output'];
@@ -2242,6 +2454,17 @@ export type ProfilesLocation_ReviewsCollectionArgs = {
 };
 
 
+export type ProfilesRecipe_LikesCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<Recipe_LikesFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<Recipe_LikesOrderBy>>;
+};
+
+
 export type ProfilesRecipesCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -2250,17 +2473,6 @@ export type ProfilesRecipesCollectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RecipesOrderBy>>;
-};
-
-
-export type ProfilesRoaster_ReviewsCollectionArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  filter?: InputMaybe<Roaster_ReviewsFilter>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<Roaster_ReviewsOrderBy>>;
 };
 
 export type ProfilesConnection = {
@@ -2358,6 +2570,89 @@ export type ProfilesUpdateResponse = {
   records: Array<Profiles>;
 };
 
+export type Recipe_Likes = Node & {
+  __typename?: 'recipe_likes';
+  created_at?: Maybe<Scalars['Datetime']['output']>;
+  id: Scalars['UUID']['output'];
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  profiles?: Maybe<Profiles>;
+  recipe_id: Scalars['UUID']['output'];
+  recipes?: Maybe<Recipes>;
+  user_id: Scalars['UUID']['output'];
+};
+
+export type Recipe_LikesConnection = {
+  __typename?: 'recipe_likesConnection';
+  edges: Array<Recipe_LikesEdge>;
+  pageInfo: PageInfo;
+};
+
+export type Recipe_LikesDeleteResponse = {
+  __typename?: 'recipe_likesDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Recipe_Likes>;
+};
+
+export type Recipe_LikesEdge = {
+  __typename?: 'recipe_likesEdge';
+  cursor: Scalars['String']['output'];
+  node: Recipe_Likes;
+};
+
+export type Recipe_LikesFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<Recipe_LikesFilter>>;
+  created_at?: InputMaybe<DatetimeFilter>;
+  id?: InputMaybe<UuidFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<Recipe_LikesFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<Recipe_LikesFilter>>;
+  recipe_id?: InputMaybe<UuidFilter>;
+  user_id?: InputMaybe<UuidFilter>;
+};
+
+export type Recipe_LikesInsertInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  recipe_id?: InputMaybe<Scalars['UUID']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type Recipe_LikesInsertResponse = {
+  __typename?: 'recipe_likesInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Recipe_Likes>;
+};
+
+export type Recipe_LikesOrderBy = {
+  created_at?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  recipe_id?: InputMaybe<OrderByDirection>;
+  user_id?: InputMaybe<OrderByDirection>;
+};
+
+export type Recipe_LikesUpdateInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  recipe_id?: InputMaybe<Scalars['UUID']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type Recipe_LikesUpdateResponse = {
+  __typename?: 'recipe_likesUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Recipe_Likes>;
+};
+
 export type Recipes = Node & {
   __typename?: 'recipes';
   bean_id?: Maybe<Scalars['UUID']['output']>;
@@ -2367,6 +2662,7 @@ export type Recipes = Node & {
   description?: Maybe<Scalars['String']['output']>;
   grind_size?: Maybe<Scalars['String']['output']>;
   grind_weight?: Maybe<Scalars['BigFloat']['output']>;
+  homepage_curated_itemsCollection?: Maybe<Homepage_Curated_ItemsConnection>;
   id: Scalars['UUID']['output'];
   image_url?: Maybe<Scalars['String']['output']>;
   is_public?: Maybe<Scalars['Boolean']['output']>;
@@ -2375,8 +2671,31 @@ export type Recipes = Node & {
   nodeId: Scalars['ID']['output'];
   profiles?: Maybe<Profiles>;
   ratio?: Maybe<Scalars['String']['output']>;
+  recipe_likesCollection?: Maybe<Recipe_LikesConnection>;
   title?: Maybe<Scalars['String']['output']>;
   user_id?: Maybe<Scalars['UUID']['output']>;
+};
+
+
+export type RecipesHomepage_Curated_ItemsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<Homepage_Curated_ItemsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<Homepage_Curated_ItemsOrderBy>>;
+};
+
+
+export type RecipesRecipe_LikesCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<Recipe_LikesFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<Recipe_LikesOrderBy>>;
 };
 
 export type RecipesConnection = {
@@ -2596,115 +2915,15 @@ export type Roaster_LikesUpdateResponse = {
   records: Array<Roaster_Likes>;
 };
 
-export type Roaster_Reviews = Node & {
-  __typename?: 'roaster_reviews';
-  coffee_type?: Maybe<Coffee_Type>;
-  content?: Maybe<Scalars['String']['output']>;
-  created_at?: Maybe<Scalars['Datetime']['output']>;
-  id: Scalars['UUID']['output'];
-  /** Globally Unique Record Identifier */
-  nodeId: Scalars['ID']['output'];
-  profiles?: Maybe<Profiles>;
-  rating?: Maybe<Scalars['BigFloat']['output']>;
-  roaster_id?: Maybe<Scalars['UUID']['output']>;
-  roasters?: Maybe<Roasters>;
-  updated_at?: Maybe<Scalars['Datetime']['output']>;
-  user_id?: Maybe<Scalars['UUID']['output']>;
-};
-
-export type Roaster_ReviewsConnection = {
-  __typename?: 'roaster_reviewsConnection';
-  edges: Array<Roaster_ReviewsEdge>;
-  pageInfo: PageInfo;
-};
-
-export type Roaster_ReviewsDeleteResponse = {
-  __typename?: 'roaster_reviewsDeleteResponse';
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output'];
-  /** Array of records impacted by the mutation */
-  records: Array<Roaster_Reviews>;
-};
-
-export type Roaster_ReviewsEdge = {
-  __typename?: 'roaster_reviewsEdge';
-  cursor: Scalars['String']['output'];
-  node: Roaster_Reviews;
-};
-
-export type Roaster_ReviewsFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<Roaster_ReviewsFilter>>;
-  coffee_type?: InputMaybe<Coffee_TypeFilter>;
-  content?: InputMaybe<StringFilter>;
-  created_at?: InputMaybe<DatetimeFilter>;
-  id?: InputMaybe<UuidFilter>;
-  nodeId?: InputMaybe<IdFilter>;
-  /** Negates a filter */
-  not?: InputMaybe<Roaster_ReviewsFilter>;
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<Roaster_ReviewsFilter>>;
-  rating?: InputMaybe<BigFloatFilter>;
-  roaster_id?: InputMaybe<UuidFilter>;
-  updated_at?: InputMaybe<DatetimeFilter>;
-  user_id?: InputMaybe<UuidFilter>;
-};
-
-export type Roaster_ReviewsInsertInput = {
-  coffee_type?: InputMaybe<Coffee_Type>;
-  content?: InputMaybe<Scalars['String']['input']>;
-  created_at?: InputMaybe<Scalars['Datetime']['input']>;
-  id?: InputMaybe<Scalars['UUID']['input']>;
-  rating?: InputMaybe<Scalars['BigFloat']['input']>;
-  roaster_id?: InputMaybe<Scalars['UUID']['input']>;
-  updated_at?: InputMaybe<Scalars['Datetime']['input']>;
-  user_id?: InputMaybe<Scalars['UUID']['input']>;
-};
-
-export type Roaster_ReviewsInsertResponse = {
-  __typename?: 'roaster_reviewsInsertResponse';
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output'];
-  /** Array of records impacted by the mutation */
-  records: Array<Roaster_Reviews>;
-};
-
-export type Roaster_ReviewsOrderBy = {
-  coffee_type?: InputMaybe<OrderByDirection>;
-  content?: InputMaybe<OrderByDirection>;
-  created_at?: InputMaybe<OrderByDirection>;
-  id?: InputMaybe<OrderByDirection>;
-  rating?: InputMaybe<OrderByDirection>;
-  roaster_id?: InputMaybe<OrderByDirection>;
-  updated_at?: InputMaybe<OrderByDirection>;
-  user_id?: InputMaybe<OrderByDirection>;
-};
-
-export type Roaster_ReviewsUpdateInput = {
-  coffee_type?: InputMaybe<Coffee_Type>;
-  content?: InputMaybe<Scalars['String']['input']>;
-  created_at?: InputMaybe<Scalars['Datetime']['input']>;
-  id?: InputMaybe<Scalars['UUID']['input']>;
-  rating?: InputMaybe<Scalars['BigFloat']['input']>;
-  roaster_id?: InputMaybe<Scalars['UUID']['input']>;
-  updated_at?: InputMaybe<Scalars['Datetime']['input']>;
-  user_id?: InputMaybe<Scalars['UUID']['input']>;
-};
-
-export type Roaster_ReviewsUpdateResponse = {
-  __typename?: 'roaster_reviewsUpdateResponse';
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output'];
-  /** Array of records impacted by the mutation */
-  records: Array<Roaster_Reviews>;
-};
-
 export type Roasters = Node & {
   __typename?: 'roasters';
+  average_rating?: Maybe<Scalars['Float']['output']>;
+  bean_count?: Maybe<Scalars['Int']['output']>;
   beansCollection?: Maybe<BeansConnection>;
   claimed_by?: Maybe<Scalars['UUID']['output']>;
   created_at?: Maybe<Scalars['Datetime']['output']>;
   description?: Maybe<Scalars['String']['output']>;
+  homepage_curated_itemsCollection?: Maybe<Homepage_Curated_ItemsConnection>;
   id: Scalars['UUID']['output'];
   instagram?: Maybe<Scalars['String']['output']>;
   is_published: Scalars['Boolean']['output'];
@@ -2715,8 +2934,8 @@ export type Roasters = Node & {
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
   profile_image_url?: Maybe<Scalars['String']['output']>;
+  review_count?: Maybe<Scalars['Int']['output']>;
   roaster_likesCollection?: Maybe<Roaster_LikesConnection>;
-  roaster_reviewsCollection?: Maybe<Roaster_ReviewsConnection>;
   updated_at?: Maybe<Scalars['Datetime']['output']>;
   url?: Maybe<Scalars['String']['output']>;
 };
@@ -2733,6 +2952,17 @@ export type RoastersBeansCollectionArgs = {
 };
 
 
+export type RoastersHomepage_Curated_ItemsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<Homepage_Curated_ItemsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<Homepage_Curated_ItemsOrderBy>>;
+};
+
+
 export type RoastersRoaster_LikesCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -2741,17 +2971,6 @@ export type RoastersRoaster_LikesCollectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<Roaster_LikesOrderBy>>;
-};
-
-
-export type RoastersRoaster_ReviewsCollectionArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  filter?: InputMaybe<Roaster_ReviewsFilter>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<Roaster_ReviewsOrderBy>>;
 };
 
 export type RoastersConnection = {
@@ -2777,6 +2996,8 @@ export type RoastersEdge = {
 export type RoastersFilter = {
   /** Returns true only if all its inner filters are true, otherwise returns false */
   and?: InputMaybe<Array<RoastersFilter>>;
+  average_rating?: InputMaybe<FloatFilter>;
+  bean_count?: InputMaybe<IntFilter>;
   claimed_by?: InputMaybe<UuidFilter>;
   created_at?: InputMaybe<DatetimeFilter>;
   description?: InputMaybe<StringFilter>;
@@ -2793,11 +3014,14 @@ export type RoastersFilter = {
   /** Returns true if at least one of its inner filters is true, otherwise returns false */
   or?: InputMaybe<Array<RoastersFilter>>;
   profile_image_url?: InputMaybe<StringFilter>;
+  review_count?: InputMaybe<IntFilter>;
   updated_at?: InputMaybe<DatetimeFilter>;
   url?: InputMaybe<StringFilter>;
 };
 
 export type RoastersInsertInput = {
+  average_rating?: InputMaybe<Scalars['Float']['input']>;
+  bean_count?: InputMaybe<Scalars['Int']['input']>;
   claimed_by?: InputMaybe<Scalars['UUID']['input']>;
   created_at?: InputMaybe<Scalars['Datetime']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
@@ -2809,6 +3033,7 @@ export type RoastersInsertInput = {
   location_state?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   profile_image_url?: InputMaybe<Scalars['String']['input']>;
+  review_count?: InputMaybe<Scalars['Int']['input']>;
   updated_at?: InputMaybe<Scalars['Datetime']['input']>;
   url?: InputMaybe<Scalars['String']['input']>;
 };
@@ -2822,6 +3047,8 @@ export type RoastersInsertResponse = {
 };
 
 export type RoastersOrderBy = {
+  average_rating?: InputMaybe<OrderByDirection>;
+  bean_count?: InputMaybe<OrderByDirection>;
   claimed_by?: InputMaybe<OrderByDirection>;
   created_at?: InputMaybe<OrderByDirection>;
   description?: InputMaybe<OrderByDirection>;
@@ -2833,11 +3060,14 @@ export type RoastersOrderBy = {
   location_state?: InputMaybe<OrderByDirection>;
   name?: InputMaybe<OrderByDirection>;
   profile_image_url?: InputMaybe<OrderByDirection>;
+  review_count?: InputMaybe<OrderByDirection>;
   updated_at?: InputMaybe<OrderByDirection>;
   url?: InputMaybe<OrderByDirection>;
 };
 
 export type RoastersUpdateInput = {
+  average_rating?: InputMaybe<Scalars['Float']['input']>;
+  bean_count?: InputMaybe<Scalars['Int']['input']>;
   claimed_by?: InputMaybe<Scalars['UUID']['input']>;
   created_at?: InputMaybe<Scalars['Datetime']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
@@ -2849,6 +3079,7 @@ export type RoastersUpdateInput = {
   location_state?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   profile_image_url?: InputMaybe<Scalars['String']['input']>;
+  review_count?: InputMaybe<Scalars['Int']['input']>;
   updated_at?: InputMaybe<Scalars['Datetime']['input']>;
   url?: InputMaybe<Scalars['String']['input']>;
 };
@@ -3145,12 +3376,33 @@ export type CreateBeanMutationVariables = Exact<{
 
 export type CreateBeanMutation = { __typename?: 'Mutation', insertIntobeansCollection?: { __typename?: 'beansInsertResponse', records: Array<{ __typename?: 'beans', id: any, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, roasters?: { __typename?: 'roasters', id: any } | null }> } | null };
 
+export type CreateCuratedHomepageItemMutationVariables = Exact<{
+  input: Array<Homepage_Curated_ItemsInsertInput> | Homepage_Curated_ItemsInsertInput;
+}>;
+
+
+export type CreateCuratedHomepageItemMutation = { __typename?: 'Mutation', insertIntohomepage_curated_itemsCollection?: { __typename?: 'homepage_curated_itemsInsertResponse', records: Array<{ __typename?: 'homepage_curated_items', id: any, section: string, bean_id?: any | null, recipe_id?: any | null, roaster_id?: any | null, location_id?: any | null, display_order: number, custom_title?: string | null, published: boolean, created_at: any, updated_at: any }> } | null };
+
+export type CreateRecipeMutationVariables = Exact<{
+  input: RecipesInsertInput;
+}>;
+
+
+export type CreateRecipeMutation = { __typename?: 'Mutation', insertIntorecipesCollection?: { __typename?: 'recipesInsertResponse', records: Array<{ __typename?: 'recipes', id: any, user_id?: any | null, bean_id?: any | null, title?: string | null, description?: string | null, image_url?: string | null, grind_size?: string | null, grind_weight?: any | null, ratio?: string | null, brew_method?: Brew_Method | null, is_public?: boolean | null, likes_count?: number | null, created_at?: any | null }> } | null };
+
 export type CreateRoasterMutationVariables = Exact<{
   input: RoastersInsertInput;
 }>;
 
 
 export type CreateRoasterMutation = { __typename?: 'Mutation', insertIntoroastersCollection?: { __typename?: 'roastersInsertResponse', records: Array<{ __typename?: 'roasters', id: any, name: string, description?: string | null, profile_image_url?: string | null, location_city?: string | null, location_state?: string | null, location_country?: string | null, url?: string | null, instagram?: string | null, created_at?: any | null }> } | null };
+
+export type DeleteCuratedHomepageItemMutationVariables = Exact<{
+  filter: Homepage_Curated_ItemsFilter;
+}>;
+
+
+export type DeleteCuratedHomepageItemMutation = { __typename?: 'Mutation', deleteFromhomepage_curated_itemsCollection: { __typename?: 'homepage_curated_itemsDeleteResponse', affectedCount: number } };
 
 export type LikeBeanMutationVariables = Exact<{
   input: Bean_LikesInsertInput;
@@ -3194,6 +3446,20 @@ export type UnlikeLocationMutationVariables = Exact<{
 
 export type UnlikeLocationMutation = { __typename?: 'Mutation', deleteFromlocation_likesCollection: { __typename?: 'location_likesDeleteResponse', records: Array<{ __typename?: 'location_likes', id: any }> } };
 
+export type LikeRecipeMutationVariables = Exact<{
+  input: Recipe_LikesInsertInput;
+}>;
+
+
+export type LikeRecipeMutation = { __typename?: 'Mutation', insertIntorecipe_likesCollection?: { __typename?: 'recipe_likesInsertResponse', records: Array<{ __typename?: 'recipe_likes', id: any, recipe_id: any, user_id: any, created_at?: any | null }> } | null };
+
+export type UnlikeRecipeMutationVariables = Exact<{
+  filter: Recipe_LikesFilter;
+}>;
+
+
+export type UnlikeRecipeMutation = { __typename?: 'Mutation', deleteFromrecipe_likesCollection: { __typename?: 'recipe_likesDeleteResponse', records: Array<{ __typename?: 'recipe_likes', id: any }> } };
+
 export type UpdateBeanMutationVariables = Exact<{
   id: Scalars['UUID']['input'];
   set: BeansUpdateInput;
@@ -3201,6 +3467,14 @@ export type UpdateBeanMutationVariables = Exact<{
 
 
 export type UpdateBeanMutation = { __typename?: 'Mutation', updatebeansCollection: { __typename?: 'beansUpdateResponse', affectedCount: number, records: Array<{ __typename?: 'beans', id: any, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, is_published: boolean, created_at?: any | null, updated_at?: any | null, roasters?: { __typename?: 'roasters', id: any, name: string } | null }> } };
+
+export type UpdateCuratedHomepageItemMutationVariables = Exact<{
+  filter: Homepage_Curated_ItemsFilter;
+  set: Homepage_Curated_ItemsUpdateInput;
+}>;
+
+
+export type UpdateCuratedHomepageItemMutation = { __typename?: 'Mutation', updatehomepage_curated_itemsCollection: { __typename?: 'homepage_curated_itemsUpdateResponse', records: Array<{ __typename?: 'homepage_curated_items', id: any, section: string, bean_id?: any | null, recipe_id?: any | null, roaster_id?: any | null, location_id?: any | null, display_order: number, custom_title?: string | null, published: boolean, created_at: any, updated_at: any }> } };
 
 export type UpdateProfileMutationVariables = Exact<{
   id: Scalars['UUID']['input'];
@@ -3210,6 +3484,14 @@ export type UpdateProfileMutationVariables = Exact<{
 
 export type UpdateProfileMutation = { __typename?: 'Mutation', updateprofilesCollection: { __typename?: 'profilesUpdateResponse', affectedCount: number, records: Array<{ __typename?: 'profiles', id: any, username: string, display_name?: string | null, bio?: string | null, profile_image_url?: string | null, location?: string | null, instagram?: string | null, url?: string | null, updated_at?: any | null }> } };
 
+export type UpdateRecipeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  set: RecipesUpdateInput;
+}>;
+
+
+export type UpdateRecipeMutation = { __typename?: 'Mutation', updaterecipesCollection: { __typename?: 'recipesUpdateResponse', records: Array<{ __typename?: 'recipes', id: any, user_id?: any | null, bean_id?: any | null, title?: string | null, description?: string | null, image_url?: string | null, grind_size?: string | null, grind_weight?: any | null, ratio?: string | null, brew_method?: Brew_Method | null, is_public?: boolean | null, likes_count?: number | null, created_at?: any | null }> } };
+
 export type UpdateRoasterMutationVariables = Exact<{
   id: Scalars['UUID']['input'];
   set: RoastersUpdateInput;
@@ -3217,6 +3499,26 @@ export type UpdateRoasterMutationVariables = Exact<{
 
 
 export type UpdateRoasterMutation = { __typename?: 'Mutation', updateroastersCollection: { __typename?: 'roastersUpdateResponse', affectedCount: number, records: Array<{ __typename?: 'roasters', id: any, name: string, description?: string | null, profile_image_url?: string | null, location_city?: string | null, location_state?: string | null, location_country?: string | null, url?: string | null, instagram?: string | null, is_published: boolean, created_at?: any | null, updated_at?: any | null }> } };
+
+export type GetCuratedHomepageItemsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCuratedHomepageItemsQuery = { __typename?: 'Query', homepage_curated_itemsCollection?: { __typename?: 'homepage_curated_itemsConnection', edges: Array<{ __typename?: 'homepage_curated_itemsEdge', node: { __typename?: 'homepage_curated_items', id: any, nodeId: string, section: string, display_order: number, custom_title?: string | null, published: boolean, created_at: any, updated_at: any, bean_id?: any | null, recipe_id?: any | null, roaster_id?: any | null, location_id?: any | null, beans?: { __typename?: 'beans', id: any, name: string, average_rating?: number | null, review_count?: number | null, is_published: boolean, origin?: string | null, roasters?: { __typename?: 'roasters', id: any, name: string } | null } | null, recipes?: { __typename?: 'recipes', id: any, title?: string | null, description?: string | null, image_url?: string | null, is_public?: boolean | null, likes_count?: number | null } | null, roasters?: { __typename?: 'roasters', id: any, name: string, bean_count?: number | null, is_published: boolean, location_city?: string | null, location_state?: string | null, location_country?: string | null, created_at?: any | null, beanCount?: number | null, roaster_likesCollection?: { __typename?: 'roaster_likesConnection', edges: Array<{ __typename?: 'roaster_likesEdge', node: { __typename?: 'roaster_likes', id: any, user_id?: any | null } }> } | null } | null, locations?: { __typename?: 'locations', id: any, name: string } | null } }> } | null };
+
+export type GetRecipeByIdQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetRecipeByIdQuery = { __typename?: 'Query', recipesCollection?: { __typename?: 'recipesConnection', edges: Array<{ __typename?: 'recipesEdge', node: { __typename?: 'recipes', id: any, user_id?: any | null, bean_id?: any | null, title?: string | null, description?: string | null, image_url?: string | null, grind_size?: string | null, grind_weight?: any | null, ratio?: string | null, brew_method?: Brew_Method | null, is_public?: boolean | null, likes_count?: number | null, created_at?: any | null, profiles?: { __typename?: 'profiles', id: any, username: string, display_name?: string | null } | null, bean?: { __typename?: 'beans', id: any, name: string, roasters?: { __typename?: 'roasters', id: any, name: string } | null } | null, likes?: { __typename?: 'recipe_likesConnection', edges: Array<{ __typename?: 'recipe_likesEdge', node: { __typename?: 'recipe_likes', id: any, user_id: any } }> } | null } }> } | null };
+
+export type GetRecipesQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+}>;
+
+
+export type GetRecipesQuery = { __typename?: 'Query', recipesCollection?: { __typename?: 'recipesConnection', edges: Array<{ __typename?: 'recipesEdge', node: { __typename?: 'recipes', id: any, user_id?: any | null, bean_id?: any | null, title?: string | null, description?: string | null, image_url?: string | null, grind_size?: string | null, grind_weight?: any | null, ratio?: string | null, brew_method?: Brew_Method | null, is_public?: boolean | null, likes_count?: number | null, created_at?: any | null, profiles?: { __typename?: 'profiles', id: any, username: string, display_name?: string | null } | null, likes?: { __typename?: 'recipe_likesConnection', edges: Array<{ __typename?: 'recipe_likesEdge', node: { __typename?: 'recipe_likes', id: any, user_id: any } }> } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
 
 export type GetAllRoastersQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -3233,19 +3535,29 @@ export type GetBeanQueryVariables = Exact<{
 
 export type GetBeanQuery = { __typename?: 'Query', beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, is_published: boolean, created_at?: any | null, roasters?: { __typename?: 'roasters', id: any, name: string } | null, bean_varietiesCollection?: { __typename?: 'bean_varietiesConnection', edges: Array<{ __typename?: 'bean_varietiesEdge', node: { __typename?: 'bean_varieties', varieties: { __typename?: 'varieties', id: any, name: string } } }> } | null, bean_tagsCollection?: { __typename?: 'bean_tagsConnection', edges: Array<{ __typename?: 'bean_tagsEdge', node: { __typename?: 'bean_tags', tags?: { __typename?: 'tags', id: any, name: string } | null } }> } | null, bean_reviewsCollection?: { __typename?: 'bean_reviewsConnection', edges: Array<{ __typename?: 'bean_reviewsEdge', node: { __typename?: 'bean_reviews', id: any, rating?: any | null, content?: string | null, coffee_type?: Coffee_Type | null, created_at?: any | null, profiles?: { __typename?: 'profiles', id: any, username: string, display_name?: string | null, profile_image_url?: string | null } | null } }> } | null } }> } | null };
 
-export type GetBeansQueryVariables = Exact<{
-  filter?: InputMaybe<BeansFilter>;
+export type GetBeanOptionsQueryVariables = Exact<{
+  search?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   after?: InputMaybe<Scalars['Cursor']['input']>;
 }>;
 
 
-export type GetBeansQuery = { __typename?: 'Query', beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', cursor: string, node: { __typename?: 'beans', id: any, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, created_at?: any | null, average_rating?: any | null, is_published: boolean, roasters?: { __typename?: 'roasters', id: any, name: string } | null, bean_varietiesCollection?: { __typename?: 'bean_varietiesConnection', edges: Array<{ __typename?: 'bean_varietiesEdge', node: { __typename?: 'bean_varieties', varieties: { __typename?: 'varieties', id: any, name: string } } }> } | null, bean_tagsCollection?: { __typename?: 'bean_tagsConnection', edges: Array<{ __typename?: 'bean_tagsEdge', node: { __typename?: 'bean_tags', tags?: { __typename?: 'tags', id: any, name: string } | null } }> } | null, bean_likesCollection?: { __typename?: 'bean_likesConnection', edges: Array<{ __typename?: 'bean_likesEdge', node: { __typename?: 'bean_likes', id: any, user_id?: any | null } }> } | null, bean_reviewsCollection?: { __typename?: 'bean_reviewsConnection', edges: Array<{ __typename?: 'bean_reviewsEdge', node: { __typename?: 'bean_reviews', id: any, rating?: any | null } }> } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
+export type GetBeanOptionsQuery = { __typename?: 'Query', beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any, name: string, roasters?: { __typename?: 'roasters', id: any, name: string } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
+
+export type GetBeansQueryVariables = Exact<{
+  filter?: InputMaybe<BeansFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  orderBy?: InputMaybe<Array<BeansOrderBy> | BeansOrderBy>;
+}>;
+
+
+export type GetBeansQuery = { __typename?: 'Query', beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', cursor: string, node: { __typename?: 'beans', id: any, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, created_at?: any | null, average_rating?: number | null, review_count?: number | null, is_published: boolean, roasters?: { __typename?: 'roasters', id: any, name: string } | null, bean_varietiesCollection?: { __typename?: 'bean_varietiesConnection', edges: Array<{ __typename?: 'bean_varietiesEdge', node: { __typename?: 'bean_varieties', varieties: { __typename?: 'varieties', id: any, name: string } } }> } | null, bean_tagsCollection?: { __typename?: 'bean_tagsConnection', edges: Array<{ __typename?: 'bean_tagsEdge', node: { __typename?: 'bean_tags', tags?: { __typename?: 'tags', id: any, name: string } | null } }> } | null, bean_likesCollection?: { __typename?: 'bean_likesConnection', edges: Array<{ __typename?: 'bean_likesEdge', node: { __typename?: 'bean_likes', id: any, user_id?: any | null } }> } | null, bean_reviewsCollection?: { __typename?: 'bean_reviewsConnection', edges: Array<{ __typename?: 'bean_reviewsEdge', node: { __typename?: 'bean_reviews', id: any, rating?: any | null } }> } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
 
 export type GetDashboardStatsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetDashboardStatsQuery = { __typename?: 'Query', dashboard_statsCollection?: { __typename?: 'dashboard_statsConnection', edges: Array<{ __typename?: 'dashboard_statsEdge', node: { __typename?: 'dashboard_stats', id?: any | null, total_users?: any | null, total_beans?: any | null, total_roasters?: any | null, total_locations?: any | null, total_bean_reviews?: any | null, total_roaster_reviews?: any | null, total_location_reviews?: any | null } }> } | null, roastersCollection?: { __typename?: 'roastersConnection', edges: Array<{ __typename?: 'roastersEdge', node: { __typename?: 'roasters', id: any, name: string, roaster_reviewsCollection?: { __typename?: 'roaster_reviewsConnection', edges: Array<{ __typename?: 'roaster_reviewsEdge', node: { __typename?: 'roaster_reviews', rating?: any | null } }> } | null } }> } | null, beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any, name: string, bean_reviewsCollection?: { __typename?: 'bean_reviewsConnection', edges: Array<{ __typename?: 'bean_reviewsEdge', node: { __typename?: 'bean_reviews', rating?: any | null } }> } | null } }> } | null, locationsCollection?: { __typename?: 'locationsConnection', edges: Array<{ __typename?: 'locationsEdge', node: { __typename?: 'locations', id: any, name: string, location_reviewsCollection?: { __typename?: 'location_reviewsConnection', edges: Array<{ __typename?: 'location_reviewsEdge', node: { __typename?: 'location_reviews', rating?: any | null } }> } | null } }> } | null };
+export type GetDashboardStatsQuery = { __typename?: 'Query', dashboard_statsCollection?: { __typename?: 'dashboard_statsConnection', edges: Array<{ __typename?: 'dashboard_statsEdge', node: { __typename?: 'dashboard_stats', id?: any | null, total_users?: any | null, total_beans?: any | null, total_roasters?: any | null, total_locations?: any | null, total_bean_reviews?: any | null, total_recipes?: any | null, total_location_reviews?: any | null } }> } | null, roastersCollection?: { __typename?: 'roastersConnection', edges: Array<{ __typename?: 'roastersEdge', node: { __typename?: 'roasters', id: any, name: string, average_rating?: number | null, review_count?: number | null, bean_count?: number | null } }> } | null, beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any, name: string, average_rating?: number | null, review_count?: number | null } }> } | null, locationsCollection?: { __typename?: 'locationsConnection', edges: Array<{ __typename?: 'locationsEdge', node: { __typename?: 'locations', id: any, name: string, average_rating?: number | null, review_count?: number | null } }> } | null };
 
 export type GetLocationsQueryVariables = Exact<{
   filter?: InputMaybe<LocationsFilter>;
@@ -3269,7 +3581,7 @@ export type GetRoasterQueryVariables = Exact<{
 }>;
 
 
-export type GetRoasterQuery = { __typename?: 'Query', roastersCollection?: { __typename?: 'roastersConnection', edges: Array<{ __typename?: 'roastersEdge', node: { __typename?: 'roasters', id: any, name: string, description?: string | null, profile_image_url?: string | null, location_city?: string | null, location_state?: string | null, location_country?: string | null, url?: string | null, instagram?: string | null, claimed_by?: any | null, is_published: boolean, created_at?: any | null, beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any, name: string, description?: string | null, origin?: string | null, process?: string | null, roast_level?: Roast_Level | null, average_rating?: any | null, bean_likesCollection?: { __typename?: 'bean_likesConnection', edges: Array<{ __typename?: 'bean_likesEdge', node: { __typename?: 'bean_likes', id: any, user_id?: any | null } }> } | null, bean_reviewsCollection?: { __typename?: 'bean_reviewsConnection', edges: Array<{ __typename?: 'bean_reviewsEdge', node: { __typename?: 'bean_reviews', id: any, rating?: any | null } }> } | null } }> } | null } }> } | null };
+export type GetRoasterQuery = { __typename?: 'Query', roastersCollection?: { __typename?: 'roastersConnection', edges: Array<{ __typename?: 'roastersEdge', node: { __typename?: 'roasters', id: any, name: string, description?: string | null, profile_image_url?: string | null, location_city?: string | null, location_state?: string | null, location_country?: string | null, url?: string | null, instagram?: string | null, claimed_by?: any | null, is_published: boolean, created_at?: any | null, beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any, name: string, description?: string | null, origin?: string | null, process?: string | null, roast_level?: Roast_Level | null, average_rating?: number | null, bean_likesCollection?: { __typename?: 'bean_likesConnection', edges: Array<{ __typename?: 'bean_likesEdge', node: { __typename?: 'bean_likes', id: any, user_id?: any | null } }> } | null, bean_reviewsCollection?: { __typename?: 'bean_reviewsConnection', edges: Array<{ __typename?: 'bean_reviewsEdge', node: { __typename?: 'bean_reviews', id: any, rating?: any | null } }> } | null } }> } | null } }> } | null };
 
 export type GetRoastersQueryVariables = Exact<{
   filter?: InputMaybe<RoastersFilter>;
@@ -3278,7 +3590,7 @@ export type GetRoastersQueryVariables = Exact<{
 }>;
 
 
-export type GetRoastersQuery = { __typename?: 'Query', roastersCollection?: { __typename?: 'roastersConnection', edges: Array<{ __typename?: 'roastersEdge', node: { __typename?: 'roasters', id: any, name: string, description?: string | null, profile_image_url?: string | null, location_city?: string | null, location_state?: string | null, location_country?: string | null, url?: string | null, instagram?: string | null, claimed_by?: any | null, created_at?: any | null, is_published: boolean, beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any } }> } | null, roaster_likesCollection?: { __typename?: 'roaster_likesConnection', edges: Array<{ __typename?: 'roaster_likesEdge', node: { __typename?: 'roaster_likes', id: any, user_id?: any | null } }> } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
+export type GetRoastersQuery = { __typename?: 'Query', roastersCollection?: { __typename?: 'roastersConnection', edges: Array<{ __typename?: 'roastersEdge', node: { __typename?: 'roasters', id: any, name: string, description?: string | null, profile_image_url?: string | null, location_city?: string | null, location_state?: string | null, location_country?: string | null, url?: string | null, instagram?: string | null, claimed_by?: any | null, created_at?: any | null, is_published: boolean, bean_count?: number | null, beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any } }> } | null, roaster_likesCollection?: { __typename?: 'roaster_likesConnection', edges: Array<{ __typename?: 'roaster_likesEdge', node: { __typename?: 'roaster_likes', id: any, user_id?: any | null } }> } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
 
 export type GetUserLikesQueryVariables = Exact<{
   userId: Scalars['UUID']['input'];
@@ -3287,7 +3599,7 @@ export type GetUserLikesQueryVariables = Exact<{
 }>;
 
 
-export type GetUserLikesQuery = { __typename?: 'Query', bean_likesCollection?: { __typename?: 'bean_likesConnection', edges: Array<{ __typename?: 'bean_likesEdge', node: { __typename?: 'bean_likes', id: any, created_at?: any | null, beans?: { __typename?: 'beans', id: any, name: string, roaster_id?: any | null, process?: string | null, image_url?: string | null, roasters?: { __typename?: 'roasters', name: string } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null, roaster_likesCollection?: { __typename?: 'roaster_likesConnection', edges: Array<{ __typename?: 'roaster_likesEdge', node: { __typename?: 'roaster_likes', id: any, created_at?: any | null, roasters?: { __typename?: 'roasters', id: any, name: string, profile_image_url?: string | null, location_city?: string | null, location_state?: string | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null, location_likesCollection?: { __typename?: 'location_likesConnection', edges: Array<{ __typename?: 'location_likesEdge', node: { __typename?: 'location_likes', id: any, created_at?: any | null, locations?: { __typename?: 'locations', id: any, name: string, image_url?: string | null, address?: string | null, latitude?: any | null, longitude?: any | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
+export type GetUserLikesQuery = { __typename?: 'Query', bean_likesCollection?: { __typename?: 'bean_likesConnection', edges: Array<{ __typename?: 'bean_likesEdge', node: { __typename?: 'bean_likes', id: any, created_at?: any | null, beans?: { __typename?: 'beans', id: any, name: string, roaster_id?: any | null, process?: string | null, image_url?: string | null, roasters?: { __typename?: 'roasters', name: string } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null, roaster_likesCollection?: { __typename?: 'roaster_likesConnection', edges: Array<{ __typename?: 'roaster_likesEdge', node: { __typename?: 'roaster_likes', id: any, created_at?: any | null, roasters?: { __typename?: 'roasters', id: any, name: string, profile_image_url?: string | null, location_city?: string | null, location_state?: string | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null, location_likesCollection?: { __typename?: 'location_likesConnection', edges: Array<{ __typename?: 'location_likesEdge', node: { __typename?: 'location_likes', id: any, created_at?: any | null, locations?: { __typename?: 'locations', id: any, name: string, image_url?: string | null, address?: string | null, latitude?: any | null, longitude?: any | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null, recipe_likesCollection?: { __typename?: 'recipe_likesConnection', edges: Array<{ __typename?: 'recipe_likesEdge', node: { __typename?: 'recipe_likes', id: any, created_at?: any | null, recipes?: { __typename?: 'recipes', id: any, title?: string | null, image_url?: string | null, created_at?: any | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -3333,6 +3645,46 @@ export const CreateBeanDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CreateBeanMutation, CreateBeanMutationVariables>;
+export const CreateCuratedHomepageItemDocument = new TypedDocumentString(`
+    mutation CreateCuratedHomepageItem($input: [homepage_curated_itemsInsertInput!]!) {
+  insertIntohomepage_curated_itemsCollection(objects: $input) {
+    records {
+      id
+      section
+      bean_id
+      recipe_id
+      roaster_id
+      location_id
+      display_order
+      custom_title
+      published
+      created_at
+      updated_at
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateCuratedHomepageItemMutation, CreateCuratedHomepageItemMutationVariables>;
+export const CreateRecipeDocument = new TypedDocumentString(`
+    mutation CreateRecipe($input: recipesInsertInput!) {
+  insertIntorecipesCollection(objects: [$input]) {
+    records {
+      id
+      user_id
+      bean_id
+      title
+      description
+      image_url
+      grind_size
+      grind_weight
+      ratio
+      brew_method
+      is_public
+      likes_count
+      created_at
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateRecipeMutation, CreateRecipeMutationVariables>;
 export const CreateRoasterDocument = new TypedDocumentString(`
     mutation CreateRoaster($input: roastersInsertInput!) {
   insertIntoroastersCollection(objects: [$input]) {
@@ -3351,6 +3703,13 @@ export const CreateRoasterDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CreateRoasterMutation, CreateRoasterMutationVariables>;
+export const DeleteCuratedHomepageItemDocument = new TypedDocumentString(`
+    mutation DeleteCuratedHomepageItem($filter: homepage_curated_itemsFilter!) {
+  deleteFromhomepage_curated_itemsCollection(filter: $filter) {
+    affectedCount
+  }
+}
+    `) as unknown as TypedDocumentString<DeleteCuratedHomepageItemMutation, DeleteCuratedHomepageItemMutationVariables>;
 export const LikeBeanDocument = new TypedDocumentString(`
     mutation LikeBean($input: bean_likesInsertInput!) {
   insertIntobean_likesCollection(objects: [$input]) {
@@ -3414,6 +3773,27 @@ export const UnlikeLocationDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UnlikeLocationMutation, UnlikeLocationMutationVariables>;
+export const LikeRecipeDocument = new TypedDocumentString(`
+    mutation LikeRecipe($input: recipe_likesInsertInput!) {
+  insertIntorecipe_likesCollection(objects: [$input]) {
+    records {
+      id
+      recipe_id
+      user_id
+      created_at
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<LikeRecipeMutation, LikeRecipeMutationVariables>;
+export const UnlikeRecipeDocument = new TypedDocumentString(`
+    mutation UnlikeRecipe($filter: recipe_likesFilter!) {
+  deleteFromrecipe_likesCollection(filter: $filter) {
+    records {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UnlikeRecipeMutation, UnlikeRecipeMutationVariables>;
 export const UpdateBeanDocument = new TypedDocumentString(`
     mutation UpdateBean($id: UUID!, $set: beansUpdateInput!) {
   updatebeansCollection(filter: {id: {eq: $id}}, set: $set) {
@@ -3444,6 +3824,25 @@ export const UpdateBeanDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UpdateBeanMutation, UpdateBeanMutationVariables>;
+export const UpdateCuratedHomepageItemDocument = new TypedDocumentString(`
+    mutation UpdateCuratedHomepageItem($filter: homepage_curated_itemsFilter!, $set: homepage_curated_itemsUpdateInput!) {
+  updatehomepage_curated_itemsCollection(filter: $filter, set: $set) {
+    records {
+      id
+      section
+      bean_id
+      recipe_id
+      roaster_id
+      location_id
+      display_order
+      custom_title
+      published
+      created_at
+      updated_at
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCuratedHomepageItemMutation, UpdateCuratedHomepageItemMutationVariables>;
 export const UpdateProfileDocument = new TypedDocumentString(`
     mutation UpdateProfile($id: UUID!, $set: profilesUpdateInput!) {
   updateprofilesCollection(filter: {id: {eq: $id}}, set: $set) {
@@ -3462,6 +3861,27 @@ export const UpdateProfileDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UpdateProfileMutation, UpdateProfileMutationVariables>;
+export const UpdateRecipeDocument = new TypedDocumentString(`
+    mutation UpdateRecipe($id: UUID!, $set: recipesUpdateInput!) {
+  updaterecipesCollection(filter: {id: {eq: $id}}, set: $set) {
+    records {
+      id
+      user_id
+      bean_id
+      title
+      description
+      image_url
+      grind_size
+      grind_weight
+      ratio
+      brew_method
+      is_public
+      likes_count
+      created_at
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRecipeMutation, UpdateRecipeMutationVariables>;
 export const UpdateRoasterDocument = new TypedDocumentString(`
     mutation UpdateRoaster($id: UUID!, $set: roastersUpdateInput!) {
   updateroastersCollection(filter: {id: {eq: $id}}, set: $set) {
@@ -3483,6 +3903,155 @@ export const UpdateRoasterDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UpdateRoasterMutation, UpdateRoasterMutationVariables>;
+export const GetCuratedHomepageItemsDocument = new TypedDocumentString(`
+    query GetCuratedHomepageItems {
+  homepage_curated_itemsCollection(orderBy: {display_order: AscNullsLast}) {
+    edges {
+      node {
+        id
+        nodeId
+        section
+        display_order
+        custom_title
+        published
+        created_at
+        updated_at
+        bean_id
+        recipe_id
+        roaster_id
+        location_id
+        beans {
+          id
+          name
+          average_rating
+          review_count
+          is_published
+          origin
+          roasters {
+            id
+            name
+          }
+        }
+        recipes {
+          id
+          title
+          description
+          image_url
+          is_public
+          likes_count
+        }
+        roasters {
+          id
+          name
+          bean_count
+          is_published
+          location_city
+          location_state
+          location_country
+          created_at
+          beanCount: bean_count
+          roaster_likesCollection {
+            edges {
+              node {
+                id
+                user_id
+              }
+            }
+          }
+        }
+        locations {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetCuratedHomepageItemsQuery, GetCuratedHomepageItemsQueryVariables>;
+export const GetRecipeByIdDocument = new TypedDocumentString(`
+    query GetRecipeById($id: UUID!) {
+  recipesCollection(filter: {id: {eq: $id}}) {
+    edges {
+      node {
+        id
+        user_id
+        profiles {
+          id
+          username
+          display_name
+        }
+        bean_id
+        title
+        description
+        image_url
+        grind_size
+        grind_weight
+        ratio
+        brew_method
+        is_public
+        likes_count
+        created_at
+        bean: beans {
+          id
+          name
+          roasters {
+            id
+            name
+          }
+        }
+        likes: recipe_likesCollection {
+          edges {
+            node {
+              id
+              user_id
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetRecipeByIdQuery, GetRecipeByIdQueryVariables>;
+export const GetRecipesDocument = new TypedDocumentString(`
+    query GetRecipes($first: Int, $after: Cursor) {
+  recipesCollection(first: $first, after: $after, filter: {is_public: {eq: true}}) {
+    edges {
+      node {
+        id
+        user_id
+        profiles {
+          id
+          username
+          display_name
+        }
+        bean_id
+        title
+        description
+        image_url
+        grind_size
+        grind_weight
+        ratio
+        brew_method
+        is_public
+        likes_count
+        created_at
+        likes: recipe_likesCollection {
+          edges {
+            node {
+              id
+              user_id
+            }
+          }
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetRecipesQuery, GetRecipesQueryVariables>;
 export const GetAllRoastersDocument = new TypedDocumentString(`
     query GetAllRoasters($first: Int) {
   roastersCollection(
@@ -3566,9 +4135,39 @@ export const GetBeanDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<GetBeanQuery, GetBeanQueryVariables>;
+export const GetBeanOptionsDocument = new TypedDocumentString(`
+    query GetBeanOptions($search: String, $first: Int, $after: Cursor) {
+  beansCollection(
+    first: $first
+    after: $after
+    filter: {name: {ilike: $search}}
+    orderBy: [{roaster_id: AscNullsLast}, {name: AscNullsLast}]
+  ) {
+    edges {
+      node {
+        id
+        name
+        roasters {
+          id
+          name
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetBeanOptionsQuery, GetBeanOptionsQueryVariables>;
 export const GetBeansDocument = new TypedDocumentString(`
-    query GetBeans($filter: beansFilter, $first: Int, $after: Cursor) {
-  beansCollection(first: $first, after: $after, filter: $filter) {
+    query GetBeans($filter: beansFilter, $first: Int, $after: Cursor, $orderBy: [beansOrderBy!]) {
+  beansCollection(
+    first: $first
+    after: $after
+    filter: $filter
+    orderBy: $orderBy
+  ) {
     edges {
       cursor
       node {
@@ -3588,6 +4187,7 @@ export const GetBeansDocument = new TypedDocumentString(`
         buy_urls
         created_at
         average_rating
+        review_count
         is_published
         roasters {
           id
@@ -3649,53 +4249,39 @@ export const GetDashboardStatsDocument = new TypedDocumentString(`
         total_roasters
         total_locations
         total_bean_reviews
-        total_roaster_reviews
+        total_recipes
         total_location_reviews
       }
     }
   }
-  roastersCollection(first: 1000) {
+  roastersCollection(first: 10, orderBy: [{average_rating: DescNullsLast}]) {
     edges {
       node {
         id
         name
-        roaster_reviewsCollection {
-          edges {
-            node {
-              rating
-            }
-          }
-        }
+        average_rating
+        review_count
+        bean_count
       }
     }
   }
-  beansCollection(first: 1000) {
+  beansCollection(first: 10, orderBy: [{average_rating: DescNullsLast}]) {
     edges {
       node {
         id
         name
-        bean_reviewsCollection {
-          edges {
-            node {
-              rating
-            }
-          }
-        }
+        average_rating
+        review_count
       }
     }
   }
-  locationsCollection(first: 1000) {
+  locationsCollection(first: 10, orderBy: [{average_rating: DescNullsLast}]) {
     edges {
       node {
         id
         name
-        location_reviewsCollection {
-          edges {
-            node {
-              rating
-            }
-          }
-        }
+        average_rating
+        review_count
       }
     }
   }
@@ -3830,6 +4416,7 @@ export const GetRoastersDocument = new TypedDocumentString(`
         claimed_by
         created_at
         is_published
+        bean_count
         beansCollection {
           edges {
             node {
@@ -3921,6 +4508,28 @@ export const GetUserLikesDocument = new TypedDocumentString(`
           address
           latitude
           longitude
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+  recipe_likesCollection(
+    filter: {user_id: {eq: $userId}}
+    first: $first
+    after: $after
+  ) {
+    edges {
+      node {
+        id
+        created_at
+        recipes {
+          id
+          title
+          image_url
+          created_at
         }
       }
     }

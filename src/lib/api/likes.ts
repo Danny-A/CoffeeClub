@@ -5,12 +5,16 @@ import {
   LikeBeanMutation,
   LikeLocationDocument,
   LikeLocationMutation,
+  LikeRecipeDocument,
+  LikeRecipeMutation,
   LikeRoasterDocument,
   LikeRoasterMutation,
   UnlikeBeanDocument,
   UnlikeBeanMutation,
   UnlikeLocationDocument,
   UnlikeLocationMutation,
+  UnlikeRecipeDocument,
+  UnlikeRecipeMutation,
   UnlikeRoasterDocument,
   UnlikeRoasterMutation,
 } from "@/lib/graphql/generated/graphql";
@@ -118,4 +122,39 @@ export async function unlikeLocation(locationId: string, userId: string) {
   });
 
   return response.data.deleteFromlocation_likesCollection?.records[0];
+}
+
+// Recipe likes
+export async function likeRecipe(recipeId: string, userId: string) {
+  const response = await graphqlFetch<
+    LikeRecipeMutation,
+    Exact<{ input: { recipe_id: string; user_id: string } }>
+  >(LikeRecipeDocument, {
+    variables: {
+      input: {
+        recipe_id: recipeId,
+        user_id: userId,
+      },
+    },
+  });
+
+  return response.data.insertIntorecipe_likesCollection?.records[0];
+}
+
+export async function unlikeRecipe(recipeId: string, userId: string) {
+  const response = await graphqlFetch<
+    UnlikeRecipeMutation,
+    Exact<{
+      filter: { recipe_id: { eq: string }; user_id: { eq: string } };
+    }>
+  >(UnlikeRecipeDocument, {
+    variables: {
+      filter: {
+        recipe_id: { eq: recipeId },
+        user_id: { eq: userId },
+      },
+    },
+  });
+
+  return response.data.deleteFromrecipe_likesCollection?.records[0];
 }

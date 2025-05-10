@@ -1,0 +1,42 @@
+query GetRecipes($first: Int, $after: Cursor) {
+  recipesCollection(
+    first: $first
+    after: $after
+    filter: { is_public: { eq: true } }
+  ) {
+    edges {
+      node {
+        id
+        user_id
+        profiles {
+          id
+          username
+          display_name
+        }
+        bean_id
+        title
+        description
+        image_url
+        grind_size
+        grind_weight
+        ratio
+        brew_method
+        is_public
+        likes_count
+        created_at
+        likes: recipe_likesCollection {
+          edges {
+            node {
+              id
+              user_id
+            }
+          }
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

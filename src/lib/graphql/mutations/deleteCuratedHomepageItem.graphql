@@ -1,0 +1,5 @@
+mutation DeleteCuratedHomepageItem($filter: homepage_curated_itemsFilter!) {
+  deleteFromhomepage_curated_itemsCollection(filter: $filter) {
+    affectedCount
+  }
+}

@@ -1,5 +1,6 @@
 import { graphqlFetch } from "../graphql/client";
 import {
+  BeansOrderBy,
   BigFloatFilter,
   BooleanFilter,
   FilterIs,
@@ -20,6 +21,7 @@ export type BeanFilters = {
   first?: number;
   after?: string;
   includeUnpublished?: boolean;
+  orderBy?: BeansOrderBy[];
 };
 
 export async function fetchBeans(
@@ -35,6 +37,7 @@ export async function fetchBeans(
     first = 30,
     after,
     includeUnpublished = false,
+    orderBy,
   } = filters || {};
 
   const response = await graphqlFetch<
@@ -57,8 +60,8 @@ export async function fetchBeans(
               { average_rating: { is: FilterIs.NotNull } },
               {
                 average_rating: {
-                  ...(minRating !== undefined && { gte: minRating.toString() }),
-                  ...(maxRating !== undefined && { lte: maxRating.toString() }),
+                  ...(minRating !== undefined && { gte: minRating }),
+                  ...(maxRating !== undefined && { lte: maxRating }),
                 } as BigFloatFilter,
               },
             ],
@@ -66,6 +69,7 @@ export async function fetchBeans(
         },
         first,
         after,
+        ...(orderBy && { orderBy }),
       },
     },
   );

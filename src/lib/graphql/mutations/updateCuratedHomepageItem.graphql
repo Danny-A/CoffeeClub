@@ -1,0 +1,20 @@
+mutation UpdateCuratedHomepageItem(
+  $filter: homepage_curated_itemsFilter!
+  $set: homepage_curated_itemsUpdateInput!
+) {
+  updatehomepage_curated_itemsCollection(filter: $filter, set: $set) {
+    records {
+      id
+      section
+      bean_id
+      recipe_id
+      roaster_id
+      location_id
+      display_order
+      custom_title
+      published
+      created_at
+      updated_at
+    }
+  }
+}

@@ -70,6 +70,12 @@ export async function UserNav() {
               Likes
             </Link>
           </DropdownMenuItem>
+
+          <DropdownMenuItem asChild>
+            <Link href="/profile/recipes" className="w-full cursor-pointer">
+              Recipes
+            </Link>
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>

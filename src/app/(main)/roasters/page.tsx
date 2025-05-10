@@ -45,8 +45,8 @@ export default async function RoastersPage() {
       <div className="space-y-8">
         <div className="flex justify-between items-center">
           <div>
-            <Heading level="h1">Coffee Roasters</Heading>
-            <Heading level="h2" muted className="mt-2">
+            <Heading level="h2">Coffee Roasters</Heading>
+            <Heading level="h4" as="h2" muted className="mt-2">
               Discover coffee roasters from around the world
             </Heading>
           </div>

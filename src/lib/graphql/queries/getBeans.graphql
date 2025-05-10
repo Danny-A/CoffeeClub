@@ -1,5 +1,15 @@
-query GetBeans($filter: beansFilter, $first: Int, $after: Cursor) {
-  beansCollection(first: $first, after: $after, filter: $filter) {
+query GetBeans(
+  $filter: beansFilter
+  $first: Int
+  $after: Cursor
+  $orderBy: [beansOrderBy!]
+) {
+  beansCollection(
+    first: $first
+    after: $after
+    filter: $filter
+    orderBy: $orderBy
+  ) {
     edges {
       cursor
       node {
@@ -19,6 +29,7 @@ query GetBeans($filter: beansFilter, $first: Int, $after: Cursor) {
         buy_urls
         created_at
         average_rating
+        review_count
         is_published
         roasters {
           id

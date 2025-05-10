@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardFooter } from '@/components/ui/Card';
 import { FormField } from '@/components/ui/FormField';
 import { Heading } from '@/components/ui/Heading';
+import { ImageUpload } from '@/components/ui/ImageUpload';
 import { Text } from '@/components/ui/Text';
 import { useAuth } from '@/hooks/auth/useAuth';
 import { useProfile } from '@/hooks/profile/useProfile';
@@ -30,7 +31,10 @@ export function OnboardingWizard() {
   const { user } = useAuth();
   const { updateProfile, uploadProfileImage } = useProfile();
   const [currentStep, setCurrentStep] = useState(1);
-  const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [profileImageUrl, setProfileImageUrl] = useState<string | undefined>(
+    undefined
+  );
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -42,11 +46,26 @@ export function OnboardingWizard() {
     resolver: zodResolver(profileSchema),
   });
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleImageChange = async (file: File | null) => {
     if (file) {
-      setProfileImage(file);
+      setPreviewUrl(URL.createObjectURL(file));
+      try {
+        const imageUrl = await uploadProfileImage(file);
+        if (imageUrl) {
+          setProfileImageUrl(imageUrl);
+        }
+      } catch (error) {
+        console.error('Error uploading image:', error);
+      }
+    } else {
+      setPreviewUrl(null);
+      setProfileImageUrl(undefined);
     }
+  };
+
+  const handleRemoveImage = () => {
+    setPreviewUrl(null);
+    // setValue('profile_image_url', '');
   };
 
   const validateStep = async () => {
@@ -77,17 +96,10 @@ export function OnboardingWizard() {
     setIsLoading(true);
 
     try {
-      let profileImageUrl: string | undefined;
-
-      if (profileImage) {
-        profileImageUrl = await uploadProfileImage(profileImage);
-      }
-
       updateProfile({
         ...data,
         profile_image_url: profileImageUrl,
       });
-
       router.push('/');
     } catch (error) {
       console.error('Error updating profile:', error);
@@ -154,11 +166,13 @@ export function OnboardingWizard() {
                       placeholder="https://"
                     />
 
-                    <FormField
-                      type="file"
-                      label="Profile Image"
-                      accept="image/*"
+                    <ImageUpload
                       onChange={handleImageChange}
+                      previewUrl={previewUrl}
+                      onRemove={handleRemoveImage}
+                      accept="image/*"
+                      label="Upload profile image"
+                      disabled={isLoading}
                     />
                   </div>
                 )}

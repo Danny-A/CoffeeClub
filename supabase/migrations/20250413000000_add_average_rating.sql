@@ -37,3 +37,8 @@ CREATE INDEX idx_beans_average_rating ON beans(average_rating);
 
 -- Update the GraphQL schema to expose the new column
 COMMENT ON COLUMN beans.average_rating IS 'The average rating of the bean based on all reviews.'; 
+
+-- Update the average_rating column to double precision
+ALTER TABLE beans
+ALTER COLUMN average_rating TYPE double precision
+USING average_rating::double precision;

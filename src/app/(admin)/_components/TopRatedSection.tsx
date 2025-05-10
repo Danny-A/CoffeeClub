@@ -34,10 +34,13 @@ export function TopRatedSection({ type }: TopRatedSectionProps) {
             className="block hover:bg-gray-50 dark:hover:bg-gray-800 p-2 rounded-md transition-colors"
           >
             <div className="flex justify-between items-center">
-              <Text>{item.node.name}</Text>
-              <Text variant="small">
-                {(item.averageRating ?? 0).toFixed(1)} ★
-              </Text>
+              <div>
+                <Text>{item.node.name}</Text>
+                <Text variant="small" className="block text-gray-500">
+                  {item.reviewCount} reviews
+                </Text>
+              </div>
+              <Text variant="small">{item.averageRating.toFixed(2)} ★</Text>
             </div>
           </Link>
         ))}

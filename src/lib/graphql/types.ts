@@ -24,6 +24,7 @@ export interface Bean {
   createdAt?: string;
   updatedAt?: string;
   averageRating?: number;
+  reviewCount?: number;
   is_published?: boolean;
   reviews?: {
     id: string;
@@ -44,6 +45,7 @@ export type Roaster = {
   url?: string;
   instagram?: string;
   beanCount: number;
+  reviewCount?: number;
   created_at: string;
   is_published?: boolean;
   likes: Array<{
@@ -125,9 +127,6 @@ export interface DashboardStats {
     }>;
   };
   bean_reviewsCollection: {
-    totalCount: number;
-  };
-  roaster_reviewsCollection: {
     totalCount: number;
   };
   location_reviewsCollection: {

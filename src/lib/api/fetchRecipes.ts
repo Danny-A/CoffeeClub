@@ -2,11 +2,18 @@ import { graphqlFetch } from "@/lib/graphql/client";
 import {
   GetRecipesQuery,
   GetRecipesQueryVariables,
+  RecipesFilter,
+  RecipesOrderBy,
 } from "@/lib/graphql/generated/graphql";
 import { GetRecipesDocument } from "@/lib/graphql/generated/graphql";
 
 export async function fetchRecipes(
-  { first = 30, after }: { first?: number; after?: string } = {},
+  { first = 30, after, orderBy, filter }: {
+    first?: number;
+    after?: string;
+    orderBy?: RecipesOrderBy[];
+    filter?: RecipesFilter;
+  } = {},
 ) {
   const response = await graphqlFetch<
     GetRecipesQuery,
@@ -14,7 +21,12 @@ export async function fetchRecipes(
   >(
     GetRecipesDocument,
     {
-      variables: { first, after },
+      variables: {
+        first,
+        after,
+        ...(orderBy && { orderBy }),
+        ...(filter && { filter }),
+      },
     },
   );
 

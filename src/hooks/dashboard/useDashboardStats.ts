@@ -10,27 +10,8 @@ type ItemWithRating = {
     name: string;
   };
   averageRating: number;
+  reviewCount: number;
 };
-
-function calculateAverageRating(
-  reviews:
-    | { edges: Array<{ node: { rating?: number | null } }> }
-    | null
-    | undefined,
-) {
-  if (!reviews?.edges.length) return 0;
-
-  const validRatings = reviews.edges
-    .map((edge) => edge.node.rating)
-    .filter((rating): rating is number =>
-      rating !== null && rating !== undefined
-    );
-
-  if (!validRatings.length) return 0;
-
-  return validRatings.reduce((sum, rating) => sum + rating, 0) /
-    validRatings.length;
-}
 
 export function useDashboardStats(type: ItemType) {
   const { data, isLoading } = useQuery({
@@ -38,53 +19,36 @@ export function useDashboardStats(type: ItemType) {
     queryFn: fetchDashboardStats,
   });
 
-
   const getTopItems = (): ItemWithRating[] => {
     if (!data) return [];
-
     switch (type) {
       case "beans":
-        return (data.beansCollection?.edges ?? [])
-          .map((edge) => ({
-            node: {
-              id: edge.node.id,
-              name: edge.node.name,
-            },
-            averageRating: calculateAverageRating(
-              edge.node.bean_reviewsCollection,
-            ),
-          }))
-          .filter((item) => item.averageRating > 0)
-          .sort((a, b) => b.averageRating - a.averageRating)
-          .slice(0, 5);
+        return (data.beansCollection?.edges ?? []).map((edge) => ({
+          node: {
+            id: edge.node.id,
+            name: edge.node.name,
+          },
+          averageRating: edge.node.average_rating ?? 0,
+          reviewCount: edge.node.review_count ?? 0,
+        }));
       case "roasters":
-        return (data.roastersCollection?.edges ?? [])
-          .map((edge) => ({
-            node: {
-              id: edge.node.id,
-              name: edge.node.name,
-            },
-            averageRating: calculateAverageRating(
-              edge.node.roaster_reviewsCollection,
-            ),
-          }))
-          .filter((item) => item.averageRating > 0)
-          .sort((a, b) => b.averageRating - a.averageRating)
-          .slice(0, 5);
+        return (data.roastersCollection?.edges ?? []).map((edge) => ({
+          node: {
+            id: edge.node.id,
+            name: edge.node.name,
+          },
+          averageRating: edge.node.average_rating ?? 0,
+          reviewCount: edge.node.review_count ?? 0,
+        }));
       case "locations":
-        return (data.locationsCollection?.edges ?? [])
-          .map((edge) => ({
-            node: {
-              id: edge.node.id,
-              name: edge.node.name,
-            },
-            averageRating: calculateAverageRating(
-              edge.node.location_reviewsCollection,
-            ),
-          }))
-          .filter((item) => item.averageRating > 0)
-          .sort((a, b) => b.averageRating - a.averageRating)
-          .slice(0, 5);
+        return (data.locationsCollection?.edges ?? []).map((edge) => ({
+          node: {
+            id: edge.node.id,
+            name: edge.node.name,
+          },
+          averageRating: edge.node.average_rating ?? 0,
+          reviewCount: edge.node.review_count ?? 0,
+        }));
       default:
         return [];
     }

@@ -9,59 +9,42 @@ query GetDashboardStats {
         total_roasters
         total_locations
         total_bean_reviews
-        total_roaster_reviews
+        total_recipes
         total_location_reviews
       }
     }
   }
 
-  # Roaster stats for top rated section
-  roastersCollection(first: 1000) {
+  roastersCollection(first: 10, orderBy: [{ average_rating: DescNullsLast }]) {
     edges {
       node {
         id
         name
-        roaster_reviewsCollection {
-          edges {
-            node {
-              rating
-            }
-          }
-        }
+        average_rating
+        review_count
+        bean_count
       }
     }
   }
 
-  # Bean stats for top rated section
-  beansCollection(first: 1000) {
+  beansCollection(first: 10, orderBy: [{ average_rating: DescNullsLast }]) {
     edges {
       node {
         id
         name
-        bean_reviewsCollection {
-          edges {
-            node {
-              rating
-            }
-          }
-        }
+        average_rating
+        review_count
       }
     }
   }
 
-  # Location stats for top rated section
-  locationsCollection(first: 1000) {
+  locationsCollection(first: 10, orderBy: [{ average_rating: DescNullsLast }]) {
     edges {
       node {
         id
         name
-        location_reviewsCollection {
-          edges {
-            node {
-              rating
-            }
-          }
-        }
+        average_rating
+        review_count
       }
     }
   }

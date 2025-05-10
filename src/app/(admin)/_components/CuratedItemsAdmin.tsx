@@ -6,10 +6,14 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Text } from '@/components/ui/Text';
 import { useCuratedHomepageItems } from '@/hooks/dashboard/useCuratedHomepageItems';
-import type { Homepage_Curated_Items } from '@/lib/graphql/generated/graphql';
+import type { GetCuratedHomepageItemsQuery } from '@/lib/graphql/generated/graphql';
 
 import { CuratedItemForm } from './CuratedItemForm';
 import type { CuratedItemFormValues } from './CuratedItemForm';
+
+type CuratedItem = NonNullable<
+  GetCuratedHomepageItemsQuery['homepage_curated_itemsCollection']
+>['edges'][number]['node'];
 
 export function CuratedItemsAdmin() {
   const [showAdd, setShowAdd] = useState(false);
@@ -42,7 +46,7 @@ export function CuratedItemsAdmin() {
   };
 
   // Toggle publish
-  const handleTogglePublish = (item: Homepage_Curated_Items) => {
+  const handleTogglePublish = (item: CuratedItem) => {
     updateItem.mutate({ id: item.id, published: !item.published });
   };
 

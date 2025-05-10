@@ -3934,7 +3934,6 @@ export const GetCuratedHomepageItemsDocument = new TypedDocumentString(`
         recipes {
           id
           title
-          title
           description
           image_url
           is_public

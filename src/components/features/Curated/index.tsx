@@ -4,7 +4,6 @@ import { BeanCard } from '@/components/features/BeanCard';
 import { RecipeCard } from '@/components/features/RecipeCard';
 import { RoasterCard } from '@/components/features/RoasterCard';
 import { useCuratedHomepageItems } from '@/hooks/dashboard/useCuratedHomepageItems';
-import { transformRoastersData } from '@/hooks/roasters/useRoasters';
 // import { LocationCard } from '@/components/features/LocationCard'; // TODO if exists
 
 export function CuratedSection() {

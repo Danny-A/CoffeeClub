@@ -1,6 +1,6 @@
 'use client';
 
-import { CoffeeIcon, HomeIcon, StoreIcon } from 'lucide-react';
+import { CoffeeIcon, HomeIcon, StoreIcon, SparklesIcon } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -14,6 +14,7 @@ const navItems = [
   { name: 'Dashboard', href: '/admin', icon: HomeIcon },
   { name: 'Beans', href: '/admin/beans', icon: CoffeeIcon },
   { name: 'Roasters', href: '/admin/roasters', icon: StoreIcon },
+  { name: 'Curated', href: '/admin/curated', icon: SparklesIcon },
 ];
 
 export function AdminNavMain() {

@@ -1,0 +1,52 @@
+query GetCuratedHomepageItems {
+  homepage_curated_itemsCollection(orderBy: { display_order: AscNullsLast }) {
+    edges {
+      node {
+        id
+        nodeId
+        section
+        display_order
+        custom_title
+        published
+        created_at
+        updated_at
+        bean_id
+        recipe_id
+        roaster_id
+        location_id
+        beans {
+          id
+          name
+          average_rating
+          review_count
+          is_published
+          roasters {
+            id
+            name
+          }
+        }
+        recipes {
+          id
+          title
+          description
+          image_url
+          is_public
+          likes_count
+        }
+        roasters {
+          id
+          name
+          bean_count
+          location_city
+          location_state
+          location_country
+          is_published
+        }
+        locations {
+          id
+          name
+        }
+      }
+    }
+  }
+}

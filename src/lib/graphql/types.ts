@@ -17,7 +17,7 @@ export interface Bean {
   id: string;
   name: string;
   roaster?: RoasterOnBean;
-  origin: string;
+  origin?: string | null;
   process?: string;
   roastLevel?: string;
   notes?: string;

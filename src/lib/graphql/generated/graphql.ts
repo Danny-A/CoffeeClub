@@ -3503,7 +3503,7 @@ export type UpdateRoasterMutation = { __typename?: 'Mutation', updateroastersCol
 export type GetCuratedHomepageItemsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCuratedHomepageItemsQuery = { __typename?: 'Query', homepage_curated_itemsCollection?: { __typename?: 'homepage_curated_itemsConnection', edges: Array<{ __typename?: 'homepage_curated_itemsEdge', node: { __typename?: 'homepage_curated_items', id: any, nodeId: string, section: string, display_order: number, custom_title?: string | null, published: boolean, created_at: any, updated_at: any, bean_id?: any | null, recipe_id?: any | null, roaster_id?: any | null, location_id?: any | null, beans?: { __typename?: 'beans', id: any, name: string, average_rating?: number | null, review_count?: number | null, is_published: boolean, roasters?: { __typename?: 'roasters', id: any, name: string } | null } | null, recipes?: { __typename?: 'recipes', id: any, title?: string | null, description?: string | null, image_url?: string | null, is_public?: boolean | null, likes_count?: number | null } | null, roasters?: { __typename?: 'roasters', id: any, name: string, bean_count?: number | null, location_city?: string | null, location_state?: string | null, location_country?: string | null, is_published: boolean } | null, locations?: { __typename?: 'locations', id: any, name: string } | null } }> } | null };
+export type GetCuratedHomepageItemsQuery = { __typename?: 'Query', homepage_curated_itemsCollection?: { __typename?: 'homepage_curated_itemsConnection', edges: Array<{ __typename?: 'homepage_curated_itemsEdge', node: { __typename?: 'homepage_curated_items', id: any, nodeId: string, section: string, display_order: number, custom_title?: string | null, published: boolean, created_at: any, updated_at: any, bean_id?: any | null, recipe_id?: any | null, roaster_id?: any | null, location_id?: any | null, beans?: { __typename?: 'beans', id: any, name: string, average_rating?: number | null, review_count?: number | null, is_published: boolean, origin?: string | null, roasters?: { __typename?: 'roasters', id: any, name: string } | null } | null, recipes?: { __typename?: 'recipes', id: any, title?: string | null, description?: string | null, image_url?: string | null, is_public?: boolean | null, likes_count?: number | null } | null, roasters?: { __typename?: 'roasters', id: any, name: string, bean_count?: number | null, is_published: boolean, location_city?: string | null, location_state?: string | null, location_country?: string | null, created_at?: any | null, beanCount?: number | null, roaster_likesCollection?: { __typename?: 'roaster_likesConnection', edges: Array<{ __typename?: 'roaster_likesEdge', node: { __typename?: 'roaster_likes', id: any, user_id?: any | null } }> } | null } | null, locations?: { __typename?: 'locations', id: any, name: string } | null } }> } | null };
 
 export type GetRecipeByIdQueryVariables = Exact<{
   id: Scalars['UUID']['input'];
@@ -3926,6 +3926,7 @@ export const GetCuratedHomepageItemsDocument = new TypedDocumentString(`
           average_rating
           review_count
           is_published
+          origin
           roasters {
             id
             name
@@ -3943,10 +3944,20 @@ export const GetCuratedHomepageItemsDocument = new TypedDocumentString(`
           id
           name
           bean_count
+          is_published
           location_city
           location_state
           location_country
-          is_published
+          created_at
+          beanCount: bean_count
+          roaster_likesCollection {
+            edges {
+              node {
+                id
+                user_id
+              }
+            }
+          }
         }
         locations {
           id

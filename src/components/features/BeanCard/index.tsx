@@ -24,10 +24,12 @@ export function BeanCard({ bean, user }: BeanCardProps) {
             </Text>
           )}
           <div className="space-y-2">
-            <div className="flex justify-between">
-              <Text variant="label">Origin:</Text>
-              <Text variant="small">{bean.origin}</Text>
-            </div>
+            {bean.origin && (
+              <div className="flex justify-between">
+                <Text variant="label">Origin:</Text>
+                <Text variant="small">{bean.origin}</Text>
+              </div>
+            )}
             {bean.process && (
               <div className="flex justify-between">
                 <Text variant="label">Process:</Text>

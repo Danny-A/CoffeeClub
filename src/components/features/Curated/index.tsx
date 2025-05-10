@@ -4,6 +4,7 @@ import { BeanCard } from '@/components/features/BeanCard';
 import { RecipeCard } from '@/components/features/RecipeCard';
 import { RoasterCard } from '@/components/features/RoasterCard';
 import { useCuratedHomepageItems } from '@/hooks/dashboard/useCuratedHomepageItems';
+import { transformRoastersData } from '@/hooks/roasters/useRoasters';
 // import { LocationCard } from '@/components/features/LocationCard'; // TODO if exists
 
 export function CuratedSection() {
@@ -41,10 +42,28 @@ export function CuratedSection() {
                 );
               }
               if (item.roasters) {
+                const {
+                  roaster_likesCollection,
+                  beanCount,
+                  created_at,
+                  ...rest
+                } = item.roasters;
+                const likes =
+                  roaster_likesCollection?.edges
+                    .map((edge) => edge.node)
+                    .filter(
+                      (like): like is { id: string; user_id: string } =>
+                        !!like.user_id
+                    ) ?? [];
                 return (
                   <RoasterCard
                     key={item.id}
-                    roaster={item.roasters}
+                    roaster={{
+                      ...rest,
+                      beanCount: beanCount ?? 0,
+                      created_at: created_at ?? '',
+                      likes,
+                    }}
                     user={null}
                   />
                 );

@@ -20,6 +20,7 @@ query GetCuratedHomepageItems {
           average_rating
           review_count
           is_published
+          origin
           roasters {
             id
             name
@@ -37,10 +38,20 @@ query GetCuratedHomepageItems {
           id
           name
           bean_count
+          is_published
           location_city
           location_state
           location_country
-          is_published
+          created_at
+          beanCount: bean_count
+          roaster_likesCollection {
+            edges {
+              node {
+                id
+                user_id
+              }
+            }
+          }
         }
         locations {
           id

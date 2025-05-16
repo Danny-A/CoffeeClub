@@ -1,4 +1,4 @@
-import { graphqlFetch } from "../graphql/client";
+import { graphqlFetch } from "@/lib/graphql/client";
 import {
   BooleanFilter,
   GetRoastersDocument,
@@ -6,7 +6,7 @@ import {
   GetRoastersQueryVariables,
   RoastersFilter,
   StringFilter,
-} from "../graphql/generated/graphql";
+} from "@/lib/graphql/generated/graphql";
 
 export type RoasterFilters = {
   search?: string;

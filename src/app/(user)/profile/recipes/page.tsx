@@ -6,7 +6,7 @@ import {
 
 import { Heading } from '@/components/ui/Heading';
 import { Text } from '@/components/ui/Text';
-import { fetchRecipes } from '@/lib/api/fetchRecipes';
+import { fetchRecipes } from '@/lib/api/recipes/fetchRecipes';
 
 import { RecipesList } from '../_components/RecipesList';
 

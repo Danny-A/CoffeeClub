@@ -1,9 +1,9 @@
-import { graphqlFetch } from "../graphql/client";
+import { graphqlFetch } from "@/lib/graphql/client";
 import {
   GetRoasterQuery,
   GetRoasterQueryVariables,
-} from "../graphql/generated/graphql";
-import { GetRoasterDocument } from "../graphql/generated/graphql";
+} from "@/lib/graphql/generated/graphql";
+import { GetRoasterDocument } from "@/lib/graphql/generated/graphql";
 
 export async function fetchRoaster(id: string) {
   const response = await graphqlFetch<

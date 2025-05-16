@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { updateRoaster } from "@/lib/api/updateRoaster";
+import { updateRoaster } from "@/lib/api/roasters/updateRoaster";
 import { RoastersUpdateInput } from "@/lib/graphql/generated/graphql";
 
 export function useUpdateRoaster() {

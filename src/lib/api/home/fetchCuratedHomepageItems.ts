@@ -1,5 +1,5 @@
-import { graphqlFetch } from "../graphql/client";
-import { GetCuratedHomepageItemsDocument } from "../graphql/generated/graphql";
+import { graphqlFetch } from "@/lib/graphql/client";
+import { GetCuratedHomepageItemsDocument } from "@/lib/graphql/generated/graphql";
 
 export async function fetchCuratedHomepageItems() {
   const response = await graphqlFetch(

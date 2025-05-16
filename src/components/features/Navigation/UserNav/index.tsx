@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/DropdownMenu';
 import { Text } from '@/components/ui/Text';
-import { fetchProfile } from '@/lib/api/fetchProfile';
+import { fetchProfile } from '@/lib/api/profile/fetchProfile';
 import { createClient } from '@/lib/supabase/server';
 import { isAdmin, isModerator } from '@/utils/getUserRole';
 

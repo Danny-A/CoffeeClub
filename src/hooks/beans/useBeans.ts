@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import { BeanFilters, fetchBeans } from "@/lib/api/fetchBeans";
+import { BeanFilters, fetchBeans } from "@/lib/api/beans/fetchBeans";
 import { GetBeansQuery } from "@/lib/graphql/generated/graphql";
 import { Bean } from "@/lib/graphql/types";
 

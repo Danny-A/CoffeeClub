@@ -1,6 +1,9 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import { fetchRoasters, type RoasterFilters } from "@/lib/api/fetchRoasters";
+import {
+  fetchRoasters,
+  type RoasterFilters,
+} from "@/lib/api/roasters/fetchRoasters";
 import { GetRoastersQuery } from "@/lib/graphql/generated/graphql";
 import { Roaster } from "@/lib/graphql/types";
 

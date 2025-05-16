@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { updateBean } from "@/lib/api/updateBean";
+import { updateBean } from "@/lib/api/beans/updateBean";
 import {
   Bean_Type,
   Roast_Level,

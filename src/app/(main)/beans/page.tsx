@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { BeanFeed } from '@/components/features/BeanFeed';
 import { Button } from '@/components/ui/Button';
 import { Heading } from '@/components/ui/Heading';
-import { fetchBeans } from '@/lib/api/fetchBeans';
+import { fetchBeans } from '@/lib/api/beans/fetchBeans';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {

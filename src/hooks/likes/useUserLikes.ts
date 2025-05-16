@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { fetchLikes } from "@/lib/api/fetchLikes";
+import { fetchLikes } from "@/lib/api/beans/likes/fetchLikes";
 
 export type LikeType = "bean" | "roaster" | "location" | "recipe";
 

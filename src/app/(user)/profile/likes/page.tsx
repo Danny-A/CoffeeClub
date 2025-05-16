@@ -7,7 +7,7 @@ import { redirect } from 'next/navigation';
 
 import { LikesList } from '@/app/(user)/profile/_components/LikesList';
 import { Heading } from '@/components/ui/Heading';
-import { fetchLikes } from '@/lib/api/fetchLikes';
+import { fetchLikes } from '@/lib/api/beans/likes/fetchLikes';
 import { createClient } from '@/lib/supabase/server';
 
 export default async function LikesPage() {

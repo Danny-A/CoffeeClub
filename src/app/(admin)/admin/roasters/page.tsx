@@ -10,7 +10,7 @@ import { redirect } from 'next/navigation';
 import { RoastersList } from '@/app/(admin)/_components/RoastersList';
 import { Button } from '@/components/ui/Button';
 import { Heading } from '@/components/ui/Heading';
-import { fetchRoasters } from '@/lib/api/fetchRoasters';
+import { fetchRoasters } from '@/lib/api/roasters/fetchRoasters';
 import { createClient } from '@/lib/supabase/server';
 import { isAdmin } from '@/utils/getUserRole';
 import { isModerator } from '@/utils/getUserRole';

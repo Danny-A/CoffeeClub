@@ -16,7 +16,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/Sidebar';
-import { fetchProfile } from '@/lib/api/fetchProfile';
+import { fetchProfile } from '@/lib/api/profile/fetchProfile';
 import { createClient } from '@/lib/supabase/server';
 
 import { AdminNavAdd } from '../features/Navigation/Admin/AdminNavAdd';

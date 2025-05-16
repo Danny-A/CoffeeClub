@@ -1,7 +1,7 @@
-import { graphqlFetch } from "../graphql/client";
-import { GetProfileQuery, ProfilesEdge } from "../graphql/generated/graphql";
-import { GetProfileDocument } from "../graphql/generated/graphql";
-import { Exact } from "../graphql/generated/graphql";
+import { graphqlFetch } from "@/lib/graphql/client";
+import { GetProfileQuery, ProfilesEdge } from "@/lib/graphql/generated/graphql";
+import { GetProfileDocument } from "@/lib/graphql/generated/graphql";
+import { Exact } from "@/lib/graphql/generated/graphql";
 
 export async function fetchProfile(id: string) {
   if (!id) return null;

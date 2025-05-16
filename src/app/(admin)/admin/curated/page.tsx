@@ -6,7 +6,7 @@ import {
 import { Suspense } from 'react';
 
 import { Heading } from '@/components/ui/Heading';
-import { fetchCuratedHomepageItems } from '@/lib/api/fetchCuratedHomepageItems';
+import { fetchCuratedHomepageItems } from '@/lib/api/home/fetchCuratedHomepageItems';
 
 import { CuratedItemsAdmin } from '../../_components/CuratedItemsAdmin';
 

@@ -1,11 +1,10 @@
-import { User as GraphQLUser } from "@/lib/graphql/types";
-
-import { graphqlFetch } from "../graphql/client";
+import { graphqlFetch } from "@/lib/graphql/client";
 import {
   UpdateProfileMutation,
   UpdateProfileMutationVariables,
-} from "../graphql/generated/graphql";
-import { UpdateProfileDocument } from "../graphql/generated/graphql";
+} from "@/lib/graphql/generated/graphql";
+import { UpdateProfileDocument } from "@/lib/graphql/generated/graphql";
+import { User as GraphQLUser } from "@/lib/graphql/types";
 
 export type Profile = {
   id: string;

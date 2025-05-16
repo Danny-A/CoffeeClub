@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { fetchRoaster } from "@/lib/api/fetchRoaster";
+import { fetchRoaster } from "@/lib/api/roasters/fetchRoaster";
 import { GetRoasterQuery } from "@/lib/graphql/generated/graphql";
 
 type Roaster = NonNullable<

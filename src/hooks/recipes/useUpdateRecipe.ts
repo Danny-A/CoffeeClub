@@ -29,7 +29,7 @@ export function useUpdateRecipe() {
       return res.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({ queryKey: ["recipes"] });
     },
   });
 }

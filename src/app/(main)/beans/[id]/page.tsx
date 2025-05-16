@@ -7,7 +7,7 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { Heading } from '@/components/ui/Heading';
 import { Text } from '@/components/ui/Text';
 import { TimeAgo } from '@/components/ui/TimeAgo';
-import { fetchBean } from '@/lib/api/fetchBean';
+import { fetchBean } from '@/lib/api/beans/fetchBean';
 import { createClient } from '@/lib/supabase/server';
 
 type BeanDetailsProps = {

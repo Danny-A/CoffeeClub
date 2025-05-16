@@ -1,7 +1,7 @@
 import { notFound, redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
-import { fetchRecipeById } from '@/lib/api/fetchRecipeById';
+import { fetchRecipeById } from '@/lib/api/recipes/fetchRecipeById';
 import { createClient } from '@/lib/supabase/server';
 import { isAdmin, isModerator } from '@/utils/getUserRole';
 

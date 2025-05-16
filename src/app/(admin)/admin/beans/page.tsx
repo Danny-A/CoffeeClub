@@ -10,7 +10,7 @@ import { redirect } from 'next/navigation';
 import { BeansList } from '@/app/(admin)/_components/BeansList';
 import { Button } from '@/components/ui/Button';
 import { Heading } from '@/components/ui/Heading';
-import { fetchBeans } from '@/lib/api/fetchBeans';
+import { fetchBeans } from '@/lib/api/beans/fetchBeans';
 import { createClient } from '@/lib/supabase/server';
 import { isAdmin } from '@/utils/getUserRole';
 import { isModerator } from '@/utils/getUserRole';

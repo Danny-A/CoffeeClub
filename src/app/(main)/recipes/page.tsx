@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { RecipeFeed } from '@/components/features/RecipeFeed';
 import { Button } from '@/components/ui/Button';
 import { Heading } from '@/components/ui/Heading';
-import { fetchRecipes } from '@/lib/api/fetchRecipes';
+import { fetchRecipes } from '@/lib/api/recipes/fetchRecipes';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {

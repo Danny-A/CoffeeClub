@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 
 import { MDXRenderer } from '@/components/mdx/MDXRenderer';
 import { LikeButton } from '@/components/ui/LikeButton';
-import { fetchRecipeById } from '@/lib/api/fetchRecipeById';
+import { fetchRecipeById } from '@/lib/api/recipes/fetchRecipeById';
 import { createClient } from '@/lib/supabase/server';
 
 export default async function RecipeDetailPage({

@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import type { CuratedItemFormValues } from "@/app/(admin)/_components/CuratedItemForm";
-import { fetchCuratedHomepageItems } from "@/lib/api/fetchCuratedHomepageItems";
+import { fetchCuratedHomepageItems } from "@/lib/api/home/fetchCuratedHomepageItems";
 import { graphqlFetch } from "@/lib/graphql/client";
 import {
   CreateCuratedHomepageItemDocument,

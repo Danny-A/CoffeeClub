@@ -1,8 +1,8 @@
-import { graphqlFetch } from "../graphql/client";
-import { BeansUpdateInput } from "../graphql/generated/graphql";
-import { UpdateBeanDocument } from "../graphql/generated/graphql";
-import { UpdateBeanMutationVariables } from "../graphql/generated/graphql";
-import { UpdateBeanMutation } from "../graphql/generated/graphql";
+import { graphqlFetch } from "@/lib/graphql/client";
+import { BeansUpdateInput } from "@/lib/graphql/generated/graphql";
+import { UpdateBeanDocument } from "@/lib/graphql/generated/graphql";
+import { UpdateBeanMutationVariables } from "@/lib/graphql/generated/graphql";
+import { UpdateBeanMutation } from "@/lib/graphql/generated/graphql";
 
 export async function updateBean(input: BeansUpdateInput) {
   const variables: UpdateBeanMutationVariables = {

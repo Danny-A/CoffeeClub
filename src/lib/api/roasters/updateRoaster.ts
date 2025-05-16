@@ -1,8 +1,8 @@
-import { graphqlFetch } from "../graphql/client";
-import { RoastersUpdateInput } from "../graphql/generated/graphql";
-import { UpdateRoasterDocument } from "../graphql/generated/graphql";
-import { UpdateRoasterMutationVariables } from "../graphql/generated/graphql";
-import { UpdateRoasterMutation } from "../graphql/generated/graphql";
+import { graphqlFetch } from "@/lib/graphql/client";
+import { RoastersUpdateInput } from "@/lib/graphql/generated/graphql";
+import { UpdateRoasterDocument } from "@/lib/graphql/generated/graphql";
+import { UpdateRoasterMutationVariables } from "@/lib/graphql/generated/graphql";
+import { UpdateRoasterMutation } from "@/lib/graphql/generated/graphql";
 
 export async function updateRoaster(input: RoastersUpdateInput) {
   const variables: UpdateRoasterMutationVariables = {

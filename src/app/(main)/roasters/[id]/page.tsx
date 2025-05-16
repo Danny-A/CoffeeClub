@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/Button';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Heading } from '@/components/ui/Heading';
 import { Text } from '@/components/ui/Text';
-import { fetchRoaster } from '@/lib/api/fetchRoaster';
+import { fetchRoaster } from '@/lib/api/roasters/fetchRoaster';
 import { createClient } from '@/lib/supabase/server';
 import { formatLocation } from '@/utils/formatLocation';
 import { transformUser } from '@/utils/transformUser';

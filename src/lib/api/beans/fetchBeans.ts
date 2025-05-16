@@ -1,4 +1,4 @@
-import { graphqlFetch } from "../graphql/client";
+import { graphqlFetch } from "@/lib/graphql/client";
 import {
   BeansOrderBy,
   BigFloatFilter,
@@ -9,7 +9,7 @@ import {
   GetBeansQueryVariables,
   Roast_Level,
   StringFilter,
-} from "../graphql/generated/graphql";
+} from "@/lib/graphql/generated/graphql";
 
 export type BeanFilters = {
   search?: string;

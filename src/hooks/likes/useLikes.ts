@@ -10,7 +10,7 @@ import {
   unlikeLocation,
   unlikeRecipe,
   unlikeRoaster,
-} from "@/lib/api/likes";
+} from "@/lib/api/likes/likes";
 
 export function useBeanLikes() {
   const queryClient = useQueryClient();

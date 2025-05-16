@@ -10,7 +10,7 @@ import { redirect } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Heading } from '@/components/ui/Heading';
-import { fetchProfile } from '@/lib/api/fetchProfile';
+import { fetchProfile } from '@/lib/api/profile/fetchProfile';
 import { createClient } from '@/lib/supabase/server';
 
 import { ProfileInfo } from './_components/ProfileInfo';

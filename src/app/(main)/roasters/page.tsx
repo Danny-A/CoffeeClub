@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { RoastersList } from '@/components/features/RoastersList';
 import { Button } from '@/components/ui/Button';
 import { Heading } from '@/components/ui/Heading';
-import { fetchRoasters } from '@/lib/api/fetchRoasters';
+import { fetchRoasters } from '@/lib/api/roasters/fetchRoasters';
 import { createClient } from '@/lib/supabase/server';
 export const metadata: Metadata = {
   title: 'Roasters - Daily Bean',

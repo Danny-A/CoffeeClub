@@ -6,7 +6,7 @@ import { MDXRenderer } from '@/components/mdx/MDXRenderer';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Heading } from '@/components/ui/Heading';
 import { Text } from '@/components/ui/Text';
-import { fetchRecipeById } from '@/lib/api/fetchRecipeById';
+import { fetchRecipeById } from '@/lib/api/recipes/fetchRecipeById';
 
 import { RecipeMetaActions } from '../_components/RecipeMetaActions';
 

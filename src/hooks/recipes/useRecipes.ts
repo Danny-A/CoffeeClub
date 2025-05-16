@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import { fetchRecipes } from "@/lib/api/fetchRecipes";
+import { fetchRecipes } from "@/lib/api/recipes/fetchRecipes";
 
 export function useRecipes() {
   return useInfiniteQuery({

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { fetchDashboardStats } from "@/lib/api/fetchDashboardStats";
+import { fetchDashboardStats } from "@/lib/api/admin/fetchDashboardStats";
 
 type ItemType = "beans" | "roasters" | "locations";
 

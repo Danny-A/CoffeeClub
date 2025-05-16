@@ -12,9 +12,9 @@ import {
   SelectItem,
 } from '@/components/ui/Select';
 import { Text } from '@/components/ui/Text';
-import { fetchBeans } from '@/lib/api/fetchBeans';
-import { fetchRecipes } from '@/lib/api/fetchRecipes';
-import { fetchRoasters } from '@/lib/api/fetchRoasters';
+import { fetchBeans } from '@/lib/api/beans/fetchBeans';
+import { fetchRecipes } from '@/lib/api/recipes/fetchRecipes';
+import { fetchRoasters } from '@/lib/api/roasters/fetchRoasters';
 
 type ItemType = 'bean' | 'recipe' | 'roaster' | 'location';
 

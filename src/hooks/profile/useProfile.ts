@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { useAuth } from "@/hooks/auth/useAuth";
-import { fetchProfile } from "@/lib/api/fetchProfile";
-import { Profile, updateProfile } from "@/lib/api/updateProfile";
+import { fetchProfile } from "@/lib/api/profile/fetchProfile";
+import { Profile, updateProfile } from "@/lib/api/profile/updateProfile";
 import { createClient } from "@/lib/supabase/client";
 
 export function useProfile() {

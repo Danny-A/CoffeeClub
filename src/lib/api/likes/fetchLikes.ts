@@ -1,7 +1,7 @@
-import { graphqlFetch } from "../graphql/client";
-import { GetUserLikesQuery } from "../graphql/generated/graphql";
-import { GetUserLikesQueryVariables } from "../graphql/generated/graphql";
-import { GetUserLikesDocument } from "../graphql/generated/graphql";
+import { graphqlFetch } from "../@/lib/graphql/client";
+import { GetUserLikesQuery } from "../@/lib/graphql/generated/graphql";
+import { GetUserLikesQueryVariables } from "../@/lib/graphql/generated/graphql";
+import { GetUserLikesDocument } from "../@/lib/graphql/generated/graphql";
 
 export async function fetchLikes(userId: string) {
   const response = await graphqlFetch<

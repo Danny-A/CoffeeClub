@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import { fetchRoasterOptionsPage } from "@/lib/api/fetchAllRoasters";
+import { fetchRoasterOptionsPage } from "@/lib/api/roasters/fetchAllRoasters";
 
 type RoasterOption = {
   id: string;

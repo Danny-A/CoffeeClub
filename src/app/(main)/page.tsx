@@ -2,8 +2,8 @@ import { BeanCard } from '@/components/features/BeanCard';
 import { CuratedSection } from '@/components/features/Curated';
 import { RecipeCard } from '@/components/features/RecipeCard';
 import { Heading } from '@/components/ui/Heading';
-import { fetchBeans } from '@/lib/api/fetchBeans';
-import { fetchRecipes } from '@/lib/api/fetchRecipes';
+import { fetchBeans } from '@/lib/api/beans/fetchBeans';
+import { fetchRecipes } from '@/lib/api/recipes/fetchRecipes';
 import { OrderByDirection, Beans } from '@/lib/graphql/generated/graphql';
 import { Bean } from '@/lib/graphql/types';
 

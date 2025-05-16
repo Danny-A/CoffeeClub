@@ -34,12 +34,11 @@ const textAreaVariants = cva(
   }
 );
 
-interface TextAreaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+type TextAreaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
   label?: string;
   error?: string;
   description?: string;
-}
+};
 
 export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
   ({ label, error, description, className, ...props }, ref) => {

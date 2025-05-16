@@ -31,7 +31,7 @@ You're an expert in writing TypeScript and Deno JavaScript runtime. Generate **h
 ### Simple Hello World Function
 
 ```tsx
-interface reqPayload {
+type reqPayload = {
   name: string;
 }
 

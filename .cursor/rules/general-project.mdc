@@ -81,7 +81,7 @@ You are an expert in TypeScript, Next.js App Router, Tanstack's React Query, Rea
 
 ## Component Architecture
 
-- Use functional components with TypeScript interfaces
+- Use functional components with TypeScript types
 - Define components using the function keyword
 - Extract reusable logic into custom hooks
 - Implement proper component composition

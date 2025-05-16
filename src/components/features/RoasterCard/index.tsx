@@ -6,10 +6,10 @@ import { Text } from '@/components/ui/Text';
 import { Roaster, type User } from '@/lib/graphql/types';
 import { formatLocation } from '@/utils/formatLocation';
 
-interface RoasterCardProps {
+type RoasterCardProps = {
   roaster: Roaster;
   user: User | null;
-}
+};
 
 export const RoasterCard = ({ roaster, user }: RoasterCardProps) => {
   const location = formatLocation({

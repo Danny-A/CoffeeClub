@@ -1,4 +1,4 @@
-export interface User {
+export type User = {
   id: string;
   username: string;
   email: string;
@@ -6,14 +6,14 @@ export interface User {
   avatarUrl?: string;
   createdAt?: string;
   updatedAt?: string;
-}
+};
 
 export type RoasterOnBean = {
   id: string;
   name: string;
 };
 
-export interface Bean {
+export type Bean = {
   id: string;
   name: string;
   roaster?: RoasterOnBean;
@@ -34,7 +34,7 @@ export interface Bean {
     id: string;
     user_id: string;
   }[];
-}
+};
 
 export type Roaster = {
   id: string;
@@ -54,7 +54,7 @@ export type Roaster = {
   }>;
 };
 
-export interface CoffeeBar {
+export type CoffeeBar = {
   id: string;
   name: string;
   location: string;
@@ -62,9 +62,9 @@ export interface CoffeeBar {
   website?: string;
   createdAt: string;
   updatedAt: string;
-}
+};
 
-export interface Review {
+export type Review = {
   id: string;
   user: User;
   bean: Bean;
@@ -72,9 +72,9 @@ export interface Review {
   notes?: string;
   createdAt: string;
   updatedAt: string;
-}
+};
 
-export interface DashboardStats {
+export type DashboardStats = {
   profilesCollection: {
     totalCount: number;
   };
@@ -132,4 +132,4 @@ export interface DashboardStats {
   location_reviewsCollection: {
     totalCount: number;
   };
-}
+};

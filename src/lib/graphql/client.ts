@@ -9,7 +9,7 @@ type FetchOptions<TVariables = Record<string, unknown>> = {
   variables?: TVariables;
 };
 
-interface GraphQLResponse<TData> {
+type GraphQLResponse<TData> = {
   data: TData;
   errors?: Array<{
     message: string;
@@ -20,9 +20,9 @@ interface GraphQLResponse<TData> {
     path?: string[];
     extensions?: Record<string, unknown>;
   }>;
-}
+};
 
-interface GraphQLError {
+type GraphQLError = {
   message: string;
   locations?: Array<{
     line: number;
@@ -30,7 +30,7 @@ interface GraphQLError {
   }>;
   path?: string[];
   extensions?: Record<string, unknown>;
-}
+};
 
 export const graphqlFetch = async <TData, TVariables = Record<string, unknown>>(
   query: DocumentNode | TypedDocumentString<TData, TVariables>,

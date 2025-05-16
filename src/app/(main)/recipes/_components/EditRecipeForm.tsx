@@ -30,9 +30,9 @@ type RecipeNode = NonNullable<
   NonNullable<GetRecipeByIdQuery['recipesCollection']>['edges'][number]
 >['node'];
 
-interface EditRecipeFormProps {
+type EditRecipeFormProps = {
   recipe: RecipeNode;
-}
+};
 
 const brewMethodOptions = Object.entries(Brew_Method).map(([, value]) => ({
   label: value.replace(/_/g, ' '),

@@ -2,11 +2,11 @@ import { type ReactNode } from 'react';
 
 import { CardSkeleton } from '../CardSkeleton';
 
-interface CardGridProps {
+type CardGridProps = {
   children?: ReactNode;
   isLoading?: boolean;
   skeletonCount?: number;
-}
+};
 
 export function CardGrid({
   children,

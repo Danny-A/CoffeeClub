@@ -21,11 +21,11 @@ const textVariants = cva('leading-relaxed', {
   },
 });
 
-interface TextProps extends VariantProps<typeof textVariants> {
+type TextProps = VariantProps<typeof textVariants> & {
   as?: TextElement;
   children: ReactNode;
   className?: string;
-}
+};
 
 export function Text({
   as: Component = 'p',

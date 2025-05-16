@@ -4,11 +4,13 @@ import { forwardRef, type ReactNode } from 'react';
 
 import { Button } from '@/components/ui/Button';
 
-export interface ButtonLinkProps
-  extends Omit<React.ComponentPropsWithoutRef<typeof Button>, 'children'> {
+export type ButtonLinkProps = Omit<
+  React.ComponentPropsWithoutRef<typeof Button>,
+  'children'
+> & {
   href: string;
   children: ReactNode;
-}
+};
 
 export const ButtonLink = forwardRef<HTMLAnchorElement, ButtonLinkProps>(
   ({ href, children, ...props }, ref) => {

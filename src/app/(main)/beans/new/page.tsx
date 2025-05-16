@@ -35,10 +35,10 @@ import { COFFEE_REGIONS } from '@/utils/coffeeOrigins';
 
 type BeanFormData = z.infer<typeof beanSchema>;
 
-interface OriginField {
+type OriginField = {
   id: string;
   value: string;
-}
+};
 
 export default function Page() {
   return (

@@ -1,8 +1,8 @@
 import { Skeleton } from '../Skeleton';
 
-interface CardSkeletonProps {
+type CardSkeletonProps = {
   className?: string;
-}
+};
 
 export function CardSkeleton({ className }: CardSkeletonProps) {
   return (

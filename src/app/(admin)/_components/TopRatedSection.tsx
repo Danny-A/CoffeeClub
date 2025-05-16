@@ -7,9 +7,9 @@ import { Heading } from '@/components/ui/Heading';
 import { Text } from '@/components/ui/Text';
 import { useDashboardStats } from '@/hooks/dashboard/useDashboardStats';
 
-interface TopRatedSectionProps {
+type TopRatedSectionProps = {
   type: 'beans' | 'roasters' | 'locations';
-}
+};
 
 export function TopRatedSection({ type }: TopRatedSectionProps) {
   const { items, isLoading } = useDashboardStats(type);

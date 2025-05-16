@@ -5,11 +5,11 @@ import { Text } from '@/components/ui/Text';
 import { createClient } from '@/lib/supabase/server';
 import { isAdmin, isModerator } from '@/utils/getUserRole';
 
-interface RecipeMetaActionsProps {
+type RecipeMetaActionsProps = {
   id: string;
   user_id: string;
   is_public: boolean;
-}
+};
 
 export async function RecipeMetaActions({
   id,

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Heading } from '@/components/ui/Heading';
 import { Text } from '@/components/ui/Text';
 
-interface CoffeeBarCardProps {
+type CoffeeBarCardProps = {
   id: string;
   name: string;
   description: string;
@@ -12,7 +12,7 @@ interface CoffeeBarCardProps {
   website?: string;
   instagram?: string;
   openingHours?: string;
-}
+};
 
 export function CoffeeBarCard({
   id,

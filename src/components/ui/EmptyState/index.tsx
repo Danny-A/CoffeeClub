@@ -2,12 +2,13 @@ import { cn } from '@/utils/cn';
 
 import { Heading } from '../Heading';
 import { Text } from '../Text';
-interface EmptyStateProps {
+
+type EmptyStateProps = {
   title: string;
   description: string;
   icon?: React.ReactNode;
   className?: string;
-}
+};
 
 export function EmptyState({
   title,

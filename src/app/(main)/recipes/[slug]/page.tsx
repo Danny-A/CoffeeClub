@@ -22,7 +22,7 @@ export async function generateStaticParams() {
   if (!recipes.edges) return [];
 
   return recipes.edges.map((edge) => ({
-    id: edge.node.id,
+    slug: edge.node.slug ?? edge.node.id,
   }));
 }
 

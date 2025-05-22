@@ -32,7 +32,7 @@ export async function generateStaticParams() {
   if (!roasters.roastersCollection) return [];
 
   return roasters.roastersCollection?.edges.map((edge) => ({
-    id: edge.node.id,
+    slug: edge.node.slug ?? edge.node.id,
   }));
 }
 

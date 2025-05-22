@@ -31,7 +31,7 @@ export async function generateStaticParams() {
 
   if (!beans.beansCollection) return [];
   return beans.beansCollection?.edges.map((edge) => ({
-    id: edge.node.id,
+    slug: edge.node.slug ?? edge.node.id,
   }));
 }
 

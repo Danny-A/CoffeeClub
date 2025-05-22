@@ -12,7 +12,7 @@ type BeanCardProps = {
 
 export function BeanCard({ bean, user }: BeanCardProps) {
   return (
-    <Link href={`/beans/${bean.id}`}>
+    <Link href={`/beans/${bean.slug}`}>
       <div className="block bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-md transition-shadow duration-200 h-full">
         <div className="p-6 space-y-4 relative">
           <Heading level="h4" as="h2">

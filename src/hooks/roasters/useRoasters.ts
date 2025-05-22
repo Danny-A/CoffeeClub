@@ -18,6 +18,7 @@ export function transformRoastersData(data: RoastersQuery): RoastersResponse {
     edges: data.edges.map((roaster) => ({
       node: {
         id: roaster.node.id,
+        slug: roaster.node.slug ?? roaster.node.id,
         name: roaster.node.name,
         city: roaster.node.location_city || undefined,
         state: roaster.node.location_state || undefined,

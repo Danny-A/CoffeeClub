@@ -3,14 +3,37 @@ import { notFound } from 'next/navigation';
 import { MDXRenderer } from '@/components/mdx/MDXRenderer';
 import { LikeButton } from '@/components/ui/LikeButton';
 import { fetchRecipeById } from '@/lib/api/fetchRecipeById';
+import { fetchRecipes } from '@/lib/api/fetchRecipes';
 import { createClient } from '@/lib/supabase/server';
+import { extractIdFromSlug } from '@/utils/slug';
+
+// Next.js will invalidate the cache when a
+// request comes in, at most once every 3600 seconds.
+export const revalidate = 3600;
+
+// We'll prerender only the params from `generateStaticParams` at build time.
+// If a request comes in for a path that hasn't been generated,
+// Next.js will server-render the page on-demand.
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  const recipes = await fetchRecipes();
+
+  if (!recipes.edges) return [];
+
+  return recipes.edges.map((edge) => ({
+    id: edge.node.id,
+  }));
+}
 
 export default async function RecipeDetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { id } = await params;
+  const { slug } = await params;
+  const id = extractIdFromSlug(slug);
+  if (!id) return null;
   const recipe = await fetchRecipeById(id);
 
   const supabase = await createClient();

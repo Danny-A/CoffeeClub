@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 import { BeanCard } from '@/components/features/BeanCard';
 import { Button } from '@/components/ui/Button';
@@ -6,17 +7,43 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { Heading } from '@/components/ui/Heading';
 import { Text } from '@/components/ui/Text';
 import { fetchRoaster } from '@/lib/api/fetchRoaster';
+import { fetchRoasters } from '@/lib/api/fetchRoasters';
 import { createClient } from '@/lib/supabase/server';
 import { formatLocation } from '@/utils/formatLocation';
+import { extractIdFromSlug } from '@/utils/slug';
 import { transformUser } from '@/utils/transformUser';
 
 type RoasterDetailsProps = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 };
 
+// Next.js will invalidate the cache when a
+// request comes in, at most once every 3600 seconds.
+export const revalidate = 3600;
+
+// We'll prerender only the params from `generateStaticParams` at build time.
+// If a request comes in for a path that hasn't been generated,
+// Next.js will server-render the page on-demand.
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  const roasters = await fetchRoasters();
+
+  if (!roasters.roastersCollection) return [];
+
+  return roasters.roastersCollection?.edges.map((edge) => ({
+    id: edge.node.id,
+  }));
+}
+
 export async function generateMetadata({ params }: RoasterDetailsProps) {
-  const { id } = await params;
+  const { slug } = await params;
+  const id = extractIdFromSlug(slug);
+
+  if (!id) return notFound();
+
   const roaster = await fetchRoaster(id);
+
   return {
     title: `${roaster?.name} - Daily Bean`,
     description: `View details about ${roaster?.name}`,
@@ -29,7 +56,11 @@ export async function generateMetadata({ params }: RoasterDetailsProps) {
 }
 
 export default async function RoasterPage({ params }: RoasterDetailsProps) {
-  const { id } = await params;
+  const { slug } = await params;
+  const id = extractIdFromSlug(slug);
+
+  if (!id) return notFound();
+
   const roaster = await fetchRoaster(id);
   const supabase = await createClient();
 
@@ -66,7 +97,9 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
         </div>
         {user && (
           <Button asChild>
-            <Link href={`/roasters/${roaster.id}/edit`}>Edit Roaster</Link>
+            <Link href={`/roasters/${roaster.slug ?? roaster.id}/edit`}>
+              Edit Roaster
+            </Link>
           </Button>
         )}
       </div>
@@ -136,6 +169,7 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
                   user={transformUser(user)}
                   bean={{
                     id: bean.node.id,
+                    slug: bean.node.slug ?? bean.node.id,
                     name: bean.node.name,
                     origin: bean.node.origin || '',
                     process: bean.node.process || '',

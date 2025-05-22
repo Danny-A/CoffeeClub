@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
@@ -8,14 +9,38 @@ import { Heading } from '@/components/ui/Heading';
 import { Text } from '@/components/ui/Text';
 import { TimeAgo } from '@/components/ui/TimeAgo';
 import { fetchBean } from '@/lib/api/fetchBean';
+import { fetchBeans } from '@/lib/api/fetchBeans';
 import { createClient } from '@/lib/supabase/server';
+import { extractIdFromSlug } from '@/utils/slug';
 
 type BeanDetailsProps = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 };
 
+// Next.js will invalidate the cache when a
+// request comes in, at most once every 3600 seconds.
+export const revalidate = 3600;
+
+// We'll prerender only the params from `generateStaticParams` at build time.
+// If a request comes in for a path that hasn't been generated,
+// Next.js will server-render the page on-demand.
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  const beans = await fetchBeans();
+
+  if (!beans.beansCollection) return [];
+  return beans.beansCollection?.edges.map((edge) => ({
+    id: edge.node.id,
+  }));
+}
+
 export async function generateMetadata({ params }: BeanDetailsProps) {
-  const { id } = await params;
+  const { slug } = await params;
+  const id = extractIdFromSlug(slug);
+
+  if (!id) return notFound();
+
   const bean = await fetchBean(id);
   return {
     title: `${bean?.name} by ${bean?.roasters?.name} - Daily Bean`,
@@ -28,8 +53,12 @@ export async function generateMetadata({ params }: BeanDetailsProps) {
   };
 }
 
-export default async function BeanDetails({ params }: BeanDetailsProps) {
-  const { id } = await params;
+export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
+  const { slug } = await params;
+  const id = extractIdFromSlug(slug);
+
+  if (!id) return notFound();
+
   const bean = await fetchBean(id);
   const supabase = await createClient();
 
@@ -60,7 +89,7 @@ export default async function BeanDetails({ params }: BeanDetailsProps) {
           >
             Roasted by{' '}
             <Link
-              href={`/roasters/${bean.roasters?.id}`}
+              href={`/roasters/${bean.roasters?.slug ?? bean.roasters?.id}`}
               className="text-blue-600 hover:text-blue-800 hover:no-underline dark:text-blue-400 dark:hover:text-blue-300"
             >
               {bean.roasters?.name}
@@ -69,7 +98,7 @@ export default async function BeanDetails({ params }: BeanDetailsProps) {
         </div>
         {user && (
           <Button asChild>
-            <Link href={`/beans/${bean.id}/edit`}>Edit Bean</Link>
+            <Link href={`/beans/${bean.slug ?? bean.id}/edit`}>Edit Bean</Link>
           </Button>
         )}
       </div>

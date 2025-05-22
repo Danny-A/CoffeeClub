@@ -18,7 +18,7 @@ export function BeanListItem({ bean, user }: BeanCardProps) {
   return (
     <>
       <td className="px-6 py-4">
-        <Link href={`/beans/${bean.id}`} className="hover:underline">
+        <Link href={`/beans/${bean.slug}`} className="hover:underline">
           <Heading level="h6" as="h2">
             {bean.name}
           </Heading>
@@ -26,7 +26,7 @@ export function BeanListItem({ bean, user }: BeanCardProps) {
       </td>
       <td className="px-6 py-4">
         <Link
-          href={`/roasters/${bean.roaster?.id}`}
+          href={`/roasters/${bean.roaster?.slug}`}
           className="hover:underline"
         >
           <Text variant="small">{bean.roaster?.name ?? '-'}</Text>

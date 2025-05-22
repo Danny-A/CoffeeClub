@@ -14,6 +14,7 @@ query GetBeans(
       cursor
       node {
         id
+        slug
         name
         image_url
         roast_type

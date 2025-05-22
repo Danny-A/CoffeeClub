@@ -10,11 +10,13 @@ export interface User {
 
 export type RoasterOnBean = {
   id: string;
+  slug?: string;
   name: string;
 };
 
 export interface Bean {
   id: string;
+  slug?: string;
   name: string;
   roaster?: RoasterOnBean;
   origin?: string | null;
@@ -38,15 +40,16 @@ export interface Bean {
 
 export type Roaster = {
   id: string;
+  slug?: string;
   name: string;
   city?: string;
   state?: string;
   country?: string;
   url?: string;
   instagram?: string;
-  beanCount: number;
+  beanCount?: number;
   reviewCount?: number;
-  created_at: string;
+  created_at?: string;
   is_published?: boolean;
   likes: Array<{
     id: string;
@@ -56,6 +59,7 @@ export type Roaster = {
 
 export interface CoffeeBar {
   id: string;
+  slug: string;
   name: string;
   location: string;
   description: string;

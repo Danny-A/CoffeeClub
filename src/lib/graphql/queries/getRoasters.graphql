@@ -3,6 +3,7 @@ query GetRoasters($filter: roastersFilter, $first: Int, $after: Cursor) {
     edges {
       node {
         id
+        slug
         name
         profile_image_url
         location_city

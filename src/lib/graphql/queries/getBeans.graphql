@@ -15,18 +15,11 @@ query GetBeans(
       node {
         id
         name
-        description
         image_url
         roast_type
         process
         roast_level
-        bean_type
-        elevation_min
-        elevation_max
         origin
-        producer
-        notes
-        buy_urls
         created_at
         average_rating
         review_count
@@ -34,16 +27,6 @@ query GetBeans(
         roasters {
           id
           name
-        }
-        bean_varietiesCollection {
-          edges {
-            node {
-              varieties {
-                id
-                name
-              }
-            }
-          }
         }
         bean_tagsCollection {
           edges {
@@ -60,14 +43,6 @@ query GetBeans(
             node {
               id
               user_id
-            }
-          }
-        }
-        bean_reviewsCollection {
-          edges {
-            node {
-              id
-              rating
             }
           }
         }

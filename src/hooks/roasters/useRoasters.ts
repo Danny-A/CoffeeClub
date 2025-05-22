@@ -22,9 +22,7 @@ export function transformRoastersData(data: RoastersQuery): RoastersResponse {
         city: roaster.node.location_city || undefined,
         state: roaster.node.location_state || undefined,
         country: roaster.node.location_country || undefined,
-        url: roaster.node.url || undefined,
-        instagram: roaster.node.instagram || undefined,
-        beanCount: roaster.node.beansCollection?.edges.length || 0,
+        beanCount: roaster.node.bean_count || 0,
         created_at: roaster.node.created_at,
         is_published: roaster.node.is_published,
         likes: roaster.node.roaster_likesCollection?.edges.map((edge) => ({

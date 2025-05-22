@@ -3,8 +3,19 @@ import { notFound } from 'next/navigation';
 import { MDXRenderer } from '@/components/mdx/MDXRenderer';
 import { LikeButton } from '@/components/ui/LikeButton';
 import { fetchRecipeById } from '@/lib/api/fetchRecipeById';
+import { fetchRecipes } from '@/lib/api/fetchRecipes';
 import { createClient } from '@/lib/supabase/server';
 import { extractIdFromSlug } from '@/utils/slug';
+
+export async function generateStaticParams() {
+  const recipes = await fetchRecipes();
+
+  if (!recipes.edges) return [];
+
+  return recipes.edges.map((edge) => ({
+    id: edge.node.id,
+  }));
+}
 
 export default async function RecipeDetailPage({
   params,

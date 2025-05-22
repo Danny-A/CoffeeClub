@@ -9,12 +9,22 @@ import { Heading } from '@/components/ui/Heading';
 import { Text } from '@/components/ui/Text';
 import { TimeAgo } from '@/components/ui/TimeAgo';
 import { fetchBean } from '@/lib/api/fetchBean';
+import { fetchBeans } from '@/lib/api/fetchBeans';
 import { createClient } from '@/lib/supabase/server';
 import { extractIdFromSlug } from '@/utils/slug';
 
 type BeanDetailsProps = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateStaticParams() {
+  const beans = await fetchBeans();
+
+  if (!beans.beansCollection) return [];
+  return beans.beansCollection?.edges.map((edge) => ({
+    id: edge.node.id,
+  }));
+}
 
 export async function generateMetadata({ params }: BeanDetailsProps) {
   const { slug } = await params;

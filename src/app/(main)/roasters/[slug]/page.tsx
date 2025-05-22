@@ -7,6 +7,7 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { Heading } from '@/components/ui/Heading';
 import { Text } from '@/components/ui/Text';
 import { fetchRoaster } from '@/lib/api/fetchRoaster';
+import { fetchRoasters } from '@/lib/api/fetchRoasters';
 import { createClient } from '@/lib/supabase/server';
 import { formatLocation } from '@/utils/formatLocation';
 import { extractIdFromSlug } from '@/utils/slug';
@@ -15,6 +16,16 @@ import { transformUser } from '@/utils/transformUser';
 type RoasterDetailsProps = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateStaticParams() {
+  const roasters = await fetchRoasters();
+
+  if (!roasters.roastersCollection) return [];
+
+  return roasters.roastersCollection?.edges.map((edge) => ({
+    id: edge.node.id,
+  }));
+}
 
 export async function generateMetadata({ params }: RoasterDetailsProps) {
   const { slug } = await params;

@@ -5,6 +5,7 @@ import { RecipeCard } from '@/components/features/RecipeCard';
 import { RoasterCard } from '@/components/features/RoasterCard';
 import { useCuratedHomepageItems } from '@/hooks/dashboard/useCuratedHomepageItems';
 // import { LocationCard } from '@/components/features/LocationCard'; // TODO if exists
+import { Bean, Roaster } from '@/lib/graphql/types';
 
 export function CuratedSection() {
   const { items, isLoading } = useCuratedHomepageItems();
@@ -33,7 +34,13 @@ export function CuratedSection() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {group.map((item) => {
               if (item.beans) {
-                return <BeanCard key={item.id} bean={item.beans} user={null} />;
+                return (
+                  <BeanCard
+                    key={item.id}
+                    bean={item.beans as Bean}
+                    user={null}
+                  />
+                );
               }
               if (item.recipes) {
                 return (
@@ -41,12 +48,7 @@ export function CuratedSection() {
                 );
               }
               if (item.roasters) {
-                const {
-                  roaster_likesCollection,
-                  beanCount,
-                  created_at,
-                  ...rest
-                } = item.roasters;
+                const { roaster_likesCollection, ...rest } = item.roasters;
                 const likes =
                   roaster_likesCollection?.edges
                     .map((edge) => edge.node)
@@ -58,9 +60,7 @@ export function CuratedSection() {
                   <RoasterCard
                     key={item.id}
                     roaster={{
-                      ...rest,
-                      beanCount: beanCount ?? 0,
-                      created_at: created_at ?? '',
+                      ...(rest as Roaster),
                       likes,
                     }}
                     user={null}

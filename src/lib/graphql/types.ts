@@ -47,9 +47,9 @@ export type Roaster = {
   country?: string;
   url?: string;
   instagram?: string;
-  beanCount: number;
+  beanCount?: number;
   reviewCount?: number;
-  created_at: string;
+  created_at?: string;
   is_published?: boolean;
   likes: Array<{
     id: string;

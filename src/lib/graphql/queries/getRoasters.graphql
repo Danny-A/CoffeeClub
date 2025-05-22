@@ -4,24 +4,14 @@ query GetRoasters($filter: roastersFilter, $first: Int, $after: Cursor) {
       node {
         id
         name
-        description
         profile_image_url
         location_city
         location_state
         location_country
-        url
-        instagram
         claimed_by
         created_at
         is_published
         bean_count
-        beansCollection {
-          edges {
-            node {
-              id
-            }
-          }
-        }
         roaster_likesCollection {
           edges {
             node {

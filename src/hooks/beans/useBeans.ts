@@ -23,7 +23,6 @@ function transformBeansData(data: BeansQuery): BeansResponse {
         origin: bean.node.origin || "",
         process: bean.node.process || "",
         roastLevel: bean.node.roast_level || "",
-        notes: bean.node.notes || "",
         roaster: {
           id: bean.node.roasters?.id,
           name: bean.node.roasters?.name || "",
@@ -32,10 +31,7 @@ function transformBeansData(data: BeansQuery): BeansResponse {
         updatedAt: bean.node.created_at,
         averageRating: bean.node.average_rating || 0,
         is_published: bean.node.is_published,
-        reviews: bean.node.bean_reviewsCollection?.edges.map((edge) => ({
-          id: edge.node.id,
-          rating: edge.node.rating || 0,
-        })),
+        reviewCount: bean.node.review_count || 0,
         likes: bean.node.bean_likesCollection?.edges.map((edge) => ({
           id: edge.node.id,
           user_id: edge.node.user_id,

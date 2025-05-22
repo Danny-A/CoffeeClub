@@ -97,7 +97,7 @@ export function RoastersList() {
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <Text>{roaster.node.beanCount ?? 0}</Text>
+                  <Text>{roaster.node.beanCount}</Text>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right">
                   <Button asChild variant="ghost" size="sm">

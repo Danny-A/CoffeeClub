@@ -4,13 +4,16 @@ import { MDXRenderer } from '@/components/mdx/MDXRenderer';
 import { LikeButton } from '@/components/ui/LikeButton';
 import { fetchRecipeById } from '@/lib/api/fetchRecipeById';
 import { createClient } from '@/lib/supabase/server';
+import { extractIdFromSlug } from '@/utils/slug';
 
 export default async function RecipeDetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { id } = await params;
+  const { slug } = await params;
+  const id = extractIdFromSlug(slug);
+  if (!id) return null;
   const recipe = await fetchRecipeById(id);
 
   const supabase = await createClient();

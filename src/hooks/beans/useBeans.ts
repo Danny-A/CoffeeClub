@@ -19,6 +19,7 @@ function transformBeansData(data: BeansQuery): BeansResponse {
       ...bean,
       node: {
         id: bean.node.id,
+        slug: bean.node.slug ?? bean.node.id,
         name: bean.node.name,
         origin: bean.node.origin || "",
         process: bean.node.process || "",

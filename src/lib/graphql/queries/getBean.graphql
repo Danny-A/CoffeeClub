@@ -3,6 +3,7 @@ query GetBean($id: UUID!, $filter: beansFilter) {
     edges {
       node {
         id
+        slug
         name
         description
         image_url
@@ -19,6 +20,7 @@ query GetBean($id: UUID!, $filter: beansFilter) {
         is_published
         roasters {
           id
+          slug
           name
         }
         bean_varietiesCollection {

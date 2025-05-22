@@ -4,6 +4,7 @@ query GetRoaster($id: UUID!, $filter: roastersFilter) {
       node {
         id
         name
+        slug
         description
         profile_image_url
         location_city
@@ -17,6 +18,7 @@ query GetRoaster($id: UUID!, $filter: roastersFilter) {
           edges {
             node {
               id
+              slug
               name
               description
               origin

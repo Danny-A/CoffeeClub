@@ -3,6 +3,7 @@ query GetLocations($filter: locationsFilter, $first: Int, $after: Cursor) {
     edges {
       node {
         id
+        slug
         name
         description
         image_url

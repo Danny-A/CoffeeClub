@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 import { BeanCard } from '@/components/features/BeanCard';
 import { Button } from '@/components/ui/Button';
@@ -8,15 +9,21 @@ import { Text } from '@/components/ui/Text';
 import { fetchRoaster } from '@/lib/api/fetchRoaster';
 import { createClient } from '@/lib/supabase/server';
 import { formatLocation } from '@/utils/formatLocation';
+import { extractIdFromSlug } from '@/utils/slug';
 import { transformUser } from '@/utils/transformUser';
 
 type RoasterDetailsProps = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 };
 
 export async function generateMetadata({ params }: RoasterDetailsProps) {
-  const { id } = await params;
+  const { slug } = await params;
+  const id = extractIdFromSlug(slug);
+
+  if (!id) return notFound();
+
   const roaster = await fetchRoaster(id);
+
   return {
     title: `${roaster?.name} - Daily Bean`,
     description: `View details about ${roaster?.name}`,
@@ -29,7 +36,11 @@ export async function generateMetadata({ params }: RoasterDetailsProps) {
 }
 
 export default async function RoasterPage({ params }: RoasterDetailsProps) {
-  const { id } = await params;
+  const { slug } = await params;
+  const id = extractIdFromSlug(slug);
+
+  if (!id) return notFound();
+
   const roaster = await fetchRoaster(id);
   const supabase = await createClient();
 
@@ -66,7 +77,9 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
         </div>
         {user && (
           <Button asChild>
-            <Link href={`/roasters/${roaster.id}/edit`}>Edit Roaster</Link>
+            <Link href={`/roasters/${roaster.slug ?? roaster.id}/edit`}>
+              Edit Roaster
+            </Link>
           </Button>
         )}
       </div>
@@ -136,6 +149,7 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
                   user={transformUser(user)}
                   bean={{
                     id: bean.node.id,
+                    slug: bean.node.slug ?? bean.node.id,
                     name: bean.node.name,
                     origin: bean.node.origin || '',
                     process: bean.node.process || '',

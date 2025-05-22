@@ -7,6 +7,7 @@ query GetRecipes($first: Int, $after: Cursor) {
     edges {
       node {
         id
+        slug
         user_id
         profiles {
           id

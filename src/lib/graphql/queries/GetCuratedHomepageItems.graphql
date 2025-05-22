@@ -16,6 +16,7 @@ query GetCuratedHomepageItems {
         location_id
         beans {
           id
+          slug
           name
           average_rating
           review_count
@@ -28,6 +29,7 @@ query GetCuratedHomepageItems {
         }
         recipes {
           id
+          slug
           title
           description
           image_url
@@ -36,6 +38,7 @@ query GetCuratedHomepageItems {
         }
         roasters {
           id
+          slug
           name
           bean_count
           is_published
@@ -55,6 +58,7 @@ query GetCuratedHomepageItems {
         }
         locations {
           id
+          slug
           name
         }
       }

@@ -10,9 +10,14 @@ import { Bean } from '@/lib/graphql/types';
 function mapGraphQLBeanToBean(bean: Beans): Bean {
   return {
     id: bean.id,
+    slug: bean.slug ?? bean.id,
     name: bean.name,
     roaster: bean.roasters
-      ? { id: bean.roasters.id, name: bean.roasters.name }
+      ? {
+          id: bean.roasters.id,
+          slug: bean.roasters.slug ?? bean.roasters.id,
+          name: bean.roasters.name ?? '',
+        }
       : undefined,
     origin: bean.origin ?? '',
     process: bean.process ?? undefined,

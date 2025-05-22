@@ -3,6 +3,7 @@ query GetRecipeById($id: UUID!) {
     edges {
       node {
         id
+        slug
         user_id
         profiles {
           id

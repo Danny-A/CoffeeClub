@@ -22,7 +22,7 @@ export function RecipeCard({
 
   return (
     <div className="relative p-4 border rounded-lg bg-white dark:bg-gray-900 shadow">
-      <Link href={`/recipes/${recipe.id}`} className="block mb-2">
+      <Link href={`/recipes/${recipe.slug}`} className="block mb-2">
         <h2 className="text-xl font-semibold">{recipe.title}</h2>
         {recipe.image_url && (
           <img

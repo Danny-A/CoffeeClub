@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/Button';
 import { Heading } from '@/components/ui/Heading';
 import { fetchRoasters } from '@/lib/api/fetchRoasters';
 import { createClient } from '@/lib/supabase/server';
+
 export const metadata: Metadata = {
   title: 'Roasters - Daily Bean',
   description: 'Explore a collection of coffee roasters',

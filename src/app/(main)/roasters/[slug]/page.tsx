@@ -10,6 +10,8 @@ import { fetchRoaster } from '@/lib/api/fetchRoaster';
 import { fetchRoasters } from '@/lib/api/fetchRoasters';
 import { createClient } from '@/lib/supabase/server';
 import { formatLocation } from '@/utils/formatLocation';
+import { isAdmin } from '@/utils/getUserRole';
+import { isModerator } from '@/utils/getUserRole';
 import { isNew } from '@/utils/isNew';
 import { extractIdFromSlug } from '@/utils/slug';
 import { transformUser } from '@/utils/transformUser';
@@ -75,6 +77,11 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
     );
   }
 
+  const [isUserAdmin, isUserModerator] = await Promise.all([
+    isAdmin(user),
+    isModerator(user),
+  ]);
+
   const location = formatLocation({
     city: roaster.location_city,
     state: roaster.location_state,
@@ -93,9 +100,9 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
             {location}
           </Text>
         </div>
-        {user && (
+        {(isUserAdmin || isUserModerator) && (
           <Button asChild>
-            <Link href={`/roasters/${roaster.slug ?? roaster.id}/edit`}>
+            <Link href={`/admin/roasters/${roaster.slug ?? roaster.id}/edit`}>
               Edit Roaster
             </Link>
           </Button>

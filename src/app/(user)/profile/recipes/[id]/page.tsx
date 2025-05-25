@@ -86,7 +86,7 @@ async function RecipeDetail({ id }: { id: string }) {
                     </div>
                   )}
                   <RecipeMetaActions
-                    id={recipe.id}
+                    slug={recipe.slug ?? recipe.id}
                     user_id={recipe.user_id}
                     is_public={recipe.is_public ?? false}
                   />

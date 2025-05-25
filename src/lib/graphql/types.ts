@@ -36,6 +36,7 @@ export interface Bean {
     id: string;
     user_id: string;
   }[];
+  isNew?: boolean;
 }
 
 export type Roaster = {
@@ -55,6 +56,7 @@ export type Roaster = {
     id: string;
     user_id: string;
   }>;
+  isNew?: boolean;
 };
 
 export interface CoffeeBar {

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { NewBadge } from '@/components/ui/Badge/NewBadge';
 import { Heading } from '@/components/ui/Heading';
 import { LikeButton } from '@/components/ui/LikeButton';
 import { Text } from '@/components/ui/Text';
@@ -21,6 +22,7 @@ export function BeanListItem({ bean, user }: BeanCardProps) {
         <Link href={`/beans/${bean.slug}`} className="hover:underline">
           <Heading level="h6" as="h2">
             {bean.name}
+            {bean.isNew && <NewBadge className="ml-2 align-middle" />}
           </Heading>
         </Link>
       </td>

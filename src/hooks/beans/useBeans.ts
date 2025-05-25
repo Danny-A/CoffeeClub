@@ -3,6 +3,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { BeanFilters, fetchBeans } from "@/lib/api/fetchBeans";
 import { GetBeansQuery } from "@/lib/graphql/generated/graphql";
 import { Bean } from "@/lib/graphql/types";
+import { isNew } from "@/utils/isNew";
 
 type BeansQuery = NonNullable<GetBeansQuery["beansCollection"]>;
 type BeansResponse = {
@@ -37,6 +38,7 @@ function transformBeansData(data: BeansQuery): BeansResponse {
           id: edge.node.id,
           user_id: edge.node.user_id,
         })),
+        isNew: isNew(bean.node.created_at),
       },
     })),
     pageInfo: {

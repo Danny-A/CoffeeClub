@@ -50,8 +50,8 @@ export function LikesList() {
                   <Link
                     href={
                       like.type === 'recipe'
-                        ? `/recipes/${like.item.id}`
-                        : `/${like.type}s/${like.item.id}`
+                        ? `/recipes/${like.item.slug}`
+                        : `/${like.type}s/${like.item.slug}`
                     }
                     className="block hover:opacity-80 transition-opacity"
                   >

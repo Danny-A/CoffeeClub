@@ -17,18 +17,21 @@ import { useRoaster } from '@/hooks/roasters/useRoaster';
 import { useRoasterImage } from '@/hooks/roasters/useRoasterImage';
 import { useUpdateRoaster } from '@/hooks/roasters/useUpdateRoaster';
 import { roasterSchema } from '@/lib/validations/roaster';
+import { extractIdFromSlug } from '@/utils/slug';
 
 type RoasterFormData = z.infer<typeof roasterSchema>;
 
 type EditRoasterPageProps = {
   params: Promise<{
-    id: string;
+    slug: string;
   }>;
 };
 
 export default function EditRoasterPage({ params }: EditRoasterPageProps) {
-  const { id } = use(params);
+  const { slug } = use(params);
   const router = useRouter();
+  const id = extractIdFromSlug(slug);
+
   const { data: roaster, isLoading } = useRoaster(id);
   const updateRoaster = useUpdateRoaster();
   const { uploadRoasterImage } = useRoasterImage();

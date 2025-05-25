@@ -7,8 +7,6 @@ import { fetchRecipes } from '@/lib/api/fetchRecipes';
 import { createClient } from '@/lib/supabase/server';
 import { extractIdFromSlug } from '@/utils/slug';
 
-// Next.js will invalidate the cache when a
-// request comes in, at most once every 3600 seconds.
 export const revalidate = 3600;
 
 // We'll prerender only the params from `generateStaticParams` at build time.
@@ -33,7 +31,6 @@ export default async function RecipeDetailPage({
 }) {
   const { slug } = await params;
   const id = extractIdFromSlug(slug);
-  if (!id) return null;
   const recipe = await fetchRecipeById(id);
 
   const supabase = await createClient();

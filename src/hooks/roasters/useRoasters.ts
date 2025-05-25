@@ -3,6 +3,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchRoasters, type RoasterFilters } from "@/lib/api/fetchRoasters";
 import { GetRoastersQuery } from "@/lib/graphql/generated/graphql";
 import { Roaster } from "@/lib/graphql/types";
+import { isNew } from "@/utils/isNew";
 
 type RoastersQuery = NonNullable<GetRoastersQuery["roastersCollection"]>;
 type RoastersResponse = {
@@ -30,6 +31,7 @@ export function transformRoastersData(data: RoastersQuery): RoastersResponse {
           id: edge.node.id,
           user_id: edge.node.user_id || "",
         })) || [],
+        isNew: isNew(roaster.node.created_at),
       },
     })),
     pageInfo: {

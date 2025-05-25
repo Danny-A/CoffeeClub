@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { v4 as uuidv4 } from "uuid";
 
 import { graphqlFetch } from "@/lib/graphql/client";
 import {
@@ -10,6 +11,7 @@ import {
   Roast_Level,
   Roast_Type,
 } from "@/lib/graphql/generated/graphql";
+import { generateSlug } from "@/utils/slug";
 
 export type CreateBeanInput = {
   name: string;
@@ -34,12 +36,16 @@ export function useCreateBean() {
 
   return useMutation({
     mutationFn: async (input: CreateBeanInput) => {
+      const id = uuidv4();
+      const slug = generateSlug(input.name, id);
+
       const response = await graphqlFetch<
         CreateBeanMutation,
         CreateBeanMutationVariables
       >(CreateBeanDocument, {
         variables: {
           input: {
+            id,
             name: input.name,
             roaster_id: input.roaster_id,
             description: input.description,
@@ -55,6 +61,7 @@ export function useCreateBean() {
             notes: input.notes,
             buy_urls: input.buy_urls,
             is_published: input.is_published,
+            slug,
           } satisfies BeansInsertInput,
         },
       });

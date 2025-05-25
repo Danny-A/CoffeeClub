@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { v4 as uuidv4 } from "uuid";
 
 import { graphqlFetch } from "@/lib/graphql/client";
 import {
@@ -7,6 +8,7 @@ import {
   CreateRoasterMutationVariables,
   RoastersInsertInput,
 } from "@/lib/graphql/generated/graphql";
+import { generateSlug } from "@/utils/slug";
 
 export type CreateRoasterInput = {
   name: string;
@@ -25,12 +27,16 @@ export function useCreateRoaster() {
 
   return useMutation({
     mutationFn: async (input: CreateRoasterInput) => {
+      const id = uuidv4();
+      const slug = generateSlug(input.name, id);
+
       const response = await graphqlFetch<
         CreateRoasterMutation,
         CreateRoasterMutationVariables
       >(CreateRoasterDocument, {
         variables: {
           input: {
+            id,
             name: input.name,
             description: input.description,
             location_country: input.location_country,
@@ -40,6 +46,7 @@ export function useCreateRoaster() {
             instagram: input.instagram,
             profile_image_url: input.profile_image_url,
             is_published: input.is_published,
+            slug,
           } satisfies RoastersInsertInput,
         },
       });

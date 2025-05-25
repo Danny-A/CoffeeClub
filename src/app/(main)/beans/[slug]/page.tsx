@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
@@ -17,8 +16,6 @@ type BeanDetailsProps = {
   params: Promise<{ slug: string }>;
 };
 
-// Next.js will invalidate the cache when a
-// request comes in, at most once every 3600 seconds.
 export const revalidate = 3600;
 
 // We'll prerender only the params from `generateStaticParams` at build time.
@@ -39,9 +36,8 @@ export async function generateMetadata({ params }: BeanDetailsProps) {
   const { slug } = await params;
   const id = extractIdFromSlug(slug);
 
-  if (!id) return notFound();
-
   const bean = await fetchBean(id);
+
   return {
     title: `${bean?.name} by ${bean?.roasters?.name} - Daily Bean`,
     description: `View details about ${bean?.name}`,
@@ -56,8 +52,6 @@ export async function generateMetadata({ params }: BeanDetailsProps) {
 export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
   const { slug } = await params;
   const id = extractIdFromSlug(slug);
-
-  if (!id) return notFound();
 
   const bean = await fetchBean(id);
   const supabase = await createClient();

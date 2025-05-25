@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { NewBadge } from '@/components/ui/Badge/NewBadge';
 import { Heading } from '@/components/ui/Heading';
 import { LikeButton } from '@/components/ui/LikeButton';
 import { Text } from '@/components/ui/Text';
@@ -23,7 +24,8 @@ export const RoasterCard = ({ roaster, user }: RoasterCardProps) => {
       <div className="block bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-md transition-shadow duration-200 h-full">
         <div className="p-6 space-y-4 relative">
           <Heading level="h4" as="h2">
-            {roaster.name}
+            {roaster.name}{' '}
+            {roaster.isNew && <NewBadge className="ml-2 align-middle" />}
           </Heading>
           <div className="space-y-2">
             <div className="flex justify-between">

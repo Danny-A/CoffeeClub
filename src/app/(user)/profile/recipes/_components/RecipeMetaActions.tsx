@@ -6,13 +6,13 @@ import { createClient } from '@/lib/supabase/server';
 import { isAdmin, isModerator } from '@/utils/getUserRole';
 
 interface RecipeMetaActionsProps {
-  id: string;
+  slug: string;
   user_id: string;
   is_public: boolean;
 }
 
 export async function RecipeMetaActions({
-  id,
+  slug,
   user_id,
   is_public,
 }: RecipeMetaActionsProps) {
@@ -37,7 +37,7 @@ export async function RecipeMetaActions({
         <Text variant="label">Visibility</Text>
         <Text>{is_public ? 'Public' : 'Private'}</Text>
       </div>
-      <Link href={`/recipes/${id}/edit`}>
+      <Link href={`/recipes/${slug}/edit`}>
         <Button size="sm" variant="outline" className="w-full mt-2">
           Edit Recipe
         </Button>

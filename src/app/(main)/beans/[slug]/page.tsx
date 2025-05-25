@@ -10,6 +10,8 @@ import { TimeAgo } from '@/components/ui/TimeAgo';
 import { fetchBean } from '@/lib/api/fetchBean';
 import { fetchBeans } from '@/lib/api/fetchBeans';
 import { createClient } from '@/lib/supabase/server';
+import { isModerator } from '@/utils/getUserRole';
+import { isAdmin } from '@/utils/getUserRole';
 import { extractIdFromSlug } from '@/utils/slug';
 
 type BeanDetailsProps = {
@@ -60,6 +62,11 @@ export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  const [isUserAdmin, isUserModerator] = await Promise.all([
+    isAdmin(user),
+    isModerator(user),
+  ]);
+
   if (!bean) {
     return (
       <EmptyState
@@ -90,11 +97,13 @@ export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
             </Link>
           </Text>
         </div>
-        {user && (
-          <Button asChild>
-            <Link href={`/beans/${bean.slug ?? bean.id}/edit`}>Edit Bean</Link>
-          </Button>
-        )}
+        {(isUserAdmin || isUserModerator) && (
+            <Button asChild>
+              <Link href={`/admin/beans/${bean.slug ?? bean.id}/edit`}>
+                Edit Bean
+              </Link>
+            </Button>
+          ))}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

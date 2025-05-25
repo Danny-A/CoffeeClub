@@ -4,11 +4,12 @@ import { Suspense } from 'react';
 import { fetchRecipeById } from '@/lib/api/fetchRecipeById';
 import { createClient } from '@/lib/supabase/server';
 import { isAdmin, isModerator } from '@/utils/getUserRole';
+import { extractIdFromSlug } from '@/utils/slug';
 
 import { EditRecipeForm } from '../../_components/EditRecipeForm';
 
 type EditRecipePageProps = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 };
 
 async function EditRecipeFormLoader({ id }: { id: string }) {
@@ -33,7 +34,8 @@ async function EditRecipeFormLoader({ id }: { id: string }) {
 }
 
 export default async function Page({ params }: EditRecipePageProps) {
-  const { id } = await params;
+  const { slug } = await params;
+  const id = extractIdFromSlug(slug);
 
   return (
     <Suspense>

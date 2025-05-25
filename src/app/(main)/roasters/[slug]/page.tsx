@@ -10,6 +10,7 @@ import { fetchRoaster } from '@/lib/api/fetchRoaster';
 import { fetchRoasters } from '@/lib/api/fetchRoasters';
 import { createClient } from '@/lib/supabase/server';
 import { formatLocation } from '@/utils/formatLocation';
+import { isNew } from '@/utils/isNew';
 import { extractIdFromSlug } from '@/utils/slug';
 import { transformUser } from '@/utils/transformUser';
 
@@ -58,9 +59,6 @@ export async function generateMetadata({ params }: RoasterDetailsProps) {
 export default async function RoasterPage({ params }: RoasterDetailsProps) {
   const { slug } = await params;
   const id = extractIdFromSlug(slug);
-
-  if (!id) return notFound();
-
   const roaster = await fetchRoaster(id);
   const supabase = await createClient();
 
@@ -187,6 +185,7 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
                       })
                     ),
                     averageRating: bean.node.average_rating || undefined,
+                    isNew: isNew(bean.node.created_at),
                   }}
                 />
               ))}

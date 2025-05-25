@@ -32,18 +32,21 @@ import {
 } from '@/lib/graphql/generated/graphql';
 import { beanSchema } from '@/lib/validations/bean';
 import { COFFEE_REGIONS } from '@/utils/coffeeOrigins';
+import { extractIdFromSlug } from '@/utils/slug';
 
 type BeanFormData = z.infer<typeof beanSchema>;
 
 type EditBeanPageProps = {
   params: Promise<{
-    id: string;
+    slug: string;
   }>;
 };
 
 export default function EditBeanPage({ params }: EditBeanPageProps) {
-  const { id } = use(params);
+  const { slug } = use(params);
   const router = useRouter();
+  const id = extractIdFromSlug(slug);
+
   const { data: bean, isLoading } = useBean(id);
   const [search, setSearch] = useState('');
   const {

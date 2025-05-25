@@ -10,6 +10,7 @@ query GetUserLikes($userId: UUID!, $first: Int, $after: Cursor) {
         created_at
         beans {
           id
+          slug
           name
           roaster_id
           process
@@ -36,6 +37,7 @@ query GetUserLikes($userId: UUID!, $first: Int, $after: Cursor) {
         created_at
         roasters {
           id
+          slug
           name
           profile_image_url
           location_city
@@ -59,6 +61,7 @@ query GetUserLikes($userId: UUID!, $first: Int, $after: Cursor) {
         created_at
         locations {
           id
+          slug
           name
           image_url
           address
@@ -83,6 +86,7 @@ query GetUserLikes($userId: UUID!, $first: Int, $after: Cursor) {
         created_at
         recipes {
           id
+          slug
           title
           image_url
           created_at

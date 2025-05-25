@@ -98,12 +98,12 @@ export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
           </Text>
         </div>
         {(isUserAdmin || isUserModerator) && (
-            <Button asChild>
-              <Link href={`/admin/beans/${bean.slug ?? bean.id}/edit`}>
-                Edit Bean
-              </Link>
-            </Button>
-          ))}
+          <Button asChild>
+            <Link href={`/admin/beans/${bean.slug ?? bean.id}/edit`}>
+              Edit Bean
+            </Link>
+          </Button>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

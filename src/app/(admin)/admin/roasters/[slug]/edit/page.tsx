@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { use } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -13,6 +13,7 @@ import { FormField } from '@/components/ui/FormField';
 import { Heading } from '@/components/ui/Heading';
 import { ImageUpload } from '@/components/ui/ImageUpload';
 import { TextArea } from '@/components/ui/TextArea';
+import { useImageUpload } from '@/hooks/files/useImageUpload';
 import { useRoaster } from '@/hooks/roasters/useRoaster';
 import { useRoasterImage } from '@/hooks/roasters/useRoasterImage';
 import { useUpdateRoaster } from '@/hooks/roasters/useUpdateRoaster';
@@ -34,9 +35,23 @@ export default function EditRoasterPage({ params }: EditRoasterPageProps) {
 
   const { data: roaster, isLoading } = useRoaster(id);
   const updateRoaster = useUpdateRoaster();
-  const { uploadRoasterImage } = useRoasterImage();
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const { uploadRoasterImage, deleteRoasterImage } = useRoasterImage();
+
+  const {
+    previewUrl: profilePreviewUrl,
+    setPreviewUrl: setProfilePreviewUrl,
+    handleChange: handleProfileChange,
+    handleRemove: handleProfileRemove,
+    upload: uploadProfileImage,
+  } = useImageUpload(uploadRoasterImage);
+
+  const {
+    previewUrl: logoPreviewUrl,
+    setPreviewUrl: setLogoPreviewUrl,
+    handleChange: handleLogoChange,
+    handleRemove: handleLogoRemove,
+    upload: uploadLogoImage,
+  } = useImageUpload(uploadRoasterImage);
 
   const {
     register,
@@ -58,44 +73,38 @@ export default function EditRoasterPage({ params }: EditRoasterPageProps) {
         url: roaster.url || undefined,
         instagram: roaster.instagram || undefined,
         is_published: roaster.is_published,
+        logo_url: roaster.logo_url || undefined,
+        profile_image_url: roaster.profile_image_url || undefined,
       });
       if (roaster.profile_image_url) {
-        setPreviewUrl(roaster.profile_image_url);
+        setProfilePreviewUrl(roaster.profile_image_url);
+      }
+      if (roaster.logo_url) {
+        setLogoPreviewUrl(roaster.logo_url);
       }
     }
-  }, [roaster, reset]);
-
-  const handleImageChange = (file: File | null) => {
-    setImageFile(file);
-    if (file) {
-      setPreviewUrl(URL.createObjectURL(file));
-    } else {
-      setPreviewUrl(null);
-    }
-  };
-
-  const handleRemoveImage = () => {
-    setImageFile(null);
-    setPreviewUrl(null);
-  };
+  }, [roaster, reset, setProfilePreviewUrl, setLogoPreviewUrl]);
 
   const onSubmit = async (data: RoasterFormData) => {
     try {
-      let imageUrl: string | undefined = undefined;
-
-      if (imageFile) {
-        const uploadedUrl = await uploadRoasterImage(imageFile);
-        if (uploadedUrl) {
-          imageUrl = uploadedUrl;
-        }
-      } else if (roaster?.profile_image_url) {
-        imageUrl = roaster.profile_image_url;
+      // Delete images from storage if removed
+      if (profilePreviewUrl === null && roaster?.profile_image_url) {
+        await deleteRoasterImage(roaster.profile_image_url);
       }
+      if (logoPreviewUrl === null && roaster?.logo_url) {
+        await deleteRoasterImage(roaster.logo_url);
+      }
+
+      const [profileImageUrl, logoUrl] = await Promise.all([
+        uploadProfileImage(roaster?.profile_image_url),
+        uploadLogoImage(roaster?.logo_url),
+      ]);
 
       await updateRoaster.mutateAsync({
         id,
         ...data,
-        profile_image_url: imageUrl,
+        profile_image_url: profileImageUrl,
+        logo_url: logoUrl,
       });
 
       router.push('/admin/roasters');
@@ -178,9 +187,18 @@ export default function EditRoasterPage({ params }: EditRoasterPageProps) {
               />
 
               <ImageUpload
-                onChange={handleImageChange}
-                previewUrl={previewUrl}
-                onRemove={handleRemoveImage}
+                onChange={handleLogoChange}
+                previewUrl={logoPreviewUrl}
+                onRemove={handleLogoRemove}
+                accept="image/*"
+                label="Upload roaster logo"
+                disabled={updateRoaster.isPending}
+              />
+
+              <ImageUpload
+                onChange={handleProfileChange}
+                previewUrl={profilePreviewUrl}
+                onRemove={handleProfileRemove}
                 accept="image/*"
                 label="Upload roaster image"
                 disabled={updateRoaster.isPending}

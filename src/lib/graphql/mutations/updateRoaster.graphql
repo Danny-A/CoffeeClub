@@ -6,6 +6,7 @@ mutation UpdateRoaster($id: UUID!, $set: roastersUpdateInput!) {
       name
       description
       profile_image_url
+      logo_url
       location_city
       location_state
       location_country

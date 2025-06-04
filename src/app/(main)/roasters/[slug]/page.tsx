@@ -2,7 +2,9 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { BeanCard } from '@/components/features/BeanCard';
+import { RoasterHero } from '@/components/features/RoasterHero';
 import { Button } from '@/components/ui/Button';
+import { Card, CardContent } from '@/components/ui/Card';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Heading } from '@/components/ui/Heading';
 import { Text } from '@/components/ui/Text';
@@ -92,82 +94,47 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
     <div className="space-y-8">
       <div className="flex justify-between items-start">
         <div>
-          <Heading level="h1">{roaster.name}</Heading>
-          <Text
-            variant="small"
-            className="mt-2 text-gray-600 dark:text-gray-400"
-          >
+          <Heading level="h2" as="h1">
+            {roaster.name}
+          </Heading>
+          <Text variant="small" className="mt-2">
             {location}
           </Text>
         </div>
-        {(isUserAdmin || isUserModerator) && (
+
+        <div className="flex gap-2">
           <Button asChild>
-            <Link href={`/admin/roasters/${roaster.slug ?? roaster.id}/edit`}>
-              Edit Roaster
-            </Link>
+            <Link href={`/beans/new?roasterId=${roaster.id}`}>Add Bean</Link>
           </Button>
-        )}
+          {(isUserAdmin || isUserModerator) && (
+            <Button asChild>
+              <Link href={`/admin/roasters/${roaster.slug ?? roaster.id}/edit`}>
+                Edit Roaster
+              </Link>
+            </Button>
+          )}
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="space-y-6">
-          <div>
-            <Heading level="h2">Contact Information</Heading>
-            <div className="mt-4 space-y-3">
-              <div className="flex justify-between">
-                <Text variant="label">Location:</Text>
-                <Text>{location}</Text>
-              </div>
-              {roaster.url && (
-                <div className="flex justify-between">
-                  <Text variant="label">Website:</Text>
-                  <Text>
-                    <a
-                      href={roaster.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 underline hover:text-blue-800 hover:no-underline dark:text-blue-400 dark:hover:text-blue-300"
-                    >
-                      {roaster.url}
-                    </a>
-                  </Text>
-                </div>
-              )}
-              {roaster.instagram && (
-                <div className="flex justify-between">
-                  <Text variant="label">Instagram:</Text>
-                  <Text>
-                    <a
-                      href={`https://instagram.com/${roaster.instagram.replace(
-                        '@',
-                        ''
-                      )}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 underline hover:text-blue-800 hover:no-underline dark:text-blue-400 dark:hover:text-blue-300"
-                    >
-                      {roaster.instagram}
-                    </a>
-                  </Text>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+      {(roaster.profile_image_url || roaster.logo_url) && (
+        <RoasterHero
+          profileImageUrl={roaster.profile_image_url}
+          logoUrl={roaster.logo_url}
+          name={roaster.name}
+        />
+      )}
 
-        <div>
-          <div className="flex justify-between items-center">
-            <Heading level="h2">Coffee Beans</Heading>
-            <Button asChild>
-              <Link href={`/beans/new?roasterId=${roaster.id}`}>Add Bean</Link>
-            </Button>
-          </div>
+      <div className="flex flex-col md:flex-row gap-8">
+        <div className="flex-1">
+          <Heading level="h4" as="h3">
+            Coffee Beans
+          </Heading>
           {roaster.beansCollection?.edges.length === 0 ? (
-            <Text className="mt-4 text-gray-600 dark:text-gray-400">
+            <Text className="mt-4">
               No beans available from this roaster yet.
             </Text>
           ) : (
-            <div className="mt-4 grid grid-cols-1 gap-6">
+            <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-6">
               {roaster.beansCollection?.edges.map((bean) => (
                 <BeanCard
                   key={bean.node.id}
@@ -199,6 +166,53 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
             </div>
           )}
         </div>
+        <aside className="w-full md:w-80 flex-shrink-0">
+          <div className="sticky top-8">
+            <Heading level="h4" as="h3">
+              Contact Information
+            </Heading>
+            <Card className="mt-4">
+              <CardContent>
+                <div className="flex flex-col gap-2">
+                  {roaster.description && (
+                    <>
+                      <Text variant="label">About {roaster.name}</Text>
+                      <Text>{roaster.description}</Text>
+                    </>
+                  )}
+                  <Text>{location}</Text>
+                  {roaster.url && (
+                    <Text>
+                      <a
+                        href={roaster.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 underline hover:text-blue-800 hover:no-underline dark:text-blue-400 dark:hover:text-blue-300"
+                      >
+                        {roaster.url}
+                      </a>
+                    </Text>
+                  )}
+                  {roaster.instagram && (
+                    <Text>
+                      <a
+                        href={`https://instagram.com/${roaster.instagram.replace(
+                          '@',
+                          ''
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 underline hover:text-blue-800 hover:no-underline dark:text-blue-400 dark:hover:text-blue-300"
+                      >
+                        {roaster.instagram}
+                      </a>
+                    </Text>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </aside>
       </div>
     </div>
   );

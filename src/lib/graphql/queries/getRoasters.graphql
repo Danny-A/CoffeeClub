@@ -6,6 +6,7 @@ query GetRoasters($filter: roastersFilter, $first: Int, $after: Cursor) {
         slug
         name
         profile_image_url
+        logo_url
         location_city
         location_state
         location_country

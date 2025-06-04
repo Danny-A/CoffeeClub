@@ -16,6 +16,7 @@ export async function updateRoaster(input: RoastersUpdateInput) {
       url: input.url,
       instagram: input.instagram,
       profile_image_url: input.profile_image_url,
+      logo_url: input.logo_url,
       is_published: input.is_published,
       updated_at: new Date().toISOString(),
     },

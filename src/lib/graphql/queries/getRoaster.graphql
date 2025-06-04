@@ -7,6 +7,7 @@ query GetRoaster($id: UUID!, $filter: roastersFilter) {
         slug
         description
         profile_image_url
+        logo_url
         location_city
         location_state
         location_country

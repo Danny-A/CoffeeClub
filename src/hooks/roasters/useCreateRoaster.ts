@@ -18,6 +18,7 @@ export type CreateRoasterInput = {
   location_state?: string;
   url?: string;
   instagram?: string;
+  logo_url?: string;
   profile_image_url?: string;
   is_published?: boolean;
 };
@@ -44,6 +45,7 @@ export function useCreateRoaster() {
             location_state: input.location_state,
             url: input.url,
             instagram: input.instagram,
+            logo_url: input.logo_url,
             profile_image_url: input.profile_image_url,
             is_published: input.is_published,
             slug,

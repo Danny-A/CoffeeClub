@@ -2,7 +2,6 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -12,6 +11,7 @@ import { FormField } from '@/components/ui/FormField';
 import { Heading } from '@/components/ui/Heading';
 import { ImageUpload } from '@/components/ui/ImageUpload';
 import { TextArea } from '@/components/ui/TextArea';
+import { useImageUpload } from '@/hooks/files/useImageUpload';
 import { useCreateRoaster } from '@/hooks/roasters/useCreateRoaster';
 import { useRoasterImage } from '@/hooks/roasters/useRoasterImage';
 import { roasterSchema } from '@/lib/validations/roaster';
@@ -22,8 +22,20 @@ export default function Page() {
   const router = useRouter();
   const createRoaster = useCreateRoaster();
   const { uploadRoasterImage } = useRoasterImage();
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  const {
+    previewUrl: profilePreviewUrl,
+    handleChange: handleProfileChange,
+    handleRemove: handleProfileRemove,
+    upload: uploadProfileImage,
+  } = useImageUpload(uploadRoasterImage);
+
+  const {
+    previewUrl: logoPreviewUrl,
+    handleChange: handleLogoChange,
+    handleRemove: handleLogoRemove,
+    upload: uploadLogoImage,
+  } = useImageUpload(uploadRoasterImage);
 
   const {
     register,
@@ -33,31 +45,17 @@ export default function Page() {
     resolver: zodResolver(roasterSchema),
   });
 
-  const handleImageChange = (file: File | null) => {
-    setImageFile(file);
-    if (file) {
-      setPreviewUrl(URL.createObjectURL(file));
-    } else {
-      setPreviewUrl(null);
-    }
-  };
-
-  const handleRemoveImage = () => {
-    setImageFile(null);
-    setPreviewUrl(null);
-  };
-
   const onSubmit = async (data: RoasterFormData) => {
     try {
-      let imageUrl: string | undefined;
-
-      if (imageFile) {
-        imageUrl = await uploadRoasterImage(imageFile);
-      }
+      const [profileImageUrl, logoUrl] = await Promise.all([
+        uploadProfileImage(),
+        uploadLogoImage(),
+      ]);
 
       await createRoaster.mutateAsync({
         ...data,
-        profile_image_url: imageUrl,
+        profile_image_url: profileImageUrl,
+        logo_url: logoUrl,
       });
 
       router.push('/roasters');
@@ -132,9 +130,18 @@ export default function Page() {
               />
 
               <ImageUpload
-                onChange={handleImageChange}
-                previewUrl={previewUrl}
-                onRemove={handleRemoveImage}
+                onChange={handleLogoChange}
+                previewUrl={logoPreviewUrl}
+                onRemove={handleLogoRemove}
+                accept="image/*"
+                label="Upload roaster logo"
+                disabled={createRoaster.isPending}
+              />
+
+              <ImageUpload
+                onChange={handleProfileChange}
+                previewUrl={profilePreviewUrl}
+                onRemove={handleProfileRemove}
                 accept="image/*"
                 label="Upload roaster image"
                 disabled={createRoaster.isPending}

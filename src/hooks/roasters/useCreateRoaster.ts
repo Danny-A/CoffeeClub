@@ -18,8 +18,8 @@ export type CreateRoasterInput = {
   location_state?: string;
   url?: string;
   instagram?: string;
-  logo_url?: string;
-  profile_image_url?: string;
+  logo_url?: string | null;
+  profile_image_url?: string | null;
   is_published?: boolean;
 };
 

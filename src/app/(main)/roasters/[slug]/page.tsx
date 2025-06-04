@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { BeanCard } from '@/components/features/BeanCard';
 import { RoasterHero } from '@/components/features/RoasterHero';
 import { Button } from '@/components/ui/Button';
-import { Card, CardContent, CardHeader } from '@/components/ui/Card';
+import { Card, CardContent } from '@/components/ui/Card';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Heading } from '@/components/ui/Heading';
 import { Text } from '@/components/ui/Text';

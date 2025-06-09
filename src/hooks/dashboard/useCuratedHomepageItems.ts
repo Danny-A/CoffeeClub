@@ -1,14 +1,14 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import type { CuratedItemFormValues } from "@/app/(admin)/_components/CuratedItemForm";
-import { fetchCuratedHomepageItems } from "@/lib/api/fetchCuratedHomepageItems";
-import { graphqlFetch } from "@/lib/graphql/client";
+import type { CuratedItemFormValues } from '@/app/(admin)/_components/CuratedItemForm';
+import { fetchCuratedHomepageItems } from '@/lib/api/fetchCuratedHomepageItems';
+import { graphqlFetch } from '@/lib/graphql/client';
 import {
   CreateCuratedHomepageItemDocument,
   DeleteCuratedHomepageItemDocument,
   Homepage_Curated_Items,
   UpdateCuratedHomepageItemDocument,
-} from "@/lib/graphql/generated/graphql";
+} from '@/lib/graphql/generated/graphql';
 
 export function useCuratedHomepageItems() {
   const {
@@ -16,7 +16,7 @@ export function useCuratedHomepageItems() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["curatedHomepageItems"],
+    queryKey: ['curatedHomepageItems'],
     queryFn: async () => await fetchCuratedHomepageItems(),
   });
 
@@ -30,19 +30,19 @@ export function useCuratedHomepageItems() {
       });
     },
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["curatedHomepageItems"] }),
+      queryClient.invalidateQueries({ queryKey: ['curatedHomepageItems'] }),
   });
 
   const updateItem = useMutation({
     mutationFn: async (
-      input: Partial<Homepage_Curated_Items> & { id: string },
+      input: Partial<Homepage_Curated_Items> & { id: string }
     ) => {
       await graphqlFetch(UpdateCuratedHomepageItemDocument, {
         variables: { filter: { id: { eq: input.id } }, set: input },
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["curatedHomepageItems"] });
+      queryClient.invalidateQueries({ queryKey: ['curatedHomepageItems'] });
     },
   });
 
@@ -53,7 +53,7 @@ export function useCuratedHomepageItems() {
       });
     },
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["curatedHomepageItems"] }),
+      queryClient.invalidateQueries({ queryKey: ['curatedHomepageItems'] }),
   });
 
   return {

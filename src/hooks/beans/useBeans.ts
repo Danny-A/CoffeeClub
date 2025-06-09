@@ -1,11 +1,11 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { BeanFilters, fetchBeans } from "@/lib/api/fetchBeans";
-import { GetBeansQuery } from "@/lib/graphql/generated/graphql";
-import { Bean } from "@/lib/graphql/types";
-import { isNew } from "@/utils/isNew";
+import { BeanFilters, fetchBeans } from '@/lib/api/fetchBeans';
+import { GetBeansQuery } from '@/lib/graphql/generated/graphql';
+import { Bean } from '@/lib/graphql/types';
+import { isNew } from '@/utils/isNew';
 
-type BeansQuery = NonNullable<GetBeansQuery["beansCollection"]>;
+type BeansQuery = NonNullable<GetBeansQuery['beansCollection']>;
 type BeansResponse = {
   edges: Array<{ node: Bean }>;
   pageInfo: {
@@ -22,12 +22,12 @@ function transformBeansData(data: BeansQuery): BeansResponse {
         id: bean.node.id,
         slug: bean.node.slug ?? bean.node.id,
         name: bean.node.name,
-        origin: bean.node.origin || "",
-        process: bean.node.process || "",
-        roastLevel: bean.node.roast_level || "",
+        origin: bean.node.origin || '',
+        process: bean.node.process || '',
+        roastLevel: bean.node.roast_level || '',
         roaster: {
           id: bean.node.roasters?.id,
-          name: bean.node.roasters?.name || "",
+          name: bean.node.roasters?.name || '',
         },
         createdAt: bean.node.created_at,
         updatedAt: bean.node.created_at,
@@ -48,11 +48,9 @@ function transformBeansData(data: BeansQuery): BeansResponse {
   };
 }
 
-export function useBeans(
-  filters?: Omit<BeanFilters, "first" | "after">,
-) {
+export function useBeans(filters?: Omit<BeanFilters, 'first' | 'after'>) {
   return useInfiniteQuery<BeansResponse>({
-    queryKey: ["beans", filters],
+    queryKey: ['beans', filters],
     queryFn: async ({ pageParam }) => {
       const response = await fetchBeans({
         ...filters,

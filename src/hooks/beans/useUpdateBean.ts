@@ -1,11 +1,11 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { updateBean } from "@/lib/api/updateBean";
+import { updateBean } from '@/lib/api/updateBean';
 import {
   Bean_Type,
   Roast_Level,
   Roast_Type,
-} from "@/lib/graphql/generated/graphql";
+} from '@/lib/graphql/generated/graphql';
 
 export type UpdateBeanInput = {
   id: string;
@@ -34,8 +34,8 @@ export function useUpdateBean() {
       return updateBean(input);
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["bean", data.id] });
-      queryClient.invalidateQueries({ queryKey: ["beans"] });
+      queryClient.invalidateQueries({ queryKey: ['bean', data.id] });
+      queryClient.invalidateQueries({ queryKey: ['beans'] });
     },
   });
 }

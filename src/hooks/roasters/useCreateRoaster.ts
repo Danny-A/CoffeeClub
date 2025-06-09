@@ -1,14 +1,14 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { v4 as uuidv4 } from "uuid";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { v4 as uuidv4 } from 'uuid';
 
-import { graphqlFetch } from "@/lib/graphql/client";
+import { graphqlFetch } from '@/lib/graphql/client';
 import {
   CreateRoasterDocument,
   CreateRoasterMutation,
   CreateRoasterMutationVariables,
   RoastersInsertInput,
-} from "@/lib/graphql/generated/graphql";
-import { generateSlug } from "@/utils/slug";
+} from '@/lib/graphql/generated/graphql';
+import { generateSlug } from '@/utils/slug';
 
 export type CreateRoasterInput = {
   name: string;
@@ -54,13 +54,13 @@ export function useCreateRoaster() {
       });
 
       if (!response.data?.insertIntoroastersCollection?.records[0]) {
-        throw new Error("Failed to create roaster");
+        throw new Error('Failed to create roaster');
       }
 
       return response.data.insertIntoroastersCollection.records[0];
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["roasters"] });
+      queryClient.invalidateQueries({ queryKey: ['roasters'] });
     },
   });
 }

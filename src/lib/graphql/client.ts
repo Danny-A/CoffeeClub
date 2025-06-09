@@ -1,8 +1,8 @@
-import { DocumentNode } from "graphql";
+import { DocumentNode } from 'graphql';
 
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from '@/lib/supabase/client';
 
-import { TypedDocumentString } from "./generated/graphql";
+import { TypedDocumentString } from './generated/graphql';
 
 type FetchOptions<TVariables = Record<string, unknown>> = {
   tags?: string[];
@@ -34,28 +34,30 @@ interface GraphQLError {
 
 export const graphqlFetch = async <TData, TVariables = Record<string, unknown>>(
   query: DocumentNode | TypedDocumentString<TData, TVariables>,
-  options: FetchOptions<TVariables> = {},
+  options: FetchOptions<TVariables> = {}
 ): Promise<{ data: TData }> => {
   const { tags = [], variables } = options;
   const supabase = createClient();
 
   // Get the current session
-  const { data: { session } } = await supabase.auth.getSession();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
   const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-    "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    'Content-Type': 'application/json',
+    apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
   };
 
   // Add the auth token if we have a session
   if (session?.access_token) {
-    headers["Authorization"] = `Bearer ${session.access_token}`;
+    headers['Authorization'] = `Bearer ${session.access_token}`;
   }
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_SUPABASE_URL}/graphql/v1`,
     {
-      method: "POST",
+      method: 'POST',
       headers,
       body: JSON.stringify({
         query,
@@ -64,7 +66,7 @@ export const graphqlFetch = async <TData, TVariables = Record<string, unknown>>(
       next: {
         tags,
       },
-    },
+    }
   );
 
   if (!response.ok) {
@@ -80,12 +82,12 @@ export const graphqlFetch = async <TData, TVariables = Record<string, unknown>>(
           `${e.message} ${
             e.locations
               ? `at line ${e.locations[0]?.line}, column ${
-                e.locations[0]?.column
-              }`
-              : ""
-          }`,
+                  e.locations[0]?.column
+                }`
+              : ''
+          }`
       )
-      .join("\n");
+      .join('\n');
     console.error(`GraphQL Error(s): \n${errorMessage}`);
 
     throw new Error(`GraphQL request failed: ${result.errors[0].message}`);

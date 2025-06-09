@@ -1,9 +1,9 @@
-import { graphqlFetch } from "../graphql/client";
+import { graphqlFetch } from '../graphql/client';
 import {
   GetRoasterQuery,
   GetRoasterQueryVariables,
-} from "../graphql/generated/graphql";
-import { GetRoasterDocument } from "../graphql/generated/graphql";
+} from '../graphql/generated/graphql';
+import { GetRoasterDocument } from '../graphql/generated/graphql';
 
 export async function fetchRoaster(id: string) {
   const response = await graphqlFetch<
@@ -21,7 +21,7 @@ export async function fetchRoaster(id: string) {
 
   const roaster = response.data.roastersCollection?.edges[0]?.node;
 
-  if (!roaster) throw new Error("Roaster not found");
+  if (!roaster) throw new Error('Roaster not found');
 
   return roaster;
 }

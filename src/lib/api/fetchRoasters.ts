@@ -1,4 +1,4 @@
-import { graphqlFetch } from "../graphql/client";
+import { graphqlFetch } from '../graphql/client';
 import {
   BooleanFilter,
   GetRoastersDocument,
@@ -6,7 +6,7 @@ import {
   GetRoastersQueryVariables,
   RoastersFilter,
   StringFilter,
-} from "../graphql/generated/graphql";
+} from '../graphql/generated/graphql';
 
 export type RoasterFilters = {
   search?: string;
@@ -19,7 +19,7 @@ export type RoasterFilters = {
 };
 
 export async function fetchRoasters(
-  filters?: RoasterFilters,
+  filters?: RoasterFilters
 ): Promise<GetRoastersQuery> {
   const {
     search,
@@ -34,24 +34,23 @@ export async function fetchRoasters(
   const response = await graphqlFetch<
     GetRoastersQuery,
     GetRoastersQueryVariables
-  >(
-    GetRoastersDocument,
-    {
-      variables: {
-        filter: {
-          ...(search &&
-            { name: { ilike: `%${search.toLowerCase()}%` } as StringFilter }),
-          ...(city && { location_city: { eq: city } as StringFilter }),
-          ...(state && { location_state: { eq: state } as StringFilter }),
-          ...(country && { location_country: { eq: country } as StringFilter }),
-          ...(!includeUnpublished &&
-            { is_published: { eq: true } as BooleanFilter }),
-        } as RoastersFilter,
-        first,
-        after,
-      },
+  >(GetRoastersDocument, {
+    variables: {
+      filter: {
+        ...(search && {
+          name: { ilike: `%${search.toLowerCase()}%` } as StringFilter,
+        }),
+        ...(city && { location_city: { eq: city } as StringFilter }),
+        ...(state && { location_state: { eq: state } as StringFilter }),
+        ...(country && { location_country: { eq: country } as StringFilter }),
+        ...(!includeUnpublished && {
+          is_published: { eq: true } as BooleanFilter,
+        }),
+      } as RoastersFilter,
+      first,
+      after,
     },
-  );
+  });
 
   if (!response.data.roastersCollection) {
     return { roastersCollection: null };

@@ -1,6 +1,6 @@
-import { createServerClient } from "@supabase/ssr";
-import { type CookieOptions } from "@supabase/ssr";
-import { type NextRequest, NextResponse } from "next/server";
+import { createServerClient } from '@supabase/ssr';
+import { type CookieOptions } from '@supabase/ssr';
+import { type NextRequest, NextResponse } from 'next/server';
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next({
@@ -25,7 +25,7 @@ export async function middleware(request: NextRequest) {
             name: string;
             value: string;
             options: CookieOptions;
-          }[],
+          }[]
         ) {
           cookiesToSet.forEach(({ name, value, options }) =>
             response.cookies.set({
@@ -36,7 +36,7 @@ export async function middleware(request: NextRequest) {
           );
         },
       },
-    },
+    }
   );
 
   await supabase.auth.getUser();
@@ -53,6 +53,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * Feel free to modify this pattern to include more paths.
      */
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 };

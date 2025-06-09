@@ -1,11 +1,11 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { fetchRoasters, type RoasterFilters } from "@/lib/api/fetchRoasters";
-import { GetRoastersQuery } from "@/lib/graphql/generated/graphql";
-import { Roaster } from "@/lib/graphql/types";
-import { isNew } from "@/utils/isNew";
+import { fetchRoasters, type RoasterFilters } from '@/lib/api/fetchRoasters';
+import { GetRoastersQuery } from '@/lib/graphql/generated/graphql';
+import { Roaster } from '@/lib/graphql/types';
+import { isNew } from '@/utils/isNew';
 
-type RoastersQuery = NonNullable<GetRoastersQuery["roastersCollection"]>;
+type RoastersQuery = NonNullable<GetRoastersQuery['roastersCollection']>;
 type RoastersResponse = {
   edges: Array<{ node: Roaster }>;
   pageInfo: {
@@ -27,10 +27,11 @@ export function transformRoastersData(data: RoastersQuery): RoastersResponse {
         beanCount: roaster.node.bean_count || 0,
         created_at: roaster.node.created_at,
         is_published: roaster.node.is_published,
-        likes: roaster.node.roaster_likesCollection?.edges.map((edge) => ({
-          id: edge.node.id,
-          user_id: edge.node.user_id || "",
-        })) || [],
+        likes:
+          roaster.node.roaster_likesCollection?.edges.map((edge) => ({
+            id: edge.node.id,
+            user_id: edge.node.user_id || '',
+          })) || [],
         isNew: isNew(roaster.node.created_at),
       },
     })),
@@ -41,11 +42,9 @@ export function transformRoastersData(data: RoastersQuery): RoastersResponse {
   };
 }
 
-export function useRoasters(
-  filters?: Omit<RoasterFilters, "first" | "after">,
-) {
+export function useRoasters(filters?: Omit<RoasterFilters, 'first' | 'after'>) {
   return useInfiniteQuery<RoastersResponse>({
-    queryKey: ["roasters", filters],
+    queryKey: ['roasters', filters],
     queryFn: async ({ pageParam }) => {
       const response = await fetchRoasters({
         ...filters,

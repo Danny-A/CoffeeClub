@@ -1,8 +1,8 @@
-import { graphqlFetch } from "../graphql/client";
-import { RoastersUpdateInput } from "../graphql/generated/graphql";
-import { UpdateRoasterDocument } from "../graphql/generated/graphql";
-import { UpdateRoasterMutationVariables } from "../graphql/generated/graphql";
-import { UpdateRoasterMutation } from "../graphql/generated/graphql";
+import { graphqlFetch } from '../graphql/client';
+import { RoastersUpdateInput } from '../graphql/generated/graphql';
+import { UpdateRoasterDocument } from '../graphql/generated/graphql';
+import { UpdateRoasterMutationVariables } from '../graphql/generated/graphql';
+import { UpdateRoasterMutation } from '../graphql/generated/graphql';
 
 export async function updateRoaster(input: RoastersUpdateInput) {
   const variables: UpdateRoasterMutationVariables = {
@@ -30,8 +30,8 @@ export async function updateRoaster(input: RoastersUpdateInput) {
   });
 
   if (!response.data?.updateroastersCollection?.records[0]) {
-    console.error("No data returned:", response);
-    throw new Error("Failed to update roaster: No data returned");
+    console.error('No data returned:', response);
+    throw new Error('Failed to update roaster: No data returned');
   }
 
   return response.data.updateroastersCollection.records[0];

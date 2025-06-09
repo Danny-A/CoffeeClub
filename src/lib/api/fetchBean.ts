@@ -1,15 +1,12 @@
-import { graphqlFetch } from "../graphql/client";
+import { graphqlFetch } from '../graphql/client';
 import {
   GetBeanQuery,
   GetBeanQueryVariables,
-} from "../graphql/generated/graphql";
-import { GetBeanDocument } from "../graphql/generated/graphql";
+} from '../graphql/generated/graphql';
+import { GetBeanDocument } from '../graphql/generated/graphql';
 
 export async function fetchBean(id: string) {
-  const response = await graphqlFetch<
-    GetBeanQuery,
-    GetBeanQueryVariables
-  >(
+  const response = await graphqlFetch<GetBeanQuery, GetBeanQueryVariables>(
     GetBeanDocument,
     {
       variables: {
@@ -19,11 +16,11 @@ export async function fetchBean(id: string) {
           is_published: { eq: true },
         },
       },
-    },
+    }
   );
 
   if (!response.data.beansCollection?.edges[0]?.node) {
-    throw new Error("Bean not found");
+    throw new Error('Bean not found');
   }
 
   return response.data.beansCollection?.edges[0]?.node;

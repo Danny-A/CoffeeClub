@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback } from 'react';
 
 export type RoasterFilters = {
   search?: string;
@@ -14,8 +14,8 @@ export function useRoasterUrlFilters() {
   const searchParams = useSearchParams();
 
   const filters: RoasterFilters = {
-    search: searchParams.get("search") || undefined,
-    country: searchParams.get("country") || undefined,
+    search: searchParams.get('search') || undefined,
+    country: searchParams.get('country') || undefined,
   };
 
   const updateFilters = useCallback(
@@ -26,7 +26,7 @@ export function useRoasterUrlFilters() {
       // Update params with new filters
       Object.entries(newFilters).forEach(([key, value]) => {
         const currentValue = params.get(key);
-        const newValue = value && value !== "all" ? value : null;
+        const newValue = value && value !== 'all' ? value : null;
 
         if (currentValue !== newValue) {
           hasChanges = true;
@@ -45,7 +45,7 @@ export function useRoasterUrlFilters() {
         router.replace(url, { scroll: false });
       }
     },
-    [pathname, router, searchParams],
+    [pathname, router, searchParams]
   );
 
   return { filters, updateFilters };

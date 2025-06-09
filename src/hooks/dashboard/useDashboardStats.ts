@@ -1,8 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query';
 
-import { fetchDashboardStats } from "@/lib/api/fetchDashboardStats";
+import { fetchDashboardStats } from '@/lib/api/fetchDashboardStats';
 
-type ItemType = "beans" | "roasters" | "locations";
+type ItemType = 'beans' | 'roasters' | 'locations';
 
 type ItemWithRating = {
   node: {
@@ -15,14 +15,14 @@ type ItemWithRating = {
 
 export function useDashboardStats(type: ItemType) {
   const { data, isLoading } = useQuery({
-    queryKey: ["dashboardStats"],
+    queryKey: ['dashboardStats'],
     queryFn: fetchDashboardStats,
   });
 
   const getTopItems = (): ItemWithRating[] => {
     if (!data) return [];
     switch (type) {
-      case "beans":
+      case 'beans':
         return (data.beansCollection?.edges ?? []).map((edge) => ({
           node: {
             id: edge.node.id,
@@ -31,7 +31,7 @@ export function useDashboardStats(type: ItemType) {
           averageRating: edge.node.average_rating ?? 0,
           reviewCount: edge.node.review_count ?? 0,
         }));
-      case "roasters":
+      case 'roasters':
         return (data.roastersCollection?.edges ?? []).map((edge) => ({
           node: {
             id: edge.node.id,
@@ -40,7 +40,7 @@ export function useDashboardStats(type: ItemType) {
           averageRating: edge.node.average_rating ?? 0,
           reviewCount: edge.node.review_count ?? 0,
         }));
-      case "locations":
+      case 'locations':
         return (data.locationsCollection?.edges ?? []).map((edge) => ({
           node: {
             id: edge.node.id,

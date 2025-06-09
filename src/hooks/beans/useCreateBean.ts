@@ -1,7 +1,7 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { v4 as uuidv4 } from "uuid";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { v4 as uuidv4 } from 'uuid';
 
-import { graphqlFetch } from "@/lib/graphql/client";
+import { graphqlFetch } from '@/lib/graphql/client';
 import {
   Bean_Type,
   BeansInsertInput,
@@ -10,8 +10,8 @@ import {
   CreateBeanMutationVariables,
   Roast_Level,
   Roast_Type,
-} from "@/lib/graphql/generated/graphql";
-import { generateSlug } from "@/utils/slug";
+} from '@/lib/graphql/generated/graphql';
+import { generateSlug } from '@/utils/slug';
 
 export type CreateBeanInput = {
   name: string;
@@ -67,14 +67,14 @@ export function useCreateBean() {
       });
 
       if (!response.data?.insertIntobeansCollection?.records[0]) {
-        throw new Error("Failed to create bean");
+        throw new Error('Failed to create bean');
       }
 
       return response.data.insertIntobeansCollection.records[0];
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["bean", data.id] });
-      queryClient.invalidateQueries({ queryKey: ["beans"] });
+      queryClient.invalidateQueries({ queryKey: ['bean', data.id] });
+      queryClient.invalidateQueries({ queryKey: ['beans'] });
     },
   });
 }

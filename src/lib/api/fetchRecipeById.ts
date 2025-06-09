@@ -1,9 +1,9 @@
-import { graphqlFetch } from "@/lib/graphql/client";
+import { graphqlFetch } from '@/lib/graphql/client';
 import {
   GetRecipeByIdDocument,
   GetRecipeByIdQuery,
   GetRecipeByIdQueryVariables,
-} from "@/lib/graphql/generated/graphql";
+} from '@/lib/graphql/generated/graphql';
 
 export async function fetchRecipeById(id: string) {
   const response = await graphqlFetch<

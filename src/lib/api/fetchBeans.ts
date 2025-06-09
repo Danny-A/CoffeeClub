@@ -1,4 +1,4 @@
-import { graphqlFetch } from "../graphql/client";
+import { graphqlFetch } from '../graphql/client';
 import {
   BeansOrderBy,
   BigFloatFilter,
@@ -9,7 +9,7 @@ import {
   GetBeansQueryVariables,
   Roast_Level,
   StringFilter,
-} from "../graphql/generated/graphql";
+} from '../graphql/generated/graphql';
 
 export type BeanFilters = {
   search?: string;
@@ -25,7 +25,7 @@ export type BeanFilters = {
 };
 
 export async function fetchBeans(
-  filters?: BeanFilters,
+  filters?: BeanFilters
 ): Promise<GetBeansQuery> {
   const {
     search,
@@ -40,22 +40,21 @@ export async function fetchBeans(
     orderBy,
   } = filters || {};
 
-  const response = await graphqlFetch<
-    GetBeansQuery,
-    GetBeansQueryVariables
-  >(
+  const response = await graphqlFetch<GetBeansQuery, GetBeansQueryVariables>(
     GetBeansDocument,
     {
       variables: {
         filter: {
-          ...(search &&
-            { name: { ilike: `%${search.toLowerCase()}%` } as StringFilter }),
+          ...(search && {
+            name: { ilike: `%${search.toLowerCase()}%` } as StringFilter,
+          }),
           ...(origin && { origin: { eq: origin } as StringFilter }),
           ...(process && { process: { eq: process } as StringFilter }),
           ...(roastLevel && { roast_level: { eq: roastLevel as Roast_Level } }),
-          ...(!includeUnpublished &&
-            { is_published: { eq: true } as BooleanFilter }),
-          ...(minRating !== undefined || maxRating !== undefined) && {
+          ...(!includeUnpublished && {
+            is_published: { eq: true } as BooleanFilter,
+          }),
+          ...((minRating !== undefined || maxRating !== undefined) && {
             and: [
               { average_rating: { is: FilterIs.NotNull } },
               {
@@ -65,13 +64,13 @@ export async function fetchBeans(
                 } as BigFloatFilter,
               },
             ],
-          },
+          }),
         },
         first,
         after,
         ...(orderBy && { orderBy }),
       },
-    },
+    }
   );
 
   if (!response.data.beansCollection) {

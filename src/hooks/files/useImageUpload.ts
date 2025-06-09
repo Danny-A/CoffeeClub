@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export function useImageUpload(uploadFn: (file: File) => Promise<string>) {
   const [file, setFile] = useState<File | null>(null);

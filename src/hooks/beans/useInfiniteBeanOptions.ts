@@ -1,15 +1,15 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { graphqlFetch } from "@/lib/graphql/client";
+import { graphqlFetch } from '@/lib/graphql/client';
 import {
   GetBeanOptionsDocument,
   GetBeanOptionsQuery,
   GetBeanOptionsQueryVariables,
-} from "@/lib/graphql/generated/graphql";
+} from '@/lib/graphql/generated/graphql';
 
 export function useInfiniteBeanOptions(search: string) {
   return useInfiniteQuery({
-    queryKey: ["bean-options", search],
+    queryKey: ['bean-options', search],
     queryFn: async ({ pageParam }) => {
       const response = await graphqlFetch<
         GetBeanOptionsQuery,

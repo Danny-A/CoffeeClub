@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { AuthError, Session } from "@supabase/supabase-js";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { AuthError, Session } from '@supabase/supabase-js';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-import { User as GraphQLUser } from "@/lib/graphql/types";
-import { createClient } from "@/lib/supabase/client";
-import { transformUser } from "@/utils/transformUser";
+import { User as GraphQLUser } from '@/lib/graphql/types';
+import { createClient } from '@/lib/supabase/client';
+import { transformUser } from '@/utils/transformUser';
 
 export function useAuth() {
   const [isSigningIn, setIsSigningIn] = useState(false);
@@ -18,43 +18,40 @@ export function useAuth() {
   const router = useRouter();
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        if (event === "INITIAL_SESSION") {
-          setSession(session);
-          setUser(transformUser(session?.user ?? null));
-          setIsSignedIn(!!session?.user);
-        } else if (event === "SIGNED_IN") {
-          setSession(session);
-          setUser(transformUser(session?.user ?? null));
-          setIsSignedIn(true);
-          // Store any OAuth provider tokens if present
-          if (session?.provider_token) {
-            localStorage.setItem(
-              "oauth_provider_token",
-              session.provider_token,
-            );
-          }
-          if (session?.provider_refresh_token) {
-            localStorage.setItem(
-              "oauth_provider_refresh_token",
-              session.provider_refresh_token,
-            );
-          }
-        } else if (event === "SIGNED_OUT") {
-          setSession(null);
-          setUser(null);
-          setIsSignedIn(false);
-          // Clean up local storage
-          localStorage.removeItem("oauth_provider_token");
-          localStorage.removeItem("oauth_provider_refresh_token");
-        } else if (event === "TOKEN_REFRESHED") {
-          setSession(session);
-        } else if (event === "USER_UPDATED") {
-          setUser(transformUser(session?.user ?? null));
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'INITIAL_SESSION') {
+        setSession(session);
+        setUser(transformUser(session?.user ?? null));
+        setIsSignedIn(!!session?.user);
+      } else if (event === 'SIGNED_IN') {
+        setSession(session);
+        setUser(transformUser(session?.user ?? null));
+        setIsSignedIn(true);
+        // Store any OAuth provider tokens if present
+        if (session?.provider_token) {
+          localStorage.setItem('oauth_provider_token', session.provider_token);
         }
-      },
-    );
+        if (session?.provider_refresh_token) {
+          localStorage.setItem(
+            'oauth_provider_refresh_token',
+            session.provider_refresh_token
+          );
+        }
+      } else if (event === 'SIGNED_OUT') {
+        setSession(null);
+        setUser(null);
+        setIsSignedIn(false);
+        // Clean up local storage
+        localStorage.removeItem('oauth_provider_token');
+        localStorage.removeItem('oauth_provider_refresh_token');
+      } else if (event === 'TOKEN_REFRESHED') {
+        setSession(session);
+      } else if (event === 'USER_UPDATED') {
+        setUser(transformUser(session?.user ?? null));
+      }
+    });
 
     // Check initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -90,23 +87,21 @@ export function useAuth() {
     }
   };
 
-  const signUp = async (
-    email: string,
-    password: string,
-    userName: string,
-  ) => {
+  const signUp = async (email: string, password: string, userName: string) => {
     setIsSigningIn(true);
     setSignInError(null);
 
     try {
       // First check if username is available
-      const { data: usernameCheck, error: checkError } = await supabase
-        .rpc("is_username_available", { desired_username: userName });
+      const { data: usernameCheck, error: checkError } = await supabase.rpc(
+        'is_username_available',
+        { desired_username: userName }
+      );
 
       if (checkError) throw checkError;
 
       if (!usernameCheck) {
-        throw new Error("Username is already taken");
+        throw new Error('Username is already taken');
       }
 
       // If username is available, proceed with signup
@@ -136,9 +131,9 @@ export function useAuth() {
     try {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
-      router.push("/login");
+      router.push('/login');
     } catch (error) {
-      console.error("Error signing out:", error);
+      console.error('Error signing out:', error);
     }
   };
 

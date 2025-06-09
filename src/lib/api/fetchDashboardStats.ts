@@ -1,9 +1,9 @@
-import { graphqlFetch } from "@/lib/graphql/client";
+import { graphqlFetch } from '@/lib/graphql/client';
 import {
   Exact,
   GetDashboardStatsDocument,
   GetDashboardStatsQuery,
-} from "@/lib/graphql/generated/graphql";
+} from '@/lib/graphql/generated/graphql';
 
 export async function fetchDashboardStats() {
   const response = await graphqlFetch<

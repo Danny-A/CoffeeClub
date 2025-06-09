@@ -1,11 +1,11 @@
-import { User as GraphQLUser } from "@/lib/graphql/types";
+import { User as GraphQLUser } from '@/lib/graphql/types';
 
-import { graphqlFetch } from "../graphql/client";
+import { graphqlFetch } from '../graphql/client';
 import {
   UpdateProfileMutation,
   UpdateProfileMutationVariables,
-} from "../graphql/generated/graphql";
-import { UpdateProfileDocument } from "../graphql/generated/graphql";
+} from '../graphql/generated/graphql';
+import { UpdateProfileDocument } from '../graphql/generated/graphql';
 
 export type Profile = {
   id: string;
@@ -21,9 +21,9 @@ export type Profile = {
 
 export const updateProfile = async (
   input: Partial<Profile>,
-  user: GraphQLUser | null,
+  user: GraphQLUser | null
 ) => {
-  if (!user?.id) throw new Error("No user ID");
+  if (!user?.id) throw new Error('No user ID');
 
   const variables = {
     id: user.id,
@@ -48,7 +48,7 @@ export const updateProfile = async (
 
   if (!response.data?.updateprofilesCollection?.affectedCount) {
     throw new Error(
-      "No records were updated. This could mean the profile doesn't exist or the update failed.",
+      "No records were updated. This could mean the profile doesn't exist or the update failed."
     );
   }
 

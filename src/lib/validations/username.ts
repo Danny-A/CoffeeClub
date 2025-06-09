@@ -1,44 +1,44 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 // Reserved usernames that cannot be used
 export const RESERVED_USERNAMES = [
-  "admin",
-  "root",
-  "system",
-  "moderator",
-  "mod",
-  "support",
-  "help",
+  'admin',
+  'root',
+  'system',
+  'moderator',
+  'mod',
+  'support',
+  'help',
 ] as const;
 
 // Username validation schema
 export const usernameSchema = z
   .string()
-  .min(2, "Username must be at least 2 characters")
-  .max(30, "Username must be at most 30 characters")
+  .min(2, 'Username must be at least 2 characters')
+  .max(30, 'Username must be at most 30 characters')
   .toLowerCase() // Convert to lowercase before validation
   .refine(
     (username) => /^[a-z][a-z0-9_-]*[a-z0-9]$/.test(username),
-    "Username must start with a letter and can only contain lowercase letters, numbers, underscores, and hyphens",
+    'Username must start with a letter and can only contain lowercase letters, numbers, underscores, and hyphens'
   )
   .refine(
     (username) => !/--/.test(username),
-    "Username cannot contain consecutive hyphens",
+    'Username cannot contain consecutive hyphens'
   )
   .refine(
     (username) => !/__/.test(username),
-    "Username cannot contain consecutive underscores",
+    'Username cannot contain consecutive underscores'
   )
   .refine(
     (username) => /[a-z]/.test(username),
-    "Username must contain at least one letter",
+    'Username must contain at least one letter'
   )
   .refine(
     (username) =>
       !RESERVED_USERNAMES.includes(
-        username as typeof RESERVED_USERNAMES[number],
+        username as (typeof RESERVED_USERNAMES)[number]
       ),
-    "This username is reserved and cannot be used",
+    'This username is reserved and cannot be used'
   );
 
 export type Username = z.infer<typeof usernameSchema>;
@@ -74,6 +74,8 @@ export function matchesUsernamePattern(username: string): boolean {
     // Must contain at least one letter
     /[a-z]/.test(username) &&
     // Not a reserved username
-    !RESERVED_USERNAMES.includes(username as typeof RESERVED_USERNAMES[number])
+    !RESERVED_USERNAMES.includes(
+      username as (typeof RESERVED_USERNAMES)[number]
+    )
   );
 }

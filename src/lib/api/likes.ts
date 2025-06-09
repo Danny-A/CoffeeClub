@@ -1,4 +1,4 @@
-import { graphqlFetch } from "@/lib/graphql/client";
+import { graphqlFetch } from '@/lib/graphql/client';
 import {
   Exact,
   LikeBeanDocument,
@@ -17,7 +17,7 @@ import {
   UnlikeRecipeMutation,
   UnlikeRoasterDocument,
   UnlikeRoasterMutation,
-} from "@/lib/graphql/generated/graphql";
+} from '@/lib/graphql/generated/graphql';
 
 // Bean likes
 export async function likeBean(beanId: string, userId: string) {

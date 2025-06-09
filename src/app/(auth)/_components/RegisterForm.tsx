@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
+import { GoogleSignInButton } from '@/components/features/GoogleSignInButton/GoogleSignInButton';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardFooter } from '@/components/ui/Card';
 import { FormField } from '@/components/ui/FormField';
@@ -36,6 +37,7 @@ export const RegisterForm = () => {
     <Card>
       <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
         <CardContent className="space-y-4">
+          <GoogleSignInButton label="Sign up with Google" />
           <div className="space-y-4">
             <FormField
               {...register('userName')}

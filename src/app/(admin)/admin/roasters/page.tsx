@@ -5,15 +5,11 @@ import {
 } from '@tanstack/react-query';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
 
 import { RoastersList } from '@/app/(admin)/_components/RoastersList';
 import { Button } from '@/components/ui/Button';
 import { Heading } from '@/components/ui/Heading';
 import { fetchRoasters } from '@/lib/api/fetchRoasters';
-import { createClient } from '@/lib/supabase/server';
-import { isAdmin } from '@/utils/getUserRole';
-import { isModerator } from '@/utils/getUserRole';
 
 export const metadata: Metadata = {
   title: 'Roasters Admin - Daily Bean',
@@ -26,24 +22,6 @@ export const metadata: Metadata = {
 
 export default async function AdminRoastersPage() {
   const queryClient = new QueryClient();
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect('/login');
-  }
-
-  const [isUserAdmin, isUserModerator] = await Promise.all([
-    isAdmin(user),
-    isModerator(user),
-  ]);
-
-  if (!isUserAdmin && !isUserModerator) {
-    redirect('/');
-  }
 
   await queryClient.prefetchQuery({
     queryKey: ['roasters'],

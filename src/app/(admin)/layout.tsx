@@ -1,11 +1,14 @@
 import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { redirect } from 'next/navigation';
 
 import { AppSidebar } from '@/components/layout/AppSidebar';
 import { Separator } from '@/components/ui/Separator';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/Sidebar';
 import { SidebarInset } from '@/components/ui/Sidebar';
-import { Providers } from '@/lib/providers';
+import Providers from '@/lib/providers';
+import { createClient } from '@/lib/supabase/server';
+import { isAdmin, isModerator } from '@/utils/getUserRole';
 
 import '../globals.css';
 
@@ -20,11 +23,25 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AuthLayout({
+export default async function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const [isUserAdmin, isUserModerator] = await Promise.all([
+    isAdmin(user),
+    isModerator(user),
+  ]);
+
+  if (!isUserAdmin && !isUserModerator) {
+    redirect('/login');
+  }
+
   return (
     <html>
       <body className={inter.className}>

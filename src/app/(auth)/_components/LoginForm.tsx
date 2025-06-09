@@ -2,6 +2,7 @@
 
 import { useState, useActionState } from 'react';
 
+import { GoogleSignInButton } from '@/components/features/GoogleSignInButton/GoogleSignInButton';
 import { SubmitButton } from '@/components/features/SubmitButton';
 import { Card, CardContent, CardFooter } from '@/components/ui/Card';
 import { FormField } from '@/components/ui/FormField';
@@ -58,6 +59,8 @@ export function LoginForm() {
         className="space-y-6"
       >
         <CardContent className="space-y-4">
+          <GoogleSignInButton />
+
           <FormField
             name="email"
             type="email"

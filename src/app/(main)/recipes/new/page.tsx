@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useState, Suspense } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, Resolver } from 'react-hook-form';
 
 import { ForwardRefEditor } from '@/components/mdx/ForwardRefEditor';
 import { Button } from '@/components/ui/Button';
@@ -56,10 +56,7 @@ function NewRecipeForm() {
     control,
     formState: { errors, isSubmitting },
   } = useForm<RecipeFormData>({
-    resolver: zodResolver(recipeSchema),
-    defaultValues: {
-      is_public: false,
-    },
+    resolver: zodResolver(recipeSchema) as Resolver<RecipeFormData>,
   });
 
   const handleImageChange = (file: File | null) => {

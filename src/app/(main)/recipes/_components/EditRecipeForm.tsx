@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, Resolver } from 'react-hook-form';
 
 import { ForwardRefEditor } from '@/components/mdx/ForwardRefEditor';
 import { Button } from '@/components/ui/Button';
@@ -66,7 +66,7 @@ export function EditRecipeForm({ recipe }: EditRecipeFormProps) {
     formState: { errors, isSubmitting },
     setValue,
   } = useForm<RecipeFormData>({
-    resolver: zodResolver(recipeSchema),
+    resolver: zodResolver(recipeSchema) as Resolver<RecipeFormData>,
     defaultValues: {
       ...recipe,
       grind_weight: recipe.grind_weight

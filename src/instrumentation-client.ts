@@ -10,9 +10,16 @@ posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
   disable_session_recording: true, // Disable session recording as it requires cookies
   autocapture: false, // Disable autocapture as it can be privacy-invasive
   loaded: (posthog) => {
-    // Set a random distinct ID for each session
-    if (!posthog.isFeatureEnabled('disable-cookieless')) {
-      posthog.opt_out_capturing();
-    }
+    // Wait for feature flags to load
+    posthog.onFeatureFlags(() => {
+      if (!posthog.isFeatureEnabled('disable-cookieless')) {
+        posthog.opt_out_capturing();
+      }
+    });
+
+    // Test event to verify tracking
+    posthog.capture('posthog_initialized', {
+      timestamp: new Date().toISOString(),
+    });
   },
 });

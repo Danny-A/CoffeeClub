@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { Fragment, use, useEffect, useMemo, useState } from 'react';
-import { useForm, Controller, useFieldArray } from 'react-hook-form';
+import { useForm, Controller, useFieldArray, Resolver } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/Button';
@@ -69,7 +69,7 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
     control,
     watch,
   } = useForm<BeanFormData>({
-    resolver: zodResolver(beanSchema),
+    resolver: zodResolver(beanSchema) as Resolver<BeanFormData>,
   });
 
   const {

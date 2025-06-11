@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, Fragment, Suspense } from 'react';
 import React from 'react';
-import { useForm, Controller, useFieldArray } from 'react-hook-form';
+import { useForm, Controller, useFieldArray, Resolver } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/Button';
@@ -64,7 +64,7 @@ function NewBeanPage() {
     formState: { errors, isSubmitting },
     watch,
   } = useForm<BeanFormData>({
-    resolver: zodResolver(beanSchema),
+    resolver: zodResolver(beanSchema) as Resolver<BeanFormData>,
     defaultValues: {
       roaster_id: roasterId || '',
       buy_urls: [],

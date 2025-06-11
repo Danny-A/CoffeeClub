@@ -4,6 +4,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { type ReactNode } from 'react';
 
 import QueryProvider from '@/providers/queryProvider';
+import { PostHogProvider } from '@/providers/PostHogProvider';
 
 interface ProvidersProps {
   children: ReactNode;
@@ -11,10 +12,12 @@ interface ProvidersProps {
 
 export const Providers = ({ children }: ProvidersProps) => {
   return (
-    <QueryProvider>
-      {children}
-      <ReactQueryDevtools />
-    </QueryProvider>
+    <PostHogProvider>
+      <QueryProvider>
+        {children}
+        <ReactQueryDevtools />
+      </QueryProvider>
+    </PostHogProvider>
   );
 };
 

@@ -3,8 +3,8 @@
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { type ReactNode } from 'react';
 
-import QueryProvider from '@/providers/queryProvider';
 import { PostHogProvider } from '@/providers/PostHogProvider';
+import QueryProvider from '@/providers/queryProvider';
 
 interface ProvidersProps {
   children: ReactNode;

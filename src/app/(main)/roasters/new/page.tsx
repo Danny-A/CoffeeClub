@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { Resolver, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/Button';
@@ -42,7 +42,7 @@ export default function Page() {
     handleSubmit,
     formState: { errors },
   } = useForm<RoasterFormData>({
-    resolver: zodResolver(roasterSchema),
+    resolver: zodResolver(roasterSchema) as Resolver<RoasterFormData>,
   });
 
   const onSubmit = async (data: RoasterFormData) => {

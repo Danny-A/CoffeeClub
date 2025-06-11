@@ -5,21 +5,14 @@ posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
   capture_pageview: 'history_change',
   capture_pageleave: true, // Enable pageleave capture
   capture_exceptions: true, // This enables capturing exceptions using Error Tracking
-  debug: process.env.NODE_ENV === 'development',
-  persistence: 'localStorage', // Use localStorage instead of cookies
-  disable_session_recording: true, // Disable session recording as it requires cookies
+  disable_persistence: true, // Disable all persistence (cookies, localStorage, etc.)
+  disable_session_recording: true,
   autocapture: false, // Disable autocapture as it can be privacy-invasive
   loaded: (posthog) => {
-    // Wait for feature flags to load
-    posthog.onFeatureFlags(() => {
-      if (!posthog.isFeatureEnabled('disable-cookieless')) {
-        posthog.opt_out_capturing();
-      }
-    });
-
-    // Test event to verify tracking
-    posthog.capture('posthog_initialized', {
-      timestamp: new Date().toISOString(),
+    const sessionId = crypto.randomUUID();
+    posthog.identify(sessionId, {
+      session_start: new Date().toISOString(),
+      is_anonymous: true,
     });
   },
 });

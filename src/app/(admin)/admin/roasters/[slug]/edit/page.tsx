@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { use } from 'react';
-import { useForm } from 'react-hook-form';
+import { Resolver, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/Button';
@@ -59,7 +59,7 @@ export default function EditRoasterPage({ params }: EditRoasterPageProps) {
     formState: { errors },
     reset,
   } = useForm<RoasterFormData>({
-    resolver: zodResolver(roasterSchema),
+    resolver: zodResolver(roasterSchema) as Resolver<RoasterFormData>,
   });
 
   useEffect(() => {

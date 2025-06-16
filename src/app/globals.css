@@ -41,6 +41,11 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --z-dropdown: 50;
+  --z-modal: 100;
+  --z-panel: 101;
+  --z-tooltip: 150;
+  --z-toast: 200;
 }
 
 :root {
@@ -76,6 +81,11 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --z-dropdown: 50;
+  --z-modal: 100;
+  --z-panel: 101;
+  --z-tooltip: 150;
+  --z-toast: 200;
 }
 
 .dark {
@@ -110,6 +120,11 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --z-dropdown: 50;
+  --z-modal: 100;
+  --z-panel: 101;
+  --z-tooltip: 150;
+  --z-toast: 200;
 }
 
 @layer base {

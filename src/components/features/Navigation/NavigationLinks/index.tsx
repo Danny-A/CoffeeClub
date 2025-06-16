@@ -42,13 +42,8 @@ export function NavigationLinks() {
       isOpen={isOpen}
       onClose={() => setIsOpen(false)}
       trigger={
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setIsOpen(true)}
-          className="h-8 w-8"
-        >
-          <Menu className="h-4 w-4" />
+        <Button variant="ghost" size="sm" onClick={() => setIsOpen(true)}>
+          <Menu className="h-4 w-4" /> Menu
         </Button>
       }
     >

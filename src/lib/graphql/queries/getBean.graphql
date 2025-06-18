@@ -18,6 +18,8 @@ query GetBean($id: UUID!, $filter: beansFilter) {
         notes
         buy_urls
         is_published
+        average_rating
+        review_count
         roasters {
           id
           slug

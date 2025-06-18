@@ -18,10 +18,30 @@ type LikeButtonProps = {
 };
 
 export function LikeButton({ type, id, isLiked, className }: LikeButtonProps) {
-  const { likeBean, unlikeBean, isLiking, isUnliking } = useBeanLikes();
-  const { likeRoaster, unlikeRoaster } = useRoasterLikes();
-  const { likeLocation, unlikeLocation } = useLocationLikes();
-  const { likeRecipe, unlikeRecipe } = useRecipeLikes();
+  const {
+    likeBean,
+    unlikeBean,
+    isLiking: isBeanLiking,
+    isUnliking: isBeanUnliking,
+  } = useBeanLikes();
+  const {
+    likeRoaster,
+    unlikeRoaster,
+    isLiking: isRoasterLiking,
+    isUnliking: isRoasterUnliking,
+  } = useRoasterLikes();
+  const {
+    likeLocation,
+    unlikeLocation,
+    isLiking: isLocationLiking,
+    isUnliking: isLocationUnliking,
+  } = useLocationLikes();
+  const {
+    likeRecipe,
+    unlikeRecipe,
+    isLiking: isRecipeLiking,
+    isUnliking: isRecipeUnliking,
+  } = useRecipeLikes();
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -57,6 +77,24 @@ export function LikeButton({ type, id, isLiked, className }: LikeButtonProps) {
         break;
     }
   };
+
+  // Get the appropriate loading states based on type
+  const getLoadingStates = () => {
+    switch (type) {
+      case 'bean':
+        return { isLiking: isBeanLiking, isUnliking: isBeanUnliking };
+      case 'roaster':
+        return { isLiking: isRoasterLiking, isUnliking: isRoasterUnliking };
+      case 'location':
+        return { isLiking: isLocationLiking, isUnliking: isLocationUnliking };
+      case 'recipe':
+        return { isLiking: isRecipeLiking, isUnliking: isRecipeUnliking };
+      default:
+        return { isLiking: false, isUnliking: false };
+    }
+  };
+
+  const { isLiking, isUnliking } = getLoadingStates();
 
   return (
     <Button

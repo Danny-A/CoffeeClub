@@ -28,7 +28,6 @@ export async function fetchRecipes({
       ...(orderBy && { orderBy }),
       ...(filter && { filter }),
     },
-    tags: ['recipes'],
   });
 
   if (!response.data.recipesCollection) {

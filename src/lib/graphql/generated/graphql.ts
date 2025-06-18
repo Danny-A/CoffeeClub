@@ -4231,6 +4231,17 @@ export type GetRoasterQuery = {
         claimed_by?: any | null;
         is_published: boolean;
         created_at?: any | null;
+        roaster_likesCollection?: {
+          __typename?: 'roaster_likesConnection';
+          edges: Array<{
+            __typename?: 'roaster_likesEdge';
+            node: {
+              __typename?: 'roaster_likes';
+              id: any;
+              user_id?: any | null;
+            };
+          }>;
+        } | null;
         beansCollection?: {
           __typename?: 'beansConnection';
           edges: Array<{
@@ -5264,6 +5275,14 @@ export const GetRoasterDocument = new TypedDocumentString(`
         instagram
         claimed_by
         is_published
+        roaster_likesCollection {
+          edges {
+            node {
+              id
+              user_id
+            }
+          }
+        }
         beansCollection {
           edges {
             node {

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Card, CardContent } from '@/components/ui/Card';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Heading } from '@/components/ui/Heading';
+import { LikeButton } from '@/components/ui/LikeButton';
 import { Text } from '@/components/ui/Text';
 import { fetchRoaster } from '@/lib/api/fetchRoaster';
 import { fetchRoasters } from '@/lib/api/fetchRoasters';
@@ -103,6 +104,17 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
         </div>
 
         <div className="flex gap-2">
+          {user && (
+            <LikeButton
+              type="roaster"
+              id={roaster.id}
+              isLiked={
+                roaster.roaster_likesCollection?.edges.some(
+                  (edge) => edge.node.user_id === user.id
+                ) ?? false
+              }
+            />
+          )}
           <Button asChild>
             <Link href={`/beans/new?roasterId=${roaster.id}`}>Add Bean</Link>
           </Button>

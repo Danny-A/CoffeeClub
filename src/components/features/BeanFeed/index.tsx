@@ -73,9 +73,9 @@ export const BeanFeed = () => {
   const { filters } = useBeanUrlFilters();
 
   // Add sort state
-  const [sort, setSort] = useState<string>(SORT_OPTIONS[0].value);
+  const [sort, setSort] = useState<string>(SORT_OPTIONS[2].value);
   const selectedSort = useMemo(
-    () => SORT_OPTIONS.find((opt) => opt.value === sort) || SORT_OPTIONS[0],
+    () => SORT_OPTIONS.find((opt) => opt.value === sort) || SORT_OPTIONS[2],
     [sort]
   );
 

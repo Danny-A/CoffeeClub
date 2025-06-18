@@ -16,6 +16,7 @@ export async function fetchBean(id: string) {
           is_published: { eq: true },
         },
       },
+      tags: [`bean-${id}`],
     }
   );
 

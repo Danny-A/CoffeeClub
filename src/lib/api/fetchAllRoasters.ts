@@ -14,6 +14,7 @@ export async function fetchAllRoasters() {
       variables: {
         first: 1000,
       },
+      tags: ['roasters'],
     }
   );
 

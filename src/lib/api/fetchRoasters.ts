@@ -50,6 +50,7 @@ export async function fetchRoasters(
       first,
       after,
     },
+    tags: ['roasters'],
   });
 
   if (!response.data.roastersCollection) {

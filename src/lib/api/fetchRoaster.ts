@@ -17,6 +17,7 @@ export async function fetchRoaster(id: string) {
         is_published: { eq: true },
       },
     },
+    tags: [`roaster-${id}`],
   });
 
   const roaster = response.data.roastersCollection?.edges[0]?.node;

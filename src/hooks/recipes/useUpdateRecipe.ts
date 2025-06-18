@@ -25,8 +25,11 @@ export function useUpdateRecipe() {
       });
       return res.data;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries();
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ['recipe', data.updaterecipesCollection.records[0].id],
+      });
+      queryClient.invalidateQueries({ queryKey: ['recipes'] });
     },
   });
 }

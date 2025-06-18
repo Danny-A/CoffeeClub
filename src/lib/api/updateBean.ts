@@ -1,3 +1,5 @@
+import { revalidateTag } from 'next/cache';
+
 import { graphqlFetch } from '../graphql/client';
 import { BeansUpdateInput } from '../graphql/generated/graphql';
 import { UpdateBeanDocument } from '../graphql/generated/graphql';
@@ -37,6 +39,9 @@ export async function updateBean(input: BeansUpdateInput) {
     console.error('No data returned:', response);
     throw new Error('Failed to update bean: No data returned');
   }
+
+  revalidateTag(`bean-${input.id}`);
+  revalidateTag('beans');
 
   return response.data.updatebeansCollection.records[0];
 }

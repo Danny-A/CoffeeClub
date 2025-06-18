@@ -11,8 +11,8 @@ export function useUpdateRoaster() {
       return updateRoaster(input);
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['roasters'] });
       queryClient.invalidateQueries({ queryKey: ['roaster', data.id] });
+      queryClient.invalidateQueries({ queryKey: ['roasters'] });
     },
     onError: (error) => {
       console.error('Error updating roaster:', error);

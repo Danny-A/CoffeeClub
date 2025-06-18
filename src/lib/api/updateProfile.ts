@@ -1,3 +1,5 @@
+import { revalidateTag } from 'next/cache';
+
 import { User as GraphQLUser } from '@/lib/graphql/types';
 
 import { graphqlFetch } from '../graphql/client';
@@ -51,6 +53,8 @@ export const updateProfile = async (
       "No records were updated. This could mean the profile doesn't exist or the update failed."
     );
   }
+
+  revalidateTag(`profile-${user.id}`);
 
   return response.data.updateprofilesCollection.records[0];
 };

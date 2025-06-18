@@ -11,6 +11,7 @@ export async function fetchRecipeById(id: string) {
     GetRecipeByIdQueryVariables
   >(GetRecipeByIdDocument, {
     variables: { id },
+    tags: [`recipe-${id}`],
   });
   return response.data?.recipesCollection?.edges[0]?.node ?? null;
 }

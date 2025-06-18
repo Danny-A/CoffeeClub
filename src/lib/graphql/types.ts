@@ -43,11 +43,17 @@ export type Roaster = {
   id: string;
   slug?: string;
   name: string;
+  description?: string;
   city?: string;
   state?: string;
   country?: string;
+  location_city?: string;
+  location_state?: string;
+  location_country?: string;
   url?: string;
   instagram?: string;
+  profile_image_url?: string;
+  logo_url?: string;
   beanCount?: number;
   reviewCount?: number;
   created_at?: string;

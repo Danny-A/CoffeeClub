@@ -2,49 +2,36 @@
 import type { DocumentTypeDecoration } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-export type MakeEmpty<
-  T extends { [key: string]: unknown },
-  K extends keyof T,
-> = { [_ in K]?: never };
-export type Incremental<T> =
-  | T
-  | {
-      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
-    };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string };
-  String: { input: string; output: string };
-  Boolean: { input: boolean; output: boolean };
-  Int: { input: number; output: number };
-  Float: { input: number; output: number };
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
   /** A high precision floating point value represented as a string */
-  BigFloat: { input: any; output: any };
+  BigFloat: { input: any; output: any; }
   /** An arbitrary size integer represented as a string */
-  BigInt: { input: any; output: any };
+  BigInt: { input: any; output: any; }
   /** An opaque string using for tracking a position in results during pagination */
-  Cursor: { input: any; output: any };
+  Cursor: { input: any; output: any; }
   /** A date without time information */
-  Date: { input: any; output: any };
+  Date: { input: any; output: any; }
   /** A date and time */
-  Datetime: { input: any; output: any };
+  Datetime: { input: any; output: any; }
   /** A Javascript Object Notation value serialized as a string */
-  JSON: { input: any; output: any };
+  JSON: { input: any; output: any; }
   /** Any type not handled by the type system */
-  Opaque: { input: any; output: any };
+  Opaque: { input: any; output: any; }
   /** A time without date information */
-  Time: { input: any; output: any };
+  Time: { input: any; output: any; }
   /** A universally unique identifier */
-  UUID: { input: any; output: any };
+  UUID: { input: any; output: any; }
 };
 
 /** Boolean expression comparing fields on type "BigFloat" */
@@ -148,7 +135,7 @@ export type DatetimeListFilter = {
 
 export enum FilterIs {
   NotNull = 'NOT_NULL',
-  Null = 'NULL',
+  Null = 'NULL'
 }
 
 /** Boolean expression comparing fields on type "Float" */
@@ -318,11 +305,13 @@ export type Mutation = {
   updatevarietiesCollection: VarietiesUpdateResponse;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationDeleteFrombean_LikesCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<Bean_LikesFilter>;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationDeleteFrombean_ReviewsCollectionArgs = {
@@ -330,11 +319,13 @@ export type MutationDeleteFrombean_ReviewsCollectionArgs = {
   filter?: InputMaybe<Bean_ReviewsFilter>;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationDeleteFrombean_TagsCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<Bean_TagsFilter>;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationDeleteFrombean_VarietiesCollectionArgs = {
@@ -342,11 +333,13 @@ export type MutationDeleteFrombean_VarietiesCollectionArgs = {
   filter?: InputMaybe<Bean_VarietiesFilter>;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationDeleteFrombeansCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<BeansFilter>;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationDeleteFromdashboard_StatsCollectionArgs = {
@@ -354,11 +347,13 @@ export type MutationDeleteFromdashboard_StatsCollectionArgs = {
   filter?: InputMaybe<Dashboard_StatsFilter>;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationDeleteFromfollowersCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<FollowersFilter>;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationDeleteFromhomepage_Curated_ItemsCollectionArgs = {
@@ -366,11 +361,13 @@ export type MutationDeleteFromhomepage_Curated_ItemsCollectionArgs = {
   filter?: InputMaybe<Homepage_Curated_ItemsFilter>;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationDeleteFromlocation_LikesCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<Location_LikesFilter>;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationDeleteFromlocation_ReviewsCollectionArgs = {
@@ -378,11 +375,13 @@ export type MutationDeleteFromlocation_ReviewsCollectionArgs = {
   filter?: InputMaybe<Location_ReviewsFilter>;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationDeleteFromlocationsCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<LocationsFilter>;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationDeleteFromprofilesCollectionArgs = {
@@ -390,11 +389,13 @@ export type MutationDeleteFromprofilesCollectionArgs = {
   filter?: InputMaybe<ProfilesFilter>;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationDeleteFromrecipe_LikesCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<Recipe_LikesFilter>;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationDeleteFromrecipesCollectionArgs = {
@@ -402,11 +403,13 @@ export type MutationDeleteFromrecipesCollectionArgs = {
   filter?: InputMaybe<RecipesFilter>;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationDeleteFromroaster_LikesCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<Roaster_LikesFilter>;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationDeleteFromroastersCollectionArgs = {
@@ -414,11 +417,13 @@ export type MutationDeleteFromroastersCollectionArgs = {
   filter?: InputMaybe<RoastersFilter>;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationDeleteFromtagsCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<TagsFilter>;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationDeleteFromuser_RolesCollectionArgs = {
@@ -426,111 +431,133 @@ export type MutationDeleteFromuser_RolesCollectionArgs = {
   filter?: InputMaybe<User_RolesFilter>;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationDeleteFromvarietiesCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<VarietiesFilter>;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationInsertIntobean_LikesCollectionArgs = {
   objects: Array<Bean_LikesInsertInput>;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationInsertIntobean_ReviewsCollectionArgs = {
   objects: Array<Bean_ReviewsInsertInput>;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationInsertIntobean_TagsCollectionArgs = {
   objects: Array<Bean_TagsInsertInput>;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationInsertIntobean_VarietiesCollectionArgs = {
   objects: Array<Bean_VarietiesInsertInput>;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationInsertIntobeansCollectionArgs = {
   objects: Array<BeansInsertInput>;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationInsertIntodashboard_StatsCollectionArgs = {
   objects: Array<Dashboard_StatsInsertInput>;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationInsertIntofollowersCollectionArgs = {
   objects: Array<FollowersInsertInput>;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationInsertIntohomepage_Curated_ItemsCollectionArgs = {
   objects: Array<Homepage_Curated_ItemsInsertInput>;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationInsertIntolocation_LikesCollectionArgs = {
   objects: Array<Location_LikesInsertInput>;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationInsertIntolocation_ReviewsCollectionArgs = {
   objects: Array<Location_ReviewsInsertInput>;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationInsertIntolocationsCollectionArgs = {
   objects: Array<LocationsInsertInput>;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationInsertIntoprofilesCollectionArgs = {
   objects: Array<ProfilesInsertInput>;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationInsertIntorecipe_LikesCollectionArgs = {
   objects: Array<Recipe_LikesInsertInput>;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationInsertIntorecipesCollectionArgs = {
   objects: Array<RecipesInsertInput>;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationInsertIntoroaster_LikesCollectionArgs = {
   objects: Array<Roaster_LikesInsertInput>;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationInsertIntoroastersCollectionArgs = {
   objects: Array<RoastersInsertInput>;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationInsertIntotagsCollectionArgs = {
   objects: Array<TagsInsertInput>;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationInsertIntouser_RolesCollectionArgs = {
   objects: Array<User_RolesInsertInput>;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationInsertIntovarietiesCollectionArgs = {
   objects: Array<VarietiesInsertInput>;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationUpdate_Roaster_Bean_CountArgs = {
   roaster_id: Scalars['UUID']['input'];
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationUpdatebean_LikesCollectionArgs = {
@@ -539,12 +566,14 @@ export type MutationUpdatebean_LikesCollectionArgs = {
   set: Bean_LikesUpdateInput;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationUpdatebean_ReviewsCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<Bean_ReviewsFilter>;
   set: Bean_ReviewsUpdateInput;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationUpdatebean_TagsCollectionArgs = {
@@ -553,12 +582,14 @@ export type MutationUpdatebean_TagsCollectionArgs = {
   set: Bean_TagsUpdateInput;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationUpdatebean_VarietiesCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<Bean_VarietiesFilter>;
   set: Bean_VarietiesUpdateInput;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationUpdatebeansCollectionArgs = {
@@ -567,12 +598,14 @@ export type MutationUpdatebeansCollectionArgs = {
   set: BeansUpdateInput;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationUpdatedashboard_StatsCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<Dashboard_StatsFilter>;
   set: Dashboard_StatsUpdateInput;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationUpdatefollowersCollectionArgs = {
@@ -581,12 +614,14 @@ export type MutationUpdatefollowersCollectionArgs = {
   set: FollowersUpdateInput;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationUpdatehomepage_Curated_ItemsCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<Homepage_Curated_ItemsFilter>;
   set: Homepage_Curated_ItemsUpdateInput;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationUpdatelocation_LikesCollectionArgs = {
@@ -595,12 +630,14 @@ export type MutationUpdatelocation_LikesCollectionArgs = {
   set: Location_LikesUpdateInput;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationUpdatelocation_ReviewsCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<Location_ReviewsFilter>;
   set: Location_ReviewsUpdateInput;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationUpdatelocationsCollectionArgs = {
@@ -609,12 +646,14 @@ export type MutationUpdatelocationsCollectionArgs = {
   set: LocationsUpdateInput;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationUpdateprofilesCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<ProfilesFilter>;
   set: ProfilesUpdateInput;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationUpdaterecipe_LikesCollectionArgs = {
@@ -623,12 +662,14 @@ export type MutationUpdaterecipe_LikesCollectionArgs = {
   set: Recipe_LikesUpdateInput;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationUpdaterecipesCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<RecipesFilter>;
   set: RecipesUpdateInput;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationUpdateroaster_LikesCollectionArgs = {
@@ -637,12 +678,14 @@ export type MutationUpdateroaster_LikesCollectionArgs = {
   set: Roaster_LikesUpdateInput;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationUpdateroastersCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<RoastersFilter>;
   set: RoastersUpdateInput;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationUpdatetagsCollectionArgs = {
@@ -651,12 +694,14 @@ export type MutationUpdatetagsCollectionArgs = {
   set: TagsUpdateInput;
 };
 
+
 /** The root type for creating and mutating data */
 export type MutationUpdateuser_RolesCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<User_RolesFilter>;
   set: User_RolesUpdateInput;
 };
+
 
 /** The root type for creating and mutating data */
 export type MutationUpdatevarietiesCollectionArgs = {
@@ -685,7 +730,7 @@ export enum OrderByDirection {
   /** Descending order, nulls first */
   DescNullsFirst = 'DescNullsFirst',
   /** Descending order, nulls last */
-  DescNullsLast = 'DescNullsLast',
+  DescNullsLast = 'DescNullsLast'
 }
 
 export type PageInfo = {
@@ -743,6 +788,7 @@ export type Query = {
   varietiesCollection?: Maybe<VarietiesConnection>;
 };
 
+
 /** The root type for querying data */
 export type QueryBean_LikesCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -753,6 +799,7 @@ export type QueryBean_LikesCollectionArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<Bean_LikesOrderBy>>;
 };
+
 
 /** The root type for querying data */
 export type QueryBean_ReviewsCollectionArgs = {
@@ -765,6 +812,7 @@ export type QueryBean_ReviewsCollectionArgs = {
   orderBy?: InputMaybe<Array<Bean_ReviewsOrderBy>>;
 };
 
+
 /** The root type for querying data */
 export type QueryBean_TagsCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -775,6 +823,7 @@ export type QueryBean_TagsCollectionArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<Bean_TagsOrderBy>>;
 };
+
 
 /** The root type for querying data */
 export type QueryBean_VarietiesCollectionArgs = {
@@ -787,6 +836,7 @@ export type QueryBean_VarietiesCollectionArgs = {
   orderBy?: InputMaybe<Array<Bean_VarietiesOrderBy>>;
 };
 
+
 /** The root type for querying data */
 export type QueryBeansCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -797,6 +847,7 @@ export type QueryBeansCollectionArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<BeansOrderBy>>;
 };
+
 
 /** The root type for querying data */
 export type QueryDashboard_StatsCollectionArgs = {
@@ -809,6 +860,7 @@ export type QueryDashboard_StatsCollectionArgs = {
   orderBy?: InputMaybe<Array<Dashboard_StatsOrderBy>>;
 };
 
+
 /** The root type for querying data */
 export type QueryFollowersCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -820,11 +872,13 @@ export type QueryFollowersCollectionArgs = {
   orderBy?: InputMaybe<Array<FollowersOrderBy>>;
 };
 
+
 /** The root type for querying data */
 export type QueryGenerate_SlugArgs = {
   id: Scalars['UUID']['input'];
   name: Scalars['String']['input'];
 };
+
 
 /** The root type for querying data */
 export type QueryHomepage_Curated_ItemsCollectionArgs = {
@@ -837,10 +891,12 @@ export type QueryHomepage_Curated_ItemsCollectionArgs = {
   orderBy?: InputMaybe<Array<Homepage_Curated_ItemsOrderBy>>;
 };
 
+
 /** The root type for querying data */
 export type QueryIs_Username_AvailableArgs = {
   desired_username: Scalars['String']['input'];
 };
+
 
 /** The root type for querying data */
 export type QueryLocation_LikesCollectionArgs = {
@@ -853,6 +909,7 @@ export type QueryLocation_LikesCollectionArgs = {
   orderBy?: InputMaybe<Array<Location_LikesOrderBy>>;
 };
 
+
 /** The root type for querying data */
 export type QueryLocation_ReviewsCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -863,6 +920,7 @@ export type QueryLocation_ReviewsCollectionArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<Location_ReviewsOrderBy>>;
 };
+
 
 /** The root type for querying data */
 export type QueryLocationsCollectionArgs = {
@@ -875,10 +933,12 @@ export type QueryLocationsCollectionArgs = {
   orderBy?: InputMaybe<Array<LocationsOrderBy>>;
 };
 
+
 /** The root type for querying data */
 export type QueryNodeArgs = {
   nodeId: Scalars['ID']['input'];
 };
+
 
 /** The root type for querying data */
 export type QueryProfilesCollectionArgs = {
@@ -891,6 +951,7 @@ export type QueryProfilesCollectionArgs = {
   orderBy?: InputMaybe<Array<ProfilesOrderBy>>;
 };
 
+
 /** The root type for querying data */
 export type QueryRecipe_LikesCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -901,6 +962,7 @@ export type QueryRecipe_LikesCollectionArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<Recipe_LikesOrderBy>>;
 };
+
 
 /** The root type for querying data */
 export type QueryRecipesCollectionArgs = {
@@ -913,6 +975,7 @@ export type QueryRecipesCollectionArgs = {
   orderBy?: InputMaybe<Array<RecipesOrderBy>>;
 };
 
+
 /** The root type for querying data */
 export type QueryRoaster_LikesCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -923,6 +986,7 @@ export type QueryRoaster_LikesCollectionArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<Roaster_LikesOrderBy>>;
 };
+
 
 /** The root type for querying data */
 export type QueryRoastersCollectionArgs = {
@@ -935,6 +999,7 @@ export type QueryRoastersCollectionArgs = {
   orderBy?: InputMaybe<Array<RoastersOrderBy>>;
 };
 
+
 /** The root type for querying data */
 export type QueryTagsCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -946,6 +1011,7 @@ export type QueryTagsCollectionArgs = {
   orderBy?: InputMaybe<Array<TagsOrderBy>>;
 };
 
+
 /** The root type for querying data */
 export type QueryUser_RolesCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -956,6 +1022,7 @@ export type QueryUser_RolesCollectionArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<User_RolesOrderBy>>;
 };
+
 
 /** The root type for querying data */
 export type QueryVarietiesCollectionArgs = {
@@ -1307,7 +1374,7 @@ export type Bean_TagsUpdateResponse = {
 
 export enum Bean_Type {
   Blend = 'Blend',
-  SingleOrigin = 'Single_Origin',
+  SingleOrigin = 'Single_Origin'
 }
 
 /** Boolean expression comparing fields on type "bean_type" */
@@ -1426,6 +1493,7 @@ export type Beans = Node & {
   updated_at?: Maybe<Scalars['Datetime']['output']>;
 };
 
+
 export type BeansBean_LikesCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -1435,6 +1503,7 @@ export type BeansBean_LikesCollectionArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<Bean_LikesOrderBy>>;
 };
+
 
 export type BeansBean_ReviewsCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -1446,6 +1515,7 @@ export type BeansBean_ReviewsCollectionArgs = {
   orderBy?: InputMaybe<Array<Bean_ReviewsOrderBy>>;
 };
 
+
 export type BeansBean_TagsCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -1455,6 +1525,7 @@ export type BeansBean_TagsCollectionArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<Bean_TagsOrderBy>>;
 };
+
 
 export type BeansBean_VarietiesCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -1466,6 +1537,7 @@ export type BeansBean_VarietiesCollectionArgs = {
   orderBy?: InputMaybe<Array<Bean_VarietiesOrderBy>>;
 };
 
+
 export type BeansHomepage_Curated_ItemsCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -1475,6 +1547,7 @@ export type BeansHomepage_Curated_ItemsCollectionArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<Homepage_Curated_ItemsOrderBy>>;
 };
+
 
 export type BeansRecipesCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -1643,7 +1716,7 @@ export enum Brew_Method {
   Other = 'Other',
   Percolator = 'Percolator',
   PourOver = 'Pour_Over',
-  Siphon = 'Siphon',
+  Siphon = 'Siphon'
 }
 
 /** Boolean expression comparing fields on type "brew_method" */
@@ -1668,7 +1741,7 @@ export enum Coffee_Type {
   Macchiato = 'Macchiato',
   Mocha = 'Mocha',
   Other = 'Other',
-  Ristretto = 'Ristretto',
+  Ristretto = 'Ristretto'
 }
 
 /** Boolean expression comparing fields on type "coffee_type" */
@@ -2192,6 +2265,7 @@ export type Locations = Node & {
   url?: Maybe<Scalars['String']['output']>;
 };
 
+
 export type LocationsHomepage_Curated_ItemsCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -2202,6 +2276,7 @@ export type LocationsHomepage_Curated_ItemsCollectionArgs = {
   orderBy?: InputMaybe<Array<Homepage_Curated_ItemsOrderBy>>;
 };
 
+
 export type LocationsLocation_LikesCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -2211,6 +2286,7 @@ export type LocationsLocation_LikesCollectionArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<Location_LikesOrderBy>>;
 };
+
 
 export type LocationsLocation_ReviewsCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -2362,6 +2438,7 @@ export type Profiles = Node & {
   username: Scalars['String']['output'];
 };
 
+
 export type ProfilesBean_ReviewsCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -2371,6 +2448,7 @@ export type ProfilesBean_ReviewsCollectionArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<Bean_ReviewsOrderBy>>;
 };
+
 
 export type ProfilesFollowersCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -2382,6 +2460,7 @@ export type ProfilesFollowersCollectionArgs = {
   orderBy?: InputMaybe<Array<FollowersOrderBy>>;
 };
 
+
 export type ProfilesLocation_ReviewsCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -2392,6 +2471,7 @@ export type ProfilesLocation_ReviewsCollectionArgs = {
   orderBy?: InputMaybe<Array<Location_ReviewsOrderBy>>;
 };
 
+
 export type ProfilesRecipe_LikesCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -2401,6 +2481,7 @@ export type ProfilesRecipe_LikesCollectionArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<Recipe_LikesOrderBy>>;
 };
+
 
 export type ProfilesRecipesCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -2614,6 +2695,7 @@ export type Recipes = Node & {
   user_id?: Maybe<Scalars['UUID']['output']>;
 };
 
+
 export type RecipesHomepage_Curated_ItemsCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -2623,6 +2705,7 @@ export type RecipesHomepage_Curated_ItemsCollectionArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<Homepage_Curated_ItemsOrderBy>>;
 };
+
 
 export type RecipesRecipe_LikesCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -2748,7 +2831,7 @@ export type RecipesUpdateResponse = {
 export enum Roast_Level {
   Dark = 'Dark',
   Light = 'Light',
-  Medium = 'Medium',
+  Medium = 'Medium'
 }
 
 /** Boolean expression comparing fields on type "roast_level" */
@@ -2762,7 +2845,7 @@ export type Roast_LevelFilter = {
 export enum Roast_Type {
   Espresso = 'Espresso',
   Filter = 'Filter',
-  Omni = 'Omni',
+  Omni = 'Omni'
 }
 
 /** Boolean expression comparing fields on type "roast_type" */
@@ -2882,6 +2965,7 @@ export type Roasters = Node & {
   url?: Maybe<Scalars['String']['output']>;
 };
 
+
 export type RoastersBeansCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -2892,6 +2976,7 @@ export type RoastersBeansCollectionArgs = {
   orderBy?: InputMaybe<Array<BeansOrderBy>>;
 };
 
+
 export type RoastersHomepage_Curated_ItemsCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -2901,6 +2986,7 @@ export type RoastersHomepage_Curated_ItemsCollectionArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<Homepage_Curated_ItemsOrderBy>>;
 };
+
 
 export type RoastersRoaster_LikesCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -3050,6 +3136,7 @@ export type Tags = Node & {
   updated_at?: Maybe<Scalars['Datetime']['output']>;
 };
 
+
 export type TagsBean_TagsCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -3135,7 +3222,7 @@ export enum User_Role {
   Admin = 'admin',
   LocationOwner = 'location_owner',
   Moderator = 'moderator',
-  RoasterOwner = 'roaster_owner',
+  RoasterOwner = 'roaster_owner'
 }
 
 /** Boolean expression comparing fields on type "user_role" */
@@ -3241,6 +3328,7 @@ export type Varieties = Node & {
   nodeId: Scalars['ID']['output'];
 };
 
+
 export type VarietiesBean_VarietiesCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -3318,660 +3406,167 @@ export type CreateBeanMutationVariables = Exact<{
   input: BeansInsertInput;
 }>;
 
-export type CreateBeanMutation = {
-  __typename?: 'Mutation';
-  insertIntobeansCollection?: {
-    __typename?: 'beansInsertResponse';
-    records: Array<{
-      __typename?: 'beans';
-      id: any;
-      name: string;
-      description?: string | null;
-      image_url?: string | null;
-      roast_type?: Roast_Type | null;
-      process?: string | null;
-      roast_level?: Roast_Level | null;
-      bean_type?: Bean_Type | null;
-      elevation_min?: number | null;
-      elevation_max?: number | null;
-      origin?: string | null;
-      producer?: string | null;
-      notes?: string | null;
-      buy_urls?: Array<string | null> | null;
-      roasters?: { __typename?: 'roasters'; id: any } | null;
-    }>;
-  } | null;
-};
+
+export type CreateBeanMutation = { __typename?: 'Mutation', insertIntobeansCollection?: { __typename?: 'beansInsertResponse', records: Array<{ __typename?: 'beans', id: any, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, roasters?: { __typename?: 'roasters', id: any } | null }> } | null };
 
 export type CreateCuratedHomepageItemMutationVariables = Exact<{
-  input:
-    | Array<Homepage_Curated_ItemsInsertInput>
-    | Homepage_Curated_ItemsInsertInput;
+  input: Array<Homepage_Curated_ItemsInsertInput> | Homepage_Curated_ItemsInsertInput;
 }>;
 
-export type CreateCuratedHomepageItemMutation = {
-  __typename?: 'Mutation';
-  insertIntohomepage_curated_itemsCollection?: {
-    __typename?: 'homepage_curated_itemsInsertResponse';
-    records: Array<{
-      __typename?: 'homepage_curated_items';
-      id: any;
-      section: string;
-      bean_id?: any | null;
-      recipe_id?: any | null;
-      roaster_id?: any | null;
-      location_id?: any | null;
-      display_order: number;
-      custom_title?: string | null;
-      published: boolean;
-      created_at: any;
-      updated_at: any;
-    }>;
-  } | null;
-};
+
+export type CreateCuratedHomepageItemMutation = { __typename?: 'Mutation', insertIntohomepage_curated_itemsCollection?: { __typename?: 'homepage_curated_itemsInsertResponse', records: Array<{ __typename?: 'homepage_curated_items', id: any, section: string, bean_id?: any | null, recipe_id?: any | null, roaster_id?: any | null, location_id?: any | null, display_order: number, custom_title?: string | null, published: boolean, created_at: any, updated_at: any }> } | null };
 
 export type CreateRecipeMutationVariables = Exact<{
   input: RecipesInsertInput;
 }>;
 
-export type CreateRecipeMutation = {
-  __typename?: 'Mutation';
-  insertIntorecipesCollection?: {
-    __typename?: 'recipesInsertResponse';
-    records: Array<{
-      __typename?: 'recipes';
-      id: any;
-      user_id?: any | null;
-      bean_id?: any | null;
-      title?: string | null;
-      description?: string | null;
-      image_url?: string | null;
-      grind_size?: string | null;
-      grind_weight?: any | null;
-      ratio?: string | null;
-      brew_method?: Brew_Method | null;
-      is_public?: boolean | null;
-      likes_count?: number | null;
-      created_at?: any | null;
-    }>;
-  } | null;
-};
+
+export type CreateRecipeMutation = { __typename?: 'Mutation', insertIntorecipesCollection?: { __typename?: 'recipesInsertResponse', records: Array<{ __typename?: 'recipes', id: any, user_id?: any | null, bean_id?: any | null, title?: string | null, description?: string | null, image_url?: string | null, grind_size?: string | null, grind_weight?: any | null, ratio?: string | null, brew_method?: Brew_Method | null, is_public?: boolean | null, likes_count?: number | null, created_at?: any | null }> } | null };
 
 export type CreateRoasterMutationVariables = Exact<{
   input: RoastersInsertInput;
 }>;
 
-export type CreateRoasterMutation = {
-  __typename?: 'Mutation';
-  insertIntoroastersCollection?: {
-    __typename?: 'roastersInsertResponse';
-    records: Array<{
-      __typename?: 'roasters';
-      id: any;
-      name: string;
-      description?: string | null;
-      profile_image_url?: string | null;
-      logo_url?: string | null;
-      location_city?: string | null;
-      location_state?: string | null;
-      location_country?: string | null;
-      url?: string | null;
-      instagram?: string | null;
-      created_at?: any | null;
-    }>;
-  } | null;
-};
+
+export type CreateRoasterMutation = { __typename?: 'Mutation', insertIntoroastersCollection?: { __typename?: 'roastersInsertResponse', records: Array<{ __typename?: 'roasters', id: any, name: string, description?: string | null, profile_image_url?: string | null, logo_url?: string | null, location_city?: string | null, location_state?: string | null, location_country?: string | null, url?: string | null, instagram?: string | null, created_at?: any | null }> } | null };
 
 export type DeleteCuratedHomepageItemMutationVariables = Exact<{
   filter: Homepage_Curated_ItemsFilter;
 }>;
 
-export type DeleteCuratedHomepageItemMutation = {
-  __typename?: 'Mutation';
-  deleteFromhomepage_curated_itemsCollection: {
-    __typename?: 'homepage_curated_itemsDeleteResponse';
-    affectedCount: number;
-  };
-};
+
+export type DeleteCuratedHomepageItemMutation = { __typename?: 'Mutation', deleteFromhomepage_curated_itemsCollection: { __typename?: 'homepage_curated_itemsDeleteResponse', affectedCount: number } };
 
 export type LikeBeanMutationVariables = Exact<{
   input: Bean_LikesInsertInput;
 }>;
 
-export type LikeBeanMutation = {
-  __typename?: 'Mutation';
-  insertIntobean_likesCollection?: {
-    __typename?: 'bean_likesInsertResponse';
-    records: Array<{
-      __typename?: 'bean_likes';
-      id: any;
-      bean_id?: any | null;
-      user_id?: any | null;
-      created_at?: any | null;
-    }>;
-  } | null;
-};
+
+export type LikeBeanMutation = { __typename?: 'Mutation', insertIntobean_likesCollection?: { __typename?: 'bean_likesInsertResponse', records: Array<{ __typename?: 'bean_likes', id: any, bean_id?: any | null, user_id?: any | null, created_at?: any | null }> } | null };
 
 export type UnlikeBeanMutationVariables = Exact<{
   filter: Bean_LikesFilter;
 }>;
 
-export type UnlikeBeanMutation = {
-  __typename?: 'Mutation';
-  deleteFrombean_likesCollection: {
-    __typename?: 'bean_likesDeleteResponse';
-    records: Array<{ __typename?: 'bean_likes'; id: any }>;
-  };
-};
+
+export type UnlikeBeanMutation = { __typename?: 'Mutation', deleteFrombean_likesCollection: { __typename?: 'bean_likesDeleteResponse', records: Array<{ __typename?: 'bean_likes', id: any }> } };
 
 export type LikeRoasterMutationVariables = Exact<{
   input: Roaster_LikesInsertInput;
 }>;
 
-export type LikeRoasterMutation = {
-  __typename?: 'Mutation';
-  insertIntoroaster_likesCollection?: {
-    __typename?: 'roaster_likesInsertResponse';
-    records: Array<{
-      __typename?: 'roaster_likes';
-      id: any;
-      roaster_id?: any | null;
-      user_id?: any | null;
-      created_at?: any | null;
-    }>;
-  } | null;
-};
+
+export type LikeRoasterMutation = { __typename?: 'Mutation', insertIntoroaster_likesCollection?: { __typename?: 'roaster_likesInsertResponse', records: Array<{ __typename?: 'roaster_likes', id: any, roaster_id?: any | null, user_id?: any | null, created_at?: any | null }> } | null };
 
 export type UnlikeRoasterMutationVariables = Exact<{
   filter: Roaster_LikesFilter;
 }>;
 
-export type UnlikeRoasterMutation = {
-  __typename?: 'Mutation';
-  deleteFromroaster_likesCollection: {
-    __typename?: 'roaster_likesDeleteResponse';
-    records: Array<{ __typename?: 'roaster_likes'; id: any }>;
-  };
-};
+
+export type UnlikeRoasterMutation = { __typename?: 'Mutation', deleteFromroaster_likesCollection: { __typename?: 'roaster_likesDeleteResponse', records: Array<{ __typename?: 'roaster_likes', id: any }> } };
 
 export type LikeLocationMutationVariables = Exact<{
   input: Location_LikesInsertInput;
 }>;
 
-export type LikeLocationMutation = {
-  __typename?: 'Mutation';
-  insertIntolocation_likesCollection?: {
-    __typename?: 'location_likesInsertResponse';
-    records: Array<{
-      __typename?: 'location_likes';
-      id: any;
-      location_id?: any | null;
-      user_id?: any | null;
-      created_at?: any | null;
-    }>;
-  } | null;
-};
+
+export type LikeLocationMutation = { __typename?: 'Mutation', insertIntolocation_likesCollection?: { __typename?: 'location_likesInsertResponse', records: Array<{ __typename?: 'location_likes', id: any, location_id?: any | null, user_id?: any | null, created_at?: any | null }> } | null };
 
 export type UnlikeLocationMutationVariables = Exact<{
   filter: Location_LikesFilter;
 }>;
 
-export type UnlikeLocationMutation = {
-  __typename?: 'Mutation';
-  deleteFromlocation_likesCollection: {
-    __typename?: 'location_likesDeleteResponse';
-    records: Array<{ __typename?: 'location_likes'; id: any }>;
-  };
-};
+
+export type UnlikeLocationMutation = { __typename?: 'Mutation', deleteFromlocation_likesCollection: { __typename?: 'location_likesDeleteResponse', records: Array<{ __typename?: 'location_likes', id: any }> } };
 
 export type LikeRecipeMutationVariables = Exact<{
   input: Recipe_LikesInsertInput;
 }>;
 
-export type LikeRecipeMutation = {
-  __typename?: 'Mutation';
-  insertIntorecipe_likesCollection?: {
-    __typename?: 'recipe_likesInsertResponse';
-    records: Array<{
-      __typename?: 'recipe_likes';
-      id: any;
-      recipe_id: any;
-      user_id: any;
-      created_at?: any | null;
-    }>;
-  } | null;
-};
+
+export type LikeRecipeMutation = { __typename?: 'Mutation', insertIntorecipe_likesCollection?: { __typename?: 'recipe_likesInsertResponse', records: Array<{ __typename?: 'recipe_likes', id: any, recipe_id: any, user_id: any, created_at?: any | null }> } | null };
 
 export type UnlikeRecipeMutationVariables = Exact<{
   filter: Recipe_LikesFilter;
 }>;
 
-export type UnlikeRecipeMutation = {
-  __typename?: 'Mutation';
-  deleteFromrecipe_likesCollection: {
-    __typename?: 'recipe_likesDeleteResponse';
-    records: Array<{ __typename?: 'recipe_likes'; id: any }>;
-  };
-};
+
+export type UnlikeRecipeMutation = { __typename?: 'Mutation', deleteFromrecipe_likesCollection: { __typename?: 'recipe_likesDeleteResponse', records: Array<{ __typename?: 'recipe_likes', id: any }> } };
 
 export type UpdateBeanMutationVariables = Exact<{
   id: Scalars['UUID']['input'];
   set: BeansUpdateInput;
 }>;
 
-export type UpdateBeanMutation = {
-  __typename?: 'Mutation';
-  updatebeansCollection: {
-    __typename?: 'beansUpdateResponse';
-    affectedCount: number;
-    records: Array<{
-      __typename?: 'beans';
-      id: any;
-      name: string;
-      description?: string | null;
-      image_url?: string | null;
-      roast_type?: Roast_Type | null;
-      process?: string | null;
-      roast_level?: Roast_Level | null;
-      bean_type?: Bean_Type | null;
-      elevation_min?: number | null;
-      elevation_max?: number | null;
-      origin?: string | null;
-      producer?: string | null;
-      notes?: string | null;
-      buy_urls?: Array<string | null> | null;
-      is_published: boolean;
-      created_at?: any | null;
-      updated_at?: any | null;
-      roasters?: { __typename?: 'roasters'; id: any; name: string } | null;
-    }>;
-  };
-};
+
+export type UpdateBeanMutation = { __typename?: 'Mutation', updatebeansCollection: { __typename?: 'beansUpdateResponse', affectedCount: number, records: Array<{ __typename?: 'beans', id: any, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, is_published: boolean, created_at?: any | null, updated_at?: any | null, roasters?: { __typename?: 'roasters', id: any, name: string } | null }> } };
 
 export type UpdateCuratedHomepageItemMutationVariables = Exact<{
   filter: Homepage_Curated_ItemsFilter;
   set: Homepage_Curated_ItemsUpdateInput;
 }>;
 
-export type UpdateCuratedHomepageItemMutation = {
-  __typename?: 'Mutation';
-  updatehomepage_curated_itemsCollection: {
-    __typename?: 'homepage_curated_itemsUpdateResponse';
-    records: Array<{
-      __typename?: 'homepage_curated_items';
-      id: any;
-      section: string;
-      bean_id?: any | null;
-      recipe_id?: any | null;
-      roaster_id?: any | null;
-      location_id?: any | null;
-      display_order: number;
-      custom_title?: string | null;
-      published: boolean;
-      created_at: any;
-      updated_at: any;
-    }>;
-  };
-};
+
+export type UpdateCuratedHomepageItemMutation = { __typename?: 'Mutation', updatehomepage_curated_itemsCollection: { __typename?: 'homepage_curated_itemsUpdateResponse', records: Array<{ __typename?: 'homepage_curated_items', id: any, section: string, bean_id?: any | null, recipe_id?: any | null, roaster_id?: any | null, location_id?: any | null, display_order: number, custom_title?: string | null, published: boolean, created_at: any, updated_at: any }> } };
 
 export type UpdateProfileMutationVariables = Exact<{
   id: Scalars['UUID']['input'];
   set: ProfilesUpdateInput;
 }>;
 
-export type UpdateProfileMutation = {
-  __typename?: 'Mutation';
-  updateprofilesCollection: {
-    __typename?: 'profilesUpdateResponse';
-    affectedCount: number;
-    records: Array<{
-      __typename?: 'profiles';
-      id: any;
-      username: string;
-      display_name?: string | null;
-      bio?: string | null;
-      profile_image_url?: string | null;
-      location?: string | null;
-      instagram?: string | null;
-      url?: string | null;
-      updated_at?: any | null;
-    }>;
-  };
-};
+
+export type UpdateProfileMutation = { __typename?: 'Mutation', updateprofilesCollection: { __typename?: 'profilesUpdateResponse', affectedCount: number, records: Array<{ __typename?: 'profiles', id: any, username: string, display_name?: string | null, bio?: string | null, profile_image_url?: string | null, location?: string | null, instagram?: string | null, url?: string | null, updated_at?: any | null }> } };
 
 export type UpdateRecipeMutationVariables = Exact<{
   id: Scalars['UUID']['input'];
   set: RecipesUpdateInput;
 }>;
 
-export type UpdateRecipeMutation = {
-  __typename?: 'Mutation';
-  updaterecipesCollection: {
-    __typename?: 'recipesUpdateResponse';
-    records: Array<{
-      __typename?: 'recipes';
-      id: any;
-      user_id?: any | null;
-      bean_id?: any | null;
-      title?: string | null;
-      description?: string | null;
-      image_url?: string | null;
-      grind_size?: string | null;
-      grind_weight?: any | null;
-      ratio?: string | null;
-      brew_method?: Brew_Method | null;
-      is_public?: boolean | null;
-      likes_count?: number | null;
-      created_at?: any | null;
-    }>;
-  };
-};
+
+export type UpdateRecipeMutation = { __typename?: 'Mutation', updaterecipesCollection: { __typename?: 'recipesUpdateResponse', records: Array<{ __typename?: 'recipes', id: any, user_id?: any | null, bean_id?: any | null, title?: string | null, description?: string | null, image_url?: string | null, grind_size?: string | null, grind_weight?: any | null, ratio?: string | null, brew_method?: Brew_Method | null, is_public?: boolean | null, likes_count?: number | null, created_at?: any | null }> } };
 
 export type UpdateRoasterMutationVariables = Exact<{
   id: Scalars['UUID']['input'];
   set: RoastersUpdateInput;
 }>;
 
-export type UpdateRoasterMutation = {
-  __typename?: 'Mutation';
-  updateroastersCollection: {
-    __typename?: 'roastersUpdateResponse';
-    affectedCount: number;
-    records: Array<{
-      __typename?: 'roasters';
-      id: any;
-      name: string;
-      description?: string | null;
-      profile_image_url?: string | null;
-      logo_url?: string | null;
-      location_city?: string | null;
-      location_state?: string | null;
-      location_country?: string | null;
-      url?: string | null;
-      instagram?: string | null;
-      is_published: boolean;
-      created_at?: any | null;
-      updated_at?: any | null;
-    }>;
-  };
-};
 
-export type GetCuratedHomepageItemsQueryVariables = Exact<{
-  [key: string]: never;
-}>;
+export type UpdateRoasterMutation = { __typename?: 'Mutation', updateroastersCollection: { __typename?: 'roastersUpdateResponse', affectedCount: number, records: Array<{ __typename?: 'roasters', id: any, name: string, description?: string | null, profile_image_url?: string | null, logo_url?: string | null, location_city?: string | null, location_state?: string | null, location_country?: string | null, url?: string | null, instagram?: string | null, is_published: boolean, created_at?: any | null, updated_at?: any | null }> } };
 
-export type GetCuratedHomepageItemsQuery = {
-  __typename?: 'Query';
-  homepage_curated_itemsCollection?: {
-    __typename?: 'homepage_curated_itemsConnection';
-    edges: Array<{
-      __typename?: 'homepage_curated_itemsEdge';
-      node: {
-        __typename?: 'homepage_curated_items';
-        id: any;
-        nodeId: string;
-        section: string;
-        display_order: number;
-        custom_title?: string | null;
-        published: boolean;
-        created_at: any;
-        updated_at: any;
-        bean_id?: any | null;
-        recipe_id?: any | null;
-        roaster_id?: any | null;
-        location_id?: any | null;
-        beans?: {
-          __typename?: 'beans';
-          id: any;
-          slug?: string | null;
-          name: string;
-          average_rating?: number | null;
-          review_count?: number | null;
-          is_published: boolean;
-          origin?: string | null;
-          roasters?: { __typename?: 'roasters'; id: any; name: string } | null;
-        } | null;
-        recipes?: {
-          __typename?: 'recipes';
-          id: any;
-          slug?: string | null;
-          title?: string | null;
-          description?: string | null;
-          image_url?: string | null;
-          is_public?: boolean | null;
-          likes_count?: number | null;
-        } | null;
-        roasters?: {
-          __typename?: 'roasters';
-          id: any;
-          slug?: string | null;
-          name: string;
-          bean_count?: number | null;
-          is_published: boolean;
-          location_city?: string | null;
-          location_state?: string | null;
-          location_country?: string | null;
-          created_at?: any | null;
-          beanCount?: number | null;
-          roaster_likesCollection?: {
-            __typename?: 'roaster_likesConnection';
-            edges: Array<{
-              __typename?: 'roaster_likesEdge';
-              node: {
-                __typename?: 'roaster_likes';
-                id: any;
-                user_id?: any | null;
-              };
-            }>;
-          } | null;
-        } | null;
-        locations?: {
-          __typename?: 'locations';
-          id: any;
-          slug?: string | null;
-          name: string;
-        } | null;
-      };
-    }>;
-  } | null;
-};
+export type GetCuratedHomepageItemsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCuratedHomepageItemsQuery = { __typename?: 'Query', homepage_curated_itemsCollection?: { __typename?: 'homepage_curated_itemsConnection', edges: Array<{ __typename?: 'homepage_curated_itemsEdge', node: { __typename?: 'homepage_curated_items', id: any, nodeId: string, section: string, display_order: number, custom_title?: string | null, published: boolean, created_at: any, updated_at: any, bean_id?: any | null, recipe_id?: any | null, roaster_id?: any | null, location_id?: any | null, beans?: { __typename?: 'beans', id: any, slug?: string | null, name: string, average_rating?: number | null, review_count?: number | null, is_published: boolean, origin?: string | null, roasters?: { __typename?: 'roasters', id: any, name: string } | null } | null, recipes?: { __typename?: 'recipes', id: any, slug?: string | null, title?: string | null, description?: string | null, image_url?: string | null, is_public?: boolean | null, likes_count?: number | null } | null, roasters?: { __typename?: 'roasters', id: any, slug?: string | null, name: string, bean_count?: number | null, is_published: boolean, location_city?: string | null, location_state?: string | null, location_country?: string | null, created_at?: any | null, beanCount?: number | null, roaster_likesCollection?: { __typename?: 'roaster_likesConnection', edges: Array<{ __typename?: 'roaster_likesEdge', node: { __typename?: 'roaster_likes', id: any, user_id?: any | null } }> } | null } | null, locations?: { __typename?: 'locations', id: any, slug?: string | null, name: string } | null } }> } | null };
 
 export type GetRecipeByIdQueryVariables = Exact<{
   id: Scalars['UUID']['input'];
 }>;
 
-export type GetRecipeByIdQuery = {
-  __typename?: 'Query';
-  recipesCollection?: {
-    __typename?: 'recipesConnection';
-    edges: Array<{
-      __typename?: 'recipesEdge';
-      node: {
-        __typename?: 'recipes';
-        id: any;
-        slug?: string | null;
-        user_id?: any | null;
-        bean_id?: any | null;
-        title?: string | null;
-        description?: string | null;
-        image_url?: string | null;
-        grind_size?: string | null;
-        grind_weight?: any | null;
-        ratio?: string | null;
-        brew_method?: Brew_Method | null;
-        is_public?: boolean | null;
-        likes_count?: number | null;
-        created_at?: any | null;
-        profiles?: {
-          __typename?: 'profiles';
-          id: any;
-          username: string;
-          display_name?: string | null;
-        } | null;
-        bean?: {
-          __typename?: 'beans';
-          id: any;
-          name: string;
-          roasters?: { __typename?: 'roasters'; id: any; name: string } | null;
-        } | null;
-        likes?: {
-          __typename?: 'recipe_likesConnection';
-          edges: Array<{
-            __typename?: 'recipe_likesEdge';
-            node: { __typename?: 'recipe_likes'; id: any; user_id: any };
-          }>;
-        } | null;
-      };
-    }>;
-  } | null;
-};
+
+export type GetRecipeByIdQuery = { __typename?: 'Query', recipesCollection?: { __typename?: 'recipesConnection', edges: Array<{ __typename?: 'recipesEdge', node: { __typename?: 'recipes', id: any, slug?: string | null, user_id?: any | null, bean_id?: any | null, title?: string | null, description?: string | null, image_url?: string | null, grind_size?: string | null, grind_weight?: any | null, ratio?: string | null, brew_method?: Brew_Method | null, is_public?: boolean | null, likes_count?: number | null, created_at?: any | null, profiles?: { __typename?: 'profiles', id: any, username: string, display_name?: string | null } | null, bean?: { __typename?: 'beans', id: any, name: string, roasters?: { __typename?: 'roasters', id: any, name: string } | null } | null, likes?: { __typename?: 'recipe_likesConnection', edges: Array<{ __typename?: 'recipe_likesEdge', node: { __typename?: 'recipe_likes', id: any, user_id: any } }> } | null } }> } | null };
 
 export type GetRecipesQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   after?: InputMaybe<Scalars['Cursor']['input']>;
 }>;
 
-export type GetRecipesQuery = {
-  __typename?: 'Query';
-  recipesCollection?: {
-    __typename?: 'recipesConnection';
-    edges: Array<{
-      __typename?: 'recipesEdge';
-      node: {
-        __typename?: 'recipes';
-        id: any;
-        slug?: string | null;
-        user_id?: any | null;
-        bean_id?: any | null;
-        title?: string | null;
-        description?: string | null;
-        image_url?: string | null;
-        grind_size?: string | null;
-        grind_weight?: any | null;
-        ratio?: string | null;
-        brew_method?: Brew_Method | null;
-        is_public?: boolean | null;
-        likes_count?: number | null;
-        created_at?: any | null;
-        profiles?: {
-          __typename?: 'profiles';
-          id: any;
-          username: string;
-          display_name?: string | null;
-        } | null;
-        likes?: {
-          __typename?: 'recipe_likesConnection';
-          edges: Array<{
-            __typename?: 'recipe_likesEdge';
-            node: { __typename?: 'recipe_likes'; id: any; user_id: any };
-          }>;
-        } | null;
-      };
-    }>;
-    pageInfo: {
-      __typename?: 'PageInfo';
-      hasNextPage: boolean;
-      endCursor?: string | null;
-    };
-  } | null;
-};
+
+export type GetRecipesQuery = { __typename?: 'Query', recipesCollection?: { __typename?: 'recipesConnection', edges: Array<{ __typename?: 'recipesEdge', node: { __typename?: 'recipes', id: any, slug?: string | null, user_id?: any | null, bean_id?: any | null, title?: string | null, description?: string | null, image_url?: string | null, grind_size?: string | null, grind_weight?: any | null, ratio?: string | null, brew_method?: Brew_Method | null, is_public?: boolean | null, likes_count?: number | null, created_at?: any | null, profiles?: { __typename?: 'profiles', id: any, username: string, display_name?: string | null } | null, likes?: { __typename?: 'recipe_likesConnection', edges: Array<{ __typename?: 'recipe_likesEdge', node: { __typename?: 'recipe_likes', id: any, user_id: any } }> } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
 
 export type GetAllRoastersQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-export type GetAllRoastersQuery = {
-  __typename?: 'Query';
-  roastersCollection?: {
-    __typename?: 'roastersConnection';
-    edges: Array<{
-      __typename?: 'roastersEdge';
-      node: { __typename?: 'roasters'; id: any; name: string };
-    }>;
-  } | null;
-};
+
+export type GetAllRoastersQuery = { __typename?: 'Query', roastersCollection?: { __typename?: 'roastersConnection', edges: Array<{ __typename?: 'roastersEdge', node: { __typename?: 'roasters', id: any, name: string } }> } | null };
 
 export type GetBeanQueryVariables = Exact<{
   id: Scalars['UUID']['input'];
   filter?: InputMaybe<BeansFilter>;
 }>;
 
-export type GetBeanQuery = {
-  __typename?: 'Query';
-  beansCollection?: {
-    __typename?: 'beansConnection';
-    edges: Array<{
-      __typename?: 'beansEdge';
-      node: {
-        __typename?: 'beans';
-        id: any;
-        slug?: string | null;
-        name: string;
-        description?: string | null;
-        image_url?: string | null;
-        roast_type?: Roast_Type | null;
-        process?: string | null;
-        roast_level?: Roast_Level | null;
-        bean_type?: Bean_Type | null;
-        elevation_min?: number | null;
-        elevation_max?: number | null;
-        origin?: string | null;
-        producer?: string | null;
-        notes?: string | null;
-        buy_urls?: Array<string | null> | null;
-        is_published: boolean;
-        created_at?: any | null;
-        roasters?: {
-          __typename?: 'roasters';
-          id: any;
-          slug?: string | null;
-          name: string;
-        } | null;
-        bean_varietiesCollection?: {
-          __typename?: 'bean_varietiesConnection';
-          edges: Array<{
-            __typename?: 'bean_varietiesEdge';
-            node: {
-              __typename?: 'bean_varieties';
-              varieties: { __typename?: 'varieties'; id: any; name: string };
-            };
-          }>;
-        } | null;
-        bean_tagsCollection?: {
-          __typename?: 'bean_tagsConnection';
-          edges: Array<{
-            __typename?: 'bean_tagsEdge';
-            node: {
-              __typename?: 'bean_tags';
-              tags?: { __typename?: 'tags'; id: any; name: string } | null;
-            };
-          }>;
-        } | null;
-        bean_reviewsCollection?: {
-          __typename?: 'bean_reviewsConnection';
-          edges: Array<{
-            __typename?: 'bean_reviewsEdge';
-            node: {
-              __typename?: 'bean_reviews';
-              id: any;
-              rating?: any | null;
-              content?: string | null;
-              coffee_type?: Coffee_Type | null;
-              created_at?: any | null;
-              profiles?: {
-                __typename?: 'profiles';
-                id: any;
-                username: string;
-                display_name?: string | null;
-                profile_image_url?: string | null;
-              } | null;
-            };
-          }>;
-        } | null;
-      };
-    }>;
-  } | null;
-};
+
+export type GetBeanQuery = { __typename?: 'Query', beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any, slug?: string | null, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, is_published: boolean, created_at?: any | null, roasters?: { __typename?: 'roasters', id: any, slug?: string | null, name: string } | null, bean_varietiesCollection?: { __typename?: 'bean_varietiesConnection', edges: Array<{ __typename?: 'bean_varietiesEdge', node: { __typename?: 'bean_varieties', varieties: { __typename?: 'varieties', id: any, name: string } } }> } | null, bean_tagsCollection?: { __typename?: 'bean_tagsConnection', edges: Array<{ __typename?: 'bean_tagsEdge', node: { __typename?: 'bean_tags', tags?: { __typename?: 'tags', id: any, name: string } | null } }> } | null, bean_reviewsCollection?: { __typename?: 'bean_reviewsConnection', edges: Array<{ __typename?: 'bean_reviewsEdge', node: { __typename?: 'bean_reviews', id: any, rating?: any | null, content?: string | null, coffee_type?: Coffee_Type | null, created_at?: any | null, profiles?: { __typename?: 'profiles', id: any, username: string, display_name?: string | null, profile_image_url?: string | null } | null } }> } | null } }> } | null };
 
 export type GetBeanOptionsQueryVariables = Exact<{
   search?: InputMaybe<Scalars['String']['input']>;
@@ -3979,26 +3574,8 @@ export type GetBeanOptionsQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;
 }>;
 
-export type GetBeanOptionsQuery = {
-  __typename?: 'Query';
-  beansCollection?: {
-    __typename?: 'beansConnection';
-    edges: Array<{
-      __typename?: 'beansEdge';
-      node: {
-        __typename?: 'beans';
-        id: any;
-        name: string;
-        roasters?: { __typename?: 'roasters'; id: any; name: string } | null;
-      };
-    }>;
-    pageInfo: {
-      __typename?: 'PageInfo';
-      hasNextPage: boolean;
-      endCursor?: string | null;
-    };
-  } | null;
-};
+
+export type GetBeanOptionsQuery = { __typename?: 'Query', beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any, name: string, roasters?: { __typename?: 'roasters', id: any, name: string } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
 
 export type GetBeansQueryVariables = Exact<{
   filter?: InputMaybe<BeansFilter>;
@@ -4007,117 +3584,13 @@ export type GetBeansQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<BeansOrderBy> | BeansOrderBy>;
 }>;
 
-export type GetBeansQuery = {
-  __typename?: 'Query';
-  beansCollection?: {
-    __typename?: 'beansConnection';
-    edges: Array<{
-      __typename?: 'beansEdge';
-      cursor: string;
-      node: {
-        __typename?: 'beans';
-        id: any;
-        slug?: string | null;
-        name: string;
-        image_url?: string | null;
-        roast_type?: Roast_Type | null;
-        process?: string | null;
-        roast_level?: Roast_Level | null;
-        origin?: string | null;
-        created_at?: any | null;
-        average_rating?: number | null;
-        review_count?: number | null;
-        is_published: boolean;
-        roasters?: { __typename?: 'roasters'; id: any; name: string } | null;
-        bean_tagsCollection?: {
-          __typename?: 'bean_tagsConnection';
-          edges: Array<{
-            __typename?: 'bean_tagsEdge';
-            node: {
-              __typename?: 'bean_tags';
-              tags?: { __typename?: 'tags'; id: any; name: string } | null;
-            };
-          }>;
-        } | null;
-        bean_likesCollection?: {
-          __typename?: 'bean_likesConnection';
-          edges: Array<{
-            __typename?: 'bean_likesEdge';
-            node: { __typename?: 'bean_likes'; id: any; user_id?: any | null };
-          }>;
-        } | null;
-      };
-    }>;
-    pageInfo: {
-      __typename?: 'PageInfo';
-      hasNextPage: boolean;
-      endCursor?: string | null;
-    };
-  } | null;
-};
 
-export type GetDashboardStatsQueryVariables = Exact<{ [key: string]: never }>;
+export type GetBeansQuery = { __typename?: 'Query', beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', cursor: string, node: { __typename?: 'beans', id: any, slug?: string | null, name: string, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, origin?: string | null, created_at?: any | null, average_rating?: number | null, review_count?: number | null, is_published: boolean, roasters?: { __typename?: 'roasters', id: any, name: string } | null, bean_tagsCollection?: { __typename?: 'bean_tagsConnection', edges: Array<{ __typename?: 'bean_tagsEdge', node: { __typename?: 'bean_tags', tags?: { __typename?: 'tags', id: any, name: string } | null } }> } | null, bean_likesCollection?: { __typename?: 'bean_likesConnection', edges: Array<{ __typename?: 'bean_likesEdge', node: { __typename?: 'bean_likes', id: any, user_id?: any | null } }> } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
 
-export type GetDashboardStatsQuery = {
-  __typename?: 'Query';
-  dashboard_statsCollection?: {
-    __typename?: 'dashboard_statsConnection';
-    edges: Array<{
-      __typename?: 'dashboard_statsEdge';
-      node: {
-        __typename?: 'dashboard_stats';
-        id?: any | null;
-        total_users?: any | null;
-        total_beans?: any | null;
-        total_roasters?: any | null;
-        total_locations?: any | null;
-        total_bean_reviews?: any | null;
-        total_recipes?: any | null;
-        total_location_reviews?: any | null;
-      };
-    }>;
-  } | null;
-  roastersCollection?: {
-    __typename?: 'roastersConnection';
-    edges: Array<{
-      __typename?: 'roastersEdge';
-      node: {
-        __typename?: 'roasters';
-        id: any;
-        name: string;
-        average_rating?: number | null;
-        review_count?: number | null;
-        bean_count?: number | null;
-      };
-    }>;
-  } | null;
-  beansCollection?: {
-    __typename?: 'beansConnection';
-    edges: Array<{
-      __typename?: 'beansEdge';
-      node: {
-        __typename?: 'beans';
-        id: any;
-        name: string;
-        average_rating?: number | null;
-        review_count?: number | null;
-      };
-    }>;
-  } | null;
-  locationsCollection?: {
-    __typename?: 'locationsConnection';
-    edges: Array<{
-      __typename?: 'locationsEdge';
-      node: {
-        __typename?: 'locations';
-        id: any;
-        name: string;
-        average_rating?: number | null;
-        review_count?: number | null;
-      };
-    }>;
-  } | null;
-};
+export type GetDashboardStatsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetDashboardStatsQuery = { __typename?: 'Query', dashboard_statsCollection?: { __typename?: 'dashboard_statsConnection', edges: Array<{ __typename?: 'dashboard_statsEdge', node: { __typename?: 'dashboard_stats', id?: any | null, total_users?: any | null, total_beans?: any | null, total_roasters?: any | null, total_locations?: any | null, total_bean_reviews?: any | null, total_recipes?: any | null, total_location_reviews?: any | null } }> } | null, roastersCollection?: { __typename?: 'roastersConnection', edges: Array<{ __typename?: 'roastersEdge', node: { __typename?: 'roasters', id: any, name: string, average_rating?: number | null, review_count?: number | null, bean_count?: number | null } }> } | null, beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any, name: string, average_rating?: number | null, review_count?: number | null } }> } | null, locationsCollection?: { __typename?: 'locationsConnection', edges: Array<{ __typename?: 'locationsEdge', node: { __typename?: 'locations', id: any, name: string, average_rating?: number | null, review_count?: number | null } }> } | null };
 
 export type GetLocationsQueryVariables = Exact<{
   filter?: InputMaybe<LocationsFilter>;
@@ -4125,156 +3598,23 @@ export type GetLocationsQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;
 }>;
 
-export type GetLocationsQuery = {
-  __typename?: 'Query';
-  locationsCollection?: {
-    __typename?: 'locationsConnection';
-    edges: Array<{
-      __typename?: 'locationsEdge';
-      node: {
-        __typename?: 'locations';
-        id: any;
-        slug?: string | null;
-        name: string;
-        description?: string | null;
-        image_url?: string | null;
-        address?: string | null;
-        latitude?: any | null;
-        longitude?: any | null;
-        url?: string | null;
-        instagram?: string | null;
-        claimed_by?: any | null;
-        created_at?: any | null;
-        is_published: boolean;
-        location_likesCollection?: {
-          __typename?: 'location_likesConnection';
-          edges: Array<{
-            __typename?: 'location_likesEdge';
-            node: {
-              __typename?: 'location_likes';
-              id: any;
-              user_id?: any | null;
-            };
-          }>;
-        } | null;
-        location_reviewsCollection?: {
-          __typename?: 'location_reviewsConnection';
-          edges: Array<{
-            __typename?: 'location_reviewsEdge';
-            node: {
-              __typename?: 'location_reviews';
-              id: any;
-              rating?: any | null;
-            };
-          }>;
-        } | null;
-      };
-    }>;
-    pageInfo: {
-      __typename?: 'PageInfo';
-      hasNextPage: boolean;
-      endCursor?: string | null;
-    };
-  } | null;
-};
+
+export type GetLocationsQuery = { __typename?: 'Query', locationsCollection?: { __typename?: 'locationsConnection', edges: Array<{ __typename?: 'locationsEdge', node: { __typename?: 'locations', id: any, slug?: string | null, name: string, description?: string | null, image_url?: string | null, address?: string | null, latitude?: any | null, longitude?: any | null, url?: string | null, instagram?: string | null, claimed_by?: any | null, created_at?: any | null, is_published: boolean, location_likesCollection?: { __typename?: 'location_likesConnection', edges: Array<{ __typename?: 'location_likesEdge', node: { __typename?: 'location_likes', id: any, user_id?: any | null } }> } | null, location_reviewsCollection?: { __typename?: 'location_reviewsConnection', edges: Array<{ __typename?: 'location_reviewsEdge', node: { __typename?: 'location_reviews', id: any, rating?: any | null } }> } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
 
 export type GetProfileQueryVariables = Exact<{
   id: Scalars['UUID']['input'];
 }>;
 
-export type GetProfileQuery = {
-  __typename?: 'Query';
-  profilesCollection?: {
-    __typename?: 'profilesConnection';
-    edges: Array<{
-      __typename?: 'profilesEdge';
-      node: {
-        __typename?: 'profiles';
-        id: any;
-        username: string;
-        display_name?: string | null;
-        bio?: string | null;
-        profile_image_url?: string | null;
-        location?: string | null;
-        instagram?: string | null;
-        url?: string | null;
-        created_at?: any | null;
-      };
-    }>;
-  } | null;
-};
+
+export type GetProfileQuery = { __typename?: 'Query', profilesCollection?: { __typename?: 'profilesConnection', edges: Array<{ __typename?: 'profilesEdge', node: { __typename?: 'profiles', id: any, username: string, display_name?: string | null, bio?: string | null, profile_image_url?: string | null, location?: string | null, instagram?: string | null, url?: string | null, created_at?: any | null } }> } | null };
 
 export type GetRoasterQueryVariables = Exact<{
   id: Scalars['UUID']['input'];
   filter?: InputMaybe<RoastersFilter>;
 }>;
 
-export type GetRoasterQuery = {
-  __typename?: 'Query';
-  roastersCollection?: {
-    __typename?: 'roastersConnection';
-    edges: Array<{
-      __typename?: 'roastersEdge';
-      node: {
-        __typename?: 'roasters';
-        id: any;
-        name: string;
-        slug?: string | null;
-        description?: string | null;
-        profile_image_url?: string | null;
-        logo_url?: string | null;
-        location_city?: string | null;
-        location_state?: string | null;
-        location_country?: string | null;
-        url?: string | null;
-        instagram?: string | null;
-        claimed_by?: any | null;
-        is_published: boolean;
-        created_at?: any | null;
-        beansCollection?: {
-          __typename?: 'beansConnection';
-          edges: Array<{
-            __typename?: 'beansEdge';
-            node: {
-              __typename?: 'beans';
-              id: any;
-              slug?: string | null;
-              name: string;
-              description?: string | null;
-              origin?: string | null;
-              process?: string | null;
-              roast_level?: Roast_Level | null;
-              average_rating?: number | null;
-              created_at?: any | null;
-              bean_likesCollection?: {
-                __typename?: 'bean_likesConnection';
-                edges: Array<{
-                  __typename?: 'bean_likesEdge';
-                  node: {
-                    __typename?: 'bean_likes';
-                    id: any;
-                    user_id?: any | null;
-                  };
-                }>;
-              } | null;
-              bean_reviewsCollection?: {
-                __typename?: 'bean_reviewsConnection';
-                edges: Array<{
-                  __typename?: 'bean_reviewsEdge';
-                  node: {
-                    __typename?: 'bean_reviews';
-                    id: any;
-                    rating?: any | null;
-                  };
-                }>;
-              } | null;
-            };
-          }>;
-        } | null;
-      };
-    }>;
-  } | null;
-};
+
+export type GetRoasterQuery = { __typename?: 'Query', roastersCollection?: { __typename?: 'roastersConnection', edges: Array<{ __typename?: 'roastersEdge', node: { __typename?: 'roasters', id: any, name: string, slug?: string | null, description?: string | null, profile_image_url?: string | null, logo_url?: string | null, location_city?: string | null, location_state?: string | null, location_country?: string | null, url?: string | null, instagram?: string | null, claimed_by?: any | null, is_published: boolean, created_at?: any | null, roaster_likesCollection?: { __typename?: 'roaster_likesConnection', edges: Array<{ __typename?: 'roaster_likesEdge', node: { __typename?: 'roaster_likes', id: any, user_id?: any | null } }> } | null, beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any, slug?: string | null, name: string, description?: string | null, origin?: string | null, process?: string | null, roast_level?: Roast_Level | null, average_rating?: number | null, created_at?: any | null, bean_likesCollection?: { __typename?: 'bean_likesConnection', edges: Array<{ __typename?: 'bean_likesEdge', node: { __typename?: 'bean_likes', id: any, user_id?: any | null } }> } | null, bean_reviewsCollection?: { __typename?: 'bean_reviewsConnection', edges: Array<{ __typename?: 'bean_reviewsEdge', node: { __typename?: 'bean_reviews', id: any, rating?: any | null } }> } | null } }> } | null } }> } | null };
 
 export type GetRoastersQueryVariables = Exact<{
   filter?: InputMaybe<RoastersFilter>;
@@ -4282,46 +3622,8 @@ export type GetRoastersQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;
 }>;
 
-export type GetRoastersQuery = {
-  __typename?: 'Query';
-  roastersCollection?: {
-    __typename?: 'roastersConnection';
-    edges: Array<{
-      __typename?: 'roastersEdge';
-      node: {
-        __typename?: 'roasters';
-        id: any;
-        slug?: string | null;
-        name: string;
-        profile_image_url?: string | null;
-        logo_url?: string | null;
-        location_city?: string | null;
-        location_state?: string | null;
-        location_country?: string | null;
-        claimed_by?: any | null;
-        created_at?: any | null;
-        is_published: boolean;
-        bean_count?: number | null;
-        roaster_likesCollection?: {
-          __typename?: 'roaster_likesConnection';
-          edges: Array<{
-            __typename?: 'roaster_likesEdge';
-            node: {
-              __typename?: 'roaster_likes';
-              id: any;
-              user_id?: any | null;
-            };
-          }>;
-        } | null;
-      };
-    }>;
-    pageInfo: {
-      __typename?: 'PageInfo';
-      hasNextPage: boolean;
-      endCursor?: string | null;
-    };
-  } | null;
-};
+
+export type GetRoastersQuery = { __typename?: 'Query', roastersCollection?: { __typename?: 'roastersConnection', edges: Array<{ __typename?: 'roastersEdge', node: { __typename?: 'roasters', id: any, slug?: string | null, name: string, profile_image_url?: string | null, logo_url?: string | null, location_city?: string | null, location_state?: string | null, location_country?: string | null, claimed_by?: any | null, created_at?: any | null, is_published: boolean, bean_count?: number | null, roaster_likesCollection?: { __typename?: 'roaster_likesConnection', edges: Array<{ __typename?: 'roaster_likesEdge', node: { __typename?: 'roaster_likes', id: any, user_id?: any | null } }> } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
 
 export type GetUserLikesQueryVariables = Exact<{
   userId: Scalars['UUID']['input'];
@@ -4329,110 +3631,8 @@ export type GetUserLikesQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;
 }>;
 
-export type GetUserLikesQuery = {
-  __typename?: 'Query';
-  bean_likesCollection?: {
-    __typename?: 'bean_likesConnection';
-    edges: Array<{
-      __typename?: 'bean_likesEdge';
-      node: {
-        __typename?: 'bean_likes';
-        id: any;
-        created_at?: any | null;
-        beans?: {
-          __typename?: 'beans';
-          id: any;
-          slug?: string | null;
-          name: string;
-          roaster_id?: any | null;
-          process?: string | null;
-          image_url?: string | null;
-          roasters?: { __typename?: 'roasters'; name: string } | null;
-        } | null;
-      };
-    }>;
-    pageInfo: {
-      __typename?: 'PageInfo';
-      hasNextPage: boolean;
-      endCursor?: string | null;
-    };
-  } | null;
-  roaster_likesCollection?: {
-    __typename?: 'roaster_likesConnection';
-    edges: Array<{
-      __typename?: 'roaster_likesEdge';
-      node: {
-        __typename?: 'roaster_likes';
-        id: any;
-        created_at?: any | null;
-        roasters?: {
-          __typename?: 'roasters';
-          id: any;
-          slug?: string | null;
-          name: string;
-          profile_image_url?: string | null;
-          location_city?: string | null;
-          location_state?: string | null;
-        } | null;
-      };
-    }>;
-    pageInfo: {
-      __typename?: 'PageInfo';
-      hasNextPage: boolean;
-      endCursor?: string | null;
-    };
-  } | null;
-  location_likesCollection?: {
-    __typename?: 'location_likesConnection';
-    edges: Array<{
-      __typename?: 'location_likesEdge';
-      node: {
-        __typename?: 'location_likes';
-        id: any;
-        created_at?: any | null;
-        locations?: {
-          __typename?: 'locations';
-          id: any;
-          slug?: string | null;
-          name: string;
-          image_url?: string | null;
-          address?: string | null;
-          latitude?: any | null;
-          longitude?: any | null;
-        } | null;
-      };
-    }>;
-    pageInfo: {
-      __typename?: 'PageInfo';
-      hasNextPage: boolean;
-      endCursor?: string | null;
-    };
-  } | null;
-  recipe_likesCollection?: {
-    __typename?: 'recipe_likesConnection';
-    edges: Array<{
-      __typename?: 'recipe_likesEdge';
-      node: {
-        __typename?: 'recipe_likes';
-        id: any;
-        created_at?: any | null;
-        recipes?: {
-          __typename?: 'recipes';
-          id: any;
-          slug?: string | null;
-          title?: string | null;
-          image_url?: string | null;
-          created_at?: any | null;
-        } | null;
-      };
-    }>;
-    pageInfo: {
-      __typename?: 'PageInfo';
-      hasNextPage: boolean;
-      endCursor?: string | null;
-    };
-  } | null;
-};
+
+export type GetUserLikesQuery = { __typename?: 'Query', bean_likesCollection?: { __typename?: 'bean_likesConnection', edges: Array<{ __typename?: 'bean_likesEdge', node: { __typename?: 'bean_likes', id: any, created_at?: any | null, beans?: { __typename?: 'beans', id: any, slug?: string | null, name: string, roaster_id?: any | null, process?: string | null, image_url?: string | null, roasters?: { __typename?: 'roasters', name: string } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null, roaster_likesCollection?: { __typename?: 'roaster_likesConnection', edges: Array<{ __typename?: 'roaster_likesEdge', node: { __typename?: 'roaster_likes', id: any, created_at?: any | null, roasters?: { __typename?: 'roasters', id: any, slug?: string | null, name: string, profile_image_url?: string | null, location_city?: string | null, location_state?: string | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null, location_likesCollection?: { __typename?: 'location_likesConnection', edges: Array<{ __typename?: 'location_likesEdge', node: { __typename?: 'location_likes', id: any, created_at?: any | null, locations?: { __typename?: 'locations', id: any, slug?: string | null, name: string, image_url?: string | null, address?: string | null, latitude?: any | null, longitude?: any | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null, recipe_likesCollection?: { __typename?: 'recipe_likesConnection', edges: Array<{ __typename?: 'recipe_likesEdge', node: { __typename?: 'recipe_likes', id: any, created_at?: any | null, recipes?: { __typename?: 'recipes', id: any, slug?: string | null, title?: string | null, image_url?: string | null, created_at?: any | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -4477,10 +3677,7 @@ export const CreateBeanDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  CreateBeanMutation,
-  CreateBeanMutationVariables
->;
+    `) as unknown as TypedDocumentString<CreateBeanMutation, CreateBeanMutationVariables>;
 export const CreateCuratedHomepageItemDocument = new TypedDocumentString(`
     mutation CreateCuratedHomepageItem($input: [homepage_curated_itemsInsertInput!]!) {
   insertIntohomepage_curated_itemsCollection(objects: $input) {
@@ -4499,10 +3696,7 @@ export const CreateCuratedHomepageItemDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  CreateCuratedHomepageItemMutation,
-  CreateCuratedHomepageItemMutationVariables
->;
+    `) as unknown as TypedDocumentString<CreateCuratedHomepageItemMutation, CreateCuratedHomepageItemMutationVariables>;
 export const CreateRecipeDocument = new TypedDocumentString(`
     mutation CreateRecipe($input: recipesInsertInput!) {
   insertIntorecipesCollection(objects: [$input]) {
@@ -4523,10 +3717,7 @@ export const CreateRecipeDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  CreateRecipeMutation,
-  CreateRecipeMutationVariables
->;
+    `) as unknown as TypedDocumentString<CreateRecipeMutation, CreateRecipeMutationVariables>;
 export const CreateRoasterDocument = new TypedDocumentString(`
     mutation CreateRoaster($input: roastersInsertInput!) {
   insertIntoroastersCollection(objects: [$input]) {
@@ -4545,20 +3736,14 @@ export const CreateRoasterDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  CreateRoasterMutation,
-  CreateRoasterMutationVariables
->;
+    `) as unknown as TypedDocumentString<CreateRoasterMutation, CreateRoasterMutationVariables>;
 export const DeleteCuratedHomepageItemDocument = new TypedDocumentString(`
     mutation DeleteCuratedHomepageItem($filter: homepage_curated_itemsFilter!) {
   deleteFromhomepage_curated_itemsCollection(filter: $filter) {
     affectedCount
   }
 }
-    `) as unknown as TypedDocumentString<
-  DeleteCuratedHomepageItemMutation,
-  DeleteCuratedHomepageItemMutationVariables
->;
+    `) as unknown as TypedDocumentString<DeleteCuratedHomepageItemMutation, DeleteCuratedHomepageItemMutationVariables>;
 export const LikeBeanDocument = new TypedDocumentString(`
     mutation LikeBean($input: bean_likesInsertInput!) {
   insertIntobean_likesCollection(objects: [$input]) {
@@ -4570,10 +3755,7 @@ export const LikeBeanDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  LikeBeanMutation,
-  LikeBeanMutationVariables
->;
+    `) as unknown as TypedDocumentString<LikeBeanMutation, LikeBeanMutationVariables>;
 export const UnlikeBeanDocument = new TypedDocumentString(`
     mutation UnlikeBean($filter: bean_likesFilter!) {
   deleteFrombean_likesCollection(filter: $filter) {
@@ -4582,10 +3764,7 @@ export const UnlikeBeanDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  UnlikeBeanMutation,
-  UnlikeBeanMutationVariables
->;
+    `) as unknown as TypedDocumentString<UnlikeBeanMutation, UnlikeBeanMutationVariables>;
 export const LikeRoasterDocument = new TypedDocumentString(`
     mutation LikeRoaster($input: roaster_likesInsertInput!) {
   insertIntoroaster_likesCollection(objects: [$input]) {
@@ -4597,10 +3776,7 @@ export const LikeRoasterDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  LikeRoasterMutation,
-  LikeRoasterMutationVariables
->;
+    `) as unknown as TypedDocumentString<LikeRoasterMutation, LikeRoasterMutationVariables>;
 export const UnlikeRoasterDocument = new TypedDocumentString(`
     mutation UnlikeRoaster($filter: roaster_likesFilter!) {
   deleteFromroaster_likesCollection(filter: $filter) {
@@ -4609,10 +3785,7 @@ export const UnlikeRoasterDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  UnlikeRoasterMutation,
-  UnlikeRoasterMutationVariables
->;
+    `) as unknown as TypedDocumentString<UnlikeRoasterMutation, UnlikeRoasterMutationVariables>;
 export const LikeLocationDocument = new TypedDocumentString(`
     mutation LikeLocation($input: location_likesInsertInput!) {
   insertIntolocation_likesCollection(objects: [$input]) {
@@ -4624,10 +3797,7 @@ export const LikeLocationDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  LikeLocationMutation,
-  LikeLocationMutationVariables
->;
+    `) as unknown as TypedDocumentString<LikeLocationMutation, LikeLocationMutationVariables>;
 export const UnlikeLocationDocument = new TypedDocumentString(`
     mutation UnlikeLocation($filter: location_likesFilter!) {
   deleteFromlocation_likesCollection(filter: $filter) {
@@ -4636,10 +3806,7 @@ export const UnlikeLocationDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  UnlikeLocationMutation,
-  UnlikeLocationMutationVariables
->;
+    `) as unknown as TypedDocumentString<UnlikeLocationMutation, UnlikeLocationMutationVariables>;
 export const LikeRecipeDocument = new TypedDocumentString(`
     mutation LikeRecipe($input: recipe_likesInsertInput!) {
   insertIntorecipe_likesCollection(objects: [$input]) {
@@ -4651,10 +3818,7 @@ export const LikeRecipeDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  LikeRecipeMutation,
-  LikeRecipeMutationVariables
->;
+    `) as unknown as TypedDocumentString<LikeRecipeMutation, LikeRecipeMutationVariables>;
 export const UnlikeRecipeDocument = new TypedDocumentString(`
     mutation UnlikeRecipe($filter: recipe_likesFilter!) {
   deleteFromrecipe_likesCollection(filter: $filter) {
@@ -4663,10 +3827,7 @@ export const UnlikeRecipeDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  UnlikeRecipeMutation,
-  UnlikeRecipeMutationVariables
->;
+    `) as unknown as TypedDocumentString<UnlikeRecipeMutation, UnlikeRecipeMutationVariables>;
 export const UpdateBeanDocument = new TypedDocumentString(`
     mutation UpdateBean($id: UUID!, $set: beansUpdateInput!) {
   updatebeansCollection(filter: {id: {eq: $id}}, set: $set) {
@@ -4696,10 +3857,7 @@ export const UpdateBeanDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  UpdateBeanMutation,
-  UpdateBeanMutationVariables
->;
+    `) as unknown as TypedDocumentString<UpdateBeanMutation, UpdateBeanMutationVariables>;
 export const UpdateCuratedHomepageItemDocument = new TypedDocumentString(`
     mutation UpdateCuratedHomepageItem($filter: homepage_curated_itemsFilter!, $set: homepage_curated_itemsUpdateInput!) {
   updatehomepage_curated_itemsCollection(filter: $filter, set: $set) {
@@ -4718,10 +3876,7 @@ export const UpdateCuratedHomepageItemDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  UpdateCuratedHomepageItemMutation,
-  UpdateCuratedHomepageItemMutationVariables
->;
+    `) as unknown as TypedDocumentString<UpdateCuratedHomepageItemMutation, UpdateCuratedHomepageItemMutationVariables>;
 export const UpdateProfileDocument = new TypedDocumentString(`
     mutation UpdateProfile($id: UUID!, $set: profilesUpdateInput!) {
   updateprofilesCollection(filter: {id: {eq: $id}}, set: $set) {
@@ -4739,10 +3894,7 @@ export const UpdateProfileDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  UpdateProfileMutation,
-  UpdateProfileMutationVariables
->;
+    `) as unknown as TypedDocumentString<UpdateProfileMutation, UpdateProfileMutationVariables>;
 export const UpdateRecipeDocument = new TypedDocumentString(`
     mutation UpdateRecipe($id: UUID!, $set: recipesUpdateInput!) {
   updaterecipesCollection(filter: {id: {eq: $id}}, set: $set) {
@@ -4763,10 +3915,7 @@ export const UpdateRecipeDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  UpdateRecipeMutation,
-  UpdateRecipeMutationVariables
->;
+    `) as unknown as TypedDocumentString<UpdateRecipeMutation, UpdateRecipeMutationVariables>;
 export const UpdateRoasterDocument = new TypedDocumentString(`
     mutation UpdateRoaster($id: UUID!, $set: roastersUpdateInput!) {
   updateroastersCollection(filter: {id: {eq: $id}}, set: $set) {
@@ -4788,10 +3937,7 @@ export const UpdateRoasterDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  UpdateRoasterMutation,
-  UpdateRoasterMutationVariables
->;
+    `) as unknown as TypedDocumentString<UpdateRoasterMutation, UpdateRoasterMutationVariables>;
 export const GetCuratedHomepageItemsDocument = new TypedDocumentString(`
     query GetCuratedHomepageItems {
   homepage_curated_itemsCollection(orderBy: {display_order: AscNullsLast}) {
@@ -4860,10 +4006,7 @@ export const GetCuratedHomepageItemsDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  GetCuratedHomepageItemsQuery,
-  GetCuratedHomepageItemsQueryVariables
->;
+    `) as unknown as TypedDocumentString<GetCuratedHomepageItemsQuery, GetCuratedHomepageItemsQueryVariables>;
 export const GetRecipeByIdDocument = new TypedDocumentString(`
     query GetRecipeById($id: UUID!) {
   recipesCollection(filter: {id: {eq: $id}}) {
@@ -4908,10 +4051,7 @@ export const GetRecipeByIdDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  GetRecipeByIdQuery,
-  GetRecipeByIdQueryVariables
->;
+    `) as unknown as TypedDocumentString<GetRecipeByIdQuery, GetRecipeByIdQueryVariables>;
 export const GetRecipesDocument = new TypedDocumentString(`
     query GetRecipes($first: Int, $after: Cursor) {
   recipesCollection(first: $first, after: $after, filter: {is_public: {eq: true}}) {
@@ -4952,10 +4092,7 @@ export const GetRecipesDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  GetRecipesQuery,
-  GetRecipesQueryVariables
->;
+    `) as unknown as TypedDocumentString<GetRecipesQuery, GetRecipesQueryVariables>;
 export const GetAllRoastersDocument = new TypedDocumentString(`
     query GetAllRoasters($first: Int) {
   roastersCollection(
@@ -4971,10 +4108,7 @@ export const GetAllRoastersDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  GetAllRoastersQuery,
-  GetAllRoastersQueryVariables
->;
+    `) as unknown as TypedDocumentString<GetAllRoastersQuery, GetAllRoastersQueryVariables>;
 export const GetBeanDocument = new TypedDocumentString(`
     query GetBean($id: UUID!, $filter: beansFilter) {
   beansCollection(filter: $filter) {
@@ -5068,10 +4202,7 @@ export const GetBeanOptionsDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  GetBeanOptionsQuery,
-  GetBeanOptionsQueryVariables
->;
+    `) as unknown as TypedDocumentString<GetBeanOptionsQuery, GetBeanOptionsQueryVariables>;
 export const GetBeansDocument = new TypedDocumentString(`
     query GetBeans($filter: beansFilter, $first: Int, $after: Cursor, $orderBy: [beansOrderBy!]) {
   beansCollection(
@@ -5174,10 +4305,7 @@ export const GetDashboardStatsDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  GetDashboardStatsQuery,
-  GetDashboardStatsQueryVariables
->;
+    `) as unknown as TypedDocumentString<GetDashboardStatsQuery, GetDashboardStatsQueryVariables>;
 export const GetLocationsDocument = new TypedDocumentString(`
     query GetLocations($filter: locationsFilter, $first: Int, $after: Cursor) {
   locationsCollection(filter: $filter, first: $first, after: $after) {
@@ -5220,10 +4348,7 @@ export const GetLocationsDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  GetLocationsQuery,
-  GetLocationsQueryVariables
->;
+    `) as unknown as TypedDocumentString<GetLocationsQuery, GetLocationsQueryVariables>;
 export const GetProfileDocument = new TypedDocumentString(`
     query GetProfile($id: UUID!) {
   profilesCollection(filter: {id: {eq: $id}}) {
@@ -5242,10 +4367,7 @@ export const GetProfileDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  GetProfileQuery,
-  GetProfileQueryVariables
->;
+    `) as unknown as TypedDocumentString<GetProfileQuery, GetProfileQueryVariables>;
 export const GetRoasterDocument = new TypedDocumentString(`
     query GetRoaster($id: UUID!, $filter: roastersFilter) {
   roastersCollection(filter: $filter) {
@@ -5264,6 +4386,14 @@ export const GetRoasterDocument = new TypedDocumentString(`
         instagram
         claimed_by
         is_published
+        roaster_likesCollection {
+          edges {
+            node {
+              id
+              user_id
+            }
+          }
+        }
         beansCollection {
           edges {
             node {
@@ -5300,10 +4430,7 @@ export const GetRoasterDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  GetRoasterQuery,
-  GetRoasterQueryVariables
->;
+    `) as unknown as TypedDocumentString<GetRoasterQuery, GetRoasterQueryVariables>;
 export const GetRoastersDocument = new TypedDocumentString(`
     query GetRoasters($filter: roastersFilter, $first: Int, $after: Cursor) {
   roastersCollection(filter: $filter, first: $first, after: $after) {
@@ -5337,10 +4464,7 @@ export const GetRoastersDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  GetRoastersQuery,
-  GetRoastersQueryVariables
->;
+    `) as unknown as TypedDocumentString<GetRoastersQuery, GetRoastersQueryVariables>;
 export const GetUserLikesDocument = new TypedDocumentString(`
     query GetUserLikes($userId: UUID!, $first: Int, $after: Cursor) {
   bean_likesCollection(
@@ -5443,7 +4567,4 @@ export const GetUserLikesDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  GetUserLikesQuery,
-  GetUserLikesQueryVariables
->;
+    `) as unknown as TypedDocumentString<GetUserLikesQuery, GetUserLikesQueryVariables>;

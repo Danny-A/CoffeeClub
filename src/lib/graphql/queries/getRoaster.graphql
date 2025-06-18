@@ -15,6 +15,14 @@ query GetRoaster($id: UUID!, $filter: roastersFilter) {
         instagram
         claimed_by
         is_published
+        roaster_likesCollection {
+          edges {
+            node {
+              id
+              user_id
+            }
+          }
+        }
         beansCollection {
           edges {
             node {

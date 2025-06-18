@@ -16,6 +16,7 @@ export type RoasterFilters = {
   first?: number;
   after?: string;
   includeUnpublished?: boolean;
+  orderBy?: any;
 };
 
 export async function fetchRoasters(
@@ -29,6 +30,7 @@ export async function fetchRoasters(
     first = 30,
     after,
     includeUnpublished = false,
+    orderBy,
   } = filters || {};
 
   const response = await graphqlFetch<
@@ -49,6 +51,7 @@ export async function fetchRoasters(
       } as RoastersFilter,
       first,
       after,
+      ...(orderBy && { orderBy }),
     },
   });
 

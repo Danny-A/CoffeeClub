@@ -51,7 +51,7 @@ export async function UserNav() {
             />
             <AvatarFallback>{profile?.username?.[0] ?? 'U'}</AvatarFallback>
           </Avatar>
-          <Text className="hidden md:block">
+          <Text variant="small" className="hidden md:block">
             {profile?.display_name || profile?.username || 'User'}
           </Text>
         </span>

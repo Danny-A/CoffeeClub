@@ -1,21 +1,21 @@
-import type { CodegenConfig } from "@graphql-codegen/cli";
+import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
-  schema: "http://127.0.0.1:54321/graphql/v1",
-  documents: ["src/**/*.graphql"],
+  schema: 'http://127.0.0.1:54321/graphql/v1',
+  documents: ['src/**/*.graphql'],
   overwrite: true,
   ignoreNoDocuments: true,
   generates: {
-    "src/lib/graphql/generated/": {
-      preset: "client",
+    'src/lib/graphql/generated/': {
+      preset: 'client',
       config: {
-        documentMode: "string",
+        documentMode: 'string',
         useTypeImports: true,
         dedupeFragments: true,
-        inlineFragmentTypes: "combine",
+        inlineFragmentTypes: 'combine',
       },
       presetConfig: {
-        gqlTagName: "gql",
+        gqlTagName: 'gql',
         fragmentMasking: false,
       },
     },

@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
+import { CardGrid } from '@/components/ui/CardGrid';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { FilterLayout } from '@/components/ui/FilterLayout';
 import {
@@ -13,34 +14,39 @@ import {
   SelectItem,
 } from '@/components/ui/Select';
 import { useAuth } from '@/hooks/auth/useAuth';
-import { useBeans } from '@/hooks/beans/useBeans';
-import { useBeanUrlFilters } from '@/hooks/filters/useBeanUrlFilters';
-import { BeansOrderBy } from '@/lib/graphql/generated/graphql';
+import { useRoasterUrlFilters } from '@/hooks/filters/useRoasterUrlFilters';
+import { useRoasters } from '@/hooks/roasters/useRoasters';
 
-import { BeanFilter } from '../BeanFilter';
-import { BeanGrid } from '../BeanGrid';
-import { BeanList } from '../BeanList';
+import { RoasterCard } from '../RoasterCard';
+import { RoasterFilter } from '../RoasterFilter';
+import { RoasterGrid } from '../RoasterGrid';
+import { RoasterList } from '../RoasterList';
 
 // Add sort options
 const SORT_OPTIONS = [
   {
+    label: 'Most Beans',
+    value: 'most-beans',
+    orderBy: [{ bean_count: 'DescNullsLast' }],
+  },
+  {
     label: 'Most Reviews',
     value: 'most-reviews',
-    orderBy: [{ review_count: 'DescNullsLast' } as BeansOrderBy],
+    orderBy: [{ review_count: 'DescNullsLast' }],
   },
   {
-    label: 'Highest Rating',
-    value: 'highest-rating',
-    orderBy: [{ average_rating: 'DescNullsLast' } as BeansOrderBy],
+    label: 'Name (A-Z)',
+    value: 'name-asc',
+    orderBy: [{ name: 'AscNullsLast' }],
   },
   {
-    label: 'Latest',
-    value: 'latest',
-    orderBy: [{ created_at: 'DescNullsLast' } as BeansOrderBy],
+    label: 'Newest',
+    value: 'newest',
+    orderBy: [{ created_at: 'DescNullsLast' }],
   },
 ];
 
-function BeanSortDropdown({
+function RoasterSortDropdown({
   value,
   onChange,
 }: {
@@ -49,11 +55,14 @@ function BeanSortDropdown({
 }) {
   return (
     <div className="mb-4 flex items-center gap-2">
-      <label htmlFor="bean-sort" className="text-sm font-medium text-gray-700">
+      <label
+        htmlFor="roaster-sort"
+        className="text-sm font-medium text-gray-700"
+      >
         Sort by:
       </label>
       <Select value={value} onValueChange={onChange}>
-        <SelectTrigger id="bean-sort" className="bg-white min-w-[160px]">
+        <SelectTrigger id="roaster-sort" className="bg-white min-w-[160px]">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
@@ -68,9 +77,9 @@ function BeanSortDropdown({
   );
 }
 
-export const BeanFeed = () => {
+export const RoasterFeed = () => {
   const { user } = useAuth();
-  const { filters } = useBeanUrlFilters();
+  const { filters } = useRoasterUrlFilters();
 
   // Add sort state
   const [sort, setSort] = useState<string>(SORT_OPTIONS[0].value);
@@ -80,7 +89,7 @@ export const BeanFeed = () => {
   );
 
   // Merge orderBy into filters
-  const beansFilters = useMemo(
+  const roastersFilters = useMemo(
     () => ({ ...filters, orderBy: selectedSort.orderBy }),
     [filters, selectedSort]
   );
@@ -92,15 +101,10 @@ export const BeanFeed = () => {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
-  } = useBeans(beansFilters);
+  } = useRoasters(roastersFilters);
 
-  const { ref, inView } = useInView({
-    threshold: 0,
-  });
-
-  const { ref: refMobile, inView: inViewMobile } = useInView({
-    threshold: 0,
-  });
+  const { ref, inView } = useInView({ threshold: 0 });
+  const { ref: refMobile, inView: inViewMobile } = useInView({ threshold: 0 });
 
   useEffect(() => {
     if ((inView || inViewMobile) && hasNextPage && !isFetchingNextPage) {
@@ -111,41 +115,41 @@ export const BeanFeed = () => {
   if (error) {
     return (
       <EmptyState
-        title="Error loading beans"
+        title="Error loading roasters"
         description={error.message}
         className="text-red-600"
       />
     );
   }
 
-  const beanList = data?.pages.flatMap((page) => page.edges) ?? [];
+  const roasterList = data?.pages.flatMap((page) => page.edges) ?? [];
 
-  if (!isLoading && !beanList.length) {
+  if (!roasterList.length && !isLoading) {
     return (
-      <FilterLayout sidebar={<BeanFilter />}>
+      <FilterLayout sidebar={<RoasterFilter />}>
         <EmptyState
-          title="No beans found"
-          description="Try adjusting your filters or be the first to add a coffee bean!"
+          title="No roasters found"
+          description="Try adjusting your filters or be the first to add a coffee roaster!"
         />
       </FilterLayout>
     );
   }
 
   return (
-    <FilterLayout sidebar={<BeanFilter />}>
+    <FilterLayout sidebar={<RoasterFilter />}>
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
-        <BeanSortDropdown value={sort} onChange={setSort} />
+        <RoasterSortDropdown value={sort} onChange={setSort} />
       </div>
       <div className="md:hidden">
-        <BeanGrid
-          beanList={beanList}
+        <RoasterGrid
+          roasterList={roasterList}
           user={user}
           isLoading={isLoading}
           ref={refMobile}
         />
       </div>
       <div className="hidden md:block">
-        <BeanList beanList={beanList} user={user} ref={ref} />
+        <RoasterList roasterList={roasterList} user={user} ref={ref} />
       </div>
       {isFetchingNextPage && (
         <div className="flex justify-center py-4">
@@ -156,4 +160,4 @@ export const BeanFeed = () => {
   );
 };
 
-export default BeanFeed;
+export default RoasterFeed;

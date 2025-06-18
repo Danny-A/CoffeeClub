@@ -6,7 +6,7 @@ import {
 import { Metadata } from 'next';
 import Link from 'next/link';
 
-import { RoastersList } from '@/components/features/RoastersList';
+import RoasterFeed from '@/components/features/RoasterFeed';
 import { Button } from '@/components/ui/Button';
 import { Heading } from '@/components/ui/Heading';
 import { fetchRoasters } from '@/lib/api/fetchRoasters';
@@ -57,7 +57,7 @@ export default async function RoastersPage() {
             </Button>
           )}
         </div>
-        <RoastersList />
+        <RoasterFeed />
       </div>
     </HydrationBoundary>
   );

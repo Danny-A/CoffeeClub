@@ -34,8 +34,8 @@ export function useBeanUrlFilters() {
   // Update filters by directly updating URL
   const updateFilters = useCallback(
     (newFilters: Partial<BeanFilters>) => {
-      // Create new URLSearchParams with current params
-      const params = new URLSearchParams(searchParams.toString());
+      // Get the latest search params each time
+      const params = new URLSearchParams(window.location.search);
       let hasChanges = false;
 
       // Update params with new filters
@@ -65,7 +65,7 @@ export function useBeanUrlFilters() {
         router.replace(url, { scroll: false });
       }
     },
-    [pathname, router, searchParams]
+    [pathname, router]
   );
 
   return {

@@ -20,7 +20,8 @@ export function useRoasterUrlFilters() {
 
   const updateFilters = useCallback(
     (newFilters: Partial<RoasterFilters>) => {
-      const params = new URLSearchParams(searchParams.toString());
+      // Get the latest search params each time
+      const params = new URLSearchParams(window.location.search);
       let hasChanges = false;
 
       // Update params with new filters
@@ -45,7 +46,7 @@ export function useRoasterUrlFilters() {
         router.replace(url, { scroll: false });
       }
     },
-    [pathname, router, searchParams]
+    [pathname, router]
   );
 
   return { filters, updateFilters };

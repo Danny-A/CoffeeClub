@@ -1324,7 +1324,7 @@ export type Bean_Varieties = Node & {
   beans?: Maybe<Beans>;
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
-  varieties: Varieties;
+  varieties?: Maybe<Varieties>;
   variety_id: Scalars['UUID']['output'];
 };
 
@@ -3933,7 +3933,11 @@ export type GetBeanQuery = {
             __typename?: 'bean_varietiesEdge';
             node: {
               __typename?: 'bean_varieties';
-              varieties: { __typename?: 'varieties'; id: any; name: string };
+              varieties?: {
+                __typename?: 'varieties';
+                id: any;
+                name: string;
+              } | null;
             };
           }>;
         } | null;
@@ -4291,6 +4295,7 @@ export type GetRoastersQueryVariables = Exact<{
   filter?: InputMaybe<RoastersFilter>;
   first?: InputMaybe<Scalars['Int']['input']>;
   after?: InputMaybe<Scalars['Cursor']['input']>;
+  orderBy?: InputMaybe<Array<RoastersOrderBy> | RoastersOrderBy>;
 }>;
 
 export type GetRoastersQuery = {
@@ -5324,8 +5329,13 @@ export const GetRoasterDocument = new TypedDocumentString(`
   GetRoasterQueryVariables
 >;
 export const GetRoastersDocument = new TypedDocumentString(`
-    query GetRoasters($filter: roastersFilter, $first: Int, $after: Cursor) {
-  roastersCollection(filter: $filter, first: $first, after: $after) {
+    query GetRoasters($filter: roastersFilter, $first: Int, $after: Cursor, $orderBy: [roastersOrderBy!]) {
+  roastersCollection(
+    filter: $filter
+    first: $first
+    after: $after
+    orderBy: $orderBy
+  ) {
     edges {
       node {
         id

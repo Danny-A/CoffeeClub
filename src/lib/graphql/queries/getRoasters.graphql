@@ -1,5 +1,15 @@
-query GetRoasters($filter: roastersFilter, $first: Int, $after: Cursor) {
-  roastersCollection(filter: $filter, first: $first, after: $after) {
+query GetRoasters(
+  $filter: roastersFilter
+  $first: Int
+  $after: Cursor
+  $orderBy: [roastersOrderBy!]
+) {
+  roastersCollection(
+    filter: $filter
+    first: $first
+    after: $after
+    orderBy: $orderBy
+  ) {
     edges {
       node {
         id

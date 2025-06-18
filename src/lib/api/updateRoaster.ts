@@ -1,7 +1,3 @@
-'use server';
-
-import { revalidateTag } from 'next/cache';
-
 import { graphqlFetch } from '../graphql/client';
 import { RoastersUpdateInput } from '../graphql/generated/graphql';
 import { UpdateRoasterDocument } from '../graphql/generated/graphql';
@@ -37,9 +33,6 @@ export async function updateRoaster(input: RoastersUpdateInput) {
     console.error('No data returned:', response);
     throw new Error('Failed to update roaster: No data returned');
   }
-
-  revalidateTag(`roaster-${input.id}`);
-  revalidateTag('roasters');
 
   return response.data.updateroastersCollection.records[0];
 }

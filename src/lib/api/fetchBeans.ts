@@ -70,7 +70,6 @@ export async function fetchBeans(
         after,
         ...(orderBy && { orderBy }),
       },
-      tags: ['beans'],
     }
   );
 

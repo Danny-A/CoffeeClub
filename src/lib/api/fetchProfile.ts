@@ -10,7 +10,6 @@ export async function fetchProfile(id: string) {
     GetProfileDocument,
     {
       variables: { id },
-      tags: [`profile-${id}`],
     }
   );
 

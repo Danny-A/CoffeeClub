@@ -1,3 +1,5 @@
+'use server';
+
 import { revalidateTag } from 'next/cache';
 
 import { User as GraphQLUser } from '@/lib/graphql/types';

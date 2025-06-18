@@ -1,10 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useMemo } from 'react';
 
 function formatDate(date: string) {
+  // PostgreSQL timestamps without timezone info should be treated as UTC
+  // Add 'Z' suffix if it's missing to ensure proper UTC parsing
+  const utcDate = date.endsWith('Z') ? date : date + 'Z';
+
   const currentDate = new Date().getTime();
-  const targetDate = new Date(date).getTime();
+  const targetDate = new Date(utcDate).getTime();
   const timeDifference = currentDate - targetDate;
 
   const seconds = Math.floor(timeDifference / 1000);
@@ -16,7 +20,7 @@ function formatDate(date: string) {
   const years = Math.floor(days / 365);
 
   if (seconds < 2) {
-    return '1 second ago';
+    return 'just now';
   } else if (seconds < 60) {
     return `${seconds} seconds ago`;
   } else if (minutes < 2) {
@@ -47,17 +51,8 @@ function formatDate(date: string) {
 }
 
 export function TimeAgo({ time }: { time: string }) {
-  const [formattedDate, setFormattedDate] = useState<string>('');
-
-  useEffect(() => {
-    const updateTime = () => {
-      setFormattedDate(formatDate(time));
-    };
-
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-
-    return () => clearInterval(interval);
+  const formattedDate = useMemo(() => {
+    return formatDate(time);
   }, [time]);
 
   return <span>{formattedDate}</span>;

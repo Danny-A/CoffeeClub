@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { ReviewDialog } from '@/components/features/ReviewDialog';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -10,8 +11,7 @@ import { TimeAgo } from '@/components/ui/TimeAgo';
 import { fetchBean } from '@/lib/api/fetchBean';
 import { fetchBeans } from '@/lib/api/fetchBeans';
 import { createClient } from '@/lib/supabase/server';
-import { isModerator } from '@/utils/getUserRole';
-import { isAdmin } from '@/utils/getUserRole';
+import { isAdmin, isModerator } from '@/utils/getUserRole';
 import { extractIdFromSlug } from '@/utils/slug';
 
 type BeanDetailsProps = {
@@ -203,62 +203,71 @@ export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
         </Card>
 
         <div>
-          <Heading level="h3" as="h2">
-            Reviews
-          </Heading>
-          {noReviews ? (
-            <Text className="mt-2 text-gray-600 dark:text-gray-400">
-              No reviews yet. Be the first to review this bean!
-            </Text>
-          ) : (
-            <div className="mt-4 space-y-6">
-              {reviews?.map((review) => (
-                <Card key={review.node.id}>
-                  <CardHeader>
-                    <div className="flex items-center space-x-4">
-                      <Image
-                        src={
-                          review.node.profiles?.profile_image_url ||
-                          '/default-avatar.png'
-                        }
-                        alt={review.node.profiles?.display_name ?? ''}
-                        width={40}
-                        height={40}
-                        className="w-10 h-10 rounded-full"
-                      />
-                      <div>
-                        <Text className="font-medium">
-                          {review.node.profiles?.display_name ??
-                            review.node.profiles?.username}
-                        </Text>
-                        <Text
-                          variant="small"
-                          className="text-gray-600 dark:text-gray-400"
-                        >
-                          <TimeAgo time={review.node.created_at} />
-                        </Text>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center space-x-2">
-                      <Text variant="label">Rating:</Text>
-                      <Text>{review.node.rating}/5</Text>
-                    </div>
-                    {review.node.coffee_type && (
-                      <div className="flex items-center space-x-2 mt-2">
-                        <Text variant="label">Coffee Type:</Text>
-                        <Text>{review.node.coffee_type}</Text>
-                      </div>
-                    )}
-                    {review.node.content && (
-                      <Text className="mt-4">{review.node.content}</Text>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <h3 className="text-lg font-semibold">Reviews</h3>
+              {user && (
+                <ReviewDialog
+                  beanId={bean.id}
+                  userId={user.id}
+                  beanName={bean.name}
+                />
+              )}
             </div>
-          )}
+            {noReviews ? (
+              <Text className="mt-2 text-gray-600 dark:text-gray-400">
+                No reviews yet. Be the first to review this bean!
+              </Text>
+            ) : (
+              <div className="mt-4 space-y-6">
+                {reviews?.map((review) => (
+                  <Card key={review.node.id}>
+                    <CardHeader>
+                      <div className="flex items-center space-x-4">
+                        <Image
+                          src={
+                            review.node.profiles?.profile_image_url ||
+                            '/default-avatar.png'
+                          }
+                          alt={review.node.profiles?.display_name ?? ''}
+                          width={40}
+                          height={40}
+                          className="w-10 h-10 rounded-full"
+                        />
+                        <div>
+                          <Text className="font-medium">
+                            {review.node.profiles?.display_name ??
+                              review.node.profiles?.username}
+                          </Text>
+                          <Text
+                            variant="small"
+                            className="text-gray-600 dark:text-gray-400"
+                          >
+                            <TimeAgo time={review.node.created_at} />
+                          </Text>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex items-center space-x-2">
+                        <Text variant="label">Rating:</Text>
+                        <Text>{review.node.rating}/5</Text>
+                      </div>
+                      {review.node.coffee_type && (
+                        <div className="flex items-center space-x-2 mt-2">
+                          <Text variant="label">Coffee Type:</Text>
+                          <Text>{review.node.coffee_type}</Text>
+                        </div>
+                      )}
+                      {review.node.content && (
+                        <Text className="mt-4">{review.node.content}</Text>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

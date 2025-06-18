@@ -1,0 +1,12 @@
+mutation CreateBeanReview($input: bean_reviewsInsertInput!) {
+  insertIntobean_reviewsCollection(objects: [$input]) {
+    records {
+      id
+      user_id
+      bean_id
+      rating
+      content
+      created_at
+    }
+  }
+}

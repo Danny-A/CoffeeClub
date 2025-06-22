@@ -24,7 +24,7 @@ query GetBeans(
         created_at
         average_rating
         review_count
-        is_published
+        status
         roasters {
           id
           name

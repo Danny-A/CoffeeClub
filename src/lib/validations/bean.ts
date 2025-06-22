@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import {
+  Bean_Status,
   Bean_Type,
   Roast_Level,
   Roast_Type,
@@ -46,5 +47,5 @@ export const beanSchema = z.object({
       })
     )
     .optional(),
-  is_published: z.boolean().default(true),
+  status: z.nativeEnum(Bean_Status).default(Bean_Status.Published),
 });

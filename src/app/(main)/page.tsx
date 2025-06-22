@@ -4,7 +4,11 @@ import { RecipeCard } from '@/components/features/RecipeCard';
 import { Heading } from '@/components/ui/Heading';
 import { fetchBeans } from '@/lib/api/fetchBeans';
 import { fetchRecipes } from '@/lib/api/fetchRecipes';
-import { OrderByDirection, Beans } from '@/lib/graphql/generated/graphql';
+import {
+  OrderByDirection,
+  Beans,
+  Bean_Status,
+} from '@/lib/graphql/generated/graphql';
 import { Bean } from '@/lib/graphql/types';
 
 function mapGraphQLBeanToBean(bean: Beans): Bean {
@@ -26,7 +30,7 @@ function mapGraphQLBeanToBean(bean: Beans): Bean {
     createdAt: bean.created_at ?? undefined,
     updatedAt: bean.updated_at ?? undefined,
     averageRating: bean.average_rating ?? undefined,
-    is_published: bean.is_published ?? undefined,
+    status: bean.status,
     reviewCount: bean.review_count ?? undefined,
   };
 }

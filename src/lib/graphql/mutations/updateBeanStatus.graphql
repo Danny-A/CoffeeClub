@@ -1,0 +1,13 @@
+mutation UpdateBeanStatus($id: UUID!, $status: bean_status!) {
+  updatebeansCollection(filter: { id: { eq: $id } }, set: { status: $status }) {
+    affectedCount
+    records {
+      id
+      name
+      status
+      is_published
+      created_at
+      updated_at
+    }
+  }
+}

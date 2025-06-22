@@ -1,0 +1,140 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
+
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
+import { Heading } from '@/components/ui/Heading';
+import { StatusBadge } from '@/components/ui/StatusBadge';
+import { Text } from '@/components/ui/Text';
+import { useBeansByStatus } from '@/hooks/beans/useBeansByStatus';
+import { useUpdateBeanStatus } from '@/hooks/beans/useUpdateBeanStatus';
+import { Bean_Status } from '@/lib/graphql/generated/graphql';
+
+const statusOptions = [
+  Bean_Status.PendingReview,
+  Bean_Status.Approved,
+  Bean_Status.Rejected,
+  Bean_Status.Published,
+];
+
+export function BeanTriage() {
+  const [status, setStatus] = useState<Bean_Status>(Bean_Status.PendingReview);
+  const {
+    data,
+    isLoading,
+    error,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useBeansByStatus(status);
+  const updateStatus = useUpdateBeanStatus();
+  const { ref, inView } = useInView();
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  const beanList =
+    data?.pages.flatMap((page) => page.beansCollection?.edges || []) || [];
+
+  return (
+    <Card className="p-4 mb-6">
+      <div className="flex items-center justify-between mb-4">
+        <Heading level="h6" as="h2">
+          Bean Triage
+        </Heading>
+        <select
+          className="border rounded px-2 py-1 text-sm"
+          value={status}
+          onChange={(e) => setStatus(e.target.value as Bean_Status)}
+        >
+          {statusOptions.map((option) => (
+            <option key={option} value={option}>
+              {option
+                .replace('_', ' ')
+                .replace(/\b\w/g, (l) => l.toUpperCase())}
+            </option>
+          ))}
+        </select>
+      </div>
+      {isLoading && <Text>Loading beans...</Text>}
+      {error && <Text variant="error">Error: {error.message}</Text>}
+      <div className="space-y-4">
+        {beanList.length === 0 && (
+          <Text>No beans with status &quot;{status}&quot;.</Text>
+        )}
+        {beanList.map((edge, index) => (
+          <div
+            key={edge.node.id}
+            ref={index === beanList.length - 1 ? ref : undefined}
+            className="flex items-center justify-between border-b pb-2"
+          >
+            <div>
+              <Text className="font-medium">{edge.node.name}</Text>
+              <div className="flex items-center gap-2 mt-1">
+                <StatusBadge status={edge.node.status} />
+                <Text variant="small">{edge.node.origin}</Text>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              {status !== Bean_Status.Published && (
+                <Button
+                  size="sm"
+                  variant="default"
+                  onClick={() =>
+                    updateStatus.mutate({
+                      id: edge.node.id,
+                      status: Bean_Status.Published,
+                    })
+                  }
+                  disabled={updateStatus.isPending}
+                >
+                  Publish
+                </Button>
+              )}
+              {status !== Bean_Status.Approved && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() =>
+                    updateStatus.mutate({
+                      id: edge.node.id,
+                      status: Bean_Status.Approved,
+                    })
+                  }
+                  disabled={updateStatus.isPending}
+                >
+                  Approve
+                </Button>
+              )}
+              {status !== Bean_Status.Rejected && (
+                <Button
+                  size="sm"
+                  variant="destructive"
+                  onClick={() =>
+                    updateStatus.mutate({
+                      id: edge.node.id,
+                      status: Bean_Status.Rejected,
+                    })
+                  }
+                  disabled={updateStatus.isPending}
+                >
+                  Reject
+                </Button>
+              )}
+            </div>
+          </div>
+        ))}
+        {isFetchingNextPage && (
+          <div className="flex justify-center py-4">
+            <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-gray-900" />
+          </div>
+        )}
+      </div>
+    </Card>
+  );
+}

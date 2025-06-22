@@ -27,6 +27,7 @@ import { useUpdateBean } from '@/hooks/beans/useUpdateBean';
 import { useInfiniteRoasterOptions } from '@/hooks/roasters/useInfiniteRoasterOptions';
 import {
   Bean_Type,
+  Bean_Status,
   Roast_Level,
   Roast_Type,
 } from '@/lib/graphql/generated/graphql';
@@ -47,7 +48,7 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
   const router = useRouter();
   const id = extractIdFromSlug(slug);
 
-  const { data: bean, isLoading } = useBean(id);
+  const { data: bean, isLoading } = useBean(id, true);
   const [search, setSearch] = useState('');
   const {
     options: roasters,
@@ -98,7 +99,7 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
   }, [appendBuyUrl, buyUrlFields.length]);
 
   useEffect(() => {
-    if (bean) {
+    if (bean && bean.id) {
       reset({
         name: bean.name,
         roaster_id: bean.roasters?.id || '',
@@ -117,7 +118,7 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
         buy_urls: (bean.buy_urls || [])
           .filter((url): url is string => typeof url === 'string')
           .map((url) => ({ value: url })),
-        is_published: bean.is_published,
+        status: bean.status,
       });
 
       if (bean.image_url) {
@@ -202,7 +203,11 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
         </div>
 
         <Card>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <form
+            key={bean.id}
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-6"
+          >
             <CardContent className="space-y-4">
               <FormField
                 label="Name"
@@ -252,7 +257,7 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
                     control={control}
                     render={({ field }) => (
                       <Select
-                        value={field.value ?? undefined}
+                        value={field.value || ''}
                         onValueChange={(val) =>
                           field.onChange(val === '' ? undefined : val)
                         }
@@ -282,7 +287,7 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
                     control={control}
                     render={({ field }) => (
                       <Select
-                        value={field.value ?? undefined}
+                        value={field.value || ''}
                         onValueChange={(val) =>
                           field.onChange(val === '' ? undefined : val)
                         }
@@ -313,7 +318,7 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
                   control={control}
                   render={({ field }) => (
                     <Select
-                      value={field.value ?? undefined}
+                      value={field.value || ''}
                       onValueChange={(val) =>
                         field.onChange(val === '' ? undefined : val)
                       }
@@ -493,19 +498,39 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
                 disabled={updateBean.isPending}
               />
 
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="is_published"
-                  {...register('is_published')}
-                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              <div className="space-y-2">
+                <Text variant="label">Status</Text>
+                <Controller
+                  name="status"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      value={field.value || ''}
+                      onValueChange={field.onChange}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value={Bean_Status.PendingReview}>
+                          Pending Review
+                        </SelectItem>
+                        <SelectItem value={Bean_Status.Approved}>
+                          Approved
+                        </SelectItem>
+                        <SelectItem value={Bean_Status.Published}>
+                          Published
+                        </SelectItem>
+                        <SelectItem value={Bean_Status.Rejected}>
+                          Rejected
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
                 />
-                <label
-                  htmlFor="is_published"
-                  className="text-sm font-medium text-gray-700 dark:text-gray-200"
-                >
-                  Published
-                </label>
+                {errors.status?.message && (
+                  <Text variant="error">{errors.status.message}</Text>
+                )}
               </div>
             </CardContent>
 

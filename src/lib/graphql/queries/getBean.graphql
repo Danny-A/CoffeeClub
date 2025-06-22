@@ -17,7 +17,7 @@ query GetBean($id: UUID!, $filter: beansFilter) {
         producer
         notes
         buy_urls
-        is_published
+        status
         average_rating
         review_count
         roasters {

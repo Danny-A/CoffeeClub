@@ -7,6 +7,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 import { BeansList } from '@/app/(admin)/_components/BeansList';
+import { BeanTriage } from '@/app/(admin)/_components/BeanTriage';
 import { Button } from '@/components/ui/Button';
 import { Heading } from '@/components/ui/Heading';
 import { fetchBeans } from '@/lib/api/fetchBeans';
@@ -42,6 +43,7 @@ export default async function AdminBeansPage() {
             <Link href="/beans/new">Add New Bean</Link>
           </Button>
         </div>
+        <BeanTriage />
         <BeansList />
       </div>
     </HydrationBoundary>

@@ -32,7 +32,7 @@ function transformBeansData(data: BeansQuery): BeansResponse {
         createdAt: bean.node.created_at,
         updatedAt: bean.node.created_at,
         averageRating: bean.node.average_rating || 0,
-        is_published: bean.node.is_published,
+        status: bean.node.status,
         reviewCount: bean.node.review_count || 0,
         likes: bean.node.bean_likesCollection?.edges.map((edge) => ({
           id: edge.node.id,

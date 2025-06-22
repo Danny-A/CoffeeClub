@@ -21,7 +21,7 @@ export async function updateBean(input: BeansUpdateInput) {
       producer: input.producer,
       notes: input.notes,
       buy_urls: input.buy_urls,
-      is_published: input.is_published,
+      status: input.status,
       updated_at: new Date().toISOString(),
     },
   };

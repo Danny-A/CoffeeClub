@@ -1284,6 +1284,21 @@ export type Bean_ReviewsUpdateResponse = {
   records: Array<Bean_Reviews>;
 };
 
+export enum Bean_Status {
+  Approved = 'approved',
+  PendingReview = 'pending_review',
+  Published = 'published',
+  Rejected = 'rejected'
+}
+
+/** Boolean expression comparing fields on type "bean_status" */
+export type Bean_StatusFilter = {
+  eq?: InputMaybe<Bean_Status>;
+  in?: InputMaybe<Array<Bean_Status>>;
+  is?: InputMaybe<FilterIs>;
+  neq?: InputMaybe<Bean_Status>;
+};
+
 export type Bean_Tags = Node & {
   __typename?: 'bean_tags';
   bean_id?: Maybe<Scalars['UUID']['output']>;
@@ -1490,6 +1505,7 @@ export type Beans = Node & {
   roaster_id?: Maybe<Scalars['UUID']['output']>;
   roasters?: Maybe<Roasters>;
   slug?: Maybe<Scalars['String']['output']>;
+  status: Bean_Status;
   updated_at?: Maybe<Scalars['Datetime']['output']>;
 };
 
@@ -1608,6 +1624,7 @@ export type BeansFilter = {
   roast_type?: InputMaybe<Roast_TypeFilter>;
   roaster_id?: InputMaybe<UuidFilter>;
   slug?: InputMaybe<StringFilter>;
+  status?: InputMaybe<Bean_StatusFilter>;
   updated_at?: InputMaybe<DatetimeFilter>;
 };
 
@@ -1633,6 +1650,7 @@ export type BeansInsertInput = {
   roast_type?: InputMaybe<Roast_Type>;
   roaster_id?: InputMaybe<Scalars['UUID']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Bean_Status>;
   updated_at?: InputMaybe<Scalars['Datetime']['input']>;
 };
 
@@ -1665,6 +1683,7 @@ export type BeansOrderBy = {
   roast_type?: InputMaybe<OrderByDirection>;
   roaster_id?: InputMaybe<OrderByDirection>;
   slug?: InputMaybe<OrderByDirection>;
+  status?: InputMaybe<OrderByDirection>;
   updated_at?: InputMaybe<OrderByDirection>;
 };
 
@@ -1690,6 +1709,7 @@ export type BeansUpdateInput = {
   roast_type?: InputMaybe<Roast_Type>;
   roaster_id?: InputMaybe<Scalars['UUID']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Bean_Status>;
   updated_at?: InputMaybe<Scalars['Datetime']['input']>;
 };
 
@@ -3407,7 +3427,7 @@ export type CreateBeanMutationVariables = Exact<{
 }>;
 
 
-export type CreateBeanMutation = { __typename?: 'Mutation', insertIntobeansCollection?: { __typename?: 'beansInsertResponse', records: Array<{ __typename?: 'beans', id: any, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, roasters?: { __typename?: 'roasters', id: any } | null }> } | null };
+export type CreateBeanMutation = { __typename?: 'Mutation', insertIntobeansCollection?: { __typename?: 'beansInsertResponse', records: Array<{ __typename?: 'beans', id: any, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, status: Bean_Status, roasters?: { __typename?: 'roasters', id: any } | null }> } | null };
 
 export type CreateBeanReviewMutationVariables = Exact<{
   input: Bean_ReviewsInsertInput;
@@ -3506,7 +3526,15 @@ export type UpdateBeanMutationVariables = Exact<{
 }>;
 
 
-export type UpdateBeanMutation = { __typename?: 'Mutation', updatebeansCollection: { __typename?: 'beansUpdateResponse', affectedCount: number, records: Array<{ __typename?: 'beans', id: any, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, is_published: boolean, created_at?: any | null, updated_at?: any | null, roasters?: { __typename?: 'roasters', id: any, name: string } | null }> } };
+export type UpdateBeanMutation = { __typename?: 'Mutation', updatebeansCollection: { __typename?: 'beansUpdateResponse', affectedCount: number, records: Array<{ __typename?: 'beans', id: any, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, status: Bean_Status, created_at?: any | null, updated_at?: any | null, roasters?: { __typename?: 'roasters', id: any, name: string } | null }> } };
+
+export type UpdateBeanStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status: Bean_Status;
+}>;
+
+
+export type UpdateBeanStatusMutation = { __typename?: 'Mutation', updatebeansCollection: { __typename?: 'beansUpdateResponse', affectedCount: number, records: Array<{ __typename?: 'beans', id: any, name: string, status: Bean_Status, is_published: boolean, created_at?: any | null, updated_at?: any | null }> } };
 
 export type UpdateCuratedHomepageItemMutationVariables = Exact<{
   filter: Homepage_Curated_ItemsFilter;
@@ -3543,7 +3571,7 @@ export type UpdateRoasterMutation = { __typename?: 'Mutation', updateroastersCol
 export type GetCuratedHomepageItemsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCuratedHomepageItemsQuery = { __typename?: 'Query', homepage_curated_itemsCollection?: { __typename?: 'homepage_curated_itemsConnection', edges: Array<{ __typename?: 'homepage_curated_itemsEdge', node: { __typename?: 'homepage_curated_items', id: any, nodeId: string, section: string, display_order: number, custom_title?: string | null, published: boolean, created_at: any, updated_at: any, bean_id?: any | null, recipe_id?: any | null, roaster_id?: any | null, location_id?: any | null, beans?: { __typename?: 'beans', id: any, slug?: string | null, name: string, average_rating?: number | null, review_count?: number | null, is_published: boolean, origin?: string | null, roasters?: { __typename?: 'roasters', id: any, name: string } | null } | null, recipes?: { __typename?: 'recipes', id: any, slug?: string | null, title?: string | null, description?: string | null, image_url?: string | null, is_public?: boolean | null, likes_count?: number | null } | null, roasters?: { __typename?: 'roasters', id: any, slug?: string | null, name: string, bean_count?: number | null, is_published: boolean, location_city?: string | null, location_state?: string | null, location_country?: string | null, created_at?: any | null, beanCount?: number | null, roaster_likesCollection?: { __typename?: 'roaster_likesConnection', edges: Array<{ __typename?: 'roaster_likesEdge', node: { __typename?: 'roaster_likes', id: any, user_id?: any | null } }> } | null } | null, locations?: { __typename?: 'locations', id: any, slug?: string | null, name: string } | null } }> } | null };
+export type GetCuratedHomepageItemsQuery = { __typename?: 'Query', homepage_curated_itemsCollection?: { __typename?: 'homepage_curated_itemsConnection', edges: Array<{ __typename?: 'homepage_curated_itemsEdge', node: { __typename?: 'homepage_curated_items', id: any, nodeId: string, section: string, display_order: number, custom_title?: string | null, published: boolean, created_at: any, updated_at: any, bean_id?: any | null, recipe_id?: any | null, roaster_id?: any | null, location_id?: any | null, beans?: { __typename?: 'beans', id: any, slug?: string | null, name: string, average_rating?: number | null, review_count?: number | null, status: Bean_Status, origin?: string | null, roasters?: { __typename?: 'roasters', id: any, name: string } | null } | null, recipes?: { __typename?: 'recipes', id: any, slug?: string | null, title?: string | null, description?: string | null, image_url?: string | null, is_public?: boolean | null, likes_count?: number | null } | null, roasters?: { __typename?: 'roasters', id: any, slug?: string | null, name: string, bean_count?: number | null, is_published: boolean, location_city?: string | null, location_state?: string | null, location_country?: string | null, created_at?: any | null, beanCount?: number | null, roaster_likesCollection?: { __typename?: 'roaster_likesConnection', edges: Array<{ __typename?: 'roaster_likesEdge', node: { __typename?: 'roaster_likes', id: any, user_id?: any | null } }> } | null } | null, locations?: { __typename?: 'locations', id: any, slug?: string | null, name: string } | null } }> } | null };
 
 export type GetRecipeByIdQueryVariables = Exact<{
   id: Scalars['UUID']['input'];
@@ -3573,7 +3601,7 @@ export type GetBeanQueryVariables = Exact<{
 }>;
 
 
-export type GetBeanQuery = { __typename?: 'Query', beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any, slug?: string | null, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, is_published: boolean, average_rating?: number | null, review_count?: number | null, created_at?: any | null, roasters?: { __typename?: 'roasters', id: any, slug?: string | null, name: string } | null, bean_varietiesCollection?: { __typename?: 'bean_varietiesConnection', edges: Array<{ __typename?: 'bean_varietiesEdge', node: { __typename?: 'bean_varieties', varieties?: { __typename?: 'varieties', id: any, name: string } | null } }> } | null, bean_tagsCollection?: { __typename?: 'bean_tagsConnection', edges: Array<{ __typename?: 'bean_tagsEdge', node: { __typename?: 'bean_tags', tags?: { __typename?: 'tags', id: any, name: string } | null } }> } | null, bean_reviewsCollection?: { __typename?: 'bean_reviewsConnection', edges: Array<{ __typename?: 'bean_reviewsEdge', node: { __typename?: 'bean_reviews', id: any, rating?: any | null, content?: string | null, coffee_type?: Coffee_Type | null, created_at?: any | null, profiles?: { __typename?: 'profiles', id: any, username: string, display_name?: string | null, profile_image_url?: string | null } | null } }> } | null } }> } | null };
+export type GetBeanQuery = { __typename?: 'Query', beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', node: { __typename?: 'beans', id: any, slug?: string | null, name: string, description?: string | null, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, bean_type?: Bean_Type | null, elevation_min?: number | null, elevation_max?: number | null, origin?: string | null, producer?: string | null, notes?: string | null, buy_urls?: Array<string | null> | null, status: Bean_Status, average_rating?: number | null, review_count?: number | null, created_at?: any | null, roasters?: { __typename?: 'roasters', id: any, slug?: string | null, name: string } | null, bean_varietiesCollection?: { __typename?: 'bean_varietiesConnection', edges: Array<{ __typename?: 'bean_varietiesEdge', node: { __typename?: 'bean_varieties', varieties?: { __typename?: 'varieties', id: any, name: string } | null } }> } | null, bean_tagsCollection?: { __typename?: 'bean_tagsConnection', edges: Array<{ __typename?: 'bean_tagsEdge', node: { __typename?: 'bean_tags', tags?: { __typename?: 'tags', id: any, name: string } | null } }> } | null, bean_reviewsCollection?: { __typename?: 'bean_reviewsConnection', edges: Array<{ __typename?: 'bean_reviewsEdge', node: { __typename?: 'bean_reviews', id: any, rating?: any | null, content?: string | null, coffee_type?: Coffee_Type | null, created_at?: any | null, profiles?: { __typename?: 'profiles', id: any, username: string, display_name?: string | null, profile_image_url?: string | null } | null } }> } | null } }> } | null };
 
 export type GetBeanOptionsQueryVariables = Exact<{
   search?: InputMaybe<Scalars['String']['input']>;
@@ -3592,7 +3620,7 @@ export type GetBeansQueryVariables = Exact<{
 }>;
 
 
-export type GetBeansQuery = { __typename?: 'Query', beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', cursor: string, node: { __typename?: 'beans', id: any, slug?: string | null, name: string, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, origin?: string | null, created_at?: any | null, average_rating?: number | null, review_count?: number | null, is_published: boolean, roasters?: { __typename?: 'roasters', id: any, name: string } | null, bean_tagsCollection?: { __typename?: 'bean_tagsConnection', edges: Array<{ __typename?: 'bean_tagsEdge', node: { __typename?: 'bean_tags', tags?: { __typename?: 'tags', id: any, name: string } | null } }> } | null, bean_likesCollection?: { __typename?: 'bean_likesConnection', edges: Array<{ __typename?: 'bean_likesEdge', node: { __typename?: 'bean_likes', id: any, user_id?: any | null } }> } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
+export type GetBeansQuery = { __typename?: 'Query', beansCollection?: { __typename?: 'beansConnection', edges: Array<{ __typename?: 'beansEdge', cursor: string, node: { __typename?: 'beans', id: any, slug?: string | null, name: string, image_url?: string | null, roast_type?: Roast_Type | null, process?: string | null, roast_level?: Roast_Level | null, origin?: string | null, created_at?: any | null, average_rating?: number | null, review_count?: number | null, status: Bean_Status, roasters?: { __typename?: 'roasters', id: any, name: string } | null, bean_tagsCollection?: { __typename?: 'bean_tagsConnection', edges: Array<{ __typename?: 'bean_tagsEdge', node: { __typename?: 'bean_tags', tags?: { __typename?: 'tags', id: any, name: string } | null } }> } | null, bean_likesCollection?: { __typename?: 'bean_likesConnection', edges: Array<{ __typename?: 'bean_likesEdge', node: { __typename?: 'bean_likes', id: any, user_id?: any | null } }> } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null };
 
 export type GetDashboardStatsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3679,6 +3707,7 @@ export const CreateBeanDocument = new TypedDocumentString(`
       producer
       notes
       buy_urls
+      status
       roasters {
         id
       }
@@ -3869,7 +3898,7 @@ export const UpdateBeanDocument = new TypedDocumentString(`
       producer
       notes
       buy_urls
-      is_published
+      status
       created_at
       updated_at
       roasters {
@@ -3880,6 +3909,21 @@ export const UpdateBeanDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UpdateBeanMutation, UpdateBeanMutationVariables>;
+export const UpdateBeanStatusDocument = new TypedDocumentString(`
+    mutation UpdateBeanStatus($id: UUID!, $status: bean_status!) {
+  updatebeansCollection(filter: {id: {eq: $id}}, set: {status: $status}) {
+    affectedCount
+    records {
+      id
+      name
+      status
+      is_published
+      created_at
+      updated_at
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBeanStatusMutation, UpdateBeanStatusMutationVariables>;
 export const UpdateCuratedHomepageItemDocument = new TypedDocumentString(`
     mutation UpdateCuratedHomepageItem($filter: homepage_curated_itemsFilter!, $set: homepage_curated_itemsUpdateInput!) {
   updatehomepage_curated_itemsCollection(filter: $filter, set: $set) {
@@ -3983,7 +4027,7 @@ export const GetCuratedHomepageItemsDocument = new TypedDocumentString(`
           name
           average_rating
           review_count
-          is_published
+          status
           origin
           roasters {
             id
@@ -4151,7 +4195,7 @@ export const GetBeanDocument = new TypedDocumentString(`
         producer
         notes
         buy_urls
-        is_published
+        status
         average_rating
         review_count
         roasters {
@@ -4249,7 +4293,7 @@ export const GetBeansDocument = new TypedDocumentString(`
         created_at
         average_rating
         review_count
-        is_published
+        status
         roasters {
           id
           name

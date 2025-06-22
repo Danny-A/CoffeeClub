@@ -15,6 +15,7 @@ mutation CreateBean($input: beansInsertInput!) {
       producer
       notes
       buy_urls
+      status
       roasters {
         id
       }

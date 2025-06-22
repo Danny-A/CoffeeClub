@@ -16,7 +16,7 @@ mutation UpdateBean($id: UUID!, $set: beansUpdateInput!) {
       producer
       notes
       buy_urls
-      is_published
+      status
       created_at
       updated_at
       roasters {

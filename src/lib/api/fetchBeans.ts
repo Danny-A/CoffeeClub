@@ -1,5 +1,6 @@
 import { graphqlFetch } from '../graphql/client';
 import {
+  Bean_Status,
   BeansOrderBy,
   BigFloatFilter,
   BooleanFilter,
@@ -52,7 +53,7 @@ export async function fetchBeans(
           ...(process && { process: { eq: process } as StringFilter }),
           ...(roastLevel && { roast_level: { eq: roastLevel as Roast_Level } }),
           ...(!includeUnpublished && {
-            is_published: { eq: true } as BooleanFilter,
+            status: { eq: Bean_Status.Published },
           }),
           ...((minRating !== undefined || maxRating !== undefined) && {
             and: [

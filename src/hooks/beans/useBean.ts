@@ -5,11 +5,11 @@ import { GetBeanQuery } from '@/lib/graphql/generated/graphql';
 
 type Bean = NonNullable<GetBeanQuery['beansCollection']>['edges'][0]['node'];
 
-export function useBean(id: string) {
+export function useBean(id: string, includeUnpublished = false) {
   return useQuery<Bean>({
     queryKey: ['bean', id],
     queryFn: async () => {
-      const response = await fetchBean(id);
+      const response = await fetchBean(id, includeUnpublished);
 
       return response;
     },

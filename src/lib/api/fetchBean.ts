@@ -1,11 +1,12 @@
 import { graphqlFetch } from '../graphql/client';
 import {
+  Bean_Status,
   GetBeanQuery,
   GetBeanQueryVariables,
 } from '../graphql/generated/graphql';
 import { GetBeanDocument } from '../graphql/generated/graphql';
 
-export async function fetchBean(id: string) {
+export async function fetchBean(id: string, includeUnpublished = false) {
   const response = await graphqlFetch<GetBeanQuery, GetBeanQueryVariables>(
     GetBeanDocument,
     {
@@ -13,7 +14,9 @@ export async function fetchBean(id: string) {
         id,
         filter: {
           id: { eq: id },
-          is_published: { eq: true },
+          status: includeUnpublished
+            ? undefined
+            : { eq: Bean_Status.Published },
         },
       },
     }

@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { graphqlFetch } from '@/lib/graphql/client';
 import {
+  Bean_Status,
   Bean_Type,
   BeansInsertInput,
   CreateBeanDocument,
@@ -28,7 +29,7 @@ export type CreateBeanInput = {
   producer?: string;
   notes?: string;
   buy_urls?: string[];
-  is_published?: boolean;
+  status?: Bean_Status;
 };
 
 export function useCreateBean() {
@@ -60,7 +61,7 @@ export function useCreateBean() {
             producer: input.producer,
             notes: input.notes,
             buy_urls: input.buy_urls,
-            is_published: input.is_published,
+            status: input.status,
             slug,
           } satisfies BeansInsertInput,
         },

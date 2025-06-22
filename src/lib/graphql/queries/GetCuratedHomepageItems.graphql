@@ -20,7 +20,7 @@ query GetCuratedHomepageItems {
           name
           average_rating
           review_count
-          is_published
+          status
           origin
           roasters {
             id

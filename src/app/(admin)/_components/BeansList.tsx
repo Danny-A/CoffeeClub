@@ -6,8 +6,10 @@ import { useInView } from 'react-intersection-observer';
 
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { StatusBadge } from '@/components/ui/StatusBadge';
 import { Text } from '@/components/ui/Text';
 import { useBeans } from '@/hooks/beans/useBeans';
+import { Bean_Status } from '@/lib/graphql/generated/graphql';
 
 export function BeansList() {
   const {
@@ -84,15 +86,7 @@ export function BeansList() {
                   <Text>{bean.node.origin}</Text>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span
-                    className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                      bean.node.is_published
-                        ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                        : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                    }`}
-                  >
-                    {bean.node.is_published ? 'Published' : 'Draft'}
-                  </span>
+                  <StatusBadge status={bean.node.status} />
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <Text className="text-sm">

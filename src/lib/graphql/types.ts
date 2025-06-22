@@ -1,3 +1,5 @@
+import { Bean_Status } from './generated/graphql';
+
 export interface User {
   id: string;
   username: string;
@@ -27,7 +29,7 @@ export interface Bean {
   updatedAt?: string;
   averageRating?: number;
   reviewCount?: number;
-  is_published?: boolean;
+  status: Bean_Status;
   reviews?: {
     id: string;
     rating: number;

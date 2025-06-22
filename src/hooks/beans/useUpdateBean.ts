@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { updateBean } from '@/lib/api/updateBean';
 import {
+  Bean_Status,
   Bean_Type,
   Roast_Level,
   Roast_Type,
@@ -23,7 +24,7 @@ export type UpdateBeanInput = {
   producer?: string;
   notes?: string;
   buy_urls?: string[];
-  is_published?: boolean;
+  status?: Bean_Status;
 };
 
 export function useUpdateBean() {

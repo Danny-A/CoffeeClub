@@ -1,3 +1,4 @@
+/* eslint-disable */
 import type { DocumentTypeDecoration } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -4096,7 +4097,12 @@ export type GetBeansQuery = {
         average_rating?: number | null;
         review_count?: number | null;
         status: Bean_Status;
-        roasters?: { __typename?: 'roasters'; id: any; name: string } | null;
+        roasters?: {
+          __typename?: 'roasters';
+          id: any;
+          name: string;
+          slug?: string | null;
+        } | null;
         bean_tagsCollection?: {
           __typename?: 'bean_tagsConnection';
           edges: Array<{
@@ -5217,6 +5223,7 @@ export const GetBeansDocument = new TypedDocumentString(`
         roasters {
           id
           name
+          slug
         }
         bean_tagsCollection {
           edges {

@@ -28,6 +28,7 @@ function transformBeansData(data: BeansQuery): BeansResponse {
         roaster: {
           id: bean.node.roasters?.id,
           name: bean.node.roasters?.name || '',
+          slug: bean.node.roasters?.slug || '',
         },
         createdAt: bean.node.created_at,
         updatedAt: bean.node.created_at,

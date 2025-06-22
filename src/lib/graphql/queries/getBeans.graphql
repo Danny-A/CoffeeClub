@@ -28,6 +28,7 @@ query GetBeans(
         roasters {
           id
           name
+          slug
         }
         bean_tagsCollection {
           edges {

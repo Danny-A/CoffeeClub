@@ -12,7 +12,7 @@ export interface User {
 
 export type RoasterOnBean = {
   id: string;
-  slug?: string;
+  slug: string;
   name: string;
 };
 

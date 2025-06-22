@@ -172,6 +172,7 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
                     ),
                     averageRating: bean.node.average_rating || undefined,
                     isNew: isNew(bean.node.created_at),
+                    status: bean.node.status,
                   }}
                 />
               ))}

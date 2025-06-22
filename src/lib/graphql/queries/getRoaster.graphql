@@ -35,6 +35,7 @@ query GetRoaster($id: UUID!, $filter: roastersFilter) {
               roast_level
               average_rating
               created_at
+              status
               bean_likesCollection {
                 edges {
                   node {

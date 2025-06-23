@@ -3463,6 +3463,18 @@ export type CreateRoasterMutation = {
   } | null;
 };
 
+export type DeleteBeanMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+export type DeleteBeanMutation = {
+  __typename?: 'Mutation';
+  deleteFrombeansCollection: {
+    __typename?: 'beansDeleteResponse';
+    records: Array<{ __typename?: 'beans'; id: any }>;
+  };
+};
+
 export type DeleteCuratedHomepageItemMutationVariables = Exact<{
   filter: Homepage_Curated_ItemsFilter;
 }>;
@@ -4653,6 +4665,18 @@ export const CreateRoasterDocument = new TypedDocumentString(`
     `) as unknown as TypedDocumentString<
   CreateRoasterMutation,
   CreateRoasterMutationVariables
+>;
+export const DeleteBeanDocument = new TypedDocumentString(`
+    mutation DeleteBean($id: UUID!) {
+  deleteFrombeansCollection(filter: {id: {eq: $id}}) {
+    records {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<
+  DeleteBeanMutation,
+  DeleteBeanMutationVariables
 >;
 export const DeleteCuratedHomepageItemDocument = new TypedDocumentString(`
     mutation DeleteCuratedHomepageItem($filter: homepage_curated_itemsFilter!) {

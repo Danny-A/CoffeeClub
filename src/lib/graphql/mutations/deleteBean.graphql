@@ -1,0 +1,7 @@
+mutation DeleteBean($id: UUID!) {
+  deleteFrombeansCollection(filter: { id: { eq: $id } }) {
+    records {
+      id
+    }
+  }
+}

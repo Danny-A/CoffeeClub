@@ -9,6 +9,7 @@ import { Heading } from '@/components/ui/Heading';
 import { StatusBadge } from '@/components/ui/StatusBadge';
 import { Text } from '@/components/ui/Text';
 import { useBeansByStatus } from '@/hooks/beans/useBeansByStatus';
+import { useDeleteBean } from '@/hooks/beans/useDeleteBean';
 import { useUpdateBeanStatus } from '@/hooks/beans/useUpdateBeanStatus';
 import { Bean_Status } from '@/lib/graphql/generated/graphql';
 
@@ -30,7 +31,9 @@ export function BeanTriage() {
     isFetchingNextPage,
   } = useBeansByStatus(status);
   const updateStatus = useUpdateBeanStatus();
+  const deleteBean = useDeleteBean();
   const { ref, inView } = useInView();
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
@@ -40,6 +43,28 @@ export function BeanTriage() {
 
   const beanList =
     data?.pages.flatMap((page) => page.beansCollection?.edges || []) || [];
+
+  const handleDeleteBean = async (beanId: string) => {
+    setDeleteError(null);
+    if (
+      window.confirm(
+        'Are you sure you want to delete this bean? This action cannot be undone.'
+      )
+    ) {
+      deleteBean.mutate(beanId, {
+        onError: (err: any) => {
+          setDeleteError(err?.message || 'Failed to delete bean.');
+        },
+      });
+    }
+  };
+
+  const handleUpdateStatus = (beanId: string, newStatus: Bean_Status) => {
+    updateStatus.mutate({
+      id: beanId,
+      status: newStatus,
+    });
+  };
 
   return (
     <Card className="p-4 mb-6">
@@ -63,6 +88,11 @@ export function BeanTriage() {
       </div>
       {isLoading && <Text>Loading beans...</Text>}
       {error && <Text variant="error">Error: {error.message}</Text>}
+      {deleteError && (
+        <Text variant="error" className="mb-2">
+          {deleteError}
+        </Text>
+      )}
       <div className="space-y-4">
         {beanList.length === 0 && (
           <Text>No beans with status &quot;{status}&quot;.</Text>
@@ -86,10 +116,7 @@ export function BeanTriage() {
                   size="sm"
                   variant="default"
                   onClick={() =>
-                    updateStatus.mutate({
-                      id: edge.node.id,
-                      status: Bean_Status.Published,
-                    })
+                    handleUpdateStatus(edge.node.id, Bean_Status.Published)
                   }
                   disabled={updateStatus.isPending}
                 >
@@ -101,10 +128,7 @@ export function BeanTriage() {
                   size="sm"
                   variant="outline"
                   onClick={() =>
-                    updateStatus.mutate({
-                      id: edge.node.id,
-                      status: Bean_Status.Approved,
-                    })
+                    handleUpdateStatus(edge.node.id, Bean_Status.Approved)
                   }
                   disabled={updateStatus.isPending}
                 >
@@ -116,16 +140,22 @@ export function BeanTriage() {
                   size="sm"
                   variant="destructive"
                   onClick={() =>
-                    updateStatus.mutate({
-                      id: edge.node.id,
-                      status: Bean_Status.Rejected,
-                    })
+                    handleUpdateStatus(edge.node.id, Bean_Status.Rejected)
                   }
                   disabled={updateStatus.isPending}
                 >
                   Reject
                 </Button>
               )}
+              <Button
+                size="sm"
+                variant="ghost"
+                className="text-red-600 hover:bg-red-50"
+                onClick={() => handleDeleteBean(edge.node.id)}
+                disabled={deleteBean.isPending}
+              >
+                Delete
+              </Button>
             </div>
           </div>
         ))}

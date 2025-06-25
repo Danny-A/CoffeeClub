@@ -77,6 +77,6 @@ export async function fetchBeans(
   if (!response.data.beansCollection) {
     return { beansCollection: null };
   }
-  console.log(response.data);
+
   return response.data;
 }

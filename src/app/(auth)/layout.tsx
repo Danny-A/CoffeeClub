@@ -7,8 +7,8 @@ import '../globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Auth - Daily Bean',
-  description: 'Authentication for Daily Bean',
+  title: 'Auth - Latest Grind',
+  description: 'Authentication for Latest Grind',
 };
 
 export default function RootLayout({

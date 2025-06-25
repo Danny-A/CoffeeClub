@@ -15,8 +15,8 @@ import '../globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Admin - Daily Bean',
-  description: 'Admin for Daily Bean',
+  title: 'Admin - Latest Grind',
+  description: 'Admin for Latest Grind',
   robots: {
     index: false,
     follow: false,

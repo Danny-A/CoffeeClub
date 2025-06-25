@@ -6,12 +6,8 @@ import { DashboardStats } from '../_components/DashboardStats';
 import { TopRatedSection } from '../_components/TopRatedSection';
 
 export const metadata: Metadata = {
-  title: 'Admin - Daily Bean',
-  description: 'Admin for Daily Bean',
-  robots: {
-    index: false,
-    follow: false,
-  },
+  title: 'Admin Dashboard - Latest Grind',
+  description: 'Admin dashboard for Latest Grind',
 };
 
 export default async function AdminDashboard() {

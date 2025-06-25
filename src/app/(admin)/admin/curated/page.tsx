@@ -3,12 +3,18 @@ import {
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
+import { Metadata } from 'next';
 import { Suspense } from 'react';
 
 import { Heading } from '@/components/ui/Heading';
 import { fetchCuratedHomepageItems } from '@/lib/api/fetchCuratedHomepageItems';
 
 import { CuratedItemsAdmin } from '../../_components/CuratedItemsAdmin';
+
+export const metadata: Metadata = {
+  title: 'Curated Admin - Latest Grind',
+  description: 'Curated administration for Latest Grind',
+};
 
 export default async function CuratedAdminPage() {
   const queryClient = new QueryClient();

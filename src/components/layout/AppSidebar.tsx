@@ -53,7 +53,7 @@ export async function AppSidebar({
             >
               <Link href="/admin">
                 <ArrowUpCircleIcon className="h-5 w-5" />
-                <span className="text-base font-semibold">Daily Bean.</span>
+                <span className="text-base font-semibold">Latest Grind.</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

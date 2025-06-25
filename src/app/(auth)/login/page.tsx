@@ -8,8 +8,8 @@ import { Text } from '@/components/ui/Text';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
-  title: 'Login - Daily Bean',
-  description: 'Login for Daily Bean',
+  title: 'Login - Latest Grind',
+  description: 'Login for Latest Grind',
 };
 
 export default async function LoginPage() {

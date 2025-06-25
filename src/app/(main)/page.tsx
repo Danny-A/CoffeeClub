@@ -73,7 +73,7 @@ export default async function HomePage() {
   return (
     <div className="space-y-12">
       <div>
-        <Heading level="h1">Welcome to Daily Bean</Heading>
+        <Heading level="h1">Welcome to Latest Grind</Heading>
         <Heading level="h2" muted className="mt-2">
           Discover and share your favorite coffee beans
         </Heading>

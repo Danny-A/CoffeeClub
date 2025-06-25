@@ -41,10 +41,10 @@ export async function generateMetadata({ params }: BeanDetailsProps) {
   const bean = await fetchBean(id);
 
   return {
-    title: `${bean?.name} by ${bean?.roasters?.name} - Daily Bean`,
+    title: `${bean?.name} by ${bean?.roasters?.name} - Latest Grind`,
     description: `View details about ${bean?.name}`,
     openGraph: {
-      title: `${bean?.name} by ${bean?.roasters?.name} - Daily Bean`,
+      title: `${bean?.name} by ${bean?.roasters?.name} - Latest Grind`,
       description: `View details about ${bean?.name}`,
       images: [{ url: bean?.image_url || '' }],
     },

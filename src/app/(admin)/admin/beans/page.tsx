@@ -13,12 +13,8 @@ import { Heading } from '@/components/ui/Heading';
 import { fetchBeans } from '@/lib/api/fetchBeans';
 
 export const metadata: Metadata = {
-  title: 'Beans Admin - Daily Bean',
-  description: 'Beans administration for Daily Bean',
-  robots: {
-    index: false,
-    follow: false,
-  },
+  title: 'Beans Admin - Latest Grind',
+  description: 'Beans administration for Latest Grind',
 };
 
 export default async function AdminBeansPage() {

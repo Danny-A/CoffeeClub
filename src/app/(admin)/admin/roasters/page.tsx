@@ -12,12 +12,8 @@ import { Heading } from '@/components/ui/Heading';
 import { fetchRoasters } from '@/lib/api/fetchRoasters';
 
 export const metadata: Metadata = {
-  title: 'Roasters Admin - Daily Bean',
-  description: 'Roasters administration for Daily Bean',
-  robots: {
-    index: false,
-    follow: false,
-  },
+  title: 'Roasters Admin - Latest Grind',
+  description: 'Roasters administration for Latest Grind',
 };
 
 export default async function AdminRoastersPage() {

@@ -11,10 +11,10 @@ import { fetchBeans } from '@/lib/api/fetchBeans';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
-  title: 'Beans - Daily Bean',
+  title: 'Beans - Latest Grind',
   description: 'Explore a collection of coffee beans',
   openGraph: {
-    title: 'Beans - Daily Bean',
+    title: 'Beans - Latest Grind',
     description: 'Explore a collection of coffee beans',
   },
 };

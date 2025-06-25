@@ -14,7 +14,7 @@ export function Navigation() {
             href="/"
             className="text-xl font-bold text-gray-900 dark:text-white"
           >
-            Daily Bean
+            Latest Grind.
           </Link>
 
           <UserNav />

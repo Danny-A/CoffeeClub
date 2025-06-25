@@ -51,10 +51,10 @@ export async function generateMetadata({ params }: RoasterDetailsProps) {
   const roaster = await fetchRoaster(id);
 
   return {
-    title: `${roaster?.name} - Daily Bean`,
+    title: `${roaster?.name} - Latest Grind`,
     description: `View details about ${roaster?.name}`,
     openGraph: {
-      title: `${roaster?.name} - Daily Bean`,
+      title: `${roaster?.name} - Latest Grind`,
       description: `View details about ${roaster?.name}`,
       images: [{ url: roaster?.profile_image_url || '' }],
     },

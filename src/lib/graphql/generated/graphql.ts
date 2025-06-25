@@ -2887,6 +2887,7 @@ export type Roasters = Node & {
   id: Scalars['UUID']['output'];
   instagram?: Maybe<Scalars['String']['output']>;
   is_published: Scalars['Boolean']['output'];
+  likes_count?: Maybe<Scalars['Int']['output']>;
   location_city?: Maybe<Scalars['String']['output']>;
   location_country?: Maybe<Scalars['String']['output']>;
   location_state?: Maybe<Scalars['String']['output']>;
@@ -2963,6 +2964,7 @@ export type RoastersFilter = {
   id?: InputMaybe<UuidFilter>;
   instagram?: InputMaybe<StringFilter>;
   is_published?: InputMaybe<BooleanFilter>;
+  likes_count?: InputMaybe<IntFilter>;
   location_city?: InputMaybe<StringFilter>;
   location_country?: InputMaybe<StringFilter>;
   location_state?: InputMaybe<StringFilter>;
@@ -2989,6 +2991,7 @@ export type RoastersInsertInput = {
   id?: InputMaybe<Scalars['UUID']['input']>;
   instagram?: InputMaybe<Scalars['String']['input']>;
   is_published?: InputMaybe<Scalars['Boolean']['input']>;
+  likes_count?: InputMaybe<Scalars['Int']['input']>;
   location_city?: InputMaybe<Scalars['String']['input']>;
   location_country?: InputMaybe<Scalars['String']['input']>;
   location_state?: InputMaybe<Scalars['String']['input']>;
@@ -3018,6 +3021,7 @@ export type RoastersOrderBy = {
   id?: InputMaybe<OrderByDirection>;
   instagram?: InputMaybe<OrderByDirection>;
   is_published?: InputMaybe<OrderByDirection>;
+  likes_count?: InputMaybe<OrderByDirection>;
   location_city?: InputMaybe<OrderByDirection>;
   location_country?: InputMaybe<OrderByDirection>;
   location_state?: InputMaybe<OrderByDirection>;
@@ -3039,6 +3043,7 @@ export type RoastersUpdateInput = {
   id?: InputMaybe<Scalars['UUID']['input']>;
   instagram?: InputMaybe<Scalars['String']['input']>;
   is_published?: InputMaybe<Scalars['Boolean']['input']>;
+  likes_count?: InputMaybe<Scalars['Int']['input']>;
   location_city?: InputMaybe<Scalars['String']['input']>;
   location_country?: InputMaybe<Scalars['String']['input']>;
   location_state?: InputMaybe<Scalars['String']['input']>;
@@ -4264,6 +4269,51 @@ export type GetLocationsQuery = {
   } | null;
 };
 
+export type GetMostLikedRoastersQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type GetMostLikedRoastersQuery = {
+  __typename?: 'Query';
+  roastersCollection?: {
+    __typename?: 'roastersConnection';
+    edges: Array<{
+      __typename?: 'roastersEdge';
+      node: {
+        __typename?: 'roasters';
+        id: any;
+        slug?: string | null;
+        name: string;
+        profile_image_url?: string | null;
+        logo_url?: string | null;
+        location_city?: string | null;
+        location_state?: string | null;
+        location_country?: string | null;
+        bean_count?: number | null;
+        likes_count?: number | null;
+        created_at?: any | null;
+        is_published: boolean;
+        roaster_likesCollection?: {
+          __typename?: 'roaster_likesConnection';
+          edges: Array<{
+            __typename?: 'roaster_likesEdge';
+            node: {
+              __typename?: 'roaster_likes';
+              id: any;
+              user_id?: any | null;
+            };
+          }>;
+        } | null;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      endCursor?: string | null;
+    };
+  } | null;
+};
+
 export type GetProfileQueryVariables = Exact<{
   id: Scalars['UUID']['input'];
 }>;
@@ -5373,6 +5423,47 @@ export const GetLocationsDocument = new TypedDocumentString(`
     `) as unknown as TypedDocumentString<
   GetLocationsQuery,
   GetLocationsQueryVariables
+>;
+export const GetMostLikedRoastersDocument = new TypedDocumentString(`
+    query GetMostLikedRoasters($first: Int) {
+  roastersCollection(
+    first: $first
+    orderBy: [{likes_count: DescNullsLast}]
+    filter: {is_published: {eq: true}}
+  ) {
+    edges {
+      node {
+        id
+        slug
+        name
+        profile_image_url
+        logo_url
+        location_city
+        location_state
+        location_country
+        bean_count
+        likes_count
+        created_at
+        is_published
+        roaster_likesCollection {
+          edges {
+            node {
+              id
+              user_id
+            }
+          }
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<
+  GetMostLikedRoastersQuery,
+  GetMostLikedRoastersQueryVariables
 >;
 export const GetProfileDocument = new TypedDocumentString(`
     query GetProfile($id: UUID!) {

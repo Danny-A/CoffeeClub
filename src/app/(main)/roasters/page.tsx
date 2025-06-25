@@ -13,7 +13,7 @@ import { fetchRoasters } from '@/lib/api/fetchRoasters';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
-  title: 'Roasters - Daily Bean',
+  title: 'Roasters - Latest Grind',
   description: 'Explore a collection of coffee roasters',
 };
 

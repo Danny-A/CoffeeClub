@@ -1,0 +1,36 @@
+query GetMostLikedRoasters($first: Int) {
+  roastersCollection(
+    first: $first
+    orderBy: [{ likes_count: DescNullsLast }]
+    filter: { is_published: { eq: true } }
+  ) {
+    edges {
+      node {
+        id
+        slug
+        name
+        profile_image_url
+        logo_url
+        location_city
+        location_state
+        location_country
+        bean_count
+        likes_count
+        created_at
+        is_published
+        roaster_likesCollection {
+          edges {
+            node {
+              id
+              user_id
+            }
+          }
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

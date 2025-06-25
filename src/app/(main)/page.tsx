@@ -1,14 +1,12 @@
 import { BeanCard } from '@/components/features/BeanCard';
 import { CuratedSection } from '@/components/features/Curated';
 import { RecipeCard } from '@/components/features/RecipeCard';
+import { RoasterCard } from '@/components/features/RoasterCard';
 import { Heading } from '@/components/ui/Heading';
 import { fetchBeans } from '@/lib/api/fetchBeans';
+import { fetchMostLikedRoasters } from '@/lib/api/fetchMostLikedRoasters';
 import { fetchRecipes } from '@/lib/api/fetchRecipes';
-import {
-  OrderByDirection,
-  Beans,
-  Bean_Status,
-} from '@/lib/graphql/generated/graphql';
+import { OrderByDirection, Beans } from '@/lib/graphql/generated/graphql';
 import { Bean } from '@/lib/graphql/types';
 
 function mapGraphQLBeanToBean(bean: Beans): Bean {
@@ -37,7 +35,7 @@ function mapGraphQLBeanToBean(bean: Beans): Bean {
 
 export default async function HomePage() {
   const topRatedBeansData = await fetchBeans({
-    first: 10,
+    first: 5,
     orderBy: [
       { average_rating: OrderByDirection.DescNullsLast },
       { review_count: OrderByDirection.DescNullsLast },
@@ -51,7 +49,7 @@ export default async function HomePage() {
     ) ?? [];
 
   const mostReviewedBeansData = await fetchBeans({
-    first: 10,
+    first: 5,
     orderBy: [
       { review_count: OrderByDirection.DescNullsLast },
       { average_rating: OrderByDirection.DescNullsLast },
@@ -64,11 +62,42 @@ export default async function HomePage() {
     ) ?? [];
 
   const mostLikedRecipesData = await fetchRecipes({
-    first: 10,
+    first: 5,
     orderBy: [{ likes_count: OrderByDirection.DescNullsLast }],
   });
 
   const mostLikedRecipes = mostLikedRecipesData.edges.map((edge) => edge.node);
+
+  const mostLikedRoastersData = await fetchMostLikedRoasters(5);
+  const mostLikedRoasters =
+    mostLikedRoastersData.roastersCollection?.edges.map((edge) => {
+      const {
+        location_city,
+        location_state,
+        location_country,
+        slug,
+        roaster_likesCollection,
+        bean_count,
+        profile_image_url,
+        logo_url,
+        ...rest
+      } = edge.node;
+      return {
+        ...rest,
+        slug: slug ?? undefined,
+        profile_image_url: profile_image_url ?? undefined,
+        logo_url: logo_url ?? undefined,
+        likes:
+          roaster_likesCollection?.edges.map((likeEdge) => ({
+            id: likeEdge.node.id,
+            user_id: likeEdge.node.user_id ?? '',
+          })) || [],
+        beanCount: bean_count ?? 0,
+        city: location_city || undefined,
+        state: location_state || undefined,
+        country: location_country || undefined,
+      };
+    }) ?? [];
 
   return (
     <div className="space-y-12">
@@ -94,11 +123,22 @@ export default async function HomePage() {
 
       <section>
         <Heading level="h3" className="mb-4">
-          Most Reviewed Beans
+          Populair Beans
         </Heading>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
           {mostReviewedBeans.map((bean) => (
             <BeanCard key={bean.id} bean={bean} user={null} />
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <Heading level="h3" className="mb-4">
+          Populair Roasters
+        </Heading>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {mostLikedRoasters.map((roaster) => (
+            <RoasterCard key={roaster.id} roaster={roaster} user={null} />
           ))}
         </div>
       </section>

@@ -155,7 +155,7 @@ export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
                   <Text variant="label">Elevation:</Text>
                   <Text>
                     {bean.elevationMin}
-                    {bean.elevationMax && `-${bean.elevationMax}`} masl
+                    {bean.elevationMax && `- ${bean.elevationMax}`} masl
                   </Text>
                 </div>
               )}

@@ -17,18 +17,6 @@ export const metadata: Metadata = {
   description: 'Explore a collection of coffee roasters',
 };
 
-export async function generateStaticParams() {
-  const { roastersCollection } = await fetchRoasters();
-
-  if (!roastersCollection?.edges?.length) {
-    return [];
-  }
-
-  return roastersCollection.edges.map((edge) => ({
-    id: edge.node.id,
-  }));
-}
-
 export default async function RoastersPage() {
   const queryClient = new QueryClient();
   const supabase = await createClient();

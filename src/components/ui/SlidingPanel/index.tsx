@@ -48,6 +48,7 @@ export function SlidingPanel({
               size="icon"
               onClick={onClose}
               className="h-8 w-8"
+              aria-label="Close menu"
             >
               <X className="h-4 w-4" />
             </Button>

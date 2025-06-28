@@ -1,3 +1,5 @@
+import { Metadata } from 'next';
+
 import { BeanCard } from '@/components/features/BeanCard';
 import { CuratedSection } from '@/components/features/Curated';
 import { RecipeCard } from '@/components/features/RecipeCard';
@@ -5,6 +7,15 @@ import { RoasterCard } from '@/components/features/RoasterCard';
 import { Heading } from '@/components/ui/Heading';
 import { fetchHomepageData } from '@/lib/api/fetchHomepageData';
 import { Bean, Roaster } from '@/lib/graphql/types';
+
+export const metadata: Metadata = {
+  title: 'Latest Grind',
+  description: 'Explore a collection of coffee beans, roasters, and recipes',
+  openGraph: {
+    title: 'Latest Grind',
+    description: 'Explore a collection of coffee beans, roasters, and recipes',
+  },
+};
 
 export default async function HomePage() {
   const homepageData = await fetchHomepageData();

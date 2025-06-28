@@ -1,0 +1,236 @@
+query GetHomepageData {
+  # Top rated beans (ordered by rating first, then review count)
+  topRatedBeans: beansCollection(
+    first: 5
+    orderBy: [
+      { average_rating: DescNullsLast }
+      { review_count: DescNullsLast }
+    ]
+    filter: { status: { eq: published }, average_rating: { gte: 0.1 } }
+  ) {
+    edges {
+      node {
+        id
+        slug
+        name
+        image_url
+        roast_type
+        process
+        roast_level
+        origin
+        created_at
+        average_rating
+        review_count
+        status
+        roasters {
+          id
+          name
+          slug
+        }
+        bean_tagsCollection {
+          edges {
+            node {
+              tags {
+                id
+                name
+              }
+            }
+          }
+        }
+        bean_likesCollection {
+          edges {
+            node {
+              id
+              user_id
+            }
+          }
+        }
+      }
+    }
+  }
+
+  # Most reviewed beans (ordered by review count first, then rating)
+  mostReviewedBeans: beansCollection(
+    first: 5
+    orderBy: [
+      { review_count: DescNullsLast }
+      { average_rating: DescNullsLast }
+    ]
+    filter: { status: { eq: published }, average_rating: { gte: 0.1 } }
+  ) {
+    edges {
+      node {
+        id
+        slug
+        name
+        image_url
+        roast_type
+        process
+        roast_level
+        origin
+        created_at
+        average_rating
+        review_count
+        status
+        roasters {
+          id
+          name
+          slug
+        }
+        bean_tagsCollection {
+          edges {
+            node {
+              tags {
+                id
+                name
+              }
+            }
+          }
+        }
+        bean_likesCollection {
+          edges {
+            node {
+              id
+              user_id
+            }
+          }
+        }
+      }
+    }
+  }
+
+  # Most liked roasters
+  mostLikedRoasters: roastersCollection(
+    first: 5
+    orderBy: [{ likes_count: DescNullsLast }]
+    filter: { is_published: { eq: true } }
+  ) {
+    edges {
+      node {
+        id
+        slug
+        name
+        profile_image_url
+        logo_url
+        location_city
+        location_state
+        location_country
+        bean_count
+        likes_count
+        created_at
+        is_published
+        roaster_likesCollection {
+          edges {
+            node {
+              id
+              user_id
+            }
+          }
+        }
+      }
+    }
+  }
+
+  # Most liked recipes
+  mostLikedRecipes: recipesCollection(
+    first: 5
+    orderBy: [{ likes_count: DescNullsLast }]
+    filter: { is_public: { eq: true } }
+  ) {
+    edges {
+      node {
+        id
+        slug
+        title
+        description
+        image_url
+        is_public
+        likes_count
+        created_at
+        profiles {
+          id
+          username
+          display_name
+          profile_image_url
+        }
+        recipe_likesCollection {
+          edges {
+            node {
+              id
+              user_id
+            }
+          }
+        }
+      }
+    }
+  }
+
+  # Curated homepage items
+  curatedHomepageItems: homepage_curated_itemsCollection(
+    orderBy: { display_order: AscNullsLast }
+  ) {
+    edges {
+      node {
+        id
+        nodeId
+        section
+        display_order
+        custom_title
+        published
+        created_at
+        updated_at
+        bean_id
+        recipe_id
+        roaster_id
+        location_id
+        beans {
+          id
+          slug
+          name
+          average_rating
+          review_count
+          status
+          origin
+          roasters {
+            id
+            name
+          }
+        }
+        recipes {
+          id
+          slug
+          title
+          description
+          image_url
+          is_public
+          likes_count
+        }
+        roasters {
+          id
+          slug
+          name
+          bean_count
+          is_published
+          location_city
+          location_state
+          location_country
+          created_at
+          beanCount: bean_count
+          roaster_likesCollection {
+            edges {
+              node {
+                id
+                user_id
+              }
+            }
+          }
+        }
+        locations {
+          id
+          slug
+          name
+        }
+      }
+    }
+  }
+}

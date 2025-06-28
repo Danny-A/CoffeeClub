@@ -249,12 +249,14 @@ export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
                             {review.profile?.displayName ??
                               review.profile?.username}
                           </Text>
-                          <Text
-                            variant="small"
-                            className="text-gray-600 dark:text-gray-400"
-                          >
-                            <TimeAgo time={review.createdAt} />
-                          </Text>
+                          {review.createdAt && (
+                            <Text
+                              variant="small"
+                              className="text-gray-600 dark:text-gray-400"
+                            >
+                              <TimeAgo time={review.createdAt} />
+                            </Text>
+                          )}
                         </div>
                       </div>
                     </CardHeader>

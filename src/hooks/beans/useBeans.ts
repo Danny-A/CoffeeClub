@@ -2,55 +2,11 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { BeanFilters, fetchBeans } from '@/lib/api/fetchBeans';
 import { GetBeansQuery } from '@/lib/graphql/generated/graphql';
-import { Bean } from '@/lib/graphql/types';
-import { isNew } from '@/utils/isNew';
 
-type BeansQuery = NonNullable<GetBeansQuery['beansCollection']>;
-type BeansResponse = {
-  edges: Array<{ node: Bean }>;
-  pageInfo: {
-    hasNextPage: boolean;
-    endCursor: string | null;
-  };
-};
-
-function transformBeansData(data: BeansQuery): BeansResponse {
-  return {
-    edges: data.edges.map((bean) => ({
-      ...bean,
-      node: {
-        id: bean.node.id,
-        slug: bean.node.slug ?? bean.node.id,
-        name: bean.node.name,
-        origin: bean.node.origin || '',
-        process: bean.node.process || '',
-        roastLevel: bean.node.roast_level || '',
-        roaster: {
-          id: bean.node.roasters?.id,
-          name: bean.node.roasters?.name || '',
-          slug: bean.node.roasters?.slug || '',
-        },
-        createdAt: bean.node.created_at,
-        updatedAt: bean.node.created_at,
-        averageRating: bean.node.average_rating || 0,
-        status: bean.node.status,
-        reviewCount: bean.node.review_count || 0,
-        likes: bean.node.bean_likesCollection?.edges.map((edge) => ({
-          id: edge.node.id,
-          user_id: edge.node.user_id,
-        })),
-        isNew: isNew(bean.node.created_at),
-      },
-    })),
-    pageInfo: {
-      hasNextPage: data.pageInfo.hasNextPage,
-      endCursor: data.pageInfo.endCursor || null,
-    },
-  };
-}
+export type BeansQuery = NonNullable<GetBeansQuery['beansCollection']>;
 
 export function useBeans(filters?: Omit<BeanFilters, 'first' | 'after'>) {
-  return useInfiniteQuery<BeansResponse>({
+  return useInfiniteQuery({
     queryKey: ['beans', filters],
     queryFn: async ({ pageParam }) => {
       const response = await fetchBeans({
@@ -58,7 +14,8 @@ export function useBeans(filters?: Omit<BeanFilters, 'first' | 'after'>) {
         first: 30,
         after: pageParam as string | undefined,
       });
-      return transformBeansData(response.beansCollection!);
+
+      return response;
     },
     initialPageParam: null as string | null,
     getNextPageParam: (lastPage) => {

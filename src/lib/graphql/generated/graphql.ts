@@ -4210,6 +4210,235 @@ export type GetDashboardStatsQuery = {
   } | null;
 };
 
+export type GetHomepageDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetHomepageDataQuery = {
+  __typename?: 'Query';
+  topRatedBeans?: {
+    __typename?: 'beansConnection';
+    edges: Array<{
+      __typename?: 'beansEdge';
+      node: {
+        __typename?: 'beans';
+        id: any;
+        slug?: string | null;
+        name: string;
+        image_url?: string | null;
+        roast_type?: Roast_Type | null;
+        process?: string | null;
+        roast_level?: Roast_Level | null;
+        origin?: string | null;
+        created_at?: any | null;
+        average_rating?: number | null;
+        review_count?: number | null;
+        status: Bean_Status;
+        roasters?: {
+          __typename?: 'roasters';
+          id: any;
+          name: string;
+          slug?: string | null;
+        } | null;
+        bean_tagsCollection?: {
+          __typename?: 'bean_tagsConnection';
+          edges: Array<{
+            __typename?: 'bean_tagsEdge';
+            node: {
+              __typename?: 'bean_tags';
+              tags?: { __typename?: 'tags'; id: any; name: string } | null;
+            };
+          }>;
+        } | null;
+        bean_likesCollection?: {
+          __typename?: 'bean_likesConnection';
+          edges: Array<{
+            __typename?: 'bean_likesEdge';
+            node: { __typename?: 'bean_likes'; id: any; user_id?: any | null };
+          }>;
+        } | null;
+      };
+    }>;
+  } | null;
+  mostReviewedBeans?: {
+    __typename?: 'beansConnection';
+    edges: Array<{
+      __typename?: 'beansEdge';
+      node: {
+        __typename?: 'beans';
+        id: any;
+        slug?: string | null;
+        name: string;
+        image_url?: string | null;
+        roast_type?: Roast_Type | null;
+        process?: string | null;
+        roast_level?: Roast_Level | null;
+        origin?: string | null;
+        created_at?: any | null;
+        average_rating?: number | null;
+        review_count?: number | null;
+        status: Bean_Status;
+        roasters?: {
+          __typename?: 'roasters';
+          id: any;
+          name: string;
+          slug?: string | null;
+        } | null;
+        bean_tagsCollection?: {
+          __typename?: 'bean_tagsConnection';
+          edges: Array<{
+            __typename?: 'bean_tagsEdge';
+            node: {
+              __typename?: 'bean_tags';
+              tags?: { __typename?: 'tags'; id: any; name: string } | null;
+            };
+          }>;
+        } | null;
+        bean_likesCollection?: {
+          __typename?: 'bean_likesConnection';
+          edges: Array<{
+            __typename?: 'bean_likesEdge';
+            node: { __typename?: 'bean_likes'; id: any; user_id?: any | null };
+          }>;
+        } | null;
+      };
+    }>;
+  } | null;
+  mostLikedRoasters?: {
+    __typename?: 'roastersConnection';
+    edges: Array<{
+      __typename?: 'roastersEdge';
+      node: {
+        __typename?: 'roasters';
+        id: any;
+        slug?: string | null;
+        name: string;
+        profile_image_url?: string | null;
+        logo_url?: string | null;
+        location_city?: string | null;
+        location_state?: string | null;
+        location_country?: string | null;
+        bean_count?: number | null;
+        likes_count?: number | null;
+        created_at?: any | null;
+        is_published: boolean;
+        roaster_likesCollection?: {
+          __typename?: 'roaster_likesConnection';
+          edges: Array<{
+            __typename?: 'roaster_likesEdge';
+            node: {
+              __typename?: 'roaster_likes';
+              id: any;
+              user_id?: any | null;
+            };
+          }>;
+        } | null;
+      };
+    }>;
+  } | null;
+  mostLikedRecipes?: {
+    __typename?: 'recipesConnection';
+    edges: Array<{
+      __typename?: 'recipesEdge';
+      node: {
+        __typename?: 'recipes';
+        id: any;
+        slug?: string | null;
+        title?: string | null;
+        description?: string | null;
+        image_url?: string | null;
+        is_public?: boolean | null;
+        likes_count?: number | null;
+        created_at?: any | null;
+        profiles?: {
+          __typename?: 'profiles';
+          id: any;
+          username: string;
+          display_name?: string | null;
+          profile_image_url?: string | null;
+        } | null;
+        recipe_likesCollection?: {
+          __typename?: 'recipe_likesConnection';
+          edges: Array<{
+            __typename?: 'recipe_likesEdge';
+            node: { __typename?: 'recipe_likes'; id: any; user_id: any };
+          }>;
+        } | null;
+      };
+    }>;
+  } | null;
+  curatedHomepageItems?: {
+    __typename?: 'homepage_curated_itemsConnection';
+    edges: Array<{
+      __typename?: 'homepage_curated_itemsEdge';
+      node: {
+        __typename?: 'homepage_curated_items';
+        id: any;
+        nodeId: string;
+        section: string;
+        display_order: number;
+        custom_title?: string | null;
+        published: boolean;
+        created_at: any;
+        updated_at: any;
+        bean_id?: any | null;
+        recipe_id?: any | null;
+        roaster_id?: any | null;
+        location_id?: any | null;
+        beans?: {
+          __typename?: 'beans';
+          id: any;
+          slug?: string | null;
+          name: string;
+          average_rating?: number | null;
+          review_count?: number | null;
+          status: Bean_Status;
+          origin?: string | null;
+          roasters?: { __typename?: 'roasters'; id: any; name: string } | null;
+        } | null;
+        recipes?: {
+          __typename?: 'recipes';
+          id: any;
+          slug?: string | null;
+          title?: string | null;
+          description?: string | null;
+          image_url?: string | null;
+          is_public?: boolean | null;
+          likes_count?: number | null;
+        } | null;
+        roasters?: {
+          __typename?: 'roasters';
+          id: any;
+          slug?: string | null;
+          name: string;
+          bean_count?: number | null;
+          is_published: boolean;
+          location_city?: string | null;
+          location_state?: string | null;
+          location_country?: string | null;
+          created_at?: any | null;
+          beanCount?: number | null;
+          roaster_likesCollection?: {
+            __typename?: 'roaster_likesConnection';
+            edges: Array<{
+              __typename?: 'roaster_likesEdge';
+              node: {
+                __typename?: 'roaster_likes';
+                id: any;
+                user_id?: any | null;
+              };
+            }>;
+          } | null;
+        } | null;
+        locations?: {
+          __typename?: 'locations';
+          id: any;
+          slug?: string | null;
+          name: string;
+        } | null;
+      };
+    }>;
+  } | null;
+};
+
 export type GetLocationsQueryVariables = Exact<{
   filter?: InputMaybe<LocationsFilter>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -5377,6 +5606,232 @@ export const GetDashboardStatsDocument = new TypedDocumentString(`
     `) as unknown as TypedDocumentString<
   GetDashboardStatsQuery,
   GetDashboardStatsQueryVariables
+>;
+export const GetHomepageDataDocument = new TypedDocumentString(`
+    query GetHomepageData {
+  topRatedBeans: beansCollection(
+    first: 5
+    orderBy: [{average_rating: DescNullsLast}, {review_count: DescNullsLast}]
+    filter: {status: {eq: published}, average_rating: {gte: 0.1}}
+  ) {
+    edges {
+      node {
+        id
+        slug
+        name
+        image_url
+        roast_type
+        process
+        roast_level
+        origin
+        created_at
+        average_rating
+        review_count
+        status
+        roasters {
+          id
+          name
+          slug
+        }
+        bean_tagsCollection {
+          edges {
+            node {
+              tags {
+                id
+                name
+              }
+            }
+          }
+        }
+        bean_likesCollection {
+          edges {
+            node {
+              id
+              user_id
+            }
+          }
+        }
+      }
+    }
+  }
+  mostReviewedBeans: beansCollection(
+    first: 5
+    orderBy: [{review_count: DescNullsLast}, {average_rating: DescNullsLast}]
+    filter: {status: {eq: published}, average_rating: {gte: 0.1}}
+  ) {
+    edges {
+      node {
+        id
+        slug
+        name
+        image_url
+        roast_type
+        process
+        roast_level
+        origin
+        created_at
+        average_rating
+        review_count
+        status
+        roasters {
+          id
+          name
+          slug
+        }
+        bean_tagsCollection {
+          edges {
+            node {
+              tags {
+                id
+                name
+              }
+            }
+          }
+        }
+        bean_likesCollection {
+          edges {
+            node {
+              id
+              user_id
+            }
+          }
+        }
+      }
+    }
+  }
+  mostLikedRoasters: roastersCollection(
+    first: 5
+    orderBy: [{likes_count: DescNullsLast}]
+    filter: {is_published: {eq: true}}
+  ) {
+    edges {
+      node {
+        id
+        slug
+        name
+        profile_image_url
+        logo_url
+        location_city
+        location_state
+        location_country
+        bean_count
+        likes_count
+        created_at
+        is_published
+        roaster_likesCollection {
+          edges {
+            node {
+              id
+              user_id
+            }
+          }
+        }
+      }
+    }
+  }
+  mostLikedRecipes: recipesCollection(
+    first: 5
+    orderBy: [{likes_count: DescNullsLast}]
+    filter: {is_public: {eq: true}}
+  ) {
+    edges {
+      node {
+        id
+        slug
+        title
+        description
+        image_url
+        is_public
+        likes_count
+        created_at
+        profiles {
+          id
+          username
+          display_name
+          profile_image_url
+        }
+        recipe_likesCollection {
+          edges {
+            node {
+              id
+              user_id
+            }
+          }
+        }
+      }
+    }
+  }
+  curatedHomepageItems: homepage_curated_itemsCollection(
+    orderBy: {display_order: AscNullsLast}
+  ) {
+    edges {
+      node {
+        id
+        nodeId
+        section
+        display_order
+        custom_title
+        published
+        created_at
+        updated_at
+        bean_id
+        recipe_id
+        roaster_id
+        location_id
+        beans {
+          id
+          slug
+          name
+          average_rating
+          review_count
+          status
+          origin
+          roasters {
+            id
+            name
+          }
+        }
+        recipes {
+          id
+          slug
+          title
+          description
+          image_url
+          is_public
+          likes_count
+        }
+        roasters {
+          id
+          slug
+          name
+          bean_count
+          is_published
+          location_city
+          location_state
+          location_country
+          created_at
+          beanCount: bean_count
+          roaster_likesCollection {
+            edges {
+              node {
+                id
+                user_id
+              }
+            }
+          }
+        }
+        locations {
+          id
+          slug
+          name
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<
+  GetHomepageDataQuery,
+  GetHomepageDataQueryVariables
 >;
 export const GetLocationsDocument = new TypedDocumentString(`
     query GetLocations($filter: locationsFilter, $first: Int, $after: Cursor) {

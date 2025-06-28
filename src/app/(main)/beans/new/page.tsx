@@ -66,8 +66,8 @@ function NewBeanPage() {
   } = useForm<BeanFormData>({
     resolver: zodResolver(beanSchema) as Resolver<BeanFormData>,
     defaultValues: {
-      roaster_id: roasterId || '',
-      buy_urls: [],
+      roasterId: roasterId || '',
+      buyUrls: [],
       origin: [{ value: '' }],
     },
   });
@@ -78,7 +78,7 @@ function NewBeanPage() {
     remove: removeBuyUrl,
   } = useFieldArray({
     control,
-    name: 'buy_urls',
+    name: 'buyUrls',
   });
 
   const {
@@ -107,7 +107,7 @@ function NewBeanPage() {
 
   useEffect(() => {
     if (roasterId && roasterId) {
-      setValue('roaster_id', roasterId);
+      setValue('roasterId', roasterId);
     }
   }, [roasterId, setValue]);
 
@@ -136,8 +136,8 @@ function NewBeanPage() {
       // Filter out empty URLs and transform to string array
       const filteredData = {
         ...data,
-        image_url: imageUrl,
-        buy_urls: data.buy_urls?.map((url) => url.value).filter(Boolean),
+        imageUrl: imageUrl,
+        buyUrls: data.buyUrls?.map((url) => url.value).filter(Boolean),
         origin: data.origin
           .filter((o) => o.value.trim() !== '')
           .map((o) => o.value.trim())
@@ -173,7 +173,7 @@ function NewBeanPage() {
               <div className="space-y-2">
                 <Text variant="label">Roaster</Text>
                 <Controller
-                  name="roaster_id"
+                  name="roasterId"
                   control={control}
                   render={({ field }) => (
                     <ComboBox
@@ -191,8 +191,8 @@ function NewBeanPage() {
                     />
                   )}
                 />
-                {errors.roaster_id?.message && (
-                  <Text variant="error">{errors.roaster_id.message}</Text>
+                {errors.roasterId?.message && (
+                  <Text variant="error">{errors.roasterId.message}</Text>
                 )}
               </div>
               <ImageUpload
@@ -214,7 +214,7 @@ function NewBeanPage() {
                 <div className="space-y-2">
                   <Text variant="label">Roast Type</Text>
                   <Controller
-                    name="roast_type"
+                    name="roastType"
                     control={control}
                     render={({ field }) => (
                       <Select
@@ -234,15 +234,15 @@ function NewBeanPage() {
                       </Select>
                     )}
                   />
-                  {errors.roast_type?.message && (
-                    <Text variant="error">{errors.roast_type.message}</Text>
+                  {errors.roastType?.message && (
+                    <Text variant="error">{errors.roastType.message}</Text>
                   )}
                 </div>
 
                 <div className="space-y-2">
                   <Text variant="label">Roast Level</Text>
                   <Controller
-                    name="roast_level"
+                    name="roastLevel"
                     control={control}
                     render={({ field }) => (
                       <Select
@@ -262,8 +262,8 @@ function NewBeanPage() {
                       </Select>
                     )}
                   />
-                  {errors.roast_level?.message && (
-                    <Text variant="error">{errors.roast_level.message}</Text>
+                  {errors.roastLevel?.message && (
+                    <Text variant="error">{errors.roastLevel.message}</Text>
                   )}
                 </div>
               </div>
@@ -288,7 +288,7 @@ function NewBeanPage() {
                 <div className="space-y-2">
                   <Text variant="label">Bean Type</Text>
                   <Controller
-                    name="bean_type"
+                    name="beanType"
                     control={control}
                     render={({ field }) => (
                       <Select
@@ -324,8 +324,8 @@ function NewBeanPage() {
                       </Select>
                     )}
                   />
-                  {errors.bean_type?.message && (
-                    <Text variant="error">{errors.bean_type.message}</Text>
+                  {errors.beanType?.message && (
+                    <Text variant="error">{errors.beanType.message}</Text>
                   )}
                 </div>
 
@@ -391,7 +391,7 @@ function NewBeanPage() {
                   variant="outline"
                   onClick={() => appendOrigin({ value: '' })}
                   disabled={
-                    watch('bean_type') === Bean_Type.SingleOrigin &&
+                    watch('beanType') === Bean_Type.SingleOrigin &&
                     originFields.length > 0
                   }
                 >
@@ -409,16 +409,16 @@ function NewBeanPage() {
                   label="Minimum Elevation (m)"
                   type="number"
                   min="0"
-                  error={errors.elevation_min?.message}
-                  {...register('elevation_min')}
+                  error={errors.elevationMin?.message}
+                  {...register('elevationMin')}
                 />
 
                 <FormField
                   label="Maximum Elevation (m)"
                   type="number"
                   min="0"
-                  error={errors.elevation_max?.message}
-                  {...register('elevation_max')}
+                  error={errors.elevationMax?.message}
+                  {...register('elevationMax')}
                 />
               </div>
 
@@ -440,8 +440,8 @@ function NewBeanPage() {
                     <FormField
                       label={`URL ${index + 1}`}
                       type="url"
-                      error={errors.buy_urls?.[index]?.value?.message}
-                      {...register(`buy_urls.${index}.value` as const)}
+                      error={errors.buyUrls?.[index]?.value?.message}
+                      {...register(`buyUrls.${index}.value` as const)}
                       className="flex-1"
                     />
                     <Button

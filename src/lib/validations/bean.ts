@@ -9,15 +9,15 @@ import {
 
 export const beanSchema = z.object({
   name: z.string().min(1, 'Name is required'),
-  roaster_id: z.string().min(1, 'Roaster is required'),
-  image_url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
+  roasterId: z.string().min(1, 'Roaster is required'),
+  imageUrl: z.string().url('Must be a valid URL').optional().or(z.literal('')),
   description: z.string().optional(),
-  roast_type: z.nativeEnum(Roast_Type).optional(),
-  roast_level: z.nativeEnum(Roast_Level).optional(),
-  bean_type: z.nativeEnum(Bean_Type).optional(),
+  roastType: z.nativeEnum(Roast_Type).optional(),
+  roastLevel: z.nativeEnum(Roast_Level).optional(),
+  beanType: z.nativeEnum(Bean_Type).optional(),
   process: z.string().optional(),
-  elevation_min: z.coerce.number().min(0).optional(),
-  elevation_max: z.coerce.number().min(0).optional(),
+  elevationMin: z.coerce.number().min(0).optional(),
+  elevationMax: z.coerce.number().min(0).optional(),
   origin: z
     .array(z.object({ value: z.string() }))
     .refine((origins) => origins.some((o) => o.value.trim() !== ''), {
@@ -40,7 +40,7 @@ export const beanSchema = z.object({
     }),
   producer: z.string().optional(),
   notes: z.string().optional(),
-  buy_urls: z
+  buyUrls: z
     .array(
       z.object({
         value: z.string().url('Must be a valid URL').or(z.literal('')),

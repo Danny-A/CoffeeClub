@@ -3,101 +3,130 @@ import { CuratedSection } from '@/components/features/Curated';
 import { RecipeCard } from '@/components/features/RecipeCard';
 import { RoasterCard } from '@/components/features/RoasterCard';
 import { Heading } from '@/components/ui/Heading';
-import { fetchBeans } from '@/lib/api/fetchBeans';
-import { fetchMostLikedRoasters } from '@/lib/api/fetchMostLikedRoasters';
-import { fetchRecipes } from '@/lib/api/fetchRecipes';
-import { OrderByDirection, Beans } from '@/lib/graphql/generated/graphql';
-import { Bean } from '@/lib/graphql/types';
-
-function mapGraphQLBeanToBean(bean: Beans): Bean {
-  return {
-    id: bean.id,
-    slug: bean.slug ?? bean.id,
-    name: bean.name,
-    roaster: bean.roasters
-      ? {
-          id: bean.roasters.id,
-          slug: bean.roasters.slug ?? bean.roasters.id,
-          name: bean.roasters.name ?? '',
-        }
-      : undefined,
-    origin: bean.origin ?? '',
-    process: bean.process ?? undefined,
-    roastLevel: bean.roast_level ?? undefined,
-    notes: bean.notes ?? undefined,
-    createdAt: bean.created_at ?? undefined,
-    updatedAt: bean.updated_at ?? undefined,
-    averageRating: bean.average_rating ?? undefined,
-    status: bean.status,
-    reviewCount: bean.review_count ?? undefined,
-  };
-}
+import { fetchHomepageData } from '@/lib/api/fetchHomepageData';
+import { Bean, Roaster } from '@/lib/graphql/types';
 
 export default async function HomePage() {
-  const topRatedBeansData = await fetchBeans({
-    first: 5,
-    orderBy: [
-      { average_rating: OrderByDirection.DescNullsLast },
-      { review_count: OrderByDirection.DescNullsLast },
-    ],
-    minRating: 0.1,
-  });
+  const homepageData = await fetchHomepageData();
 
-  const topRatedBeans =
-    topRatedBeansData.beansCollection?.edges.map((edge) =>
-      mapGraphQLBeanToBean(edge.node as Beans)
-    ) ?? [];
+  // Transform beans data
+  const topRatedBeans: Bean[] =
+    homepageData.topRatedBeans?.edges.map((edge) => ({
+      id: edge.node.id,
+      slug: edge.node.slug ?? undefined,
+      name: edge.node.name,
+      origin: edge.node.origin ?? undefined,
+      process: edge.node.process ?? undefined,
+      roastLevel: edge.node.roast_level ?? undefined,
+      roaster: edge.node.roasters
+        ? {
+            id: edge.node.roasters.id,
+            slug: edge.node.roasters.slug ?? edge.node.roasters.id,
+            name: edge.node.roasters.name,
+          }
+        : undefined,
+      createdAt: edge.node.created_at ?? undefined,
+      averageRating: edge.node.average_rating ?? 0,
+      status: edge.node.status,
+      reviewCount: edge.node.review_count ?? 0,
+      likes:
+        edge.node.bean_likesCollection?.edges.map((like) => ({
+          id: like.node.id,
+          user_id: like.node.user_id ?? '',
+        })) ?? [],
+    })) ?? [];
 
-  const mostReviewedBeansData = await fetchBeans({
-    first: 5,
-    orderBy: [
-      { review_count: OrderByDirection.DescNullsLast },
-      { average_rating: OrderByDirection.DescNullsLast },
-    ],
-    minRating: 0.1,
-  });
-  const mostReviewedBeans =
-    mostReviewedBeansData.beansCollection?.edges.map((edge) =>
-      mapGraphQLBeanToBean(edge.node as Beans)
-    ) ?? [];
+  const mostReviewedBeans: Bean[] =
+    homepageData.mostReviewedBeans?.edges.map((edge) => ({
+      id: edge.node.id,
+      slug: edge.node.slug ?? undefined,
+      name: edge.node.name,
+      origin: edge.node.origin ?? undefined,
+      process: edge.node.process ?? undefined,
+      roastLevel: edge.node.roast_level ?? undefined,
+      roaster: edge.node.roasters
+        ? {
+            id: edge.node.roasters.id,
+            slug: edge.node.roasters.slug ?? edge.node.roasters.id,
+            name: edge.node.roasters.name,
+          }
+        : undefined,
+      createdAt: edge.node.created_at ?? undefined,
+      averageRating: edge.node.average_rating ?? 0,
+      status: edge.node.status,
+      reviewCount: edge.node.review_count ?? 0,
+      likes:
+        edge.node.bean_likesCollection?.edges.map((like) => ({
+          id: like.node.id,
+          user_id: like.node.user_id ?? '',
+        })) ?? [],
+    })) ?? [];
 
-  const mostLikedRecipesData = await fetchRecipes({
-    first: 5,
-    orderBy: [{ likes_count: OrderByDirection.DescNullsLast }],
-  });
+  // Transform roasters data
+  const mostLikedRoasters: Roaster[] =
+    homepageData.mostLikedRoasters?.edges.map((edge) => ({
+      id: edge.node.id,
+      slug: edge.node.slug ?? undefined,
+      name: edge.node.name,
+      city: edge.node.location_city ?? undefined,
+      state: edge.node.location_state ?? undefined,
+      country: edge.node.location_country ?? undefined,
+      profile_image_url: edge.node.profile_image_url ?? undefined,
+      logo_url: edge.node.logo_url ?? undefined,
+      beanCount: edge.node.bean_count ?? 0,
+      created_at: edge.node.created_at ?? undefined,
+      is_published: edge.node.is_published,
+      likes:
+        edge.node.roaster_likesCollection?.edges.map((like) => ({
+          id: like.node.id,
+          user_id: like.node.user_id ?? '',
+        })) ?? [],
+    })) ?? [];
 
-  const mostLikedRecipes = mostLikedRecipesData.edges.map((edge) => edge.node);
+  // Transform recipes data
+  const mostLikedRecipes =
+    homepageData.mostLikedRecipes?.edges.map((edge) => edge.node) ?? [];
 
-  const mostLikedRoastersData = await fetchMostLikedRoasters(5);
-  const mostLikedRoasters =
-    mostLikedRoastersData.roastersCollection?.edges.map((edge) => {
-      const {
-        location_city,
-        location_state,
-        location_country,
-        slug,
-        roaster_likesCollection,
-        bean_count,
-        profile_image_url,
-        logo_url,
-        ...rest
-      } = edge.node;
-      return {
-        ...rest,
-        slug: slug ?? undefined,
-        profile_image_url: profile_image_url ?? undefined,
-        logo_url: logo_url ?? undefined,
-        likes:
-          roaster_likesCollection?.edges.map((likeEdge) => ({
-            id: likeEdge.node.id,
-            user_id: likeEdge.node.user_id ?? '',
-          })) || [],
-        beanCount: bean_count ?? 0,
-        city: location_city || undefined,
-        state: location_state || undefined,
-        country: location_country || undefined,
-      };
-    }) ?? [];
+  // Transform curated items data
+  const curatedItems =
+    homepageData.curatedHomepageItems?.edges.map((edge) => ({
+      id: edge.node.id,
+      nodeId: edge.node.nodeId,
+      section: edge.node.section,
+      display_order: edge.node.display_order,
+      custom_title: edge.node.custom_title,
+      published: edge.node.published,
+      created_at: edge.node.created_at,
+      updated_at: edge.node.updated_at,
+      bean_id: edge.node.bean_id,
+      recipe_id: edge.node.recipe_id,
+      roaster_id: edge.node.roaster_id,
+      location_id: edge.node.location_id,
+      beans: edge.node.beans
+        ? {
+            ...edge.node.beans,
+            slug: edge.node.beans.slug ?? edge.node.beans.id,
+          }
+        : null,
+      recipes: edge.node.recipes
+        ? {
+            ...edge.node.recipes,
+            slug: edge.node.recipes.slug ?? edge.node.recipes.id,
+          }
+        : null,
+      roasters: edge.node.roasters
+        ? {
+            ...edge.node.roasters,
+            slug: edge.node.roasters.slug ?? edge.node.roasters.id,
+          }
+        : null,
+      locations: edge.node.locations
+        ? {
+            ...edge.node.locations,
+            slug: edge.node.locations.slug ?? edge.node.locations.id,
+          }
+        : null,
+    })) ?? [];
 
   return (
     <div className="space-y-12">
@@ -108,51 +137,59 @@ export default async function HomePage() {
         </Heading>
       </div>
 
-      <CuratedSection />
+      <CuratedSection items={curatedItems} />
 
-      <section>
-        <Heading level="h3" className="mb-4">
-          Top Rated Beans
-        </Heading>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {topRatedBeans.map((bean) => (
-            <BeanCard key={bean.id} bean={bean} user={null} />
-          ))}
-        </div>
-      </section>
+      {topRatedBeans.length > 0 && (
+        <section>
+          <Heading level="h3" className="mb-4">
+            Top Rated Beans
+          </Heading>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {topRatedBeans.map((bean) => (
+              <BeanCard key={bean.id} bean={bean} user={null} />
+            ))}
+          </div>
+        </section>
+      )}
 
-      <section>
-        <Heading level="h3" className="mb-4">
-          Populair Beans
-        </Heading>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {mostReviewedBeans.map((bean) => (
-            <BeanCard key={bean.id} bean={bean} user={null} />
-          ))}
-        </div>
-      </section>
+      {mostReviewedBeans.length > 0 && (
+        <section>
+          <Heading level="h3" className="mb-4">
+            Popular Beans
+          </Heading>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {mostReviewedBeans.map((bean) => (
+              <BeanCard key={bean.id} bean={bean} user={null} />
+            ))}
+          </div>
+        </section>
+      )}
 
-      <section>
-        <Heading level="h3" className="mb-4">
-          Populair Roasters
-        </Heading>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {mostLikedRoasters.map((roaster) => (
-            <RoasterCard key={roaster.id} roaster={roaster} user={null} />
-          ))}
-        </div>
-      </section>
+      {mostLikedRoasters.length > 0 && (
+        <section>
+          <Heading level="h3" className="mb-4">
+            Popular Roasters
+          </Heading>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {mostLikedRoasters.map((roaster) => (
+              <RoasterCard key={roaster.id} roaster={roaster} user={null} />
+            ))}
+          </div>
+        </section>
+      )}
 
-      <section>
-        <Heading level="h3" className="mb-4">
-          Most Liked Recipes
-        </Heading>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {mostLikedRecipes.map((recipe) => (
-            <RecipeCard key={recipe.id} recipe={recipe} user={null} />
-          ))}
-        </div>
-      </section>
+      {mostLikedRecipes.length > 0 && (
+        <section>
+          <Heading level="h3" className="mb-4">
+            Most Liked Recipes
+          </Heading>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {mostLikedRecipes.map((recipe) => (
+              <RecipeCard key={recipe.id} recipe={recipe} user={null} />
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

@@ -20,14 +20,14 @@ export const metadata: Metadata = {
 };
 
 export async function generateStaticParams() {
-  const { beansCollection } = await fetchBeans();
+  const { beans } = await fetchBeans();
 
-  if (!beansCollection?.edges) {
+  if (!beans) {
     return [];
   }
 
-  return beansCollection.edges.map(({ node }) => ({
-    id: node.id,
+  return beans.map((bean) => ({
+    slug: bean.slug ?? bean.id,
   }));
 }
 

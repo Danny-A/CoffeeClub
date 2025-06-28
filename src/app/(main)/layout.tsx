@@ -15,7 +15,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+          <div className="min-h-screen bg-blue-50 dark:bg-gray-900">
             <Navigation />
             <main className="container mx-auto max-w-7xl py-6 px-4 lg:px-8">
               {children}

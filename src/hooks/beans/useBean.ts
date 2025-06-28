@@ -1,9 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { fetchBean } from '@/lib/api/fetchBean';
-import { GetBeanQuery } from '@/lib/graphql/generated/graphql';
-
-type Bean = NonNullable<GetBeanQuery['beansCollection']>['edges'][0]['node'];
+import { Bean } from '@/lib/graphql/types';
 
 export function useBean(id: string, includeUnpublished = false) {
   return useQuery<Bean>({

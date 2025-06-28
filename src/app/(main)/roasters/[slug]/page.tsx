@@ -155,9 +155,9 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
                     id: bean.node.id,
                     slug: bean.node.slug ?? bean.node.id,
                     name: bean.node.name,
-                    origin: bean.node.origin || '',
-                    process: bean.node.process || '',
-                    roastLevel: bean.node.roast_level || '',
+                    origin: bean.node.origin || undefined,
+                    process: bean.node.process || undefined,
+                    roastLevel: bean.node.roast_level || undefined,
                     likes: bean.node.bean_likesCollection?.edges.map(
                       (edge) => ({
                         id: edge.node.id,

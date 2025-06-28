@@ -1,3 +1,5 @@
+import { transformBeansData } from '@/utils/transformBeansData';
+
 import { graphqlFetch } from '../graphql/client';
 import {
   Bean_Status,
@@ -11,6 +13,7 @@ import {
   Roast_Level,
   StringFilter,
 } from '../graphql/generated/graphql';
+import { Beans } from '../graphql/types';
 
 export type BeanFilters = {
   search?: string;
@@ -25,9 +28,7 @@ export type BeanFilters = {
   orderBy?: BeansOrderBy[];
 };
 
-export async function fetchBeans(
-  filters?: BeanFilters
-): Promise<GetBeansQuery> {
+export async function fetchBeans(filters?: BeanFilters): Promise<Beans> {
   const {
     search,
     origin,
@@ -75,8 +76,11 @@ export async function fetchBeans(
   );
 
   if (!response.data.beansCollection) {
-    return { beansCollection: null };
+    return {
+      beans: [],
+      pageInfo: { hasNextPage: false, endCursor: null },
+    };
   }
 
-  return response.data;
+  return transformBeansData(response.data.beansCollection);
 }

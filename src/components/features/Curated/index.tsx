@@ -3,18 +3,79 @@
 import { BeanCard } from '@/components/features/BeanCard';
 import { RecipeCard } from '@/components/features/RecipeCard';
 import { RoasterCard } from '@/components/features/RoasterCard';
-import { useCuratedHomepageItems } from '@/hooks/dashboard/useCuratedHomepageItems';
-// import { LocationCard } from '@/components/features/LocationCard'; // TODO if exists
 import { Bean, Roaster } from '@/lib/graphql/types';
 
-export function CuratedSection() {
-  const { items, isLoading } = useCuratedHomepageItems();
+type CuratedItem = {
+  id: string;
+  nodeId: string;
+  section: string;
+  display_order: number;
+  custom_title?: string | null;
+  published: boolean;
+  created_at: string;
+  updated_at: string;
+  bean_id?: string | null;
+  recipe_id?: string | null;
+  roaster_id?: string | null;
+  location_id?: string | null;
+  beans?: {
+    id: string;
+    slug?: string;
+    name: string;
+    average_rating?: number | null;
+    review_count?: number | null;
+    status: string;
+    origin?: string | null;
+    roasters?: {
+      id: string;
+      name: string;
+    } | null;
+  } | null;
+  recipes?: {
+    id: string;
+    slug?: string;
+    title?: string | null;
+    description?: string | null;
+    image_url?: string | null;
+    is_public?: boolean | null;
+    likes_count?: number | null;
+  } | null;
+  roasters?: {
+    id: string;
+    slug?: string;
+    name: string;
+    bean_count?: number | null;
+    is_published: boolean;
+    location_city?: string | null;
+    location_state?: string | null;
+    location_country?: string | null;
+    created_at?: string | null;
+    beanCount?: number | null;
+    roaster_likesCollection?: {
+      edges: Array<{
+        node: {
+          id: string;
+          user_id?: string | null;
+        };
+      }>;
+    } | null;
+  } | null;
+  locations?: {
+    id: string;
+    slug?: string;
+    name: string;
+  } | null;
+};
 
-  if (isLoading) return <div>Loading curated picks...</div>;
+type CuratedSectionProps = {
+  items?: CuratedItem[];
+};
+
+export function CuratedSection({ items }: CuratedSectionProps) {
   if (!items?.length) return null;
 
   // Group published items by section/custom_title
-  const sections = (items || [])
+  const sections = items
     .filter((item) => item.published)
     .reduce(
       (acc, item) => {
@@ -23,7 +84,7 @@ export function CuratedSection() {
         acc[key].push(item);
         return acc;
       },
-      {} as Record<string, typeof items>
+      {} as Record<string, CuratedItem[]>
     );
 
   return (

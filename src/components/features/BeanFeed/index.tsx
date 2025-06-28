@@ -118,7 +118,7 @@ export const BeanFeed = () => {
     );
   }
 
-  const beanList = data?.pages.flatMap((page) => page.edges) ?? [];
+  const beanList = data?.pages.flatMap((page) => page.beans) ?? [];
 
   if (!isLoading && !beanList.length) {
     return (

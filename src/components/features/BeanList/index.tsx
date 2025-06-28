@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 
 import { Card } from '@/components/ui/Card';
-import { User } from '@/lib/graphql/types';
+import { Beans, User } from '@/lib/graphql/types';
 import { Bean } from '@/lib/graphql/types';
 
 import { BeanListItem } from '../BeanListItem';
@@ -9,7 +9,7 @@ import { BeanListItem } from '../BeanListItem';
 export const BeanList = forwardRef<
   HTMLTableRowElement,
   {
-    beanList: { node: Bean }[];
+    beanList: Beans['beans'];
     user: User | null;
   }
 >(({ beanList, user }, ref) => {
@@ -42,11 +42,11 @@ export const BeanList = forwardRef<
           <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
             {beanList.map((bean, index) => (
               <tr
-                key={bean.node.id}
+                key={bean.id}
                 ref={index === beanList.length - 1 ? ref : undefined}
                 className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
               >
-                <BeanListItem bean={bean.node} user={user} />
+                <BeanListItem bean={bean} user={user} />
               </tr>
             ))}
           </tbody>

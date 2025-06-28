@@ -79,7 +79,7 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
     remove: removeBuyUrl,
   } = useFieldArray({
     control,
-    name: 'buy_urls',
+    name: 'buyUrls',
   });
 
   const {
@@ -102,27 +102,27 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
     if (bean && bean.id) {
       reset({
         name: bean.name,
-        roaster_id: bean.roasters?.id || '',
+        roasterId: bean.roaster?.id || '',
         description: bean.description || undefined,
-        roast_type: bean.roast_type || undefined,
-        roast_level: bean.roast_level || undefined,
-        bean_type: bean.bean_type || undefined,
+        roastType: bean.roastType || undefined,
+        roastLevel: bean.roastLevel || undefined,
+        beanType: bean.beanType || undefined,
         process: bean.process || undefined,
-        elevation_min: bean.elevation_min || undefined,
-        elevation_max: bean.elevation_max || undefined,
+        elevationMin: bean.elevationMin || undefined,
+        elevationMax: bean.elevationMax || undefined,
         origin: bean.origin
           ? bean.origin.split(',').map((o) => ({ value: o.trim() }))
           : undefined,
         producer: bean.producer || undefined,
         notes: bean.notes || undefined,
-        buy_urls: (bean.buy_urls || [])
+        buyUrls: (bean.buyUrls || [])
           .filter((url): url is string => typeof url === 'string')
           .map((url) => ({ value: url })),
         status: bean.status,
       });
 
-      if (bean.image_url) {
-        setPreviewUrl(bean.image_url);
+      if (bean.imageUrl) {
+        setPreviewUrl(bean.imageUrl);
       }
     }
   }, [bean, reset]);
@@ -145,10 +145,10 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
   const roasterOptions = useMemo(() => {
     if (
       bean &&
-      bean.roasters &&
-      !roasters.some((r) => r.id === bean.roasters?.id)
+      bean.roaster &&
+      !roasters.some((r) => r.id === bean.roaster?.id)
     ) {
-      return [{ id: bean.roasters.id, name: bean.roasters.name }, ...roasters];
+      return [{ id: bean.roaster.id, name: bean.roaster.name }, ...roasters];
     }
     return roasters;
   }, [bean, roasters]);
@@ -162,20 +162,20 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
         if (uploadedUrl) {
           imageUrl = uploadedUrl;
         }
-      } else if (bean?.image_url) {
-        imageUrl = bean.image_url;
+      } else if (bean?.imageUrl) {
+        imageUrl = bean.imageUrl;
       }
 
       await updateBean.mutateAsync({
         id,
         ...data,
         image_url: imageUrl,
-        roaster_id: data.roaster_id,
+        roaster_id: data.roasterId,
         origin: data.origin
           .filter((o) => o.value.trim() !== '')
           .map((o) => o.value.trim())
           .join(', '),
-        buy_urls: data.buy_urls?.map((url) => url.value).filter(Boolean),
+        buy_urls: data.buyUrls?.map((url) => url.value).filter(Boolean),
       });
 
       router.push('/admin/beans');
@@ -219,7 +219,7 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
               <div className="space-y-2">
                 <Text variant="label">Roaster</Text>
                 <Controller
-                  name="roaster_id"
+                  name="roasterId"
                   control={control}
                   render={({ field }) => (
                     <ComboBox
@@ -237,8 +237,8 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
                     />
                   )}
                 />
-                {errors.roaster_id?.message && (
-                  <Text variant="error">{errors.roaster_id.message}</Text>
+                {errors.roasterId?.message && (
+                  <Text variant="error">{errors.roasterId.message}</Text>
                 )}
               </div>
 
@@ -253,7 +253,7 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
                 <div className="space-y-2">
                   <Text variant="label">Roast Type</Text>
                   <Controller
-                    name="roast_type"
+                    name="roastType"
                     control={control}
                     render={({ field }) => (
                       <Select
@@ -275,15 +275,15 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
                       </Select>
                     )}
                   />
-                  {errors.roast_type?.message && (
-                    <Text variant="error">{errors.roast_type.message}</Text>
+                  {errors.roastType?.message && (
+                    <Text variant="error">{errors.roastType.message}</Text>
                   )}
                 </div>
 
                 <div className="space-y-2">
                   <Text variant="label">Roast Level</Text>
                   <Controller
-                    name="roast_level"
+                    name="roastLevel"
                     control={control}
                     render={({ field }) => (
                       <Select
@@ -305,8 +305,8 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
                       </Select>
                     )}
                   />
-                  {errors.roast_level?.message && (
-                    <Text variant="error">{errors.roast_level.message}</Text>
+                  {errors.roastLevel?.message && (
+                    <Text variant="error">{errors.roastLevel.message}</Text>
                   )}
                 </div>
               </div>
@@ -314,7 +314,7 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
               <div className="space-y-2">
                 <Text variant="label">Bean Type</Text>
                 <Controller
-                  name="bean_type"
+                  name="beanType"
                   control={control}
                   render={({ field }) => (
                     <Select
@@ -336,8 +336,8 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
                     </Select>
                   )}
                 />
-                {errors.bean_type?.message && (
-                  <Text variant="error">{errors.bean_type.message}</Text>
+                {errors.beanType?.message && (
+                  <Text variant="error">{errors.beanType.message}</Text>
                 )}
               </div>
 
@@ -360,18 +360,18 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   label="Minimum Elevation (m)"
-                  id="elevation_min"
+                  id="elevationMin"
                   type="number"
-                  {...register('elevation_min')}
-                  error={errors.elevation_min?.message}
+                  {...register('elevationMin')}
+                  error={errors.elevationMin?.message}
                 />
 
                 <FormField
                   label="Maximum Elevation (m)"
-                  id="elevation_max"
+                  id="elevationMax"
                   type="number"
-                  {...register('elevation_max')}
-                  error={errors.elevation_max?.message}
+                  {...register('elevationMax')}
+                  error={errors.elevationMax?.message}
                 />
               </div>
 
@@ -437,7 +437,7 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
                 variant="outline"
                 onClick={() => appendOrigin({ value: '' })}
                 disabled={
-                  watch('bean_type') === Bean_Type.SingleOrigin &&
+                  watch('beanType') === Bean_Type.SingleOrigin &&
                   originFields.length > 0
                 }
               >
@@ -466,8 +466,8 @@ export default function EditBeanPage({ params }: EditBeanPageProps) {
                     <FormField
                       label={`URL ${index + 1}`}
                       type="url"
-                      error={errors.buy_urls?.[index]?.value?.message}
-                      {...register(`buy_urls.${index}.value` as const)}
+                      error={errors.buyUrls?.[index]?.value?.message}
+                      {...register(`buyUrls.${index}.value` as const)}
                       className="flex-1"
                     />
                     <Button

@@ -9,7 +9,6 @@ import { Card } from '@/components/ui/Card';
 import { StatusBadge } from '@/components/ui/StatusBadge';
 import { Text } from '@/components/ui/Text';
 import { useBeans } from '@/hooks/beans/useBeans';
-import { Bean_Status } from '@/lib/graphql/generated/graphql';
 
 export function BeansList() {
   const {
@@ -41,7 +40,7 @@ export function BeansList() {
     );
   }
 
-  const beanList = data?.pages.flatMap((page) => page.edges) ?? [];
+  const beanList = data?.pages.flatMap((page) => page.beans) ?? [];
 
   return (
     <Card className="overflow-hidden">
@@ -72,32 +71,30 @@ export function BeansList() {
           <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
             {beanList.map((bean, index) => (
               <tr
-                key={bean.node.id}
+                key={bean.id}
                 ref={index === beanList.length - 1 ? ref : undefined}
                 className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
               >
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <Text>{bean.node.name}</Text>
+                  <Text>{bean.name}</Text>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <Text>{bean.node.roaster?.name}</Text>
+                  <Text>{bean.roaster?.name}</Text>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <Text>{bean.node.origin}</Text>
+                  <Text>{bean.origin}</Text>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <StatusBadge status={bean.node.status} />
+                  <StatusBadge status={bean.status} />
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <Text className="text-sm">
-                    {bean.node.averageRating
-                      ? `${bean.node.averageRating}`
-                      : '-'}
+                    {bean.averageRating ? `${bean.averageRating}` : '-'}
                   </Text>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right">
                   <Button asChild variant="ghost" size="sm">
-                    <Link href={`/admin/beans/${bean.node.id}/edit`}>Edit</Link>
+                    <Link href={`/admin/beans/${bean.id}/edit`}>Edit</Link>
                   </Button>
                 </td>
               </tr>

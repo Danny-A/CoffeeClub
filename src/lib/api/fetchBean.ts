@@ -1,3 +1,5 @@
+import { transformBeanData } from '@/utils/transformBeanData';
+
 import { graphqlFetch } from '../graphql/client';
 import {
   Bean_Status,
@@ -5,6 +7,10 @@ import {
   GetBeanQueryVariables,
 } from '../graphql/generated/graphql';
 import { GetBeanDocument } from '../graphql/generated/graphql';
+
+export type BeanInput = NonNullable<
+  GetBeanQuery['beansCollection']
+>['edges'][0]['node'];
 
 export async function fetchBean(id: string, includeUnpublished = false) {
   const response = await graphqlFetch<GetBeanQuery, GetBeanQueryVariables>(
@@ -26,5 +32,7 @@ export async function fetchBean(id: string, includeUnpublished = false) {
     throw new Error('Bean not found');
   }
 
-  return response.data.beansCollection?.edges[0]?.node;
+  const bean = transformBeanData(response.data.beansCollection?.edges[0]?.node);
+
+  return bean;
 }

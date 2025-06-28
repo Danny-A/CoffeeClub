@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -13,6 +14,7 @@ import { fetchBeans } from '@/lib/api/fetchBeans';
 import { createClient } from '@/lib/supabase/server';
 import { isAdmin, isModerator } from '@/utils/getUserRole';
 import { extractIdFromSlug } from '@/utils/slug';
+import { generateBeanMetadata } from '@/utils/structuredData';
 
 type BeanDetailsProps = {
   params: Promise<{ slug: string }>;
@@ -26,29 +28,24 @@ export const revalidate = 3600;
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  const beans = await fetchBeans();
+  const { beans } = await fetchBeans();
 
-  if (!beans.beansCollection) return [];
-  return beans.beansCollection?.edges.map((edge) => ({
-    slug: edge.node.slug ?? edge.node.id,
+  if (!beans) return [];
+
+  return beans.map((bean) => ({
+    slug: bean.slug ?? bean.id,
   }));
 }
 
-export async function generateMetadata({ params }: BeanDetailsProps) {
+export async function generateMetadata({
+  params,
+}: BeanDetailsProps): Promise<Metadata> {
   const { slug } = await params;
   const id = extractIdFromSlug(slug);
 
   const bean = await fetchBean(id);
 
-  return {
-    title: `${bean?.name} by ${bean?.roasters?.name} - Latest Grind`,
-    description: `View details about ${bean?.name}`,
-    openGraph: {
-      title: `${bean?.name} by ${bean?.roasters?.name} - Latest Grind`,
-      description: `View details about ${bean?.name}`,
-      images: [{ url: bean?.image_url || '' }],
-    },
-  };
+  return generateBeanMetadata(bean);
 }
 
 export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
@@ -76,7 +73,7 @@ export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
     );
   }
 
-  const reviews = bean.bean_reviewsCollection?.edges;
+  const reviews = bean.reviews;
   const noReviews = reviews?.length === 0;
 
   return (
@@ -90,10 +87,10 @@ export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
           >
             Roasted by{' '}
             <Link
-              href={`/roasters/${bean.roasters?.slug ?? bean.roasters?.id}`}
+              href={`/roasters/${bean.roaster?.slug ?? bean.roaster?.id}`}
               className="text-blue-600 hover:text-blue-800 hover:no-underline dark:text-blue-400 dark:hover:text-blue-300"
             >
-              {bean.roasters?.name}
+              {bean.roaster?.name}
             </Link>
           </Text>
         </div>
@@ -119,36 +116,49 @@ export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
                 <Text variant="label">Origin:</Text>
                 <Text>{bean.origin}</Text>
               </div>
-              <div className="flex justify-between">
-                <Text variant="label">Process:</Text>
-                <Text>{bean.process}</Text>
-              </div>
-              <div className="flex justify-between">
-                <Text variant="label">Roast Level:</Text>
-                <Text className="capitalize">{bean.roast_level}</Text>
-              </div>
-              <div className="flex justify-between">
-                <Text variant="label">Roast Type:</Text>
-                <Text className="capitalize">{bean.roast_type}</Text>
-              </div>
-              <div className="flex justify-between">
-                <Text variant="label">Type:</Text>
-                <Text className="capitalize">{bean.bean_type}</Text>
-              </div>
+              {bean.process && (
+                <div className="flex justify-between">
+                  <Text variant="label">Process:</Text>
+                  <Text>{bean.process}</Text>
+                </div>
+              )}
+              {bean.roastLevel && (
+                <div className="flex justify-between">
+                  <Text variant="label">Roast Level:</Text>
+                  <Text className="capitalize">{bean.roastLevel}</Text>
+                </div>
+              )}
+              {bean.roastType && (
+                <div className="flex justify-between">
+                  <Text variant="label">Roast Type:</Text>
+                  <Text className="capitalize">{bean.roastType}</Text>
+                </div>
+              )}
+              {bean.beanType && (
+                <div className="flex justify-between">
+                  <Text variant="label">Type:</Text>
+                  <Text className="capitalize">{bean.beanType}</Text>
+                </div>
+              )}
               {/* <div className="flex justify-between">
                 <Text variant="label">Variety:</Text>
                 <Text>{bean.bean_varieties?.id[0]?.name}</Text>
               </div> */}
-              <div className="flex justify-between">
-                <Text variant="label">Producer:</Text>
-                <Text>{bean.producer}</Text>
-              </div>
-              <div className="flex justify-between">
-                <Text variant="label">Elevation:</Text>
-                <Text>
-                  {bean.elevation_min} - {bean.elevation_max} masl
-                </Text>
-              </div>
+              {bean.producer && (
+                <div className="flex justify-between">
+                  <Text variant="label">Producer:</Text>
+                  <Text>{bean.producer}</Text>
+                </div>
+              )}
+              {bean.elevationMin && (
+                <div className="flex justify-between">
+                  <Text variant="label">Elevation:</Text>
+                  <Text>
+                    {bean.elevationMin}
+                    {bean.elevationMax && `- ${bean.elevationMax}`} masl
+                  </Text>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -174,8 +184,8 @@ export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
           </CardHeader>
           <CardContent>
             <div className="flex flex-col space-y-2">
-              {bean.buy_urls &&
-                bean.buy_urls
+              {bean.buyUrls &&
+                bean.buyUrls
                   .filter((url) => url !== null)
                   .map((url) => {
                     let domain = '';
@@ -221,46 +231,48 @@ export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
             ) : (
               <div className="mt-4 space-y-6">
                 {reviews?.map((review) => (
-                  <Card key={review.node.id}>
+                  <Card key={review.id}>
                     <CardHeader>
                       <div className="flex items-center space-x-4">
                         <Image
                           src={
-                            review.node.profiles?.profile_image_url ||
+                            review.profile?.profileImageUrl ||
                             '/default-avatar.png'
                           }
-                          alt={review.node.profiles?.display_name ?? ''}
+                          alt={review.profile?.displayName ?? ''}
                           width={40}
                           height={40}
                           className="w-10 h-10 rounded-full"
                         />
                         <div>
                           <Text className="font-medium">
-                            {review.node.profiles?.display_name ??
-                              review.node.profiles?.username}
+                            {review.profile?.displayName ??
+                              review.profile?.username}
                           </Text>
-                          <Text
-                            variant="small"
-                            className="text-gray-600 dark:text-gray-400"
-                          >
-                            <TimeAgo time={review.node.created_at} />
-                          </Text>
+                          {review.createdAt && (
+                            <Text
+                              variant="small"
+                              className="text-gray-600 dark:text-gray-400"
+                            >
+                              <TimeAgo time={review.createdAt} />
+                            </Text>
+                          )}
                         </div>
                       </div>
                     </CardHeader>
                     <CardContent>
                       <div className="flex items-center space-x-2">
                         <Text variant="label">Rating:</Text>
-                        <Text>{review.node.rating}/5</Text>
+                        <Text>{review.rating}/5</Text>
                       </div>
-                      {review.node.coffee_type && (
+                      {review.coffeeType && (
                         <div className="flex items-center space-x-2 mt-2">
                           <Text variant="label">Coffee Type:</Text>
-                          <Text>{review.node.coffee_type}</Text>
+                          <Text>{review.coffeeType}</Text>
                         </div>
                       )}
-                      {review.node.content && (
-                        <Text className="mt-4">{review.node.content}</Text>
+                      {review.content && (
+                        <Text className="mt-4">{review.content}</Text>
                       )}
                     </CardContent>
                   </Card>

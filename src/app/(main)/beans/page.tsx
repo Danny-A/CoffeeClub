@@ -19,18 +19,6 @@ export const metadata: Metadata = {
   },
 };
 
-export async function generateStaticParams() {
-  const { beansCollection } = await fetchBeans();
-
-  if (!beansCollection?.edges) {
-    return [];
-  }
-
-  return beansCollection.edges.map(({ node }) => ({
-    id: node.id,
-  }));
-}
-
 export default async function BeansPage() {
   const queryClient = new QueryClient();
   const supabase = await createClient();

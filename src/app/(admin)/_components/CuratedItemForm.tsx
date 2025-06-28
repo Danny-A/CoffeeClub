@@ -84,7 +84,7 @@ export function CuratedItemForm({
           first: 20,
           includeUnpublished: true,
         });
-        opts = res.beansCollection?.edges.map((e) => e.node) || [];
+        opts = res.beans.map((e) => e) || [];
       } else if (itemType === 'recipe') {
         const res = await fetchRecipes({
           first: 20,

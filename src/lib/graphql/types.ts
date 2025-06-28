@@ -58,11 +58,11 @@ export type Bean = {
     coffeeType?: string;
     profile?: {
       id: string;
-      username: string;
+      username?: string;
       displayName?: string;
       profileImageUrl?: string;
     };
-    createdAt: string;
+    createdAt?: string;
   }[];
   likes?: {
     id: string;

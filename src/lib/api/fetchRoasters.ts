@@ -1,3 +1,5 @@
+import { transformRoastersData } from '@/utils/transformRoastersData';
+
 import { graphqlFetch } from '../graphql/client';
 import {
   BooleanFilter,
@@ -19,9 +21,7 @@ export type RoasterFilters = {
   orderBy?: any;
 };
 
-export async function fetchRoasters(
-  filters?: RoasterFilters
-): Promise<GetRoastersQuery> {
+export async function fetchRoasters(filters?: RoasterFilters) {
   const {
     search,
     city,
@@ -56,8 +56,11 @@ export async function fetchRoasters(
   });
 
   if (!response.data.roastersCollection) {
-    return { roastersCollection: null };
+    return {
+      roasters: [],
+      pageInfo: { hasNextPage: false, endCursor: null },
+    };
   }
 
-  return response.data;
+  return transformRoastersData(response.data);
 }

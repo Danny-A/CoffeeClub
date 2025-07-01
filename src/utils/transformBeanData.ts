@@ -1,7 +1,7 @@
-import { BeanInput } from '@/lib/api/fetchBean';
+import { BeanResponse } from '@/lib/api/fetchBean';
 import { Bean } from '@/lib/graphql/types';
 
-export function transformBeanData(data: BeanInput): Bean {
+export function transformBeanData(data: BeanResponse): Bean {
   return {
     id: data.id,
     slug: data.slug ?? undefined,

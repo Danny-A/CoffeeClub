@@ -15,7 +15,6 @@ import { createClient } from '@/lib/supabase/server';
 import { formatLocation } from '@/utils/formatLocation';
 import { isAdmin } from '@/utils/getUserRole';
 import { isModerator } from '@/utils/getUserRole';
-import { isNew } from '@/utils/isNew';
 import { extractIdFromSlug } from '@/utils/slug';
 import { transformUser } from '@/utils/transformUser';
 
@@ -33,12 +32,12 @@ export const revalidate = 3600;
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  const roasters = await fetchRoasters();
+  const { roasters } = await fetchRoasters();
 
-  if (!roasters.roastersCollection) return [];
+  if (!roasters) return [];
 
-  return roasters.roastersCollection?.edges.map((edge) => ({
-    slug: edge.node.slug ?? edge.node.id,
+  return roasters.map((roaster) => ({
+    slug: roaster.slug,
   }));
 }
 
@@ -56,7 +55,7 @@ export async function generateMetadata({ params }: RoasterDetailsProps) {
     openGraph: {
       title: `${roaster?.name} - Latest Grind`,
       description: `View details about ${roaster?.name}`,
-      images: [{ url: roaster?.profile_image_url || '' }],
+      images: [{ url: roaster?.profileImageUrl || '' }],
     },
   };
 }
@@ -86,9 +85,9 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
   ]);
 
   const location = formatLocation({
-    city: roaster.location_city,
-    state: roaster.location_state,
-    country: roaster.location_country,
+    city: roaster.city,
+    state: roaster.state,
+    country: roaster.country,
   });
 
   return (
@@ -109,9 +108,7 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
               type="roaster"
               id={roaster.id}
               isLiked={
-                roaster.roaster_likesCollection?.edges.some(
-                  (edge) => edge.node.user_id === user.id
-                ) ?? false
+                roaster.likes.some((like) => like.userId === user.id) ?? false
               }
             />
           )}
@@ -128,10 +125,10 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
         </div>
       </div>
 
-      {(roaster.profile_image_url || roaster.logo_url) && (
+      {(roaster.profileImageUrl || roaster.logoUrl) && (
         <RoasterHero
-          profileImageUrl={roaster.profile_image_url}
-          logoUrl={roaster.logo_url}
+          profileImageUrl={roaster.profileImageUrl}
+          logoUrl={roaster.logoUrl}
           name={roaster.name}
         />
       )}
@@ -141,39 +138,17 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
           <Heading level="h4" as="h3">
             Coffee Beans
           </Heading>
-          {roaster.beansCollection?.edges.length === 0 ? (
+          {roaster.beans.length === 0 ? (
             <Text className="mt-4">
               No beans available from this roaster yet.
             </Text>
           ) : (
             <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {roaster.beansCollection?.edges.map((bean) => (
+              {roaster.beans.map((bean) => (
                 <BeanCard
-                  key={bean.node.id}
+                  key={bean.id}
                   user={transformUser(user)}
-                  bean={{
-                    id: bean.node.id,
-                    slug: bean.node.slug ?? bean.node.id,
-                    name: bean.node.name,
-                    origin: bean.node.origin || undefined,
-                    process: bean.node.process || undefined,
-                    roastLevel: bean.node.roast_level || undefined,
-                    likes: bean.node.bean_likesCollection?.edges.map(
-                      (edge) => ({
-                        id: edge.node.id,
-                        user_id: edge.node.user_id,
-                      })
-                    ),
-                    reviews: bean.node.bean_reviewsCollection?.edges.map(
-                      (edge) => ({
-                        id: edge.node.id,
-                        rating: edge.node.rating,
-                      })
-                    ),
-                    averageRating: bean.node.average_rating || undefined,
-                    isNew: isNew(bean.node.created_at),
-                    status: bean.node.status,
-                  }}
+                  bean={bean}
                 />
               ))}
             </div>

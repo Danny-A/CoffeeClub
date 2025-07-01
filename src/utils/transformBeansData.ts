@@ -27,7 +27,7 @@ export function transformBeansData(data: BeansQuery): Beans {
       likes:
         bean.node.bean_likesCollection?.edges.map((edge) => ({
           id: edge.node.id,
-          user_id: edge.node.user_id,
+          userId: edge.node.user_id,
         })) || [],
       isNew: isNew(bean.node.created_at),
     })),

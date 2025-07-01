@@ -6,7 +6,8 @@ import { RecipeCard } from '@/components/features/RecipeCard';
 import { RoasterCard } from '@/components/features/RoasterCard';
 import { Heading } from '@/components/ui/Heading';
 import { fetchHomepageData } from '@/lib/api/fetchHomepageData';
-import { Bean, Roaster } from '@/lib/graphql/types';
+import { Bean, RoasterCardType } from '@/lib/graphql/types';
+import { isNew } from '@/utils/isNew';
 
 export const metadata: Metadata = {
   title: 'Latest Grind',
@@ -43,7 +44,7 @@ export default async function HomePage() {
       likes:
         edge.node.bean_likesCollection?.edges.map((like) => ({
           id: like.node.id,
-          user_id: like.node.user_id ?? '',
+          userId: like.node.user_id ?? '',
         })) ?? [],
     })) ?? [];
 
@@ -69,12 +70,12 @@ export default async function HomePage() {
       likes:
         edge.node.bean_likesCollection?.edges.map((like) => ({
           id: like.node.id,
-          user_id: like.node.user_id ?? '',
+          userId: like.node.user_id ?? '',
         })) ?? [],
     })) ?? [];
 
   // Transform roasters data
-  const mostLikedRoasters: Roaster[] =
+  const mostLikedRoasters: RoasterCardType[] =
     homepageData.mostLikedRoasters?.edges.map((edge) => ({
       id: edge.node.id,
       slug: edge.node.slug ?? undefined,
@@ -82,16 +83,17 @@ export default async function HomePage() {
       city: edge.node.location_city ?? undefined,
       state: edge.node.location_state ?? undefined,
       country: edge.node.location_country ?? undefined,
-      profile_image_url: edge.node.profile_image_url ?? undefined,
-      logo_url: edge.node.logo_url ?? undefined,
+      profileImageUrl: edge.node.profile_image_url ?? undefined,
+      logoUrl: edge.node.logo_url ?? undefined,
       beanCount: edge.node.bean_count ?? 0,
-      created_at: edge.node.created_at ?? undefined,
-      is_published: edge.node.is_published,
+      createdAt: edge.node.created_at ?? undefined,
+      isPublished: edge.node.is_published,
       likes:
         edge.node.roaster_likesCollection?.edges.map((like) => ({
           id: like.node.id,
-          user_id: like.node.user_id ?? '',
+          userId: like.node.user_id ?? '',
         })) ?? [],
+      isNew: isNew(edge.node.created_at),
     })) ?? [];
 
   // Transform recipes data
@@ -104,15 +106,15 @@ export default async function HomePage() {
       id: edge.node.id,
       nodeId: edge.node.nodeId,
       section: edge.node.section,
-      display_order: edge.node.display_order,
-      custom_title: edge.node.custom_title,
+      displayOrder: edge.node.display_order,
+      customTitle: edge.node.custom_title,
       published: edge.node.published,
-      created_at: edge.node.created_at,
-      updated_at: edge.node.updated_at,
-      bean_id: edge.node.bean_id,
-      recipe_id: edge.node.recipe_id,
-      roaster_id: edge.node.roaster_id,
-      location_id: edge.node.location_id,
+      createdAt: edge.node.created_at,
+      updatedAt: edge.node.updated_at,
+      beanId: edge.node.bean_id,
+      recipeId: edge.node.recipe_id,
+      roasterId: edge.node.roaster_id,
+      locationId: edge.node.location_id,
       beans: edge.node.beans
         ? {
             ...edge.node.beans,
@@ -127,8 +129,21 @@ export default async function HomePage() {
         : null,
       roasters: edge.node.roasters
         ? {
-            ...edge.node.roasters,
+            id: edge.node.roasters.id,
             slug: edge.node.roasters.slug ?? edge.node.roasters.id,
+            name: edge.node.roasters.name,
+            city: edge.node.roasters.location_city ?? undefined,
+            state: edge.node.roasters.location_state ?? undefined,
+            country: edge.node.roasters.location_country ?? undefined,
+            beanCount: edge.node.roasters.bean_count ?? undefined,
+            createdAt: edge.node.roasters.created_at ?? undefined,
+            isPublished: edge.node.roasters.is_published,
+            likes:
+              edge.node.roasters.roaster_likesCollection?.edges.map((like) => ({
+                id: like.node.id,
+                userId: like.node.user_id ?? '',
+              })) ?? [],
+            isNew: isNew(edge.node.roasters.created_at),
           }
         : null,
       locations: edge.node.locations

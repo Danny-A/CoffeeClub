@@ -3,27 +3,27 @@
 import { BeanCard } from '@/components/features/BeanCard';
 import { RecipeCard } from '@/components/features/RecipeCard';
 import { RoasterCard } from '@/components/features/RoasterCard';
-import { Bean, Roaster } from '@/lib/graphql/types';
+import { Bean, Roaster, RoasterCardType } from '@/lib/graphql/types';
 
 type CuratedItem = {
   id: string;
   nodeId: string;
   section: string;
-  display_order: number;
-  custom_title?: string | null;
+  displayOrder: number;
+  customTitle?: string | null;
   published: boolean;
-  created_at: string;
-  updated_at: string;
-  bean_id?: string | null;
-  recipe_id?: string | null;
-  roaster_id?: string | null;
-  location_id?: string | null;
+  createdAt: string;
+  updatedAt: string;
+  beanId?: string | null;
+  recipeId?: string | null;
+  roasterId?: string | null;
+  locationId?: string | null;
   beans?: {
     id: string;
     slug?: string;
     name: string;
-    average_rating?: number | null;
-    review_count?: number | null;
+    averageRating?: number | null;
+    reviewCount?: number | null;
     status: string;
     origin?: string | null;
     roasters?: {
@@ -36,30 +36,11 @@ type CuratedItem = {
     slug?: string;
     title?: string | null;
     description?: string | null;
-    image_url?: string | null;
-    is_public?: boolean | null;
-    likes_count?: number | null;
+    imageUrl?: string | null;
+    isPublic?: boolean | null;
+    likesCount?: number | null;
   } | null;
-  roasters?: {
-    id: string;
-    slug?: string;
-    name: string;
-    bean_count?: number | null;
-    is_published: boolean;
-    location_city?: string | null;
-    location_state?: string | null;
-    location_country?: string | null;
-    created_at?: string | null;
-    beanCount?: number | null;
-    roaster_likesCollection?: {
-      edges: Array<{
-        node: {
-          id: string;
-          user_id?: string | null;
-        };
-      }>;
-    } | null;
-  } | null;
+  roasters?: RoasterCardType | null;
   locations?: {
     id: string;
     slug?: string;
@@ -79,7 +60,7 @@ export function CuratedSection({ items }: CuratedSectionProps) {
     .filter((item) => item.published)
     .reduce(
       (acc, item) => {
-        const key = item.custom_title || item.section || 'Curated Picks';
+        const key = item.customTitle || item.section || 'Curated Picks';
         if (!acc[key]) acc[key] = [];
         acc[key].push(item);
         return acc;
@@ -109,14 +90,7 @@ export function CuratedSection({ items }: CuratedSectionProps) {
                 );
               }
               if (item.roasters) {
-                const { roaster_likesCollection, ...rest } = item.roasters;
-                const likes =
-                  roaster_likesCollection?.edges
-                    .map((edge) => edge.node)
-                    .filter(
-                      (like): like is { id: string; user_id: string } =>
-                        !!like.user_id
-                    ) ?? [];
+                const { likes, ...rest } = item.roasters;
                 return (
                   <RoasterCard
                     key={item.id}

@@ -49,7 +49,7 @@ export function BeanListItem({ bean, user }: BeanCardProps) {
             type="bean"
             id={bean.id}
             isLiked={
-              bean.likes?.some((like) => like.user_id === user.id) ?? false
+              bean.likes?.some((like) => like.userId === user.id) ?? false
             }
           />
         )}

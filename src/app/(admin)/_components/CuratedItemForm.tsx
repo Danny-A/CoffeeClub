@@ -101,7 +101,7 @@ export function CuratedItemForm({
           first: 20,
           includeUnpublished: true,
         });
-        opts = res.roastersCollection?.edges.map((e) => e.node) || [];
+        opts = res.roasters.map((e) => e) || [];
       } else if (itemType === 'location') {
         // TODO: Implement location search/fetcher
         opts = [];

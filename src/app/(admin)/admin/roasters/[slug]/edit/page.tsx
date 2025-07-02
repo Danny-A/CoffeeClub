@@ -67,20 +67,20 @@ export default function EditRoasterPage({ params }: EditRoasterPageProps) {
       reset({
         name: roaster.name,
         description: roaster.description || undefined,
-        location_country: roaster.location_country || '',
-        location_city: roaster.location_city || undefined,
-        location_state: roaster.location_state || undefined,
+        location_country: roaster.country || '',
+        location_city: roaster.city || undefined,
+        location_state: roaster.state || undefined,
         url: roaster.url || undefined,
         instagram: roaster.instagram || undefined,
-        is_published: roaster.is_published,
-        logo_url: roaster.logo_url || undefined,
-        profile_image_url: roaster.profile_image_url || undefined,
+        is_published: roaster.isPublished,
+        logo_url: roaster.logoUrl || undefined,
+        profile_image_url: roaster.profileImageUrl || undefined,
       });
-      if (roaster.profile_image_url) {
-        setProfilePreviewUrl(roaster.profile_image_url);
+      if (roaster.profileImageUrl) {
+        setProfilePreviewUrl(roaster.profileImageUrl);
       }
-      if (roaster.logo_url) {
-        setLogoPreviewUrl(roaster.logo_url);
+      if (roaster.logoUrl) {
+        setLogoPreviewUrl(roaster.logoUrl);
       }
     }
   }, [roaster, reset, setProfilePreviewUrl, setLogoPreviewUrl]);
@@ -88,16 +88,16 @@ export default function EditRoasterPage({ params }: EditRoasterPageProps) {
   const onSubmit = async (data: RoasterFormData) => {
     try {
       // Delete images from storage if removed
-      if (profilePreviewUrl === null && roaster?.profile_image_url) {
-        await deleteRoasterImage(roaster.profile_image_url);
+      if (profilePreviewUrl === null && roaster?.profileImageUrl) {
+        await deleteRoasterImage(roaster.profileImageUrl);
       }
-      if (logoPreviewUrl === null && roaster?.logo_url) {
-        await deleteRoasterImage(roaster.logo_url);
+      if (logoPreviewUrl === null && roaster?.logoUrl) {
+        await deleteRoasterImage(roaster.logoUrl);
       }
 
       const [profileImageUrl, logoUrl] = await Promise.all([
-        uploadProfileImage(roaster?.profile_image_url),
-        uploadLogoImage(roaster?.logo_url),
+        uploadProfileImage(roaster?.profileImageUrl),
+        uploadLogoImage(roaster?.logoUrl),
       ]);
 
       await updateRoaster.mutateAsync({

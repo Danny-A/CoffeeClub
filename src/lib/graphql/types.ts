@@ -66,7 +66,7 @@ export type Bean = {
   }[];
   likes?: {
     id: string;
-    user_id: string;
+    userId: string;
   }[];
   isNew?: boolean;
 };
@@ -87,7 +87,7 @@ export type Beans = {
     reviewCount: number;
     likes: Array<{
       id: string;
-      user_id: string;
+      userId: string;
     }>;
     isNew: boolean;
   }>;
@@ -105,22 +105,67 @@ export type Roaster = {
   city?: string;
   state?: string;
   country?: string;
-  location_city?: string;
-  location_state?: string;
-  location_country?: string;
   url?: string;
   instagram?: string;
-  profile_image_url?: string;
-  logo_url?: string;
+  profileImageUrl?: string;
+  logoUrl?: string;
   beanCount?: number;
   reviewCount?: number;
-  created_at?: string;
-  is_published?: boolean;
+  createdAt?: string;
+  isPublished?: boolean;
   likes: Array<{
     id: string;
-    user_id: string;
+    userId: string;
   }>;
-  isNew?: boolean;
+  beans: Array<{
+    id: string;
+    slug?: string;
+    name: string;
+    origin?: string;
+    process?: string;
+    roastLevel?: Roast_Level;
+    averageRating?: number;
+    createdAt: string;
+    status: Bean_Status;
+    likes: Array<{
+      id: string;
+      userId: string;
+    }>;
+    reviews: Array<{
+      id: string;
+      rating: number;
+    }>;
+  }>;
+  claimedBy?: string;
+  isNew: boolean;
+};
+
+export type RoasterCardType = Omit<Roaster, 'beans'>;
+
+export type Roasters = {
+  roasters: {
+    id: string;
+    slug: string;
+    name: string;
+    profileImageUrl?: string;
+    logoUrl?: string;
+    city?: string;
+    state?: string;
+    country?: string;
+    claimedBy?: string;
+    createdAt: string;
+    isPublished: boolean;
+    beanCount: number;
+    likes: {
+      id: string;
+      userId: string;
+    }[];
+    isNew: boolean;
+  }[];
+  pageInfo: {
+    hasNextPage: boolean;
+    endCursor: string | null;
+  };
 };
 
 export type CoffeeBar = {

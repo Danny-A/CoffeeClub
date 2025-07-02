@@ -1,9 +1,15 @@
+import { transformRoasterData } from '@/utils/transformRoasterData';
+
 import { graphqlFetch } from '../graphql/client';
 import {
   GetRoasterQuery,
   GetRoasterQueryVariables,
 } from '../graphql/generated/graphql';
 import { GetRoasterDocument } from '../graphql/generated/graphql';
+
+export type RoasterResponse = NonNullable<
+  GetRoasterQuery['roastersCollection']
+>['edges'][0]['node'];
 
 export async function fetchRoaster(id: string) {
   const response = await graphqlFetch<
@@ -23,5 +29,5 @@ export async function fetchRoaster(id: string) {
 
   if (!roaster) throw new Error('Roaster not found');
 
-  return roaster;
+  return transformRoasterData(roaster);
 }

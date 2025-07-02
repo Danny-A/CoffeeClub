@@ -8,7 +8,7 @@ import {
 } from '../graphql/generated/graphql';
 import { GetBeanDocument } from '../graphql/generated/graphql';
 
-export type BeanInput = NonNullable<
+export type BeanResponse = NonNullable<
   GetBeanQuery['beansCollection']
 >['edges'][0]['node'];
 

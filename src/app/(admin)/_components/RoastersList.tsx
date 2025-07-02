@@ -39,7 +39,7 @@ export function RoastersList() {
     );
   }
 
-  const roasterList = data?.pages.flatMap((page) => page.edges) ?? [];
+  const roasterList = data?.pages.flatMap((page) => page.roasters) ?? [];
 
   return (
     <Card className="overflow-hidden">
@@ -67,20 +67,16 @@ export function RoastersList() {
           <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
             {roasterList.map((roaster, index) => (
               <tr
-                key={roaster.node.id}
+                key={roaster.id}
                 ref={index === roasterList.length - 1 ? ref : undefined}
                 className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
               >
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <Text>{roaster.node.name}</Text>
+                  <Text>{roaster.name}</Text>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <Text>
-                    {[
-                      roaster.node.city,
-                      roaster.node.state,
-                      roaster.node.country,
-                    ]
+                    {[roaster.city, roaster.state, roaster.country]
                       .filter(Boolean)
                       .join(', ')}
                   </Text>
@@ -88,20 +84,20 @@ export function RoastersList() {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span
                     className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                      roaster.node.is_published
+                      roaster.isPublished
                         ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
                         : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
                     }`}
                   >
-                    {roaster.node.is_published ? 'Published' : 'Draft'}
+                    {roaster.isPublished ? 'Published' : 'Draft'}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <Text>{roaster.node.beanCount}</Text>
+                  <Text>{roaster.beanCount}</Text>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right">
                   <Button asChild variant="ghost" size="sm">
-                    <Link href={`/admin/roasters/${roaster.node.id}/edit`}>
+                    <Link href={`/admin/roasters/${roaster.id}/edit`}>
                       Edit
                     </Link>
                   </Button>

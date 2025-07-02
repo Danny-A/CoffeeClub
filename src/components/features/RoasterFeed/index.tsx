@@ -122,7 +122,7 @@ export const RoasterFeed = () => {
     );
   }
 
-  const roasterList = data?.pages.flatMap((page) => page.edges) ?? [];
+  const roasterList = data?.pages.flatMap((page) => page.roasters) ?? [];
 
   if (!roasterList.length && !isLoading) {
     return (

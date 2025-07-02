@@ -4,11 +4,11 @@ import { NewBadge } from '@/components/ui/Badge/NewBadge';
 import { Heading } from '@/components/ui/Heading';
 import { LikeButton } from '@/components/ui/LikeButton';
 import { Text } from '@/components/ui/Text';
-import { Roaster, type User } from '@/lib/graphql/types';
+import { RoasterCardType, type User } from '@/lib/graphql/types';
 import { formatLocation } from '@/utils/formatLocation';
 
 interface RoasterCardProps {
-  roaster: Roaster;
+  roaster: RoasterCardType;
   user: User | null;
 }
 
@@ -44,7 +44,7 @@ export const RoasterCard = ({ roaster, user }: RoasterCardProps) => {
                 type="roaster"
                 id={roaster.id}
                 isLiked={
-                  roaster.likes?.some((like) => like.user_id === user.id) ??
+                  roaster.likes?.some((like) => like.userId === user.id) ??
                   false
                 }
               />

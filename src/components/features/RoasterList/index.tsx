@@ -1,14 +1,14 @@
 import React, { forwardRef } from 'react';
 
 import { Card } from '@/components/ui/Card';
-import { User, Roaster } from '@/lib/graphql/types';
+import { User, RoasterCardType } from '@/lib/graphql/types';
 
 import { RoasterListItem } from '../RoasterListItem';
 
 export const RoasterList = forwardRef<
   HTMLTableRowElement,
   {
-    roasterList: { node: Roaster }[];
+    roasterList: RoasterCardType[];
     user: User | null;
   }
 >(({ roasterList, user }, ref) => {
@@ -38,11 +38,11 @@ export const RoasterList = forwardRef<
           <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
             {roasterList.map((roaster, index) => (
               <tr
-                key={roaster.node.id}
+                key={roaster.id}
                 ref={index === roasterList.length - 1 ? ref : undefined}
                 className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
               >
-                <RoasterListItem roaster={roaster.node} user={user} />
+                <RoasterListItem roaster={roaster} user={user} />
               </tr>
             ))}
           </tbody>

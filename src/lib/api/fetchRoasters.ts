@@ -33,6 +33,21 @@ export async function fetchRoasters(filters?: RoasterFilters) {
     orderBy,
   } = filters || {};
 
+  // Generate specific cache tags based on filters
+  const cacheTags = ['roasters'];
+
+  // Add more specific tags for better cache invalidation
+  if (search) cacheTags.push('roasters-search');
+  if (city) cacheTags.push(`roasters-city-${city}`);
+  if (state) cacheTags.push(`roasters-state-${state}`);
+  if (country) cacheTags.push(`roasters-country-${country}`);
+  if (includeUnpublished) cacheTags.push('roasters-admin'); // Admin view includes unpublished
+
+  // Add homepage tag for basic queries (likely homepage usage)
+  if (!search && !city && !state && !country && !orderBy) {
+    cacheTags.push('homepage');
+  }
+
   const response = await graphqlFetch<
     GetRoastersQuery,
     GetRoastersQueryVariables
@@ -53,6 +68,8 @@ export async function fetchRoasters(filters?: RoasterFilters) {
       after,
       ...(orderBy && { orderBy }),
     },
+    cache: 'force-cache',
+    tags: cacheTags,
   });
 
   if (!response.data.roastersCollection) {

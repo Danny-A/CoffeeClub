@@ -10,6 +10,8 @@ export async function fetchProfile(id: string) {
     GetProfileDocument,
     {
       variables: { id },
+      cache: 'force-cache',
+      tags: [`profile-${id}`, 'profiles'],
     }
   );
 

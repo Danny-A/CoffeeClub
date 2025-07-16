@@ -6,6 +6,7 @@ import {
   UpdateProfileMutationVariables,
 } from '../graphql/generated/graphql';
 import { UpdateProfileDocument } from '../graphql/generated/graphql';
+import { revalidateProfile } from '../utils/revalidation';
 
 export type Profile = {
   id: string;
@@ -44,6 +45,7 @@ export const updateProfile = async (
     UpdateProfileMutationVariables
   >(UpdateProfileDocument, {
     variables,
+    cache: 'no-store',
   });
 
   if (!response.data?.updateprofilesCollection?.affectedCount) {
@@ -51,6 +53,8 @@ export const updateProfile = async (
       "No records were updated. This could mean the profile doesn't exist or the update failed."
     );
   }
+
+  await revalidateProfile(user.id);
 
   return response.data.updateprofilesCollection.records[0];
 };

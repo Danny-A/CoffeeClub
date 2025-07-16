@@ -18,6 +18,18 @@ export async function fetchRecipes({
   orderBy?: RecipesOrderBy[];
   filter?: RecipesFilter;
 } = {}) {
+  // Generate cache tags based on context
+  const cacheTags = ['recipes'];
+
+  // Add specific tags for filtered queries
+  if (filter?.title) cacheTags.push('recipes-search');
+  if (filter?.user_id) cacheTags.push(`recipes-user-${filter.user_id.eq}`);
+
+  // Add homepage tag for basic queries (likely homepage usage)
+  if (!filter && !orderBy) {
+    cacheTags.push('homepage');
+  }
+
   const response = await graphqlFetch<
     GetRecipesQuery,
     GetRecipesQueryVariables
@@ -28,6 +40,8 @@ export async function fetchRecipes({
       ...(orderBy && { orderBy }),
       ...(filter && { filter }),
     },
+    cache: 'force-cache',
+    tags: cacheTags,
   });
 
   if (!response.data.recipesCollection) {

@@ -42,6 +42,28 @@ export async function fetchBeans(filters?: BeanFilters): Promise<Beans> {
     orderBy,
   } = filters || {};
 
+  // Generate specific cache tags based on filters
+  const cacheTags = ['beans'];
+
+  // Add more specific tags for better cache invalidation
+  if (origin) cacheTags.push(`beans-origin-${origin}`);
+  if (process) cacheTags.push(`beans-process-${process}`);
+  if (roastLevel) cacheTags.push(`beans-roast-${roastLevel}`);
+  if (includeUnpublished) cacheTags.push('beans-admin'); // Admin view includes unpublished
+  if (minRating || maxRating) cacheTags.push('beans-rated');
+
+  // Add homepage tag for homepage queries
+  if (
+    !search &&
+    !origin &&
+    !process &&
+    !roastLevel &&
+    !minRating &&
+    !maxRating
+  ) {
+    cacheTags.push('homepage');
+  }
+
   const response = await graphqlFetch<GetBeansQuery, GetBeansQueryVariables>(
     GetBeansDocument,
     {
@@ -72,6 +94,7 @@ export async function fetchBeans(filters?: BeanFilters): Promise<Beans> {
         after,
         ...(orderBy && { orderBy }),
       },
+      tags: cacheTags,
     }
   );
 

@@ -8,7 +8,11 @@ export async function fetchHomepageData(): Promise<GetHomepageDataQuery> {
   const response = await graphqlFetch<
     GetHomepageDataQuery,
     Record<string, never>
-  >(GetHomepageDataDocument, { variables: {} });
+  >(GetHomepageDataDocument, {
+    variables: {},
+    cache: 'force-cache',
+    tags: ['homepage', 'most-liked', 'dashboard-stats'],
+  });
 
   if (!response.data) {
     return {

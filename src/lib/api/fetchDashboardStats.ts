@@ -9,7 +9,11 @@ export async function fetchDashboardStats() {
   const response = await graphqlFetch<
     GetDashboardStatsQuery,
     Exact<{ [key: string]: never }>
-  >(GetDashboardStatsDocument);
+  >(GetDashboardStatsDocument, {
+    variables: {},
+    cache: 'no-cache', // Stats change frequently, revalidate on every request
+    tags: ['dashboard-stats'],
+  });
 
   return response.data;
 }

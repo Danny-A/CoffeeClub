@@ -7,6 +7,8 @@ import { TypedDocumentString } from './generated/graphql';
 type FetchOptions<TVariables = Record<string, unknown>> = {
   tags?: string[];
   variables?: TVariables;
+  // Add option to control caching behavior
+  cache?: RequestCache;
 };
 
 interface GraphQLResponse<TData> {
@@ -36,7 +38,7 @@ export const graphqlFetch = async <TData, TVariables = Record<string, unknown>>(
   query: DocumentNode | TypedDocumentString<TData, TVariables>,
   options: FetchOptions<TVariables> = {}
 ): Promise<{ data: TData }> => {
-  const { tags = [], variables } = options;
+  const { tags = [], variables, cache = 'force-cache' } = options;
   const supabase = createClient();
 
   // Get the current session
@@ -63,7 +65,14 @@ export const graphqlFetch = async <TData, TVariables = Record<string, unknown>>(
         query,
         variables,
       }),
+      // Cache Strategy:
+      // - 'force-cache': Cache indefinitely until manually revalidated
+      // - 'no-store': Don't cache (for real-time data)
+      // - 'no-cache': Cache but revalidate on every request
+      cache,
       next: {
+        // Tags allow selective cache invalidation
+        // Example: ['beans', 'bean-123'] allows invalidating all beans or specific bean
         tags,
       },
     }

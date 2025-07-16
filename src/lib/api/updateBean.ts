@@ -1,3 +1,5 @@
+import { revalidateBean, revalidateHomepage } from '@/lib/utils/revalidation';
+
 import { graphqlFetch } from '../graphql/client';
 import { BeansUpdateInput } from '../graphql/generated/graphql';
 import { UpdateBeanDocument } from '../graphql/generated/graphql';
@@ -31,6 +33,8 @@ export async function updateBean(input: BeansUpdateInput) {
     UpdateBeanMutationVariables
   >(UpdateBeanDocument, {
     variables,
+    // Use no-cache for mutations to ensure fresh data
+    cache: 'no-store',
   });
 
   if (!response.data?.updatebeansCollection?.records[0]) {
@@ -38,5 +42,11 @@ export async function updateBean(input: BeansUpdateInput) {
     throw new Error('Failed to update bean: No data returned');
   }
 
-  return response.data.updatebeansCollection.records[0];
+  const updatedBean = response.data.updatebeansCollection.records[0];
+
+  // Invalidate relevant caches after successful update
+  await revalidateBean(updatedBean.id);
+  await revalidateHomepage();
+
+  return updatedBean;
 }

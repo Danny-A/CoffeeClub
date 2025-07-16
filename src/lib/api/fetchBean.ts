@@ -25,6 +25,7 @@ export async function fetchBean(id: string, includeUnpublished = false) {
             : { eq: Bean_Status.Published },
         },
       },
+      tags: [`bean-${id}`],
     }
   );
 

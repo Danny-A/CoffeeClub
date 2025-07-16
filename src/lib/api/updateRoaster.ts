@@ -3,6 +3,7 @@ import { RoastersUpdateInput } from '../graphql/generated/graphql';
 import { UpdateRoasterDocument } from '../graphql/generated/graphql';
 import { UpdateRoasterMutationVariables } from '../graphql/generated/graphql';
 import { UpdateRoasterMutation } from '../graphql/generated/graphql';
+import { revalidateHomepage, revalidateRoaster } from '../utils/revalidation';
 
 export async function updateRoaster(input: RoastersUpdateInput) {
   const variables: UpdateRoasterMutationVariables = {
@@ -27,12 +28,16 @@ export async function updateRoaster(input: RoastersUpdateInput) {
     UpdateRoasterMutationVariables
   >(UpdateRoasterDocument, {
     variables,
+    cache: 'no-store',
   });
 
   if (!response.data?.updateroastersCollection?.records[0]) {
     console.error('No data returned:', response);
     throw new Error('Failed to update roaster: No data returned');
   }
+
+  await revalidateRoaster(input.id!);
+  await revalidateHomepage();
 
   return response.data.updateroastersCollection.records[0];
 }

@@ -18,6 +18,13 @@ import {
   UnlikeRoasterDocument,
   UnlikeRoasterMutation,
 } from '@/lib/graphql/generated/graphql';
+import {
+  revalidateBean,
+  revalidateRoaster,
+  revalidateRecipe,
+  revalidateLikes,
+  revalidateHomepage,
+} from '@/lib/utils/revalidation';
 
 // Bean likes
 export async function likeBean(beanId: string, userId: string) {
@@ -31,7 +38,13 @@ export async function likeBean(beanId: string, userId: string) {
         user_id: userId,
       },
     },
+    cache: 'no-store',
   });
+
+  // Invalidate affected caches
+  await revalidateBean(beanId);
+  await revalidateLikes(userId);
+  await revalidateHomepage(); // Most-liked lists on homepage
 
   return response.data.insertIntobean_likesCollection?.records[0];
 }
@@ -49,7 +62,13 @@ export async function unlikeBean(beanId: string, userId: string) {
         user_id: { eq: userId },
       },
     },
+    cache: 'no-store',
   });
+
+  // Invalidate affected caches
+  await revalidateBean(beanId);
+  await revalidateLikes(userId);
+  await revalidateHomepage(); // Most-liked lists on homepage
 
   return response.data.deleteFrombean_likesCollection?.records[0];
 }
@@ -66,7 +85,13 @@ export async function likeRoaster(roasterId: string, userId: string) {
         user_id: userId,
       },
     },
+    cache: 'no-store',
   });
+
+  // Invalidate affected caches
+  await revalidateRoaster(roasterId);
+  await revalidateLikes(userId);
+  await revalidateHomepage(); // Most-liked lists on homepage
 
   return response.data.insertIntoroaster_likesCollection?.records[0];
 }
@@ -84,7 +109,13 @@ export async function unlikeRoaster(roasterId: string, userId: string) {
         user_id: { eq: userId },
       },
     },
+    cache: 'no-store',
   });
+
+  // Invalidate affected caches
+  await revalidateRoaster(roasterId);
+  await revalidateLikes(userId);
+  await revalidateHomepage(); // Most-liked lists on homepage
 
   return response.data.deleteFromroaster_likesCollection?.records[0];
 }
@@ -101,7 +132,12 @@ export async function likeLocation(locationId: string, userId: string) {
         user_id: userId,
       },
     },
+    cache: 'no-store',
   });
+
+  // Invalidate affected caches
+  await revalidateLikes(userId);
+  await revalidateHomepage(); // Most-liked lists on homepage
 
   return response.data.insertIntolocation_likesCollection?.records[0];
 }
@@ -119,7 +155,12 @@ export async function unlikeLocation(locationId: string, userId: string) {
         user_id: { eq: userId },
       },
     },
+    cache: 'no-store',
   });
+
+  // Invalidate affected caches
+  await revalidateLikes(userId);
+  await revalidateHomepage(); // Most-liked lists on homepage
 
   return response.data.deleteFromlocation_likesCollection?.records[0];
 }
@@ -136,7 +177,13 @@ export async function likeRecipe(recipeId: string, userId: string) {
         user_id: userId,
       },
     },
+    cache: 'no-store',
   });
+
+  // Invalidate affected caches
+  await revalidateRecipe(recipeId);
+  await revalidateLikes(userId);
+  await revalidateHomepage(); // Most-liked lists on homepage
 
   return response.data.insertIntorecipe_likesCollection?.records[0];
 }
@@ -154,7 +201,13 @@ export async function unlikeRecipe(recipeId: string, userId: string) {
         user_id: { eq: userId },
       },
     },
+    cache: 'no-store',
   });
+
+  // Invalidate affected caches
+  await revalidateRecipe(recipeId);
+  await revalidateLikes(userId);
+  await revalidateHomepage(); // Most-liked lists on homepage
 
   return response.data.deleteFromrecipe_likesCollection?.records[0];
 }

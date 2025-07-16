@@ -14,6 +14,8 @@ export async function fetchAllRoasters() {
       variables: {
         first: 1000,
       },
+      cache: 'force-cache',
+      tags: ['roasters', 'roasters-all'],
     }
   );
 
@@ -37,6 +39,10 @@ export async function fetchRoasterOptionsPage({
   after?: string | null;
   search?: string;
 }) {
+  // Generate cache tags based on search context
+  const cacheTags = ['roasters', 'roasters-options'];
+  if (search) cacheTags.push('roasters-search');
+
   const response = await graphqlFetch<
     GetRoastersQuery,
     GetRoastersQueryVariables
@@ -49,6 +55,8 @@ export async function fetchRoasterOptionsPage({
       first,
       after: after || undefined,
     },
+    cache: 'force-cache',
+    tags: cacheTags,
   });
 
   const collection = response.data.roastersCollection;

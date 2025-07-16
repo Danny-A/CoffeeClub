@@ -15,6 +15,8 @@ export async function fetchMostLikedRoasters(
     variables: {
       first,
     },
+    cache: 'force-cache',
+    tags: ['most-liked', 'roasters', 'homepage'],
   });
 
   if (!response.data.roastersCollection) {

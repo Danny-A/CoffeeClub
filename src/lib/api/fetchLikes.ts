@@ -12,6 +12,8 @@ export async function fetchLikes(userId: string) {
       userId,
       first: 100, // We can adjust this based on pagination needs
     },
+    cache: 'force-cache',
+    tags: [`likes-${userId}`, 'likes'],
   });
 
   return response.data;

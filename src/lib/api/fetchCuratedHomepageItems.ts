@@ -2,7 +2,12 @@ import { graphqlFetch } from '../graphql/client';
 import { GetCuratedHomepageItemsDocument } from '../graphql/generated/graphql';
 
 export async function fetchCuratedHomepageItems() {
-  const response = await graphqlFetch(GetCuratedHomepageItemsDocument);
+  const response = await graphqlFetch(GetCuratedHomepageItemsDocument, {
+    variables: {},
+    cache: 'force-cache',
+    tags: ['curated-items', 'homepage'],
+  });
+
   return (
     response.data.homepage_curated_itemsCollection?.edges.map((edge) => {
       const node = { ...edge.node };

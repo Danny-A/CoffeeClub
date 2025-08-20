@@ -44,7 +44,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         supabase
           .from('roasters')
           .select('slug, updated_at')
-          .eq('status', Bean_Status.Published),
+          .eq('is_published', true),
         supabase
           .from('beans')
           .select('slug, updated_at')

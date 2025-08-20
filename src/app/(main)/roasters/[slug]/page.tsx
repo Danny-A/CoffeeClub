@@ -15,6 +15,7 @@ import { createClient } from '@/lib/supabase/server';
 import { formatLocation } from '@/utils/formatLocation';
 import { isAdmin } from '@/utils/getUserRole';
 import { isModerator } from '@/utils/getUserRole';
+import { generateRoasterJsonLd, safeJsonLdStringify } from '@/utils/jsonLd';
 import { extractIdFromSlug } from '@/utils/slug';
 import { transformUser } from '@/utils/transformUser';
 
@@ -90,8 +91,18 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
     country: roaster.country,
   });
 
+  // Generate JSON-LD structured data
+  const jsonLd = generateRoasterJsonLd(roaster);
+
   return (
     <div className="space-y-8">
+      {/* JSON-LD structured data for roaster */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: safeJsonLdStringify(jsonLd),
+        }}
+      />
       <div className="flex justify-between items-start">
         <div>
           <Heading level="h2" as="h1">

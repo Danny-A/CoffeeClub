@@ -13,6 +13,7 @@ import { fetchBean } from '@/lib/api/fetchBean';
 import { fetchBeans } from '@/lib/api/fetchBeans';
 import { createClient } from '@/lib/supabase/server';
 import { isAdmin, isModerator } from '@/utils/getUserRole';
+import { generateBeanJsonLd, safeJsonLdStringify } from '@/utils/jsonLd';
 import { extractIdFromSlug } from '@/utils/slug';
 import { generateBeanMetadata } from '@/utils/structuredData';
 
@@ -76,8 +77,18 @@ export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
   const reviews = bean.reviews;
   const noReviews = reviews?.length === 0;
 
+  // Generate JSON-LD structured data
+  const jsonLd = generateBeanJsonLd(bean);
+
   return (
     <div className="space-y-8">
+      {/* JSON-LD structured data for coffee bean */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: safeJsonLdStringify(jsonLd),
+        }}
+      />
       <div className="flex justify-between items-start">
         <div>
           <Heading level="h1">{bean.name}</Heading>

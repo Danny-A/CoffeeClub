@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardFooter } from '@/components/ui/Card';
@@ -14,17 +13,7 @@ import { ImageUpload } from '@/components/ui/ImageUpload';
 import { Text } from '@/components/ui/Text';
 import { useAuth } from '@/hooks/auth/useAuth';
 import { useProfile } from '@/hooks/profile/useProfile';
-
-const profileSchema = z.object({
-  display_name: z.string().min(2, 'Display name must be at least 2 characters'),
-  bio: z.string().optional(),
-  location: z.string().optional(),
-  instagram: z.string().optional(),
-  url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
-  profile_image_url: z.string().optional(),
-});
-
-type ProfileForm = z.infer<typeof profileSchema>;
+import { ProfileFormData, profileSchema } from '@/lib/validations/profile';
 
 export function OnboardingWizard() {
   const router = useRouter();
@@ -42,7 +31,7 @@ export function OnboardingWizard() {
     handleSubmit,
     formState: { errors },
     trigger,
-  } = useForm<ProfileForm>({
+  } = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
   });
 
@@ -69,7 +58,7 @@ export function OnboardingWizard() {
   };
 
   const validateStep = async () => {
-    let fieldsToValidate: (keyof ProfileForm)[] = [];
+    let fieldsToValidate: (keyof ProfileFormData)[] = [];
 
     if (currentStep === 1) {
       fieldsToValidate = ['display_name', 'bio', 'location'];
@@ -88,7 +77,7 @@ export function OnboardingWizard() {
     }
   };
 
-  const onSubmit = async (data: ProfileForm) => {
+  const onSubmit = async (data: ProfileFormData) => {
     const isValid = await validateStep();
     if (!isValid) return;
 

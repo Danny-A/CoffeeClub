@@ -5,7 +5,6 @@ import {
   Bean_Status,
   BeansOrderBy,
   BigFloatFilter,
-  BooleanFilter,
   FilterIs,
   GetBeansDocument,
   GetBeansQuery,

@@ -7,6 +7,7 @@ import {
   GetRoastersQuery,
   GetRoastersQueryVariables,
   RoastersFilter,
+  RoastersOrderBy,
   StringFilter,
 } from '../graphql/generated/graphql';
 
@@ -18,7 +19,7 @@ export type RoasterFilters = {
   first?: number;
   after?: string;
   includeUnpublished?: boolean;
-  orderBy?: any;
+  orderBy?: RoastersOrderBy[];
 };
 
 export async function fetchRoasters(filters?: RoasterFilters) {

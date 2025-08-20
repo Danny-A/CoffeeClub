@@ -15,7 +15,10 @@ import {
 import { useAuth } from '@/hooks/auth/useAuth';
 import { useBeans } from '@/hooks/beans/useBeans';
 import { useBeanUrlFilters } from '@/hooks/filters/useBeanUrlFilters';
-import { BeansOrderBy } from '@/lib/graphql/generated/graphql';
+import {
+  BeansOrderBy,
+  OrderByDirection,
+} from '@/lib/graphql/generated/graphql';
 
 import { BeanFilter } from '../BeanFilter';
 import { BeanGrid } from '../BeanGrid';
@@ -26,17 +29,19 @@ const SORT_OPTIONS = [
   {
     label: 'Most Reviews',
     value: 'most-reviews',
-    orderBy: [{ review_count: 'DescNullsLast' } as BeansOrderBy],
+    orderBy: [{ review_count: OrderByDirection.DescNullsLast } as BeansOrderBy],
   },
   {
     label: 'Highest Rating',
     value: 'highest-rating',
-    orderBy: [{ average_rating: 'DescNullsLast' } as BeansOrderBy],
+    orderBy: [
+      { average_rating: OrderByDirection.DescNullsLast } as BeansOrderBy,
+    ],
   },
   {
     label: 'Latest',
     value: 'latest',
-    orderBy: [{ created_at: 'DescNullsLast' } as BeansOrderBy],
+    orderBy: [{ created_at: OrderByDirection.DescNullsLast } as BeansOrderBy],
   },
 ];
 

@@ -52,7 +52,7 @@ export function BeanTriage() {
       )
     ) {
       deleteBean.mutate(beanId, {
-        onError: (err: any) => {
+        onError: (err: Error) => {
           setDeleteError(err?.message || 'Failed to delete bean.');
         },
       });

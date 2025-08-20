@@ -11,10 +11,7 @@ import { Card, CardContent, CardFooter } from '@/components/ui/Card';
 import { FormField } from '@/components/ui/FormField';
 import { ImageUpload } from '@/components/ui/ImageUpload';
 import { useProfile } from '@/hooks/profile/useProfile';
-import {
-  editProfileSchema,
-  EditProfileFormData,
-} from '@/lib/validations/profile';
+import { profileSchema, ProfileFormData } from '@/lib/validations/profile';
 
 export function EditProfileInfo() {
   const router = useRouter();
@@ -24,8 +21,8 @@ export function EditProfileInfo() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<EditProfileFormData>({
-    resolver: zodResolver(editProfileSchema),
+  } = useForm<ProfileFormData>({
+    resolver: zodResolver(profileSchema),
     values: {
       display_name: profile?.display_name || '',
       bio: profile?.bio || '',
@@ -60,7 +57,7 @@ export function EditProfileInfo() {
     updateProfile({ profile_image_url: '' });
   };
 
-  const onSubmit = async (data: EditProfileFormData) => {
+  const onSubmit = async (data: ProfileFormData) => {
     try {
       updateProfile(data);
       router.push('/profile');

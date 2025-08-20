@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import { CardGrid } from '@/components/ui/CardGrid';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { FilterLayout } from '@/components/ui/FilterLayout';
 import {
@@ -16,8 +15,11 @@ import {
 import { useAuth } from '@/hooks/auth/useAuth';
 import { useRoasterUrlFilters } from '@/hooks/filters/useRoasterUrlFilters';
 import { useRoasters } from '@/hooks/roasters/useRoasters';
+import {
+  OrderByDirection,
+  RoastersOrderBy,
+} from '@/lib/graphql/generated/graphql';
 
-import { RoasterCard } from '../RoasterCard';
 import { RoasterFilter } from '../RoasterFilter';
 import { RoasterGrid } from '../RoasterGrid';
 import { RoasterList } from '../RoasterList';
@@ -27,22 +29,28 @@ const SORT_OPTIONS = [
   {
     label: 'Most Beans',
     value: 'most-beans',
-    orderBy: [{ bean_count: 'DescNullsLast' }],
+    orderBy: [
+      { bean_count: OrderByDirection.DescNullsLast } as RoastersOrderBy,
+    ],
   },
   {
     label: 'Most Reviews',
     value: 'most-reviews',
-    orderBy: [{ review_count: 'DescNullsLast' }],
+    orderBy: [
+      { review_count: OrderByDirection.DescNullsLast } as RoastersOrderBy,
+    ],
   },
   {
     label: 'Name (A-Z)',
     value: 'name-asc',
-    orderBy: [{ name: 'AscNullsLast' }],
+    orderBy: [{ name: OrderByDirection.AscNullsLast } as RoastersOrderBy],
   },
   {
     label: 'Newest',
     value: 'newest',
-    orderBy: [{ created_at: 'DescNullsLast' }],
+    orderBy: [
+      { created_at: OrderByDirection.DescNullsLast } as RoastersOrderBy,
+    ],
   },
 ];
 

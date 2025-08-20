@@ -53,7 +53,7 @@ export function isValidUsername(username: string): boolean {
 export function getUsernameError(username: string): string | null {
   const result = usernameSchema.safeParse(username);
   if (!result.success) {
-    return result.error.errors[0].message;
+    return result.error.issues[0].message;
   }
   return null;
 }

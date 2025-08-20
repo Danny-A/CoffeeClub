@@ -84,7 +84,7 @@ function NewRecipeForm() {
         description: data.description,
         image_url: imageUrl,
         bean_id: data.bean_id || undefined,
-        brew_method: data.brew_method,
+        brew_method: data.brew_method as Brew_Method,
         grind_size: data.grind_size || undefined,
         grind_weight:
           typeof data.grind_weight === 'number'

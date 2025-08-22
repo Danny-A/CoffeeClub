@@ -8,6 +8,7 @@ export function transformRoasterData(roaster: RoasterResponse): Roaster {
     id: roaster.id,
     slug: roaster.slug ?? roaster.id,
     name: roaster.name,
+    description: roaster.description || undefined,
     city: roaster.location_city || undefined,
     state: roaster.location_state || undefined,
     country: roaster.location_country || undefined,

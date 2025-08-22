@@ -179,7 +179,7 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
                     {roaster.description && <Text>{roaster.description}</Text>}
                   </span>
 
-                  <Text weight="semibold">{location}</Text>
+                  <Text>{location}</Text>
                   {roaster.url && (
                     <Text>
                       <a

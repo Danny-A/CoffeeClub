@@ -45,6 +45,14 @@ interface Offer {
   url: string;
   availability: string;
   priceValidUntil: string;
+  price?: string;
+  priceCurrency?: string;
+  priceSpecification?: {
+    '@type': 'PriceSpecification';
+    price?: string;
+    priceCurrency?: string;
+    valueAddedTaxIncluded?: boolean;
+  };
 }
 
 interface ProductJsonLd {
@@ -273,6 +281,13 @@ export function generateBeanJsonLd(bean: Bean): ProductJsonLd {
       priceValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
         .toISOString()
         .split('T')[0], // 30 days from now
+      // Include priceSpecification as required by Schema.org for merchant listings
+      priceSpecification: {
+        '@type': 'PriceSpecification',
+        priceCurrency: 'USD',
+        // Price information not available - merchants should update with actual pricing
+        valueAddedTaxIncluded: false,
+      },
     }));
   }
 

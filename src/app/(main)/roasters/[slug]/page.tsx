@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
@@ -42,7 +43,9 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: RoasterDetailsProps) {
+export async function generateMetadata({
+  params,
+}: RoasterDetailsProps): Promise<Metadata> {
   const { slug } = await params;
   const id = extractIdFromSlug(slug);
 
@@ -91,12 +94,10 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
     country: roaster.country,
   });
 
-  // Generate JSON-LD structured data
   const jsonLd = generateRoasterJsonLd(roaster);
 
   return (
     <div className="space-y-8">
-      {/* JSON-LD structured data for roaster */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -172,13 +173,12 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
             </Heading>
             <Card className="mt-4">
               <CardContent>
-                <div className="flex flex-col gap-2">
-                  {roaster.description && (
-                    <>
-                      <Text variant="label">About {roaster.name}</Text>
-                      <Text>{roaster.description}</Text>
-                    </>
-                  )}
+                <div className="flex flex-col gap-4">
+                  <span className="space-y-2">
+                    <Text variant="label">About {roaster.name}</Text>
+                    {roaster.description && <Text>{roaster.description}</Text>}
+                  </span>
+
                   <Text>{location}</Text>
                   {roaster.url && (
                     <Text>

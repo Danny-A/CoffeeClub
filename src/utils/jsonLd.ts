@@ -39,22 +39,6 @@ interface PropertyValue {
   name: string;
   value: string;
 }
-
-interface Offer {
-  '@type': 'Offer';
-  url: string;
-  availability: string;
-  priceValidUntil: string;
-  price?: string;
-  priceCurrency?: string;
-  priceSpecification?: {
-    '@type': 'PriceSpecification';
-    price?: string;
-    priceCurrency?: string;
-    valueAddedTaxIncluded?: boolean;
-  };
-}
-
 interface ProductJsonLd {
   '@context': 'https://schema.org';
   '@type': 'Product';
@@ -64,11 +48,9 @@ interface ProductJsonLd {
   category: string;
   description?: string;
   image?: ImageObject;
-  brand?: { '@type': 'Organization'; name: string; url: string };
-  manufacturer?: { '@type': 'Organization'; name: string };
+  brand?: { '@type': 'Brand'; name: string; url: string };
   additionalProperty?: PropertyValue[];
   aggregateRating?: AggregateRating;
-  offers?: Offer[];
 }
 
 /**
@@ -197,17 +179,9 @@ export function generateBeanJsonLd(bean: Bean): ProductJsonLd {
   // Add brand (roaster)
   if (bean.roaster) {
     jsonLd.brand = {
-      '@type': 'Organization',
+      '@type': 'Brand',
       name: bean.roaster.name,
       url: `${baseUrl}/roasters/${bean.roaster.slug || bean.roaster.id}`,
-    };
-  }
-
-  // Add manufacturer (same as brand for coffee)
-  if (bean.roaster) {
-    jsonLd.manufacturer = {
-      '@type': 'Organization',
-      name: bean.roaster.name,
     };
   }
 
@@ -270,25 +244,6 @@ export function generateBeanJsonLd(bean: Bean): ProductJsonLd {
       bestRating: 5,
       worstRating: 1,
     };
-  }
-
-  // Add offers (purchase links)
-  if (bean.buyUrls && bean.buyUrls.length > 0) {
-    jsonLd.offers = bean.buyUrls.map((url) => ({
-      '@type': 'Offer',
-      url: url,
-      availability: 'https://schema.org/InStock',
-      priceValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
-        .toISOString()
-        .split('T')[0], // 30 days from now
-      // Include priceSpecification as required by Schema.org for merchant listings
-      priceSpecification: {
-        '@type': 'PriceSpecification',
-        priceCurrency: 'USD',
-        // Price information not available - merchants should update with actual pricing
-        valueAddedTaxIncluded: false,
-      },
-    }));
   }
 
   return jsonLd;

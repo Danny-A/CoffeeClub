@@ -1,12 +1,16 @@
 import { Metadata } from 'next';
+import Link from 'next/link';
 
 import { BeanCard } from '@/components/features/BeanCard';
 import { CuratedSection } from '@/components/features/Curated';
 import { RecipeCard } from '@/components/features/RecipeCard';
 import { RoasterCard } from '@/components/features/RoasterCard';
+import { Button } from '@/components/ui/Button';
 import { Heading } from '@/components/ui/Heading';
+import { Text } from '@/components/ui/Text';
 import { fetchHomepageData } from '@/lib/api/fetchHomepageData';
 import { Bean, RoasterCardType } from '@/lib/graphql/types';
+import { createClient } from '@/lib/supabase/server';
 import { isNew } from '@/utils/isNew';
 
 export const metadata: Metadata = {
@@ -20,6 +24,11 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
   const homepageData = await fetchHomepageData();
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   // Transform beans data
   const topRatedBeans: Bean[] =
@@ -156,11 +165,20 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-12">
-      <div>
-        <Heading level="h1">Welcome to Latest Grind</Heading>
-        <Heading level="h2" muted className="mt-2">
-          Discover and share your favorite coffee beans
-        </Heading>
+      <div className="py-12 flex flex-col gap-4 items-center">
+        <Heading level="h1">Discover the best coffee beans</Heading>
+
+        <Text>
+          Save or review your favorite coffee beans and roasters, explore to
+          find your. next favorite coffee beans.
+        </Text>
+        {!user && (
+          <div className="mt-4">
+            <Button asChild>
+              <Link href="/register">Create an account</Link>
+            </Button>
+          </div>
+        )}
       </div>
 
       <CuratedSection items={curatedItems} />

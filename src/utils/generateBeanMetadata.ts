@@ -2,6 +2,32 @@ import { Bean } from '@/lib/graphql/types';
 
 import { HOST } from './constants';
 
+export function generateBreadcrumbStructuredData(bean: Bean) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: HOST,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Beans',
+        item: `${HOST}/beans`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: bean.name,
+        item: `${HOST}/beans/${bean.slug || bean.id}`,
+      },
+    ],
+  };
+}
 export function generateBeanDescription(bean: Bean): string {
   const roasterName = bean.roaster?.name || 'Unknown Roaster';
   const averageRating = bean.averageRating || 0;
@@ -36,33 +62,6 @@ export function generateBeanKeywords(bean: Bean): string {
   ]
     .filter(Boolean)
     .join(', ');
-}
-
-export function generateBreadcrumbStructuredData(bean: Bean) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: HOST,
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: 'Beans',
-        item: `${HOST}/beans`,
-      },
-      {
-        '@type': 'ListItem',
-        position: 3,
-        name: bean.name,
-        item: `${HOST}/beans/${bean.slug || bean.id}`,
-      },
-    ],
-  };
 }
 
 export function generateProductStructuredData(bean: Bean) {

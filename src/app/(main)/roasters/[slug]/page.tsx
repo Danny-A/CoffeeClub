@@ -14,9 +14,9 @@ import { fetchRoaster } from '@/lib/api/fetchRoaster';
 import { fetchRoasters } from '@/lib/api/fetchRoasters';
 import { createClient } from '@/lib/supabase/server';
 import { formatLocation } from '@/utils/formatLocation';
+import { generateRoasterMetadata } from '@/utils/generateRoasterMetadata';
 import { isAdmin } from '@/utils/getUserRole';
 import { isModerator } from '@/utils/getUserRole';
-import { generateRoasterJsonLd, safeJsonLdStringify } from '@/utils/jsonLd';
 import { extractIdFromSlug } from '@/utils/slug';
 import { transformUser } from '@/utils/transformUser';
 
@@ -53,15 +53,7 @@ export async function generateMetadata({
 
   const roaster = await fetchRoaster(id);
 
-  return {
-    title: `${roaster?.name} - Latest Grind`,
-    description: `View details about ${roaster?.name}`,
-    openGraph: {
-      title: `${roaster?.name} - Latest Grind`,
-      description: `View details about ${roaster?.name}`,
-      images: [{ url: roaster?.profileImageUrl || '' }],
-    },
-  };
+  return generateRoasterMetadata(roaster);
 }
 
 export default async function RoasterPage({ params }: RoasterDetailsProps) {
@@ -94,16 +86,8 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
     country: roaster.country,
   });
 
-  const jsonLd = generateRoasterJsonLd(roaster);
-
   return (
     <div className="space-y-8">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: safeJsonLdStringify(jsonLd),
-        }}
-      />
       <div className="flex justify-between items-start">
         <div>
           <Heading level="h2" as="h1">

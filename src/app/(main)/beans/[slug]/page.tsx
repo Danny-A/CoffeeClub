@@ -12,10 +12,9 @@ import { TimeAgo } from '@/components/ui/TimeAgo';
 import { fetchBean } from '@/lib/api/fetchBean';
 import { fetchBeans } from '@/lib/api/fetchBeans';
 import { createClient } from '@/lib/supabase/server';
+import { generateBeanMetadata } from '@/utils/generateBeanMetadata';
 import { isAdmin, isModerator } from '@/utils/getUserRole';
-import { generateBeanJsonLd, safeJsonLdStringify } from '@/utils/jsonLd';
 import { extractIdFromSlug } from '@/utils/slug';
-import { generateBeanMetadata } from '@/utils/structuredData';
 
 type BeanDetailsProps = {
   params: Promise<{ slug: string }>;
@@ -77,18 +76,8 @@ export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
   const reviews = bean.reviews;
   const noReviews = reviews?.length === 0;
 
-  // Generate JSON-LD structured data
-  const jsonLd = generateBeanJsonLd(bean);
-
   return (
     <div className="space-y-8">
-      {/* JSON-LD structured data for coffee bean */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: safeJsonLdStringify(jsonLd),
-        }}
-      />
       <div className="flex justify-between items-start">
         <div>
           <Heading level="h1">{bean.name}</Heading>
@@ -187,41 +176,43 @@ export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
           </Card>
         )}
 
-        <Card>
-          <CardHeader>
-            <Heading level="h3" as="h2">
-              Purchase
-            </Heading>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col space-y-2">
-              {bean.buyUrls &&
-                bean.buyUrls
-                  .filter((url) => url !== null)
-                  .map((url) => {
-                    let domain = '';
-                    try {
-                      domain = new URL(url).hostname;
-                    } catch {
-                      domain = '';
-                    }
-                    return (
-                      <div key={url} className="mt-2">
-                        <a
-                          href={url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-block underline text-blue-600 hover:text-blue-800 hover:no-underline dark:text-blue-400 dark:hover:text-blue-300"
-                        >
-                          Buy this bean →
-                        </a>
-                        {domain && <Text variant="small">({domain})</Text>}
-                      </div>
-                    );
-                  })}
-            </div>
-          </CardContent>
-        </Card>
+        {bean.buyUrls && bean.buyUrls.length > 0 && (
+          <Card>
+            <CardHeader>
+              <Heading level="h3" as="h2">
+                Purchase
+              </Heading>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-col space-y-2">
+                {bean.buyUrls &&
+                  bean.buyUrls
+                    .filter((url) => url !== null)
+                    .map((url) => {
+                      let domain = '';
+                      try {
+                        domain = new URL(url).hostname;
+                      } catch {
+                        domain = '';
+                      }
+                      return (
+                        <div key={url} className="mt-2">
+                          <a
+                            href={url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block underline text-blue-600 hover:text-blue-800 hover:no-underline dark:text-blue-400 dark:hover:text-blue-300"
+                          >
+                            Buy this bean →
+                          </a>
+                          {domain && <Text variant="small">({domain})</Text>}
+                        </div>
+                      );
+                    })}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         <div>
           <div className="space-y-4">

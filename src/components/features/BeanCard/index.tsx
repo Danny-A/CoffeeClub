@@ -20,6 +20,7 @@ export function BeanCard({ bean, user }: BeanCardProps) {
             {bean.name}
             {bean.isNew && <NewBadge className="ml-2 align-middle" />}
           </Heading>
+          {bean.roaster && <Text variant="small">{bean.roaster.name}</Text>}
           {bean.notes && (
             <Text variant="small" className="line-clamp-2">
               {bean.notes}
@@ -44,12 +45,6 @@ export function BeanCard({ bean, user }: BeanCardProps) {
                 <Text variant="small" className="capitalize">
                   {bean.roastLevel}
                 </Text>
-              </div>
-            )}
-            {bean.roaster?.name && (
-              <div className="flex justify-between">
-                <Text variant="label">Roaster:</Text>
-                <Text variant="small">{bean.roaster.name}</Text>
               </div>
             )}
             <div className="flex justify-between">

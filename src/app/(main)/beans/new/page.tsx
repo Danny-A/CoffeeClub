@@ -23,7 +23,6 @@ import {
 import { Text } from '@/components/ui/Text';
 import { TextArea } from '@/components/ui/TextArea';
 import { useBeanImage } from '@/hooks/beans/useBeanImage';
-import { useCreateBean } from '@/hooks/beans/useCreateBean';
 import { useInfiniteRoasterOptions } from '@/hooks/roasters/useInfiniteRoasterOptions';
 import {
   Bean_Type,
@@ -32,6 +31,8 @@ import {
 } from '@/lib/graphql/generated/graphql';
 import { beanSchema } from '@/lib/validations/bean';
 import { COFFEE_REGIONS } from '@/utils/coffeeOrigins';
+
+import { createBeanAction } from './actions/createBean';
 
 type BeanFormData = z.infer<typeof beanSchema>;
 
@@ -51,7 +52,6 @@ export default function Page() {
 function NewBeanPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const createBean = useCreateBean();
   const { uploadBeanImage } = useBeanImage();
   const roasterId = searchParams.get('roasterId');
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -144,7 +144,7 @@ function NewBeanPage() {
           .join(', '),
       };
 
-      await createBean.mutateAsync(filteredData);
+      await createBeanAction(filteredData);
       router.push('/beans');
     } catch (error) {
       console.error('Error creating bean:', error);

@@ -11,11 +11,11 @@ import { fetchBeans } from '@/lib/api/fetchBeans';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
-  title: 'Beans - Latest Grind',
-  description: 'Explore a collection of coffee beans',
+  title: 'Coffee Beans - Latest Grind',
+  description: 'Find your next favorite coffee bean',
   openGraph: {
-    title: 'Beans - Latest Grind',
-    description: 'Explore a collection of coffee beans',
+    title: 'Coffee Beans - Latest Grind',
+    description: 'Find your next favorite coffee bean',
   },
 };
 
@@ -34,15 +34,15 @@ export default async function BeansPage() {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="space-y-8">
-        <div className="flex justify-between items-center">
+        <div className="md:flex md:flex-row justify-between md:items-center">
           <div>
             <Heading level="h2">Coffee Beans</Heading>
             <Heading level="h4" as="h2" muted className="mt-2">
-              Explore our collection of coffee beans
+              Find your next favorite coffee bean
             </Heading>
           </div>
           {user && (
-            <Button asChild>
+            <Button asChild className="mt-4 md:mt-0">
               <Link href="/beans/new">Add New Bean</Link>
             </Button>
           )}

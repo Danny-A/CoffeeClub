@@ -13,8 +13,14 @@ import { fetchRoasters } from '@/lib/api/fetchRoasters';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
-  title: 'Roasters - Latest Grind',
-  description: 'Explore a collection of coffee roasters',
+  title: 'CoffeeRoasters - Latest Grind',
+  description:
+    'Find your next favorite coffee roaster from anywhere in the world',
+  openGraph: {
+    title: 'Coffee Roasters - Latest Grind',
+    description:
+      'Find your next favorite coffee roaster from anywhere in the world',
+  },
 };
 
 export default async function RoastersPage() {
@@ -32,7 +38,7 @@ export default async function RoastersPage() {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="space-y-8">
-        <div className="flex justify-between items-center">
+        <div className="md:flex md:flex-row justify-between md:items-center">
           <div>
             <Heading level="h2">Coffee Roasters</Heading>
             <Heading level="h4" as="h2" muted className="mt-2">
@@ -40,7 +46,7 @@ export default async function RoastersPage() {
             </Heading>
           </div>
           {user && (
-            <Button asChild>
+            <Button asChild className="mt-4 md:mt-0">
               <Link href="/roasters/new">Add New Roaster</Link>
             </Button>
           )}

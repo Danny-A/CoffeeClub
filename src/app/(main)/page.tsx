@@ -170,7 +170,7 @@ export default async function HomePage() {
 
         <Text>
           Save or review your favorite coffee beans and roasters, explore to
-          find your. next favorite coffee beans.
+          find your next favorite coffee beans.
         </Text>
         {!user && (
           <div className="mt-4">

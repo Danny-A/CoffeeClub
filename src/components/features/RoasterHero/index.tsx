@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/Avatar';
@@ -25,11 +26,13 @@ export function RoasterHero({
     >
       <div className="absolute inset-0 w-full h-full rounded-xl overflow-hidden">
         {profileImageUrl ? (
-          <img
+          <Image
             src={profileImageUrl}
             alt={name + ' profile image'}
             className="object-cover w-full h-full"
-            loading="lazy"
+            loading="eager"
+            width={1200}
+            height={260}
           />
         ) : null}
       </div>

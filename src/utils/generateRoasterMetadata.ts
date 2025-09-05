@@ -80,40 +80,6 @@ export function generateRoasterKeywords(roaster: Roaster): string {
 }
 
 export function generateBrandStructuredData(roaster: Roaster) {
-  // Calculate aggregate rating from beans if available
-  let aggregateRating;
-  if (roaster.beans && roaster.beans.length > 0) {
-    const beansWithRatings = roaster.beans.filter(
-      (bean) => bean.averageRating && bean.reviews && bean.reviews.length > 0
-    );
-
-    if (beansWithRatings.length > 0) {
-      const totalRating = beansWithRatings.reduce(
-        (sum, bean) =>
-          sum + (bean.averageRating || 0) * (bean.reviews?.length || 0),
-        0
-      );
-      const totalReviews = beansWithRatings.reduce(
-        (sum, bean) => sum + (bean.reviews?.length || 0),
-        0
-      );
-
-      if (totalReviews > 0) {
-        aggregateRating = {
-          '@type': 'AggregateRating',
-          itemReviewed: {
-            '@type': 'Brand',
-            name: roaster.name,
-          },
-          ratingValue: (totalRating / totalReviews).toFixed(2),
-          reviewCount: totalReviews,
-          bestRating: 5,
-          worstRating: 1,
-        };
-      }
-    }
-  }
-
   const brandData = {
     '@context': 'https://schema.org',
     '@type': 'Brand',
@@ -126,7 +92,6 @@ export function generateBrandStructuredData(roaster: Roaster) {
         url: roaster.logoUrl,
       },
     }),
-    ...(aggregateRating && { aggregateRating }),
     ...(roaster.description && { slogan: roaster.description }),
   };
 
@@ -150,10 +115,74 @@ export function generateBrandStructuredData(roaster: Roaster) {
   return brandData;
 }
 
+export function generateLocalBusinessStructuredData(roaster: Roaster) {
+  // Calculate aggregate rating from beans if available
+  let aggregateRating;
+  if (roaster.beans && roaster.beans.length > 0) {
+    const beansWithRatings = roaster.beans.filter(
+      (bean) => bean.averageRating && bean.reviews && bean.reviews.length > 0
+    );
+
+    if (beansWithRatings.length > 0) {
+      const totalRating = beansWithRatings.reduce(
+        (sum, bean) =>
+          sum + (bean.averageRating || 0) * (bean.reviews?.length || 0),
+        0
+      );
+      const totalReviews = beansWithRatings.reduce(
+        (sum, bean) => sum + (bean.reviews?.length || 0),
+        0
+      );
+
+      if (totalReviews > 0) {
+        aggregateRating = {
+          '@type': 'AggregateRating',
+          itemReviewed: {
+            '@type': 'LocalBusiness',
+            name: roaster.name,
+          },
+          ratingValue: (totalRating / totalReviews).toFixed(2),
+          reviewCount: totalReviews,
+          bestRating: 5,
+          worstRating: 1,
+        };
+      }
+    }
+  }
+
+  const location = [roaster.city, roaster.state, roaster.country]
+    .filter(Boolean)
+    .join(', ');
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: roaster.name,
+    description: roaster.description || generateRoasterDescription(roaster),
+    url: `${HOST}/roasters/${roaster.slug || roaster.id}`,
+    ...(location && {
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: roaster.city,
+        addressRegion: roaster.state,
+        addressCountry: roaster.country,
+      },
+    }),
+    ...(roaster.logoUrl && {
+      logo: {
+        '@type': 'ImageObject',
+        url: roaster.logoUrl,
+      },
+    }),
+    ...(aggregateRating && { aggregateRating }),
+  };
+}
+
 export function generateRoasterStructuredData(roaster: Roaster) {
   return [
     generateRoasterBreadcrumbStructuredData(roaster),
     generateBrandStructuredData(roaster),
+    generateLocalBusinessStructuredData(roaster),
   ];
 }
 

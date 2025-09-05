@@ -101,6 +101,10 @@ export function generateBrandStructuredData(roaster: Roaster) {
       if (totalReviews > 0) {
         aggregateRating = {
           '@type': 'AggregateRating',
+          itemReviewed: {
+            '@type': 'Brand',
+            name: roaster.name,
+          },
           ratingValue: (totalRating / totalReviews).toFixed(2),
           reviewCount: totalReviews,
           bestRating: 5,

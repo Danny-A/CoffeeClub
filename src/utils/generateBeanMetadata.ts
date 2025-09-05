@@ -84,6 +84,10 @@ export function generateProductStructuredData(bean: Bean) {
     ...(averageRating > 0 && {
       aggregateRating: {
         '@type': 'AggregateRating',
+        itemReviewed: {
+          '@type': 'Product',
+          name: bean.name,
+        },
         ratingValue: averageRating,
         reviewCount: reviewCount,
         bestRating: 5,

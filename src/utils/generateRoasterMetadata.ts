@@ -202,10 +202,5 @@ export function generateRoasterMetadata(roaster: Roaster | null) {
     alternates: {
       canonical: `${HOST}/roasters/${roaster.slug || roaster.id}`,
     },
-    other: {
-      'application/ld+json': JSON.stringify(
-        generateRoasterStructuredData(roaster)
-      ),
-    },
   };
 }

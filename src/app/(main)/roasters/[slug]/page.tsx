@@ -14,7 +14,10 @@ import { fetchRoaster } from '@/lib/api/fetchRoaster';
 import { fetchRoasters } from '@/lib/api/fetchRoasters';
 import { createClient } from '@/lib/supabase/server';
 import { formatLocation } from '@/utils/formatLocation';
-import { generateRoasterMetadata } from '@/utils/generateRoasterMetadata';
+import {
+  generateRoasterMetadata,
+  generateRoasterStructuredData,
+} from '@/utils/generateRoasterMetadata';
 import { isAdmin } from '@/utils/getUserRole';
 import { isModerator } from '@/utils/getUserRole';
 import { extractIdFromSlug } from '@/utils/slug';
@@ -86,8 +89,16 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
     country: roaster.country,
   });
 
+  const jsonLd = generateRoasterStructuredData(roaster);
+
   return (
     <div className="space-y-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
+        }}
+      />
       <div className="flex justify-between items-start">
         <div>
           <Heading level="h2" as="h1">

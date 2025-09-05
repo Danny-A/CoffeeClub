@@ -12,7 +12,10 @@ import { TimeAgo } from '@/components/ui/TimeAgo';
 import { fetchBean } from '@/lib/api/fetchBean';
 import { fetchBeans } from '@/lib/api/fetchBeans';
 import { createClient } from '@/lib/supabase/server';
-import { generateBeanMetadata } from '@/utils/generateBeanMetadata';
+import {
+  generateBeanMetadata,
+  generateBeanStructuredData,
+} from '@/utils/generateBeanMetadata';
 import { isAdmin, isModerator } from '@/utils/getUserRole';
 import { extractIdFromSlug } from '@/utils/slug';
 
@@ -76,8 +79,17 @@ export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
   const reviews = bean.reviews;
   const noReviews = reviews?.length === 0;
 
+  const jsonLd = generateBeanStructuredData(bean);
+
   return (
     <div className="space-y-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
+        }}
+      />
+
       <div className="flex justify-between items-start">
         <div>
           <Heading level="h1">{bean.name}</Heading>

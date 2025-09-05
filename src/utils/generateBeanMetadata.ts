@@ -178,8 +178,5 @@ export function generateBeanMetadata(bean: Bean | null) {
     alternates: {
       canonical: `${HOST}/beans/${bean.slug || bean.id}`,
     },
-    other: {
-      'application/ld+json': JSON.stringify(generateBeanStructuredData(bean)),
-    },
   };
 }

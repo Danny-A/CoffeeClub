@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
 import { MDXRenderer } from '@/components/mdx/MDXRenderer';
@@ -49,10 +50,13 @@ export default async function RecipeDetailPage({
     <div className="container mx-auto py-8 max-w-2xl">
       <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
       {recipe.image_url && (
-        <img
+        <Image
           src={recipe.image_url}
           alt={recipe.title ?? 'Recipe Image'}
           className="w-full h-64 object-cover rounded mb-4"
+          loading="lazy"
+          width={1200}
+          height={300}
         />
       )}
       <div className="flex items-center gap-2 mb-4">

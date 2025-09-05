@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 import { LikeButton } from '@/components/ui/LikeButton';
@@ -25,10 +26,13 @@ export function RecipeCard({
       <Link href={`/recipes/${recipe.slug}`} className="block mb-2">
         <h2 className="text-xl font-semibold">{recipe.title}</h2>
         {recipe.image_url && (
-          <img
+          <Image
             src={recipe.image_url}
             alt={recipe.title ?? 'Recipe Image'}
             className="w-full h-40 object-cover rounded mb-2"
+            loading="lazy"
+            width={160}
+            height={160}
           />
         )}
       </Link>

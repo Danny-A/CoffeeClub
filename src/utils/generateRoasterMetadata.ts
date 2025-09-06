@@ -137,14 +137,10 @@ export function generateLocalBusinessStructuredData(roaster: Roaster) {
       if (totalReviews > 0) {
         aggregateRating = {
           '@type': 'AggregateRating',
-          itemReviewed: {
-            '@type': 'LocalBusiness',
-            name: roaster.name,
-          },
           ratingValue: (totalRating / totalReviews).toFixed(2),
           reviewCount: totalReviews,
           bestRating: 5,
-          worstRating: 1,
+          worstRating: 0,
         };
       }
     }
@@ -192,7 +188,7 @@ export function generateRoasterOpenGraph(roaster: Roaster) {
     .join(', ');
 
   return {
-    title: `${roaster.name}${location ? ` - ${location}` : ''} - Coffee Roaster`,
+    title: `${roaster.name}${location ? ` - ${location}` : ''} - Coffee roaster`,
     description: generateRoasterDescription(roaster),
     url: `${HOST}/roasters/${roaster.slug || roaster.id}`,
     siteName: 'Latest Grind',

@@ -125,7 +125,7 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
           {(isUserAdmin || isUserModerator) && (
             <Button asChild>
               <Link href={`/admin/roasters/${roaster.slug ?? roaster.id}/edit`}>
-                Edit Roaster
+                Edit roaster
               </Link>
             </Button>
           )}
@@ -143,7 +143,7 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
       <div className="flex flex-col md:flex-row gap-8">
         <div className="flex-1">
           <Heading level="h4" as="h3">
-            Coffee Beans
+            Coffee beans
           </Heading>
           {roaster.beans.length === 0 ? (
             <Text className="mt-4">

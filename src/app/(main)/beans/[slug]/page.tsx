@@ -109,7 +109,7 @@ export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
         {(isUserAdmin || isUserModerator) && (
           <Button asChild>
             <Link href={`/admin/beans/${bean.slug ?? bean.id}/edit`}>
-              Edit Bean
+              Edit bean
             </Link>
           </Button>
         )}
@@ -136,13 +136,13 @@ export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
               )}
               {bean.roastLevel && (
                 <div className="flex justify-between">
-                  <Text variant="label">Roast Level:</Text>
+                  <Text variant="label">Roast level:</Text>
                   <Text className="capitalize">{bean.roastLevel}</Text>
                 </div>
               )}
               {bean.roastType && (
                 <div className="flex justify-between">
-                  <Text variant="label">Roast Type:</Text>
+                  <Text variant="label">Roast type:</Text>
                   <Text className="capitalize">{bean.roastType}</Text>
                 </div>
               )}
@@ -215,7 +215,7 @@ export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
                             rel="noopener noreferrer"
                             className="inline-block underline text-blue-600 hover:text-blue-800 hover:no-underline dark:text-blue-400 dark:hover:text-blue-300"
                           >
-                            Buy this bean →
+                            Buy this coffee bean →
                           </a>
                           {domain && <Text variant="small">({domain})</Text>}
                         </div>
@@ -229,7 +229,7 @@ export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
         <div>
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold">Reviews</h3>
+              <h3 className="text-lg font-semibold">Bean reviews</h3>
               {user && (
                 <ReviewDialog
                   beanId={bean.id}
@@ -281,7 +281,7 @@ export default async function BeanPageBySlug({ params }: BeanDetailsProps) {
                       </div>
                       {review.coffeeType && (
                         <div className="flex items-center space-x-2 mt-2">
-                          <Text variant="label">Coffee Type:</Text>
+                          <Text variant="label">Coffee type:</Text>
                           <Text>{review.coffeeType}</Text>
                         </div>
                       )}

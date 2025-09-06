@@ -14,10 +14,12 @@ import { createClient } from '@/lib/supabase/server';
 import { isNew } from '@/utils/isNew';
 
 export const metadata: Metadata = {
-  title: 'Latest Grind',
+  title:
+    'Keep track of your favorite coffee beans, coffee roasters, and coffee recipes - Latest Grind',
   description: 'Explore a collection of coffee beans, roasters, and recipes',
   openGraph: {
-    title: 'Latest Grind',
+    title:
+      'Keep track of your favorite coffee beans, coffee roasters, and coffee recipes - Latest Grind',
     description: 'Explore a collection of coffee beans, roasters, and recipes',
   },
 };
@@ -169,8 +171,8 @@ export default async function HomePage() {
         <Heading level="h1">Discover the best coffee beans</Heading>
 
         <Text>
-          Save or review your favorite coffee beans and roasters, explore to
-          find your next favorite coffee beans.
+          Keep track of your favorite coffee beans and coffee roasters, explore
+          to find your next favorite coffee beans and coffee roasters.
         </Text>
         {!user && (
           <div className="mt-4">
@@ -186,7 +188,7 @@ export default async function HomePage() {
       {topRatedBeans.length > 0 && (
         <section>
           <Heading level="h3" className="mb-4">
-            Top Rated Beans
+            Top rated coffee beans
           </Heading>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {topRatedBeans.map((bean) => (
@@ -199,7 +201,7 @@ export default async function HomePage() {
       {mostReviewedBeans.length > 0 && (
         <section>
           <Heading level="h3" className="mb-4">
-            Popular Beans
+            Popular coffee beans
           </Heading>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {mostReviewedBeans.map((bean) => (
@@ -212,7 +214,7 @@ export default async function HomePage() {
       {mostLikedRoasters.length > 0 && (
         <section>
           <Heading level="h3" className="mb-4">
-            Popular Roasters
+            Popular coffee roasters
           </Heading>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {mostLikedRoasters.map((roaster) => (
@@ -225,7 +227,7 @@ export default async function HomePage() {
       {mostLikedRecipes.length > 0 && (
         <section>
           <Heading level="h3" className="mb-4">
-            Most Liked Recipes
+            Most liked coffee recipes
           </Heading>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {mostLikedRecipes.map((recipe) => (

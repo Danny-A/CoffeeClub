@@ -11,10 +11,10 @@ import { fetchBeans } from '@/lib/api/fetchBeans';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
-  title: 'Coffee Beans - Latest Grind',
+  title: 'Coffee beans - Latest Grind',
   description: 'Find your next favorite coffee bean',
   openGraph: {
-    title: 'Coffee Beans - Latest Grind',
+    title: 'Coffee beans - Latest Grind',
     description: 'Find your next favorite coffee bean',
   },
 };
@@ -43,7 +43,7 @@ export default async function BeansPage() {
           </div>
           {user && (
             <Button asChild className="mt-4 md:mt-0">
-              <Link href="/beans/new">Add New Bean</Link>
+              <Link href="/beans/new">Add new Bean</Link>
             </Button>
           )}
         </div>

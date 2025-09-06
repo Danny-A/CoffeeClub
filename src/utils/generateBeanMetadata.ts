@@ -80,20 +80,32 @@ export function generateProductStructuredData(bean: Bean) {
       name: roasterName,
     },
     category: 'Coffee Bean',
-    image: bean.imageUrl,
-    ...(averageRating > 0 && {
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        itemReviewed: {
-          '@type': 'Product',
-          name: bean.name,
-        },
-        ratingValue: averageRating,
-        reviewCount: reviewCount,
-        bestRating: 5,
-        worstRating: 1,
-      },
-    }),
+    ...(bean.imageUrl && { image: bean.imageUrl }),
+    ...(averageRating > 0 && reviewCount > 0
+      ? {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: averageRating,
+            reviewCount: reviewCount,
+            bestRating: 5,
+            worstRating: 0,
+          },
+        }
+      : {
+          review: {
+            '@type': 'Review',
+            reviewRating: {
+              '@type': 'Rating',
+              ratingValue: 0,
+              bestRating: 5,
+              worstRating: 0,
+            },
+            author: {
+              '@type': 'Organization',
+              name: 'Latest Grind',
+            },
+          },
+        }),
     ...(bean.origin && {
       additionalProperty: [
         {
@@ -142,7 +154,7 @@ export function generateBeanStructuredData(bean: Bean) {
 }
 
 export function generateBeanOpenGraph(bean: Bean) {
-  const roasterName = bean.roaster?.name || 'Unknown Roaster';
+  const roasterName = bean.roaster?.name || 'Unknown roaster';
 
   return {
     title: `${bean.name} by ${roasterName}`,
@@ -172,7 +184,7 @@ export function generateBeanMetadata(bean: Bean | null) {
     };
   }
 
-  const roasterName = bean.roaster?.name || 'Unknown Roaster';
+  const roasterName = bean.roaster?.name || 'Unknown roaster';
 
   return {
     title: `${bean.name} by ${roasterName} - Latest Grind`,

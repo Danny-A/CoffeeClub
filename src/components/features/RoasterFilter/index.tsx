@@ -53,11 +53,20 @@ export function RoasterFilter() {
               <SelectItem value="all">All Countries</SelectItem>
               <SelectItem value="Netherlands">Netherlands</SelectItem>
               <SelectItem value="United States">United States</SelectItem>
+              <SelectItem value="Belgium">Belgium</SelectItem>
+              <SelectItem value="France">France</SelectItem>
               <SelectItem value="United Kingdom">United Kingdom</SelectItem>
               <SelectItem value="Germany">Germany</SelectItem>
               <SelectItem value="Denmark">Denmark</SelectItem>
               <SelectItem value="Sweden">Sweden</SelectItem>
               <SelectItem value="Norway">Norway</SelectItem>
+              <SelectItem value="Canada">Canada</SelectItem>
+              <SelectItem value="Australia">Australia</SelectItem>
+              <SelectItem value="Italy">Italy</SelectItem>
+              <SelectItem value="Spain">Spain</SelectItem>
+              <SelectItem value="Portugal">Portugal</SelectItem>
+              <SelectItem value="Greece">Greece</SelectItem>
+              <SelectItem value="Turkey">Turkey</SelectItem>
             </SelectContent>
           </Select>
         </div>

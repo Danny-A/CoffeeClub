@@ -141,6 +141,11 @@ export const COFFEE_REGIONS: CoffeeRegion[] = [
           'Full body, low acidity, creamy, nutty, chocolate, vanilla, earthy',
       },
       {
+        value: 'Malaysia',
+        label: 'Malaysia',
+        description: '',
+      },
+      {
         value: 'India',
         label: 'India',
         description: 'Full body, spicy, medium acidity, tropical fruit',
@@ -169,6 +174,27 @@ export const COFFEE_REGIONS: CoffeeRegion[] = [
         value: 'Hawaii',
         label: 'Hawaii',
         description: 'Medium body, low acidity, creamy, vanilla, brown sugar',
+      },
+      {
+        value: 'Vietnam',
+        label: 'Vietnam',
+        description:
+          'Largest Robusta producer, earthy, strong, bitter cocoa notes',
+      },
+      {
+        value: 'Thailand',
+        label: 'Thailand',
+        description: '',
+      },
+      {
+        value: 'Laos',
+        label: 'Laos',
+        description: '',
+      },
+      {
+        value: 'Philippines',
+        label: 'Philippines',
+        description: '',
       },
     ],
   },

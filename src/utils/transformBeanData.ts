@@ -1,4 +1,5 @@
 import { BeanResponse } from '@/lib/api/fetchBean';
+import { Bean_Type } from '@/lib/graphql/generated/graphql';
 import { Bean } from '@/lib/graphql/types';
 
 export function transformBeanData(data: BeanResponse): Bean {
@@ -11,7 +12,7 @@ export function transformBeanData(data: BeanResponse): Bean {
     roastType: data.roast_type ?? undefined,
     process: data.process ?? undefined,
     roastLevel: data.roast_level ?? undefined,
-    beanType: data.bean_type ?? undefined,
+    beanType: (data.bean_type?.replace('_', ' ') as Bean_Type) ?? undefined,
     elevationMin: data.elevation_min ?? undefined,
     elevationMax: data.elevation_max ?? undefined,
     origin: data.origin,

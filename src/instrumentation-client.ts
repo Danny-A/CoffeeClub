@@ -8,6 +8,6 @@ if (process.env.NODE_ENV === 'production') {
     capture_exceptions: true, // This enables capturing exceptions using Error Tracking
     persistence: 'localStorage',
     disable_session_recording: true,
-    loaded: (posthog) => {},
+    loaded: () => {},
   });
 }

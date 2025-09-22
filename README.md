@@ -6,7 +6,6 @@ A comprehensive coffee community platform built with Next.js, featuring advanced
 
 ### Performance & Caching
 
-- **[CACHING.md](./CACHING.md)** - Complete caching strategy documentation
 - **[CACHE_REFERENCE.md](./CACHE_REFERENCE.md)** - Quick reference for cache tags and patterns
 
 ## 🚀 Getting Started
@@ -44,8 +43,6 @@ This application implements a comprehensive caching strategy that provides:
 - **80%+ reduction** in database queries
 - **Smart cache tags** for granular control
 - **Automatic revalidation** after data mutations
-
-See [CACHING.md](./CACHING.md) for detailed implementation details.
 
 ## 🔧 Development
 

@@ -1,7 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { fetchRoasters, type RoasterFilters } from '@/lib/api/fetchRoasters';
-import { GetRoastersQuery } from '@/lib/graphql/generated/graphql';
 import { Roasters } from '@/lib/graphql/types';
 
 export function useRoasters(filters?: Omit<RoasterFilters, 'first' | 'after'>) {

@@ -2,7 +2,6 @@ import React, { forwardRef } from 'react';
 
 import { Card } from '@/components/ui/Card';
 import { Beans, User } from '@/lib/graphql/types';
-import { Bean } from '@/lib/graphql/types';
 
 import { BeanListItem } from '../BeanListItem';
 

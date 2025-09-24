@@ -13,17 +13,24 @@ import {
 type LikeButtonProps = {
   type: 'bean' | 'roaster' | 'location' | 'recipe';
   id: string;
+  roasterId?: string;
   isLiked: boolean;
   className?: string;
 };
 
-export function LikeButton({ type, id, isLiked, className }: LikeButtonProps) {
+export function LikeButton({
+  type,
+  id,
+  roasterId,
+  isLiked,
+  className,
+}: LikeButtonProps) {
   const {
     likeBean,
     unlikeBean,
     isLiking: isBeanLiking,
     isUnliking: isBeanUnliking,
-  } = useBeanLikes();
+  } = useBeanLikes(roasterId);
   const {
     likeRoaster,
     unlikeRoaster,

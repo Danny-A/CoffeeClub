@@ -12,31 +12,20 @@ import {
   unlikeRoaster,
 } from '@/lib/api/likes';
 
-export function useBeanLikes() {
-  const queryClient = useQueryClient();
+export function useBeanLikes(roasterId?: string) {
   const { user } = useAuth();
 
   const likeBeanMutation = useMutation({
     mutationFn: async (beanId: string) => {
       if (!user?.id) throw new Error('User not authenticated');
-      return likeBean(beanId, user.id);
-    },
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['beans'] });
-      if (data?.id) {
-        queryClient.invalidateQueries({ queryKey: ['bean', data.id] });
-      }
+      return likeBean(beanId, user.id, roasterId);
     },
   });
 
   const unlikeBeanMutation = useMutation({
     mutationFn: async (beanId: string) => {
       if (!user?.id) throw new Error('User not authenticated');
-      return unlikeBean(beanId, user.id);
-    },
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['beans'] });
-      queryClient.invalidateQueries({ queryKey: ['bean', data.id] });
+      return unlikeBean(beanId, user.id, roasterId);
     },
   });
 

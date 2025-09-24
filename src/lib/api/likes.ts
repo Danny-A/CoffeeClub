@@ -27,7 +27,11 @@ import {
 } from '@/lib/utils/revalidation';
 
 // Bean likes
-export async function likeBean(beanId: string, userId: string) {
+export async function likeBean(
+  beanId: string,
+  userId: string,
+  roasterId?: string
+) {
   const response = await graphqlFetch<
     LikeBeanMutation,
     Exact<{ input: { bean_id: string; user_id: string } }>
@@ -42,14 +46,21 @@ export async function likeBean(beanId: string, userId: string) {
   });
 
   // Invalidate affected caches
-  await revalidateBean(beanId);
-  await revalidateLikes(userId);
-  await revalidateHomepage(); // Most-liked lists on homepage
+  await Promise.all([
+    revalidateBean(beanId),
+    roasterId ? revalidateRoaster(roasterId) : undefined,
+    revalidateLikes(userId),
+    revalidateHomepage(), // Most-liked lists on homepage
+  ]);
 
   return response.data.insertIntobean_likesCollection?.records[0];
 }
 
-export async function unlikeBean(beanId: string, userId: string) {
+export async function unlikeBean(
+  beanId: string,
+  userId: string,
+  roasterId?: string
+) {
   const response = await graphqlFetch<
     UnlikeBeanMutation,
     Exact<{
@@ -66,9 +77,12 @@ export async function unlikeBean(beanId: string, userId: string) {
   });
 
   // Invalidate affected caches
-  await revalidateBean(beanId);
-  await revalidateLikes(userId);
-  await revalidateHomepage(); // Most-liked lists on homepage
+  await Promise.all([
+    revalidateBean(beanId),
+    roasterId ? revalidateRoaster(roasterId) : undefined,
+    revalidateLikes(userId),
+    revalidateHomepage(), // Most-liked lists on homepage
+  ]);
 
   return response.data.deleteFrombean_likesCollection?.records[0];
 }
@@ -89,9 +103,11 @@ export async function likeRoaster(roasterId: string, userId: string) {
   });
 
   // Invalidate affected caches
-  await revalidateRoaster(roasterId);
-  await revalidateLikes(userId);
-  await revalidateHomepage(); // Most-liked lists on homepage
+  await Promise.all([
+    revalidateRoaster(roasterId),
+    revalidateLikes(userId),
+    revalidateHomepage(), // Most-liked lists on homepage
+  ]);
 
   return response.data.insertIntoroaster_likesCollection?.records[0];
 }
@@ -113,9 +129,11 @@ export async function unlikeRoaster(roasterId: string, userId: string) {
   });
 
   // Invalidate affected caches
-  await revalidateRoaster(roasterId);
-  await revalidateLikes(userId);
-  await revalidateHomepage(); // Most-liked lists on homepage
+  await Promise.all([
+    revalidateRoaster(roasterId),
+    revalidateLikes(userId),
+    revalidateHomepage(), // Most-liked lists on homepage
+  ]);
 
   return response.data.deleteFromroaster_likesCollection?.records[0];
 }
@@ -136,8 +154,10 @@ export async function likeLocation(locationId: string, userId: string) {
   });
 
   // Invalidate affected caches
-  await revalidateLikes(userId);
-  await revalidateHomepage(); // Most-liked lists on homepage
+  await Promise.all([
+    revalidateLikes(userId),
+    revalidateHomepage(), // Most-liked lists on homepage
+  ]);
 
   return response.data.insertIntolocation_likesCollection?.records[0];
 }
@@ -159,8 +179,10 @@ export async function unlikeLocation(locationId: string, userId: string) {
   });
 
   // Invalidate affected caches
-  await revalidateLikes(userId);
-  await revalidateHomepage(); // Most-liked lists on homepage
+  await Promise.all([
+    revalidateLikes(userId),
+    revalidateHomepage(), // Most-liked lists on homepage
+  ]);
 
   return response.data.deleteFromlocation_likesCollection?.records[0];
 }
@@ -181,9 +203,11 @@ export async function likeRecipe(recipeId: string, userId: string) {
   });
 
   // Invalidate affected caches
-  await revalidateRecipe(recipeId);
-  await revalidateLikes(userId);
-  await revalidateHomepage(); // Most-liked lists on homepage
+  await Promise.all([
+    revalidateRecipe(recipeId),
+    revalidateLikes(userId),
+    revalidateHomepage(), // Most-liked lists on homepage
+  ]);
 
   return response.data.insertIntorecipe_likesCollection?.records[0];
 }
@@ -205,9 +229,11 @@ export async function unlikeRecipe(recipeId: string, userId: string) {
   });
 
   // Invalidate affected caches
-  await revalidateRecipe(recipeId);
-  await revalidateLikes(userId);
-  await revalidateHomepage(); // Most-liked lists on homepage
+  await Promise.all([
+    revalidateRecipe(recipeId),
+    revalidateLikes(userId),
+    revalidateHomepage(), // Most-liked lists on homepage
+  ]);
 
   return response.data.deleteFromrecipe_likesCollection?.records[0];
 }

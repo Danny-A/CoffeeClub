@@ -48,6 +48,7 @@ export function BeanListItem({ bean, user }: BeanCardProps) {
           <LikeButton
             type="bean"
             id={bean.id}
+            roasterId={bean.roaster?.id}
             isLiked={
               bean.likes?.some((like) => like.userId === user.id) ?? false
             }

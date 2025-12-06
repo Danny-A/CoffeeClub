@@ -1,4 +1,4 @@
-import { User as SupabaseUser } from '@supabase/auth-js';
+import { User as SupabaseUser } from '@supabase/supabase-js';
 
 import { User } from '@/lib/graphql/types';
 

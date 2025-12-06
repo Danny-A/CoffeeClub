@@ -1,6 +1,5 @@
-import { User } from '@supabase/auth-js';
-
 import { createClient } from '@/lib/supabase/server';
+import { User } from '@supabase/supabase-js';
 
 export async function isAdmin(user: User | null): Promise<boolean> {
   if (!user) return false;

@@ -3,7 +3,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { Fragment, useEffect, useMemo, useState } from 'react';
-import { useForm, Controller, useFieldArray, Resolver } from 'react-hook-form';
+import {
+  useForm,
+  Controller,
+  useFieldArray,
+  Resolver,
+  useWatch,
+} from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/Button';
@@ -65,7 +71,6 @@ export default function EditBeanPage({ slug }: EditBeanPageProps) {
     formState: { errors },
     reset,
     control,
-    watch,
   } = useForm<BeanFormData>({
     resolver: zodResolver(beanSchema) as Resolver<BeanFormData>,
   });
@@ -87,6 +92,8 @@ export default function EditBeanPage({ slug }: EditBeanPageProps) {
     control,
     name: 'origin',
   });
+
+  const beanType = useWatch({ control, name: 'beanType' });
 
   // Initialize with one empty URL field if there are no fields
   useEffect(() => {
@@ -434,7 +441,7 @@ export default function EditBeanPage({ slug }: EditBeanPageProps) {
                 variant="outline"
                 onClick={() => appendOrigin({ value: '' })}
                 disabled={
-                  watch('beanType') === Bean_Type.SingleOrigin &&
+                  beanType === Bean_Type.SingleOrigin &&
                   originFields.length > 0
                 }
               >

@@ -161,7 +161,7 @@ export default async function RoasterPage({ params }: RoasterDetailsProps) {
             </div>
           )}
         </div>
-        <aside className="w-full md:w-80 flex-shrink-0">
+        <aside className="w-full md:w-80 shrink-0">
           <div className="sticky top-8">
             <Heading level="h4" as="h3">
               Contact Information

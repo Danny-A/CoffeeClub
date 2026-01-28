@@ -4,7 +4,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, Fragment, Suspense } from 'react';
 import React from 'react';
-import { useForm, Controller, useFieldArray, Resolver } from 'react-hook-form';
+import {
+  useForm,
+  Controller,
+  useFieldArray,
+  Resolver,
+  useWatch,
+} from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/Button';
@@ -62,7 +68,6 @@ function NewBeanPage() {
     control,
     setValue,
     formState: { errors, isSubmitting },
-    watch,
   } = useForm<BeanFormData>({
     resolver: zodResolver(beanSchema) as Resolver<BeanFormData>,
     defaultValues: {
@@ -89,6 +94,8 @@ function NewBeanPage() {
     control,
     name: 'origin',
   });
+
+  const beanType = useWatch({ control, name: 'beanType' });
 
   const [search, setSearch] = React.useState('');
   const {
@@ -391,7 +398,7 @@ function NewBeanPage() {
                   variant="outline"
                   onClick={() => appendOrigin({ value: '' })}
                   disabled={
-                    watch('beanType') === Bean_Type.SingleOrigin &&
+                    beanType === Bean_Type.SingleOrigin &&
                     originFields.length > 0
                   }
                 >

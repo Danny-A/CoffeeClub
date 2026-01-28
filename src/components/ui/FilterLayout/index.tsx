@@ -46,7 +46,7 @@ export function FilterLayout({
         </SlidingPanel>
       </div>
 
-      <aside className="hidden md:block w-80 flex-shrink-0">
+      <aside className="hidden md:block w-80 shrink-0">
         <div className="sticky top-8">{sidebar}</div>
       </aside>
 

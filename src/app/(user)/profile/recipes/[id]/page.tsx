@@ -48,7 +48,7 @@ async function RecipeDetail({ id }: { id: string }) {
               </div>
             </CardContent>
           </Card>
-          <aside className="w-full lg:w-80 flex-shrink-0">
+          <aside className="w-full lg:w-80 shrink-0">
             <Card>
               <CardContent className="p-4">
                 <div className="grid grid-cols-1 gap-y-4">

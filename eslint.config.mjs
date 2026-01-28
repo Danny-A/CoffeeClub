@@ -1,12 +1,22 @@
-import { FlatCompat } from '@eslint/eslintrc';
-import eslintConfigPrettier from 'eslint-config-prettier/flat';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import nextConfig from 'eslint-config-next';
+import coreWebVitalsConfig from 'eslint-config-next/core-web-vitals';
+import typescriptConfig from 'eslint-config-next/typescript';
+import prettierConfig from 'eslint-config-prettier';
 
-const compat = new FlatCompat({
-  baseDirectory: import.meta.dirname,
-});
-
-const baseConfig = [
+const eslintConfig = [
+  {
+    ignores: [
+      'node_modules/**',
+      '.next/**',
+      'out/**',
+      'build/**',
+      'next-env.d.ts',
+    ],
+  },
+  ...nextConfig,
+  ...coreWebVitalsConfig,
+  ...typescriptConfig,
+  prettierConfig,
   {
     rules: {
       'import/order': [
@@ -35,25 +45,6 @@ const baseConfig = [
       ],
     },
   },
-];
-
-const eslintConfig = [
-  ...compat.extends('next/core-web-vitals', 'next/typescript'),
-  {
-    ignores: [
-      'node_modules/**',
-      '.next/**',
-      'out/**',
-      'build/**',
-      'next-env.d.ts',
-    ],
-  },
-  ...compat.config({
-    extends: ['next', 'prettier'],
-  }),
-  ...baseConfig,
-  eslintConfigPrettier,
-  eslintPluginPrettierRecommended,
 ];
 
 export default eslintConfig;
